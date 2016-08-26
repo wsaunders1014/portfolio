@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<head>
+
+<link rel="stylesheet" href="css/reset.css"/>
+<link rel="stylesheet" href="css/style2.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
+<script src="js/fittext.js"></script>
+<script src="js/script2.js"></script>
+<script src="js/path.js"></script>
+
+</head>
+<body>
+	<div id="wrapper">
+		<div id="dev" class="planet">
+			<div class="info">
+				<div class="bg"></div>
+				<p class="title">Planet Developia</p>
+				<p class='details'>Legends say the best web developer in the quadrant lives here...</p>
+			</div>
+		</div>
+		<div id="writer" class="planet">
+			<div class="info">
+				<div class="bg"></div>
+				<p class="title">Planet Writerious</p>
+				<p class='details'>This planet is known for its stories. Don't worry, we'll translate it into English for you.</p>
+			</div>
+		</div>
+		<div id="actor" class="planet">
+			<div class="info">
+				<div class="bg"></div>
+				<p class="title">Planet Actorix</p>
+				<p class='details'>If you're looking for an actor, try this planet.</p>
+			</div>
+		</div>
+		
+		<div id="intro"><div class="bg"></div><h1>I<br/>Am<br/>Will Saunders*</h1><p>(Click or hold down the mouse to navigate the stars.) </p><span>*Work In Progress</span></div>
+		
+		<div id="rocket">
+			<div id="rocket-img"></div>
+			<div id="flames"></div>
+			<div id="focus"></div>
+		</div>
+	</div>
+	<div id="contact" class="planet">
+			<div class="info ">
+				<div class="bg"></div>
+				<p class="title">Contact Satellite</p>
+				<p class='details'>Send a <a id="message-link" href="#">message</a> into the void. Or <a href="mailto:willsaunders1014@gmail.com"/>email</a> me.</p>
+				<div id="contact-form">
+					<div class="form-errors"></div>
+
+					<form action="form-process.php" method="POST">
+						<div>
+							<div class="heading">First Name:</div><div class="input"> <input type="text" placeholder="First Name" name="fname" maxlength='10' required/></div>
+						</div>
+						<div>
+							<div class="heading">Email:</div><div class="input"> <input type="text" placeholder="Email" required placeholder="Email" name="email" maxlength="50" /></div>
+						</div>
+						<div>
+							<div class="heading">Message:</div><div class="input"> <textarea required name="message" rows='5'></textarea></div>
+						</div>
+						<button class="close" type="button">Close</button><input class="submit" type="submit" disabled/>
+					</form>
+					<div class="clr"></div>
+				</div>
+				<div class="thank-you">Message Sent. Thanks!</div>
+			</div>
+		</div>
+	<div id="pane">
+		<div class="bg"></div>
+		<div class="content"></div>
+		
+	</div>
+	<div id="debug"></div>
+	<div id='control'>
+		<!-- CP1 Angle: <input id="cp1-angle" type="text" value='0'/><br/>
+		CP1 Length:<input id="cp1-length" type="text" value='0'/><br/>
+		CP1 Angle: <input id="cp2-angle" type="text" value='0'/><br/>
+		CP1 Length:<input id="cp2-length" type="text" value='0'/><br/> -->
+	</div>
+	<!-- <script src="js/bezier.js"></script> -->
+	<script src="js/rocket.js"></script>
+</body>
+</html>

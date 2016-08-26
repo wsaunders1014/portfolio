@@ -1,0 +1,386 @@
+body {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	overflow: hidden;
+	color: #fff;
+    font-family: fantasy;
+}
+a {
+	text-decoration: none;
+	color: #b2bbff;
+}
+a:hover {
+	color:#b2dbff;
+}
+iframe {
+	display: block;
+	margin: 0 auto;
+    width: 100%;
+}
+#wrapper {
+	height: 100%;
+	position: absolute;
+    width: 100%;
+    top: 0;
+    background: url('../img/star-bg.jpg') no-repeat;
+	background-color: #111;
+	background-size: cover;
+	font-size: 0.3em;
+}
+.bg {
+	background:#2c3654;
+	opacity: 0.7;
+    width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+#intro {
+	width: 40%;
+	min-width: 500px;
+	margin: 0 auto;
+	color: #fff;
+	padding:20px;
+	cursor: pointer;
+	z-index: 1000;
+	position: relative;
+	text-align: center;
+	display: none;
+	.bg {
+		border-radius: 2%;	
+	}
+	h1 {
+		text-transform: uppercase;
+		font-weight: bold;
+		font-size: 2em;
+	    position: relative;
+    	z-index: 2;
+	}
+	p {
+		font-style: italic;
+	    position: relative;
+    	z-index: 2;
+	    font-size: 0.6em;
+	}
+	span {
+		position: relative;
+		z-index: 2;
+		font-size: 0.3em;
+	}
+}
+.planet {
+	position: absolute;
+	cursor: pointer;
+	z-index: 900;
+	.info {
+	    width: 330px;
+	    padding: 20px;
+        font-size: 0.6em;
+        display: none;
+        .title {
+        	font-weight: bold;
+        	margin-bottom: 3px;
+        }
+        .details {
+        	font-style: italic;
+        	font-size: 0.8em;
+        }
+	}
+}
+#dev {
+	top: 5%;
+    left: 2%;
+    width: 11%;
+    padding-bottom: 11%;
+	height: 0;
+	background: url(../img/dev-planet.png) no-repeat;
+	background-size: 100%;
+	.info {
+		position: absolute;
+	    left: 110%;
+	    top: 27%;
+	    
+	    p {
+		    position: relative;
+	    	z-index: 2;
+		}
+	}
+}
+#actor {
+	top: 74%;
+    left: 15%;
+    width: 5%;
+    padding-bottom: 5%;
+	height: 0;
+	background: url(../img/actor-planet.png) no-repeat;
+	background-size: 100%;
+	.info {
+		position: absolute;
+        left: 110%;
+	    top: 3%;
+	    p {
+		    position: relative;
+	    	z-index: 2;
+		}
+	}
+}
+#writer {
+	top: 12%;
+    left: 78%;
+    width: 19%;
+    padding-bottom: 19%;
+	height: 0;
+	background: url(../img/writer-planet.png) no-repeat;
+	background-size: 100%;
+	.info {
+		position: absolute;
+        right: 107%;
+	    top: 27%;
+	    p {
+		    position: relative;
+	    	z-index: 2;
+		}
+	}
+}
+#contact {
+    top: 83%;
+    left: 88%;
+    width: 7%;
+    padding-bottom: 7%;
+	height: 0;
+	background: url(../img/satellite.png) no-repeat;
+	background-size: 100%;
+	font-size: 0.3em;
+	.info {
+		position: absolute;
+       	left: -292%;
+    	top: 1%;
+
+    	
+	    p {
+		    position: relative;
+	    	z-index: 2;
+		}
+		#contact-form {
+		    position: relative;
+    		z-index: 2;
+    		font-size: 0.7em;
+		    margin-top: 10px;
+		    display: none;
+		    div {
+		    	margin-bottom: 3px;
+		    	.heading {
+		    		text-align: right;
+		    		width: 30%;
+		    		float: left;
+		    	}
+		    	.input {
+		    		width: 65%;
+		    		float: left;
+		    		margin-left: 5%;
+		    		input {
+		    			width: 100%;
+		    		}
+		    		textarea {
+	    			    width: 99%;
+		    		}
+		    	}
+		    }
+		    .submit {
+	    		clear:left;
+	    		float: right;
+	    		margin-right: 5px;
+	    	}
+	    	button {
+	    		float: right;
+
+	    	}
+		}
+		&.form-open {
+    		top: -100%;
+    		#contact-form {
+    			display: block; 
+    		}
+    	}
+	}
+}
+#rocket {
+	position: absolute;
+	top: 500px;
+	width: 100px;
+	left: 1000px;
+	height:185px;
+	transform-origin: center center;
+	z-index: 999;
+	#rocket-img {
+		position: absolute;
+		width: 100px;
+		height: 185px;
+		top: 0%;
+		left: 0px;
+		background: url(../img/serenity.png) no-repeat;
+		background-size: 200%;
+		background-position: 0% 0%;
+		z-index: 2;
+		user-select:none;
+		&.glow {
+			background-position: 99% 0;
+		}
+	}
+	#flames {
+		position: absolute;
+		display: none;
+		background: url('../img/flame-sprite.png') no-repeat;
+		background-position: 0 0;
+		width: 100%;
+		height: 100%;
+		z-index: 1;
+	}
+}
+
+#pane {
+	width: 36%;
+    padding: 2%;
+    height: 78%;
+    position: relative;
+    top: 10%;
+    margin: 0 auto;
+    display: none;
+    z-index: 1000;
+    min-width: 500px;
+    font-size: 0.3em;
+	overflow:hidden;
+    cursor: move;
+    .bg {
+		border-radius: 2%;
+	}
+}
+.content {
+	position: relative;
+	z-index: 2;
+	font-size: 0.5em;
+
+	h2 {
+		font-size: 2em;
+	    margin-bottom: 36px;
+	    font-weight: bold;
+	}
+	h3 {
+	    font-size: 1.5em;
+	    font-weight: bold;
+	    margin-bottom: 10px;
+	}
+	div {
+		margin-bottom: 10px;
+	}
+	p {
+		font-size: 0.9em;
+	}
+	a {
+
+	}
+	.dev-container {
+		img {
+			width: 100%;
+			margin: 5px 0;
+		}
+	}
+	.writer-container {
+		.bio {
+			.headshot {
+				float: left;
+				width: 30%;
+			}
+			p {
+				float: left;
+			    width: 60%;
+			    margin-left: 36px;
+		        line-height: 1.3em;
+			}
+		}
+		#awards {
+			ul {
+				list-style-type: square; 
+				li {
+					margin: 6px 0px 1px 29px;
+    				font-size: 0.9em;
+				}
+			}
+		}
+	}
+	.actor-container {
+		.headshots{
+			img {
+				width: 48%;
+				float: left;
+				margin-bottom: 5px;
+			}
+			#commercial {
+				margin-left: 2%;
+			}
+		}
+		#reel {
+			clear: both;
+		}
+	}
+}
+.clr {
+	clear: both;
+}
+form .error {
+	outline:1px solid #FF0000;
+}
+.form-errors {
+    background: #ff0000;
+    padding: 2px;
+    text-align: center;
+    margin-bottom: 9px;
+    display: none;
+}
+.thank-you {
+	font-size: 1.2em;
+	text-align: center;
+	padding: 5px;
+	margin-top: 20px;
+	display: none;
+	position: relative;
+}
+#debug {
+	    position: absolute;
+    top: 0%;
+    left: 0%;
+    font-size: 0.2em;
+    z-index: 1000;
+}
+#control {
+	    position: absolute;
+    top: 30%;
+    left: 0%;
+    font-size: 0.15em;
+    z-index: 1000;
+}
+#focus {
+    position: relative;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    background: #ff0000;
+    margin: 0 auto;
+    z-index: 3;
+}
+.waypoint {
+	width: 10px;
+	height: 10px;
+	border-radius: 10px;
+	background:#fff;
+	position: absolute;
+	opacity: 0.5;
+	z-index: 1100;
+}
+.line {
+	position: absolute;
+	height: 3px;
+	background: #FF0000;
+}
