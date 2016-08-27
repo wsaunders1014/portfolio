@@ -7,6 +7,8 @@ body {
   font-size: 12px;
   line-height: 16px;
   font-family: 'Raleway', sans-serif;
+  background: url('../img/star-bg.jpg') no-repeat;
+  background-color: #111;
 }
 a {
   text-decoration: none;
@@ -25,6 +27,7 @@ h2,
 h3 {
   font-family: 'Orbitron', sans-serif;
   line-height: 1em;
+  letter-spacing: 1px;
 }
 img {
   width: 100%;
@@ -35,9 +38,6 @@ img {
   position: absolute;
   width: 100%;
   top: 0;
-  background: url('../img/star-bg.jpg') no-repeat;
-  background-color: #111;
-  background-size: cover;
   font-size: 0.3em;
 }
 .bg {
@@ -45,7 +45,7 @@ img {
 }
 #intro {
   width: 40%;
-  min-width: 500px;
+  min-width: 600px;
   margin: 0 auto;
   color: #fff;
   padding: 20px;
@@ -65,69 +65,91 @@ img {
   font-style: italic;
   position: relative;
   z-index: 2;
-  font-size: 0.6em;
+  font-size: 1.1em;
   line-height: 1.2em;
 }
 #intro span {
-  position: relative;
-  z-index: 2;
-  font-size: 0.3em;
+  font-size: 12px;
 }
-.planet {
+.planet-holder {
   position: absolute;
   cursor: pointer;
   z-index: 900;
 }
-.planet .info {
-  width: 330px;
-  padding: 20px;
-  font-size: 0.6em;
+.planet-holder .slide-out {
+  position: absolute;
+  background: url('../img/slide-out.png') no-repeat;
+  background-size: 100%;
+  background-position: 0% 0%;
   display: none;
 }
-.planet .info .title {
-  font-weight: bold;
-  margin-bottom: 11px;
+.planet-holder .slide-out .info {
+  width: 75%;
+  padding: 13% 13%;
+  font-size: 0.6em;
+  height: 60%;
 }
-.planet .info .details {
-  font-style: italic;
+.planet-holder .slide-out .info .title {
+  font-weight: bold;
+  font-family: "Orbitron", sans-serif;
+  letter-spacing: 1px;
+}
+.planet-holder .slide-out .info .details {
   font-size: 0.7em;
   line-height: 1.5em;
+  margin-top: 4%;
+}
+.planet-holder .planet {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 4;
 }
 #dev {
-  top: 5%;
-  left: 2%;
+  top: 6%;
+  left: 4%;
   width: 11%;
   padding-bottom: 11%;
   height: 0;
+}
+#dev .slide-out {
+  width: 190%;
+  height: 103%;
+  top: 2%;
+  left: 85.5%;
+}
+#dev .slide-out .info {
+  position: absolute;
+  padding: 13% 17%;
+  width: 72%;
+}
+#dev .planet {
   background: url(../img/dev-planet.png) no-repeat;
   background-size: 100%;
 }
-#dev .info {
-  position: absolute;
-  left: 110%;
-  top: 27%;
-}
-#dev .info p {
-  position: relative;
-  z-index: 2;
-}
 #actor {
-  top: 74%;
-  left: 15%;
-  width: 5%;
-  padding-bottom: 5%;
+  top: 70%;
+  left: 12%;
+  width: 10%;
+  padding-bottom: 10%;
   height: 0;
+}
+#actor .slide-out {
+  width: 190%;
+  height: 103%;
+  top: 2%;
+  left: 85.5%;
+}
+#actor .slide-out .info {
+  position: absolute;
+  padding: 13% 17%;
+  width: 72%;
+}
+#actor .planet {
   background: url(../img/actor-planet.png) no-repeat;
   background-size: 100%;
-}
-#actor .info {
-  position: absolute;
-  left: 110%;
-  top: 3%;
-}
-#actor .info p {
-  position: relative;
-  z-index: 2;
 }
 #writer {
   top: 12%;
@@ -135,22 +157,22 @@ img {
   width: 19%;
   padding-bottom: 19%;
   height: 0;
+}
+#writer .slide-out {
+  transform: rotateY(-180deg);
+  right: 95%;
+  width: 113%;
+  top: 18%;
+  height: 0;
+  padding-bottom: 57%;
+}
+#writer .slide-out .info {
+  position: absolute;
+  transform: rotateY(180deg);
+}
+#writer .planet {
   background: url(../img/writer-planet.png) no-repeat;
   background-size: 100%;
-}
-#writer .info {
-  position: absolute;
-  right: 107%;
-  top: 27%;
-}
-#writer .info p {
-  position: relative;
-  z-index: 2;
-}
-.unselectable {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
 }
 #contact {
   top: 83%;
@@ -161,55 +183,82 @@ img {
   background: url(../img/satellite.png) no-repeat;
   background-size: 100%;
   font-size: 0.3em;
+  z-index: 1000;
 }
-#contact .info {
+#contact .slide-out {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: none;
+}
+#contact .slide-out .info {
   position: absolute;
   right: 110%;
-  top: 1%;
+  bottom: 0;
+  width: 330px;
+  height: auto;
 }
-#contact .info p {
+#contact .slide-out .info .title {
+  font-size: 18px;
+}
+#contact .slide-out .info .details {
+  font-size: 12px;
+}
+#contact .slide-out .info #contact-form {
   position: relative;
   z-index: 2;
-}
-#contact .info #contact-form {
-  position: relative;
-  z-index: 2;
-  font-size: 0.7em;
+  font-size: 12px;
   margin-top: 10px;
   display: none;
 }
-#contact .info #contact-form div {
+#contact .slide-out .info #contact-form div {
   margin-bottom: 3px;
 }
-#contact .info #contact-form div .heading {
+#contact .slide-out .info #contact-form div .heading {
   text-align: right;
   width: 30%;
   float: left;
 }
-#contact .info #contact-form div .input {
+#contact .slide-out .info #contact-form div .input {
   width: 65%;
   float: left;
   margin-left: 5%;
 }
-#contact .info #contact-form div .input input {
+#contact .slide-out .info #contact-form div .input input {
   width: 100%;
 }
-#contact .info #contact-form div .input textarea {
+#contact .slide-out .info #contact-form div .input textarea {
   width: 99%;
 }
-#contact .info #contact-form .submit {
+#contact .slide-out .info #contact-form .submit {
   clear: left;
   float: right;
   margin-right: 5px;
 }
-#contact .info #contact-form button {
+#contact .slide-out .info #contact-form button {
   float: right;
 }
-#contact .info.form-open {
-  top: -100%;
-}
-#contact .info.form-open #contact-form {
+#contact .slide-out .info.form-open #contact-form {
   display: block;
+}
+.curve {
+  position: absolute;
+  width: 125%;
+  height: 125%;
+  left: -12.5%;
+  top: -13%;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  /*   transform:rotate(156deg);*/
+  z-index: 2;
+}
+.curve.c2 {
+  transform: rotate(150deg);
+}
+.curve.c3 {
+  /*transform: rotate(157deg);*/
 }
 #rocket {
   position: absolute;
@@ -248,7 +297,7 @@ img {
   width: 50%;
   height: 78%;
   position: relative;
-  top: 10%;
+  top: 5%;
   margin: 0 auto;
   display: none;
   z-index: 1000;
@@ -447,4 +496,9 @@ form .error {
   position: absolute;
   height: 3px;
   background: #FF0000;
+}
+.unselectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
