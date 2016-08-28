@@ -9,23 +9,23 @@ $(document).ready(function(){
 	var writerPlanet = new Planet($('#writer'));
 
 	//Initialization
-	$('#intro').css({top:(h-$('#intro').height())/2});
-	$('#rocket').css({left:(w - $('#rocket').width())/2});
+	//$('#intro').css({top:(h-$('#intro').height())/2});
+	//$('#rocket').css({left:(w - $('#rocket').width())/2});
 
 	// LOWER MENU EVENTS
-	$("#menu a").click(function(e){
-		$('#intro').hide();
-		resetPages();
-		if(e.currentTarget.hash =='#developer'){
-			setWaypoint(devPlanet.centerX,devPlanet.centerY,true);
-		}else if(e.currentTarget.hash =='#writer'){
-			setWaypoint(writerPlanet.centerX,writerPlanet.centerY,true);
-		}else {
-			setWaypoint(actorPlanet.centerX,actorPlanet.centerY,true);
-		}
-		e.preventDefault();
+	// $("#menu a").click(function(e){
+	// 	$('#intro').hide();
+	// 	resetPages();
+	// 	if(e.currentTarget.hash =='#developer'){
+	// 		setWaypoint(devPlanet.centerX,devPlanet.centerY,true);
+	// 	}else if(e.currentTarget.hash =='#writer'){
+	// 		setWaypoint(writerPlanet.centerX,writerPlanet.centerY,true);
+	// 	}else {
+	// 		setWaypoint(actorPlanet.centerX,actorPlanet.centerY,true);
+	// 	}
+	// 	e.preventDefault();
 
-	});
+	// });
 
 	// ROCKET TRAVEL TO MOUSE
 	var rocket = $('#rocket');
@@ -140,19 +140,20 @@ $(document).ready(function(){
 		backToSpace();
 	});
 	function backToSpace(){
-			$('#overlay').fadeOut(1000);
-			$('#pane').fadeOut(1000);
-			$('.content').css({top:0});
-			$('.info').fadeIn(1000);
-			landing = new TweenMax.to(rocket.children('#rocket-img'),2.5,{ scale:1, onComplete:function(){
-				isLanding = false;
-				isLanded = false;
-			}});
-			if(isLanded && !isLanding){
+		location.hash='';
+		$('#overlay').fadeOut(1000);
+		$('#pane').fadeOut(1000);
+		$('.content').css({top:0});
+		$('.info').fadeIn(1000);
+		landing = new TweenMax.to(rocket.children('#rocket-img'),2.5,{ scale:1, onComplete:function(){
+			isLanding = false;
+			isLanded = false;
+		}});
+		if(isLanded && !isLanding){
 
-			}else if(isLanding && !isLanded){
+		}else if(isLanding && !isLanded){
 
-			}
+		}
 	}
 	//Planet Highlight 
 	var swooshTo = false;
@@ -362,17 +363,35 @@ $(document).ready(function(){
 		actorPlanet = new Planet($('#actor'));
 		writerPlanet = new Planet($('#writer'));
 		$('body').fitText(1.5);
-		$('#intro').css({top:(h-$('#intro').height())/2});
+		//$('#intro').css({top:(h-$('#intro').height())/2});
 		if(!hasFlown){
-			$('#rocket').css({left:(w - $('#rocket').width())/2});
+		//	$('#rocket').css({left:(w - $('#rocket').width())/2});
 		}
 		paddedH = $('#magnifier .section-inner').height();
 		paddedW = $('#magnifier .section-inner').width();
 		$('#magnifier iframe').attr('width',paddedW);
 		$('#magnifier iframe').attr('height',paddedW*0.75);
 	});
-
+	window.onhashchange = function(e){
+		hashChange(location.hash);
+	}
+	function hashChange(hash){
+		$('#intro').fadeOut(1000);
+		if(hash =='#!developer'){
+			setWaypoint(devPlanet.centerX,devPlanet.centerY,true);
+		}else if(hash == '#!writer') {
+			setWaypoint(writerPlanet.centerX,writerPlanet.centerY,true);
+		}else if(hash == '#!actor'){
+			setWaypoint(actorPlanet.centerX,actorPlanet.centerY,true);
+		}else {
+			location.hash = '';
+		}
+	}
+	hashChange(location.hash);
 }); //END READY
+
+
+
 //helper function radians to degrees
 Math.degrees = function(radians) {
   return radians * 180 / Math.PI;

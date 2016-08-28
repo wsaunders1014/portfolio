@@ -9,7 +9,6 @@ body {
 	font-family: 'Raleway', sans-serif;
  	background: url('../img/star-bg.jpg') no-repeat;
 	background-color: #111;
-	background-size: 100%;
 }
 a {
 	text-decoration: none;
@@ -52,6 +51,8 @@ img {
 	cursor: pointer;
 	z-index: 1000;
 	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
 	text-align: center;
 	h1 {
 		text-transform: uppercase;
@@ -271,7 +272,7 @@ img {
 	position: absolute;
 	bottom: 5%;
 	width: 100px;
-	left: 49%;
+	left: ~"calc(50% - 50px)";
 	height:185px;
 	transform-origin: center center;
 	z-index: 999;
@@ -313,7 +314,7 @@ img {
     font-size: 0.3em;
 }
 #scroll {
-	left: 101%;
+	left: 935px;
 	width: 20px;
 	position: absolute;
 	top: 0%;
@@ -428,7 +429,7 @@ img {
 	.dev-container {
 		position:relative;
 		height: auto;
-
+		max-width: 930px;
 		img {
 			width: 100%;
 			margin: 5px 0;
@@ -472,6 +473,7 @@ img {
 	}
 	.actor-container {
 		position: relative;
+		max-width: 930px;
 		.holder {
 			width: 100%;
 			height: auto;
