@@ -12,7 +12,9 @@ body {
 }
 a {
 	text-decoration: none;
-	color: #b2bbff;
+	color:#fff;
+	font-weight: bold;
+	text-transform: uppercase;
 }
 a:hover {
 	color:#b2dbff;
@@ -20,7 +22,6 @@ a:hover {
 iframe {
 	display: block;
 	margin: 0 auto;
-    width: 100%;
 }
 h1,h2,h3 {
 	font-family: 'Orbitron',sans-serif;
@@ -246,7 +247,7 @@ img {
 		}
 	}
 }
-.curve {
+.glyph {
 	position: absolute;
 	width: 125%;
     height: 125%;
@@ -255,16 +256,14 @@ img {
 	-webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
- /*   transform:rotate(156deg);*/
     z-index: 2;
-	&.c1 {
-
-	}
+    img {
+    	-webkit-user-select: none;
+	    -moz-user-select: none;
+	    user-select: none;
+    }
 	&.c2 {
 		transform: rotate(150deg);
-	}
-	&.c3 {
-		/*transform: rotate(157deg);*/
 	}
 }
 #rocket {
@@ -311,18 +310,58 @@ img {
     z-index: 1000;
     min-width: 960px;
     font-size: 0.3em;
-    cursor: move;
+}
+#scroll {
+	left: 101%;
+	width: 20px;
+	position: absolute;
+	top: 0%;
+	#scroll-line {
+		position: absolute;
+		top:0;
+		width: 5px;
+		left: 7.5px;
+		background: #2e57d4;
+		height: 100%;
+		opacity: 0.5;
+	}
+	#scroll-bar {
+		width: 20px;
+		height: 30px;
+		position: absolute;
+		top: 0;
+		background-color: #2e57d4;
+		opacity: 0.7;
+	}
 }
 .content {
 	position: relative;
 	z-index: 2;
 	font-size: 0.5em;
-
-	h2 {
-		font-size: 2em;
-	    margin-bottom: 1%;
-	    padding: 1%;
+	.header {
 	    background: url(../img/blue-bg.png);
+	    h2 {
+			font-size: 2em;
+		    margin-bottom: 1%;
+		    padding: 1%;
+		}
+		.backToSpace{
+			position: absolute;
+		    top: 16px;
+		    right: 3%;
+		    font-weight: bold;
+		    font-size: 1em;
+		    cursor: pointer;
+		    span {
+		    	font-size: 0.7em;
+		    	font-weight: normal;
+		    	letter-spacing: 1px;
+		    	margin:0 3px;
+		    }
+		}
+		.backToSpace:hover {
+			color:#95a8e8;
+		}
 	}
 	h3 {
 	    font-size: 1.5em;
@@ -336,8 +375,8 @@ img {
 	    }
 	}
 	p {
-		font-size: 0.8em;
-	    line-height: 1.3em;
+		font-size: 1em;
+    	line-height: 1.4em;
 	}
 	a {
 
@@ -386,9 +425,15 @@ img {
 		}
 	}
 	.dev-container {
+		position:relative;
+		height: auto;
+
 		img {
 			width: 100%;
 			margin: 5px 0;
+		}
+		.about-me {
+			font-size: 1.3em;
 		}
 	}
 	.writer-container {
@@ -414,7 +459,6 @@ img {
 			}
 		}
 		#awards {
-
 			ul {
 				list-style-type: square; 
 				li {
@@ -426,6 +470,7 @@ img {
 		}
 	}
 	.actor-container {
+		position: relative;
 		.holder {
 			width: 100%;
 			height: auto;
@@ -526,4 +571,73 @@ form .error {
   -moz-user-select: none;
   user-select: none;
 }
-
+#overlay {
+	position: absolute;
+	top: 0%;
+	width: 100%;
+	height: 100%;
+	background: #fff;
+	opacity: 0.6;
+	z-index: 1000;
+	display: none;
+}
+#menu-bar {
+	position: absolute;
+	bottom: 0px;
+	left: 0;
+	width: 100%;
+	height: 20px;
+	background: #444;
+	color:#AAA;
+	z-index: 1001;
+	font-family: 'Orbitron';
+	text-transform: uppercase;
+	a {
+		font-weight: normal;
+	}
+	#nav {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+	    cursor: pointer;
+	    width: 200px;
+	    font-size: 19px;
+    	height: 40px;
+		#nav-btn{
+			height: 40px;
+			width: 178px;
+			background: #444;
+			border-top-right-radius: 102px;
+		    padding: 12px 11px 0px;
+		    font-size: 1em;
+		    z-index: 5;
+	        position: absolute;
+		    &:hover {
+		    	color:#FFF;
+		    }
+		}
+		&:hover{
+			#menu {
+				display: block;
+			}
+		}
+	}
+	#menu {
+		display: none;
+		position: absolute;
+		bottom:20px;
+		left: 0;
+        width: 171px;
+	    height: 88px;
+	    background: #222;
+	    z-index: 4;
+	    font-size: 1em;
+	    line-height: 1.4em;
+	    padding: 10px 9px 20px;
+		ul {
+			list-style: none;
+			li {
+			}
+		}
+	}
+}

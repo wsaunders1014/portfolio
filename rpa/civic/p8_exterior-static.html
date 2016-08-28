@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<style type="text/css">
+		body {
+			margin:0px;
+			padding:0px;
+			background:#fff;
+			overflow: hidden;
+		}
+		img {
+
+		}
+		#container {
+			width:100%;
+			display:block;
+		}
+		#container img {
+			position:absolute;
+
+			width:100%;
+		}
+		#link {
+			position:absolute;
+			top:21%;
+			width:20%;
+			height:10%;
+			left:65%;
+		}
+
+		.clr {
+			clear:both;
+		}
+		.hide {
+			display:none;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<img id="cover1" src="img/exterior-static/background.jpg" />
+		<a id="link" href="http://automobiles.honda.com/civic-sedan/e-mail-updates.aspx" target="_Blank" onmouseover="document.getElementById('btn').src='img/exterior-static/btn-hover.png';" onmouseout="document.getElementById('btn').src='img/exterior-static/btn-off.png';" onclick="document.getElementById('btn').src='img/exterior-static/btn-on.png';"><img id="btn" src="img/exterior-static/btn-off.png" border="0"></a>
+	</div>
+</body>
+</html>
