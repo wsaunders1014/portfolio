@@ -137,7 +137,6 @@ $(document).ready(function(){
 		backToSpace();
 	});
 	$('#overlay').click(function(){
-		console.log('test')
 		backToSpace();
 	});
 	function backToSpace(){
@@ -253,7 +252,7 @@ $(document).ready(function(){
 						$('#pane').fadeIn(1000,function(){
 						//	updateScrollVars();
 						});
-						$('.slide-out').fadeOut(1000);
+						//$('.slide-out').fadeOut(1000);
 
 						isLanding = true;
 						landing = new TweenMax.to(rocket.children('#rocket-img'),2.5,{scale:0, onComplete:function(){

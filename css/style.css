@@ -9,6 +9,7 @@ body {
   font-family: 'Raleway', sans-serif;
   background: url('../img/star-bg.jpg') no-repeat;
   background-color: #111;
+  background-size: 100%;
 }
 a {
   text-decoration: none;
@@ -196,7 +197,7 @@ img {
 #contact .slide-out .info {
   position: absolute;
   right: 110%;
-  bottom: 0;
+  bottom: 16%;
   width: 330px;
   height: auto;
 }
@@ -371,7 +372,7 @@ img {
   margin-top: 1%;
 }
 .content p {
-  font-size: 1em;
+  font-size: 0.8em;
   line-height: 1.4em;
 }
 .content section {

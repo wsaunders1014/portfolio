@@ -215,13 +215,13 @@
 
 					<form action="php/form-process.php" method="POST">
 						<div>
-							<div class="heading">First Name:</div><div class="input"> <input type="text" placeholder="First Name" name="fname" maxlength='10' required/></div>
+							<div class="heading">First Name:</div><div id="fname" class="input"> <input type="text" placeholder="First Name" name="fname" maxlength='10' required/></div>
 						</div>
 						<div>
-							<div class="heading">Email:</div><div class="input"> <input type="text" placeholder="Email" required placeholder="Email" name="email" maxlength="50" /></div>
+							<div class="heading">Email:</div><div id="email" class="input"> <input type="text" placeholder="Email" required placeholder="Email" name="email" maxlength="50" /></div>
 						</div>
 						<div>
-							<div class="heading">Message:</div><div class="input"> <textarea required name="message" rows='5'></textarea></div>
+							<div class="heading">Message:</div><div id="message" class="input"> <textarea required name="message" rows='5'></textarea></div>
 						</div>
 						<button class="close" type="button">Close</button><input class="submit" type="submit" disabled/>
 					</form>
