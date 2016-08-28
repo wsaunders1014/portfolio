@@ -338,19 +338,23 @@ img {
 }
 .content .header {
   background: url(../img/blue-bg.png);
+  margin-bottom: 1%;
+  overflow: hidden;
+}
+.content .header .w960 {
+  width: 930px;
 }
 .content .header h2 {
   font-size: 2em;
-  margin-bottom: 1%;
   padding: 1%;
+  float: left;
 }
 .content .header .backToSpace {
-  position: absolute;
-  top: 16px;
-  right: 3%;
   font-weight: bold;
   font-size: 1em;
   cursor: pointer;
+  float: right;
+  padding: 16px 6px 7px 0;
 }
 .content .header .backToSpace span {
   font-size: 0.7em;
@@ -429,6 +433,9 @@ img {
 .content .dev-container .about-me {
   font-size: 1.3em;
 }
+.content .writer-container .header .w960 {
+  width: 960px;
+}
 .content .writer-container .holder {
   width: 100%;
   height: auto;
@@ -499,7 +506,7 @@ img {
 .clr {
   clear: both;
 }
-form .error {
+.form-error {
   outline: 1px solid #FF0000;
 }
 .form-errors {

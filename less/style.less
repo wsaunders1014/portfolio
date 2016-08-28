@@ -342,18 +342,22 @@ img {
 	font-size: 0.5em;
 	.header {
 	    background: url(../img/blue-bg.png);
+	    margin-bottom: 1%;
+	    overflow: hidden;
+	    .w960 {
+			width:930px;
+		}
 	    h2 {
 			font-size: 2em;
-		    margin-bottom: 1%;
 		    padding: 1%;
+		    float: left;
 		}
 		.backToSpace{
-			position: absolute;
-		    top: 16px;
-		    right: 3%;
 		    font-weight: bold;
 		    font-size: 1em;
 		    cursor: pointer;
+		    float: right;
+		    padding:16px 6px 7px 0;
 		    span {
 		    	font-size: 0.7em;
 		    	font-weight: normal;
@@ -439,6 +443,11 @@ img {
 		}
 	}
 	.writer-container {
+		.header {
+			.w960{
+				width: 960px;
+			}
+		}
 		.holder {
 			width: 100%;
 			height: auto;
@@ -514,7 +523,7 @@ img {
 .clr {
 	clear: both;
 }
-form .error {
+.form-error {
 	outline:1px solid #FF0000;
 }
 .form-errors {
