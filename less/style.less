@@ -42,6 +42,7 @@ img {
 .bg {
 	background: url('../img/blue-bg.png') repeat;
 }
+
 #intro {
 	width: 40%;
 	min-width: 600px;
@@ -303,18 +304,27 @@ img {
 }
 
 #pane {
-	width: 50%;
+	@media(min-width: 960px){
+		width:960px;
+	}
+	@media(min-width: 768px) and (max-width: 960px){
+		width:738px;
+	}
     height: 78%;
     position: relative;
     top: 5%;
     margin: 0 auto;
     display: none;
     z-index: 1000;
-    min-width: 960px;
     font-size: 0.3em;
 }
 #scroll {
-	left: 935px;
+	@media(min-width: 960px){
+		left: 935px;
+	}
+	@media(min-width: 768px) and (max-width: 960px){
+		display:none;
+	}
 	width: 20px;
 	position: absolute;
 	top: 0%;
@@ -334,21 +344,27 @@ img {
 		top: 0;
 		background-color: #2e57d4;
 		opacity: 0.7;
+		cursor: move;
 	}
 }
 .content {
 	position: relative;
 	z-index: 2;
-	font-size: 0.5em;
+	font-size:14px;
 	.header {
 	    background: url(../img/blue-bg.png);
 	    margin-bottom: 1%;
 	    overflow: hidden;
 	    .w960 {
-			width:930px;
+			@media(min-width: 960px){
+					width: 930px;
+				}
+				@media(min-width: 768px) and (max-width: 960px){
+					width:738px;
+				}
 		}
 	    h2 {
-			font-size: 2em;
+			font-size: 32px;
 		    padding: 1%;
 		    float: left;
 		}
@@ -381,7 +397,6 @@ img {
 	    }
 	}
 	p {
-		font-size: 0.8em;
     	line-height: 1.4em;
 	}
 	a {
@@ -391,15 +406,14 @@ img {
 		background: url(../img/blue-bg.png);
 		width: 100%;
 		margin-bottom: 2%;
+		overflow: hidden;
 		.section-inner {
 			padding:2%;
 		}
 		ul {
 			list-style-type: square;
-			font-size: 0.8em;
 			li {
 				margin: 6px 0px 1px 29px;
-				font-size: 0.9em;
 			    line-height: 1.4em;
 			}
 		}
@@ -422,10 +436,10 @@ img {
     		}
     		ul {
 				list-style-type: square;
-    			font-size: 0.8em;
+    			font-size: 14em;
     			li {
 					margin: 6px 0px 1px 29px;
-    				font-size: 0.9em;
+    				font-size: 12px;
 				}
 			}
 		}
@@ -433,7 +447,13 @@ img {
 	.dev-container {
 		position:relative;
 		height: auto;
-		max-width: 930px;
+		@media(min-width: 960px){
+			max-width: 930px;
+		}
+		@media(min-width: 768px) and (max-width: 960px){
+			max-width:738px;
+		}
+
 		img {
 			width: 100%;
 			margin: 5px 0;
@@ -445,7 +465,12 @@ img {
 	.writer-container {
 		.header {
 			.w960{
-				width: 960px;
+				@media(min-width: 960px){
+					width: 960px;
+				}
+				@media(min-width: 768px) and (max-width: 960px){
+					max-width:738px;
+				}
 			}
 		}
 		.holder {
@@ -591,6 +616,7 @@ img {
 	background: #fff;
 	opacity: 0.6;
 	z-index: 1000;
+	cursor: pointer;
 	display: none;
 }
 #menu-bar {
@@ -678,5 +704,14 @@ img {
 			margin: 0 auto;
 			transform: translateY(-50%);
 		}
+	}
+}
+@media screen and (max-width: 768px) and (max-height: 1024px){
+	html, body {
+		overflow: hidden;
+	}
+	body {
+		width: 768px;
+		height: 1024px;
 	}
 }

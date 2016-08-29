@@ -2,12 +2,12 @@
 var fname;
 var email;
 var message;
-    $('#message-link').click(function(e){
+    $('#message-link').on('click touchstart',function(e){
         e.preventDefault();
         $('#contact').children('.slide-out').children('.info').addClass('form-open');
         //$('#contact-form').show();
     });
-    $('.close').click(function(){
+    $('.close').on('click touchstart',function(){
         $('.form-open').removeClass('form-open');
     });
 

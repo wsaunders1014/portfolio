@@ -12,20 +12,7 @@ $(document).ready(function(){
 	//$('#intro').css({top:(h-$('#intro').height())/2});
 	//$('#rocket').css({left:(w - $('#rocket').width())/2});
 
-	// LOWER MENU EVENTS
-	// $("#menu a").click(function(e){
-	// 	$('#intro').hide();
-	// 	resetPages();
-	// 	if(e.currentTarget.hash =='#developer'){
-	// 		setWaypoint(devPlanet.centerX,devPlanet.centerY,true);
-	// 	}else if(e.currentTarget.hash =='#writer'){
-	// 		setWaypoint(writerPlanet.centerX,writerPlanet.centerY,true);
-	// 	}else {
-	// 		setWaypoint(actorPlanet.centerX,actorPlanet.centerY,true);
-	// 	}
-	// 	e.preventDefault();
 
-	// });
 
 	// ROCKET TRAVEL TO MOUSE
 	var rocket = $('#rocket');
@@ -63,13 +50,13 @@ $(document).ready(function(){
 	// });
 
 
-	$('#wrapper').mousedown(function(e){
+	$('#wrapper').on('mousedown touchstart', function(e){
 		 mouseX = e.pageX;
 		 mouseY = e.pageY;
 		 if(e.button ==0 ){ // only left clicks move Rocket.
 		 	if(!isLanded && !isLanding){
 				$('#intro').fadeOut(750);
-				$('#wrapper').mousemove(function(e){
+				$('#wrapper').on('mousemove',function(e){
 					mouseX = e.pageX;
 					mouseY = e.pageY;
 					if(!waypointInterval)
@@ -133,10 +120,10 @@ $(document).ready(function(){
 		}
 	});
 	
-	$('#pane').on('click', '.backToSpace',function(){
+	$('#pane').on('click touchstart', '.backToSpace',function(){
 		backToSpace();
 	});
-	$('#overlay').click(function(){
+	$('#overlay').on('click touchstart',function(){
 		backToSpace();
 	});
 	function backToSpace(){
@@ -146,22 +133,18 @@ $(document).ready(function(){
 		$('.content').css({top:0});
 		$('.info').fadeIn(1000);
 		$('.glow').removeClass('glow');
+		isLanding = true;
+		isLanded = false;
 		landing = new TweenMax.to(rocket.children('#rocket-img'),2.5,{ scale:1, onComplete:function(){
 			isLanding = false;
-			isLanded = false;
 		}});
-		if(isLanded && !isLanding){
-
-		}else if(isLanding && !isLanded){
-
-		}
 	}
 	//Planet Highlight 
 	var swooshTo = false;
 	var swoosh1 = TweenMax.to($('.glyph').eq(0),8,{rotation:360,repeat:-1,ease:'linear'});
 	var swoosh2 = TweenMax.to($('.glyph').eq(1),8,{rotation:510,repeat:-1,ease:'linear'});
 	var swoosh3 = TweenMax.to($('.glyph').eq(2),8,{rotation:-360,repeat:-1,ease:'linear'});
-	$('.planet').on('mouseover', function(e){
+	$('.planet').on('mouseover touhstart touchmove', function(e){
 		if($(this).is($('.planet').eq(0))) {
 			swoosh1.pause();
 			degrees=156;
@@ -176,7 +159,7 @@ $(document).ready(function(){
 			$(this.target[0]).next().fadeIn(500);
 		}});
 		
-	}).on('mouseleave', function(e){
+	}).on('mouseleave touchend', function(e){
 		swooshTo.kill();
 			$(this).siblings('.slide-out').fadeOut(500,function(){
 				//swoosh = TweenMax.to($('.glyph'),8,{directionalRotation:360+'_cw',repeat:-1,ease:'linear'});
@@ -227,18 +210,19 @@ $(document).ready(function(){
 			//console.log(distance);
 			rotate = new TweenMax.to( rocket, 0.5, {directionalRotation:(angle)+'_short'});
 			if(!isFlying){
-				rocket.children('#rocket-img').toggleClass('glow');
+				rocket.children('#rocket-img').addClass('glow');
 				isFlying = true;
-				flight = TweenMax.to( rocket, (.5*(distance/125)), {top:y-rocketOrigin*2, left:x - rocketOrigin, ease:Power2.easeInOut,
+			}
+			flight = TweenMax.to( rocket, (.5*(distance/125)), {top:y-rocketOrigin*2, left:x - rocketOrigin, ease:Power2.easeInOut,
 				onUpdate:function(){
 					rocketY = Math.round(rocket.position().top);
 					rocketX = Math.round(rocket.position().left);
 				},
 				onComplete:function(){
-					rocket.children('#rocket-img').toggleClass('glow');
+					rocket.children('#rocket-img').removeClass('glow');
 					isFlying=false;
 					
-					var tr=$('#rocket').css('transform');
+					var tr=$('#rocket').css('transform'); //gets angle from matrix, for debug purposes only.
 					var values = tr.split('(')[1];
 					    values = values.split(')')[0];
 					    values = values.split(',');
@@ -250,10 +234,8 @@ $(document).ready(function(){
 					//console.log('Final Angle: '+cAngle);
 
 					if(checkCollision(x,y)){
-						$('#overlay').fadeIn(1000);
-						$('#pane').fadeIn(1000,function(){
-						//	updateScrollVars();
-						});
+						console.log(checkCollision(x,y));
+						location.hash = '#!'+checkCollision(x,y);
 						//$('.slide-out').fadeOut(1000);
 
 						isLanding = true;
@@ -265,53 +247,8 @@ $(document).ready(function(){
 							isLanding = false;
 						}});
 					}
-				}});
-			}else {
-				isFlying = true;
-				flight.kill();
-				flight = TweenMax.to( rocket, (.5*(distance/125)), {top:y-rocketOrigin*2, left:x - rocketOrigin, ease:Power2.easeOut,
-				onUpdate:function(){
-					rocketY = Math.round(rocket.position().top);
-					rocketX = Math.round(rocket.position().left);
-				},
-				onComplete:function(){
-					rocket.children('#rocket-img').toggleClass('glow');
-					isFlying=false;
-					
-					var tr=$('#rocket').css('transform');
-					var values = tr.split('(')[1];
-					    values = values.split(')')[0];
-					    values = values.split(',');
-					var a = values[0];
-					var b = values[1];
-					var c = values[2];
-					var d = values[3];
-					var cAngle = Math.atan2(b, a) * (180/Math.PI);
-					console.log('Final Angle: '+cAngle);
-
-					if(checkCollision(x,y)){
-						$('#overlay').fadeIn(1000);
-						$('#pane').fadeIn(1000,function(){
-							updateScrollVars();
-						});
-					//	$('.info').fadeOut(1000);
-
-						isLanding = true;
-						landing = new TweenMax.to(rocket.children('#rocket-img'),2.5,{scale:0, onComplete:function(){
-							rocketY = Math.round(rocket.position().top);
-							rocketX = Math.round(rocket.position().left);
-
-							isLanded = true;	
-							isLanding = false;
-						}});
-					}
-					// GSAP Bezier plugin.
-					// var xDiff = ((x-rocketX)/2);
-					// var cpX = rocketX;
-					// var cpY = y+xDiff;
-					// var fly = new TweenMax.to(rocket, 5, {bezier:{curviness:1.25, values:[{x:100, y:250}, {x:300, y:0}, {x:500, y:400}], autoRotate:true}, ease:Power1.easeInOut});
-				}});
-			}
+				}
+			});
 		}
 	}///End Function
 
@@ -319,7 +256,7 @@ $(document).ready(function(){
 		var collided = false;
 		if(x>devPlanet.left && x < devPlanet.right){
 			if(y>devPlanet.top && y < devPlanet.bottom){
-				collided='dev';
+				collided='developer';
 			}
 		}else if(x>actorPlanet.left && x < actorPlanet.right){
 			if(y>actorPlanet.top && y <actorPlanet.bottom){
@@ -347,17 +284,19 @@ $(document).ready(function(){
 						$('#magnifier iframe').attr('width',paddedW);
 						$('#magnifier iframe').attr('height',paddedW*0.75);
 						updateScrollVars();
+					
 					}});
 				}else { //writer
 					TweenMax.from([$('.writer-container section'),$('.writer-container .header')],1,{width:0});
 				}
 				//updateScrollVars();
 			});
-			return true;
-		}else {
 			return collided;
+		}else {
+			return false;
 		}
 	}
+
 	function resetPages(){
 		$('#scroll-bar').css({top:0});
 		$('.content').css({top:0});
@@ -385,7 +324,7 @@ $(document).ready(function(){
 		hashChange(location.hash);
 	}
 	function hashChange(hash){
-		$('#intro').fadeOut(1000);
+		
 		if(hash =='#!developer'){
 			setWaypoint(devPlanet.centerX,devPlanet.centerY,true);
 		}else if(hash == '#!writer') {
@@ -397,6 +336,16 @@ $(document).ready(function(){
 		}
 	}
 	hashChange(location.hash);
+	// LOWER MENU TOUCH EVENTS
+	$('#menu a').on('touchstart',function(e){
+		location.hash= e.currentTarget.hash;
+		setTimeout(function(){
+			$('#menu').hide();
+		},1000);
+	});
+	$('#nav-btn').on('touchstart',function(){
+		$('#menu').show();
+	});
 }); //END READY
 
 

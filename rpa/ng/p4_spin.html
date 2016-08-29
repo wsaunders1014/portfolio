@@ -132,46 +132,47 @@ var Iframe = com.zmags.api.widgets.Iframe;
                         //evt.preventDefault();                        
 	                    _theTouch = evt.targetTouches[0];
 	                    startX = _theTouch.pageX;
-	                    startY = _theTouch.pageY;
+	                 //   startY = _theTouch.pageY;
                     } , true);
 
                     document.getElementById('view-360').addEventListener('touchmove', function(evt) {
     	                _theTouch = evt.targetTouches[0];
     	                _shiftX = _theTouch.pageX - startX;
-    	                _shiftY = _theTouch.pageY - startY;
+    	              //  _shiftY = _theTouch.pageY - startY;
+
     	                var distance = 50;
             	
-    	                var evalSlideX = (_shiftX<0)?(-_shiftX):_shiftX;
-    	                var evalSlideY = (_shiftY<0)?(-_shiftY):_shiftY;
-    	        
-                        if (evalSlideY < evalSlideX)  {
+    	                var evalSlideX = (_shiftX<0)?(_shiftX):_shiftX;
+    	               // var evalSlideY = (_shiftY<0)?(-_shiftY):_shiftY;
+    	               console.log(_shiftX, evalSlideX);
+                       
                             evt.preventDefault();
             	
-            	            if (_shiftX > -distance) setImage(prevAngle());
-    	                    else if (_shiftX < distance) setImage(nextAngle());
+            	            if (_shiftX > -distance && _shiftX < 0) setImage(prevAngle());
+    	                    else if (_shiftX < distance && _shiftX > 0) setImage(nextAngle());
                 	
-    	                    if ((_shiftX<-distance) || (_shiftX>distance)) {
+    	                    if ((_shiftX>-distance) || (_shiftX<distance)) {
     	                        startX = _theTouch.pageX;
     	                    }
-    	                }
+    	                
                     } , true);
 
-                    document.getElementById('view-360').addEventListener('touchend', function(evt) {
-                        // evt.preventDefault();
-    	                _theTouch = evt.changedTouches[0];
-    	                _shiftX = _theTouch.pageX - startX;
-    	                _shiftY = _theTouch.pageY - startY;
-                	
-    	                dir = (_shiftX < 0) ? 'left' : 'right';
-                	
-    	                if ( Math.abs(_shiftX) >= ThresholdPixels ) {
-    	                    if (dir == 'left') {
-                                setImage(nextAngle());
-    	                    } else if (dir == 'right') {
-                                setImage(prevAngle());
-    	                    }
-    	                }
-                    } , true);
+                    // document.getElementById('view-360').addEventListener('touchend', function(evt) {
+                    //     // evt.preventDefault();
+    	               //  _theTouch = evt.changedTouches[0];
+    	               //  _shiftX = _theTouch.pageX - startX;
+    	               //  _shiftY = _theTouch.pageY - startY;
+                	   
+    	               //  dir = (_shiftX < 0) ? 'left' : 'right';
+                	   // console.log(_shiftX, dir);
+    	               //  if ( Math.abs(_shiftX) >= ThresholdPixels ) {
+    	               //      if (dir == 'left') {
+                    //             setImage(nextAngle());
+    	               //      } else if (dir == 'right') {
+                    //             setImage(prevAngle());
+    	               //      }
+    	               //  }
+                    // } , true);
                 
               //  }
                 
