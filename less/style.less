@@ -417,6 +417,19 @@ img {
 			    line-height: 1.4em;
 			}
 		}
+		.twitter {
+			margin-top: 10px;
+		    float: left;
+		    margin-left: 6%;
+			iframe {
+				margin: 0;
+			}
+		}
+		.instagram {
+			float: left;
+		    margin-top: 9px;
+		    margin-left: 7%;
+		}
 	}
 	.two-col {
 		.col-one {
@@ -490,9 +503,13 @@ img {
 			right: 0%;
 			height: 100%;
 			margin: 0;
+			.twitter {
+				margin-left: 0;
+			}
 			p {
 		        line-height: 1.5em;
 			}
+
 		}
 		#awards {
 			ul {
@@ -533,6 +550,9 @@ img {
 			margin: 0;
 			height: 100%;
 			width: 44%;
+			@media(min-width: 768px) and (max-width: 960px){
+				overflow-y: auto;
+			}
 			p {
 			    padding: 1%;
 			}

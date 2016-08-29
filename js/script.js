@@ -278,13 +278,13 @@ $(document).ready(function(){
 						updateScrollVars();
 					}});
 				
-				}else if (collided=='dev'){
+				}else if (collided=='developer'){
 					TweenMax.from([$('.dev-container section'),$('.dev-container .header')],1,{width:0, onComplete:function(){
 						paddedW = $('#magnifier .section-inner').width();
 						$('#magnifier iframe').attr('width',paddedW);
 						$('#magnifier iframe').attr('height',paddedW*0.75);
 						updateScrollVars();
-					
+
 					}});
 				}else { //writer
 					TweenMax.from([$('.writer-container section'),$('.writer-container .header')],1,{width:0});

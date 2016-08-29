@@ -46,12 +46,12 @@ $(document).ready(function(){
 			}else {
 				sliderTop = sliderTop + increment;
 			}
-			$('#scroll-bar').animate({top:sliderTop},50);
+			$('#scroll-bar').animate({top:sliderTop},100);
 			slidePercent = (sliderTop / (trackH-30))*contentPercent;
 			scrollDist = Math.round(slidePercent * contentH);
 			if (scrollDist> (contentH - containerH)-0)
 				scrollDist= contentH -containerH - 0;
-			$('.content div').eq(0).animate({top:-scrollDist},50);	
+			$('.content div').eq(0).animate({top:-scrollDist},100);	
 		//SCROLL UP
 		}else {
 		
@@ -60,10 +60,10 @@ $(document).ready(function(){
 			}else {
 				sliderTop = sliderTop - increment;
 			}
-			$('#scroll-bar').animate({top:sliderTop},50);
+			$('#scroll-bar').animate({top:sliderTop},100);
 			slidePercent = (sliderTop / (trackH-30))*contentPercent;
 			scrollDist = Math.round(slidePercent * contentH);
-			$('.content div').eq(0).css({top:-scrollDist});
+			$('.content div').eq(0).animate({top:-scrollDist},100);
 		}
 		return false;
 	});
