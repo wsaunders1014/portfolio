@@ -56,13 +56,34 @@
 		<div class="section-inner">
 			<h3>More Projects</h3>
 			Here is a sample of a few animated pages I did for the 2015 Honda Civic. See all of them <a href="rpa/civic/index.html" target="_blank">HERE.</a><br/><br/>
-			<iframe id="iframe" src="rpa/civic/si_parallax/index.htm" allowtransparency="true" seamless frameborder="0" scrolling="no"></iframe>
-			<iframe id="iframe" src="rpa/ng/p4_spin.html" allowtransparency="true" seamless frameborder="0" scrolling="no"></iframe>
-			<iframe id="iframe" src="rpa/civic/p4_magnifier.html" allowtransparency="true" seamless frameborder="0" scrolling="no"></iframe>
-			<iframe id="iframe" src="rpa/civic/p7_fun-to-drive.html" allowtransparency="true" seamless frameborder="0" scrolling="no"></iframe>
-			<iframe id="iframe" src="rpa/civic/p3_civic-family.html" allowtransparency="true" seamless frameborder="0" scrolling="no"></iframe>
-			<iframe id="iframe" src="rpa/civic/p13_altfuels.html" allowtransparency="true" seamless frameborder="0" scrolling="no"></iframe>
-			<iframe id="iframe" src="rpa/civic/p16_safety-numbers.html" allowtransparency="true" seamless frameborder="0" scrolling="no"></iframe>
+			<div>
+				<iframe id="iframe" src="rpa/civic/si_parallax/index.htm" allowtransparency="true" seamless frameborder="0" scrolling="no"></iframe>
+				<div class="mouse-intercept"><div>CLICK TO ACTIVATE</div></div>
+			</div>
+			<div>
+				<iframe id="iframe" src="rpa/ng/p4_spin.html" allowtransparency="true" seamless frameborder="0" scrolling="no"></iframe>
+				<div class="mouse-intercept"><div>CLICK TO ACTIVATE</div></div>
+			</div>
+			<div>	
+				<iframe id="iframe" src="rpa/civic/p4_magnifier.html" allowtransparency="true" seamless frameborder="0" scrolling="no"></iframe>
+				<div class="mouse-intercept"><div>CLICK TO ACTIVATE</div></div>
+			</div>
+			<div>
+				<iframe id="iframe" src="rpa/civic/p7_fun-to-drive.html" allowtransparency="true" seamless frameborder="0" scrolling="no"></iframe>
+				<div class="mouse-intercept"><div>CLICK TO ACTIVATE</div></div>
+			</div>
+			<div>
+				<iframe id="iframe" src="rpa/civic/p3_civic-family.html" allowtransparency="true" seamless frameborder="0" scrolling="no"></iframe>
+				<div class="mouse-intercept"><div>CLICK TO ACTIVATE</div></div>
+			</div>
+			<div>
+				<iframe id="iframe" src="rpa/civic/p13_altfuels.html" allowtransparency="true" seamless frameborder="0" scrolling="no"></iframe>
+				<div class="mouse-intercept"><div>CLICK TO ACTIVATE</div></div>
+			<div>
+				<iframe id="iframe" src="rpa/civic/p16_safety-numbers.html" allowtransparency="true" seamless frameborder="0" scrolling="no"></iframe>
+				<div class="mouse-intercept"><div>CLICK TO ACTIVATE</div></div>
+			</div>
+			
 		</div>
 	</section>
 </div>
@@ -71,3 +92,13 @@
 	<div id="scroll-bar"></div>
 </div>
 <script src="js/scroll.js"></script>
+<script>
+  		var MouseMoveCallback;
+        function OnMouseMove(e) {
+            if (MouseMoveCallback)
+                MouseMoveCallback(e);
+       	}
+        $(document).ready(function () {
+        	$('.mouse-intercept').mousemove(OnMouseMove);
+    	});
+</script>

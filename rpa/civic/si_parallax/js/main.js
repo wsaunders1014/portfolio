@@ -1,6 +1,5 @@
 ﻿document.createElement("article");
 document.createElement("section");
-
 var yPagePosition = 0, isScrolling = false, yStartScroll, yLastScroll;
 var OVER_SCROLL_HANDLE = false, OVER_SCROLL_GUTTER = false, HANDLE_CURSOR_DIST = 0, SCROLLING = false, LAST_SCROLL_Y = 0, IS_ANIMATING = false;
 var maxSteps = 8600, minSteps = 0;
@@ -12,7 +11,7 @@ var original_animations = [];
 var IsUpArrowClicked = false;
 
 $(document).ready(function () {
-
+        
 		var ctrlH = $('#slider-ctrl').outerHeight();
 		var windowH = $(window).height();
 		var trackH = $("#track").height();

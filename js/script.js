@@ -346,6 +346,12 @@ $(document).ready(function(){
 	$('#nav-btn').on('touchstart',function(){
 		$('#menu').show();
 	});
+
+	//portfolio iframe fix 
+	$('body').on('click touchstart', '.mouse-intercept', function(){
+		$(this).hide();
+	});
+
 }); //END READY
 
 
