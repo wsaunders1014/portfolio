@@ -1,0 +1,17 @@
+TO DO
+////////////////////
+Revamp Develop display.
+Add Twitter links to sections.
+Fix second flight click speed up bug.
+Add Hash system/direct links.
+/ progress bar.
+Animate Message box from Satellite.
+Fix Civic TOC to load pages instead of janky menu.
+More realistic ship/space physics.
+Mobile Version.
+Low Bandwidth Version.
+Intro lightspeed animation / planets zoom in
+More space.
+Add easter eggs.
+	Robot arm animation.
+	Death Star
