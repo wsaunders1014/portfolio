@@ -1,5 +1,6 @@
 var w,h;
 $(document).ready(function(){
+	
 	w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 	h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
@@ -7,7 +8,7 @@ $(document).ready(function(){
 	var devPlanet = new Planet($('#dev'));
 	var actorPlanet = new Planet($('#actor'));
 	var writerPlanet = new Planet($('#writer'));
-
+	locateRocket();
 	//Initialization
 	//$('#intro').css({top:(h-$('#intro').height())/2});
 	//$('#rocket').css({left:(w - $('#rocket').width())/2});
@@ -140,41 +141,40 @@ $(document).ready(function(){
 		}});
 	}
 	//Planet Highlight 
-	var swooshTo = false;
-	var swoosh1 = TweenMax.to($('.glyph').eq(0),8,{rotation:360,repeat:-1,ease:'linear'});
-	var swoosh2 = TweenMax.to($('.glyph').eq(1),8,{rotation:510,repeat:-1,ease:'linear'});
-	var swoosh3 = TweenMax.to($('.glyph').eq(2),8,{rotation:-360,repeat:-1,ease:'linear'});
-	$('.planet').on('mouseover touhstart touchmove', function(e){
-		if($(this).is($('.planet').eq(0))) {
-			swoosh1.pause();
-			degrees=156;
-		}else if($(this).is($('.planet').eq(1))){
-			swoosh2.pause();
-			degrees=334;
-		}else {
-			swoosh3.pause();
-			degrees=157;
-		}
-		swooshTo = new TweenMax.to($(this).siblings('.glyph'),.3,{directionalRotation:degrees+'_short',ease:Power3.easeOut, onComplete:function(){
-			$(this.target[0]).next().fadeIn(500);
-		}});
+	// var swooshTo = false;
+	// var swoosh1 = TweenMax.to($('.glyph').eq(0),8,{rotation:360,repeat:-1,ease:'linear'});
+	// var swoosh2 = TweenMax.to($('.glyph').eq(1),8,{rotation:510,repeat:-1,ease:'linear'});
+	// var swoosh3 = TweenMax.to($('.glyph').eq(2),8,{rotation:-360,repeat:-1,ease:'linear'});
+	// $('.planet').on('mouseover touhstart touchmove', function(e){
+	// 	if($(this).is($('.planet').eq(0))) {
+	// 		swoosh1.pause();
+	// 		degrees=156;
+	// 	}else if($(this).is($('.planet').eq(1))){
+	// 		swoosh2.pause();
+	// 		degrees=334;
+	// 	}else {
+	// 		swoosh3.pause();
+	// 		degrees=157;
+	// 	}
+	// 	swooshTo = new TweenMax.to($(this).siblings('.glyph'),.3,{directionalRotation:degrees+'_short',ease:Power3.easeOut, onComplete:function(){
+	// 		$(this.target[0]).next().fadeIn(500);
+	// 	}});
 		
-	}).on('mouseleave touchend', function(e){
-		swooshTo.kill();
-			$(this).siblings('.slide-out').fadeOut(500,function(){
-				//swoosh = TweenMax.to($('.glyph'),8,{directionalRotation:360+'_cw',repeat:-1,ease:'linear'});
-				if($(this).parent().index()== 0) {
-						swoosh1.resume(3.4666, true);
-				}else if($(this).parent().index() == 1){
-						swoosh2.resume(4.08888, true);
-				}else {
-						swoosh3.resume(4.5666, true);
-				}
-			});
-			
-	});
+	// }).on('mouseleave touchend', function(e){
+	// 	swooshTo.kill();
+	// 		$(this).siblings('.slide-out').fadeOut(500,function(){
+	// 			//swoosh = TweenMax.to($('.glyph'),8,{directionalRotation:360+'_cw',repeat:-1,ease:'linear'});
+	// 			if($(this).parent().index()== 0) {
+	// 					swoosh1.resume(3.4666, true);
+	// 			}else if($(this).parent().index() == 1){
+	// 					swoosh2.resume(4.08888, true);
+	// 			}else {
+	// 					swoosh3.resume(4.5666, true);
+	// 			}
+	// 		});
+	// });
 	function setWaypoint(x,y,instant){
-		if (instant){
+		/*if (instant){
 			rocket.children('#rocket-img').toggleClass('glow');
 			flight = TweenMax.to( rocket, 0, {top:y-rocketOrigin*2, left:x - rocketOrigin, ease:Power2.easeInOut,
 				onUpdate:function(){
@@ -249,7 +249,7 @@ $(document).ready(function(){
 					}
 				}
 			});
-		}
+		}*/
 	}///End Function
 
 	function checkCollision(x,y){

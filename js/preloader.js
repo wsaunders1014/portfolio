@@ -20,7 +20,7 @@ var increment = Math.floor(100/picture_urls.length);
   	// 	document.getElementById('percent').innerHTML = '0'+percent;  
   	// }
     if(++loaded == picture_urls.length && callback) {
-    	console.log('all images loaded');
+    	//console.log('all images loaded');
      callback();
     }
   } //end onload statement
@@ -44,10 +44,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		'img/pushplay.jpg',
 		'img/24lad.jpg',
 		'img/blue-bg.png'
-	],
-	function(){
-		removeLoader();
-	});
+	], removeLoader);
 });
 
 function removeLoader(){

@@ -47,13 +47,13 @@
 
     v12 = V.rotate( v12, params.start.angle );
     this.p2 = V.add( this.start, v12 );
-   // console.log(this.p2);
+    console.log(this.p2);
     $('body').append('<div class="waypoint" style="top:'+this.p2[1] +'px;left:'+this.p2[0] +'px;background-color:red;"></div>');
 
 
     v43 = V.rotate(v43, params.end.angle );
     this.p3 = V.add( this.end, v43 );
-   // console.log(this.p3);
+    console.log(this.p3);
      $('body').append('<div class="waypoint" style="top:'+this.p3[1] +'px;left:'+this.p3[0] +'px;background-color:red;"></div>');
 
     this.f1 = function(t) { return (t*t*t); };
@@ -70,6 +70,34 @@
       }
       css.x = this.x = ( this.start[0]*f1 + this.p2[0]*f2 +this.p3[0]*f3 + this.end[0]*f4 +.5 ); //remove | 0 from end;
       css.y = this.y = ( this.start[1]*f1 + this.p2[1]*f2 +this.p3[1]*f3 + this.end[1]*f4 +.5 );  //remove | 0 from end;
+      css.left = css.x + "px";
+      css.top = css.y + "px";
+      return css;
+    };
+  };
+  $.path.quadBezier = function( params, rotate ) {
+    params.start = $.extend( {angle: 0, length: 0.3333}, params.start );
+    params.end = $.extend( {angle: 0, length: 0.3333}, params.end );
+
+    this.start = [params.start.x, params.start.y];//point1 start 
+    this.middle = [params.middle.x,params.middle.y];
+    this.end = [params.end.x, params.end.y];  //point4 start
+
+     $('body').append('<div class="waypoint" style="top:'+this.middle[1] +'px;left:'+this.middle[0] +'px;background-color:red;"></div>');
+
+    this.f1 = function(t) { return (t*t); };
+    this.f2 = function(t) { return (2*t*(1-t)); };
+    this.f3 = function(t) { return ((1-t)*(1-t)); };
+
+    /* p from 0 to 1 */
+    this.css = function(p) {
+      var f1 = this.f1(p), f2 = this.f2(p), f3 = this.f3(p), css = {};
+      if (rotate) {
+        css.prevX = this.x;
+        css.prevY = this.y;
+      }
+      css.x = this.x = ( this.start[0]*f1 + this.middle[0]*f2  + this.end[0]*f3 +.5 ); //remove | 0 from end;
+      css.y = this.y = ( this.start[1]*f1 + this.middle[1]*f2  + this.end[1]*f3 +.5 );  //remove | 0 from end;
       css.left = css.x + "px";
       css.top = css.y + "px";
       return css;
@@ -123,7 +151,7 @@ var degrees;
        //  fx.elem.style.transform= "rotate(" +  (degrees) + "deg)";
       if(css.prevX-css.x != 0) {
         if( css.prevY - css.y != 0){
-          $('body').append('<div class="waypoint" style="top:'+css.y +'px;left:'+(css.x)+'px;"></div>');
+          $('body').append('<div class="waypoint" style="top:'+(css.y+92.5) +'px;left:'+(css.x+50)+'px;"></div>');
         //this works for right turns facing N
         degrees = -Math.degrees(Math.atan2(css.prevX - css.x,css.prevY - css.y));
        // console.log(90-Math.abs(degrees));
@@ -139,6 +167,9 @@ var degrees;
     fx.elem.style.left = (css.x )+'px';
     Rocket.left = css.x;
     Rocket.top = css.y;
+    Rocket.centerX = css.x-50;
+    Rocket.centerY = css.y-92.5;
+  
   };
 
 })(jQuery);
