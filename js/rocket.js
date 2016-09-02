@@ -72,50 +72,42 @@ $('#wrapper').on('click', function(e){
 	mouseY= e.pageY;
 	Rocket.target.left = e.pageX;
 	Rocket.target.top = e.pageY;
+	console.log('mouse: '+mouseX+', '+mouseY)
 	var angle  = getAngle(mouseX,Rocket.centerX,mouseY,Rocket.centerY);
 	var angleDistance = Math.sqrt((Math.pow((mouseX - (Rocket.left+Rocket.halfX)),2)) + (Math.pow((mouseY-(Rocket.top+Rocket.halfY)),2)));
-	//console.log(angleDistance)
-	//Closer angle gets to 0, greater distance between control points.
-	//Control Points should be 90 of Angle.
+	console.log('Angle: '+angle);
 
-	/*
-	At 0 deg, CP should be -90deg.
-	At -45 deg, CP should be -180deg
-	At -90deg, CP should be -270deg
-	-90 + (angle*2)
-	*/
 	var cp2Angle = -90 +(angle*2);
-	// -45 - (-90 + (-45*2))
-	console.log(cp2Angle);
-	var tanCP = Math.tan(Math.radians(cp2Angle));
-	console.log(tanCP);
-	/*
-	Distance CP is from end Point
-	At 0 deg, CP should be distance/0.5;
-	At -45 deg, CP should distance/0.25
-	At  -90 deg, CP should be 0;
-	0.5- ((angle/-90)/2)
-	*/
-	var cp2Distance = angleDistance* (0.5 - ((angle/-90)/2));
-	console.log(cp2Distance);
+	console.log('cp2Angle: '+cp2Angle);
+	var invCP2Angle = 90+ angle;
+	console.log('Inv Angle: '+invCP2Angle);
+	console.log('angDist: '+angleDistance);
+
+	var cp2Distance = angleDistance*.5;
+
+	
+	var polarX = mouseX + cp2Distance*( Math.cos(Math.radians(cp2Angle)));
+	var polarY = mouseY+ cp2Distance*( Math.sin(Math.radians(cp2Angle)));
+	console.log(polarX,polarY);
+
 	var cp1X,cp1Y,cp2X,cp2Y;
-	cp2X = -cp2Distance;
-	cp2Y = -cp2Distance * tanCP;
-	endX = 1000;
-	endY = 800;// 750+50
-	var curve = new Bezier(Rocket.centerX,Rocket.centerY, Rocket.centerX,500, cp2X,cp2Y, mouseX,mouseY+50);
+
+
+	var curve = new Bezier(Rocket.centerX,Rocket.centerY, Rocket.centerX,500,polarX,polarY, mouseX,mouseY);
 	var cDistance = curve.length();
 	var curveP=curve.getLUT();
-	//console.log(distance);
-	//console.log(angle);
+
 	
-	//$(this).append('<div class="line" style="transform-origin:left center;width:'+angleDistance+'px;top:'+(Rocket.top+Rocket.halfY)+'px;left:'+(Rocket.left+Rocket.halfX)+'px;transform:rotate('+(angle)+'deg);"></div>');
-	//$(this).append('<div class="line" style="transform-origin:left center;width:'+cp2Distance+'px;top:'+(mouseY)+'px;left:'+(mouseX)+'px;transform:rotate('+(cp2Angle)+'deg);"></div>');
+	//Red Line
+	$(this).append('<div class="line" style="transform-origin:left center;width:'+(Math.round(angleDistance))+'px;top:'+(Rocket.top+Rocket.halfY)+'px;left:'+(Rocket.left+Rocket.halfX)+'px;transform:rotate('+(Math.round(angle))+'deg);"></div>');
+	//Blue Line
+	$(this).append('<div class="line" style="background:#0000FF;transform-origin:left center;width:'+Math.round(cp2Distance)+'px;top:'+(mouseY)+'px;left:'+(mouseX)+'px;transform:rotate('+(Math.round(cp2Angle))+'deg);"></div>');
+	
 	//console.log(curve.getLUT());
-	$('body').append('<div class="waypoint" style="background:#ff0000;top:'+(500) +'px;left:'+(Rocket.left+50)+'px;"></div>');
-	$('body').append('<div class="waypoint" style="background:#ff0000;top:'+(cp2Y) +'px;left:'+(cp2X)+'px;"></div>');
+	//$('body').append('<div class="waypoint" style="background:#ff0000;top:'+(500) +'px;left:'+(Rocket.left+50)+'px;"></div>');
+	$('body').append('<div class="waypoint" style="background:#ff0000;top:'+(polarY-5) +'px;left:'+(polarX-5)+'px;"></div>');
 	for(i=0;i<curveP.length;i+=2){
-		$('body').append('<div class="waypoint" style="top:'+(curveP[i].y) +'px;left:'+(curveP[i].x)+'px;"></div>');
+	//	$('body').append('<div class="waypoint" style="top:'+(curveP[i].y) +'px;left:'+(curveP[i].x)+'px;"></div>');
 	}
 	var start = false;
 	var oldCoords = {x:Rocket.centerX,y:Rocket.centerY};

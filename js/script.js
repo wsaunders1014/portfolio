@@ -1,6 +1,6 @@
 var w,h;
 $(document).ready(function(){
-	
+
 	w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 	h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
