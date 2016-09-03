@@ -92,10 +92,10 @@ $('#wrapper').on('click', function(e){
 	-180  + (-90) = -90
 	*/
 	var distRatio = Math.abs(0.5 - Math.abs(((absAngle/-90)/2)));
-		//console.log('DistRatio: '+distRatio);
+		console.log('DistRatio: '+distRatio);
 	var cp2Distance = angleDistance* distRatio;
 	//var cp2Distance = angleDistance*.5;
-	//console.log('cp2Dist: '+cp2Distance);
+	console.log('cp2Dist: '+cp2Distance);
 	var cp1X,cp1Y,cp2X,cp2Y;
 	cp1X = Rocket.centerX + cp2Distance* (Math.cos(Math.radians(Rocket.angle)));
 	cp1Y = Rocket.centerY + cp2Distance* (Math.sin(Math.radians(Rocket.angle)));
