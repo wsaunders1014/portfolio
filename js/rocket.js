@@ -75,41 +75,32 @@ $('#wrapper').on('click', function(e){
 	//console.log('mouse: '+mouseX+', '+mouseY)
 	var absAngle  = getAngle(mouseX,Rocket.centerX,mouseY,Rocket.centerY);
 	var angleDistance = Math.sqrt((Math.pow((mouseX - (Rocket.left+Rocket.halfX)),2)) + (Math.pow((mouseY-(Rocket.top+Rocket.halfY)),2)));
+	console.log('abs Distance: '+angleDistance);
 	console.log('Angle: '+absAngle);
 
-	//adj angle should be -90deg
-	// -44 = 0
+	var cp2Angle = (-180- Rocket.angle) +(absAngle*2);
+	if(cp2Angle < -360)
+		cp2Angle+=360;
+	if(cp2Angle > 360)
+		cp2Angle -=360;
 
-	/*
-		-134+ -44
-		30 +44
-	*/
-	//angle = (90 + Rocket.angle) + absAngle;
-	//console.log('adjAngle: '+absAngle);
-
-
-	//var cp2Angle = -90 +(absAngle*2);
-	var cp2Angle = Rocket.angle +(absAngle*2);
-	// -90 + (-30 * 2)
-	// 28 + (-46 *2)
 	console.log('cp2Angle: '+cp2Angle);
-	//var invCP2Angle = 90+ absAngle;
-	//console.log('Inv Angle: '+invCP2Angle);
-	//console.log('angDist: '+angleDistance);
-	// -90 = 0
-	// 0 = .5
-	var cp2Distance = Math.abs(angleDistance* (0.5 - ((absAngle/-90)/2)));
+	/*
+	When Rocket.angle = -90, absAngle = -45, and cp2Angle = -180, and final angle = ~0
+	-90 +(absAngle*2)
+	-180 - -90 + - 90 =-180
+	-180  + (-90) = -90
+	*/
+	var distRatio = Math.abs(0.5 - Math.abs(((absAngle/-90)/2)));
+		//console.log('DistRatio: '+distRatio);
+	var cp2Distance = angleDistance* distRatio;
 	//var cp2Distance = angleDistance*.5;
-	//console.log(cp2Distance);
+	//console.log('cp2Dist: '+cp2Distance);
 	var cp1X,cp1Y,cp2X,cp2Y;
 	cp1X = Rocket.centerX + cp2Distance* (Math.cos(Math.radians(Rocket.angle)));
 	cp1Y = Rocket.centerY + cp2Distance* (Math.sin(Math.radians(Rocket.angle)));
 	cp2X = mouseX + cp2Distance*( Math.cos(Math.radians(cp2Angle)));
 	cp2Y = mouseY+ cp2Distance*( Math.sin(Math.radians(cp2Angle)));
-	//console.log(polarX,polarY);
-	console.log(cp1X, cp1Y);
-	
-
 
 	var curve = new Bezier(Rocket.centerX,Rocket.centerY, cp1X,cp1Y,cp2X,cp2Y, mouseX,mouseY);
 	var cDistance = curve.length();
@@ -146,6 +137,7 @@ $('#wrapper').on('click', function(e){
 			window.requestAnimationFrame(move);
 		else {
 			console.log('Final Angle: '+Rocket.angle);
+			console.log(' ');
 		}
 
 	}
