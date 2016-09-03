@@ -279,6 +279,11 @@ img {
 	transform-origin: center center;
 	z-index: 999;
 	transform:rotate(-90deg);
+	&.moving {
+		#rocket-img {
+			background-position: 0% 0;
+		}
+	}
 	#rocket-img {
 		position: relative;
 		width: 185px;
@@ -290,9 +295,6 @@ img {
 		background-position: 0% 100%;
 		z-index: 2;
 		user-select:none;
-		&.glow {
-			background-position: 0% 0;
-		}
 	}
 	#flames {
 		position: absolute;
