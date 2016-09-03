@@ -86,16 +86,22 @@ $('#wrapper').on('click', function(e){
 
 	console.log('cp2Angle: '+cp2Angle);
 	/*
-	When Rocket.angle = -90, absAngle = -45, and cp2Angle = -180, and final angle = ~0
-	-90 +(absAngle*2)
-	-180 - -90 + - 90 =-180
-	-180  + (-90) = -90
+		   0 =  0.5    0/180 - 0.5 =  -0.5
+		 -45 = 0.25   45/180 - 0.5 = -0.25
+		 -90 =    0   90/180 - 0.5 =     0
+		-135 = 0.25  135/180 - 0.5 =  0.25
+		-180 =  0.5  180/180 - 0.5 =   0.5
+		 135 = 0.25  135/180 - 0.5 =  0.25
+		  90 =    0   90/180 - 0.5 =     0
+		  45 = 0.25   45/180 - 0.5 =  0.25
+		   0 =  0.5    0/180 - 0.5 =   0.5
 	*/
-	var distRatio = Math.abs(0.5 - Math.abs(((absAngle/-90)/2)));
-		console.log('DistRatio: '+distRatio);
+	var distRatio = Math.abs(absAngle/180) - 0.5;
+	// 99 /90/2
+	console.log('DistRatio: '+distRatio);
 	var cp2Distance = angleDistance* distRatio;
 	//var cp2Distance = angleDistance*.5;
-	console.log('cp2Dist: '+cp2Distance);
+	//console.log('cp2Dist: '+cp2Distance);
 	var cp1X,cp1Y,cp2X,cp2Y;
 	cp1X = Rocket.centerX + cp2Distance* (Math.cos(Math.radians(Rocket.angle)));
 	cp1Y = Rocket.centerY + cp2Distance* (Math.sin(Math.radians(Rocket.angle)));
@@ -136,7 +142,7 @@ $('#wrapper').on('click', function(e){
 		if(progress < time)
 			window.requestAnimationFrame(move);
 		else {
-			console.log('Final Angle: '+Rocket.angle);
+			//console.log('Final Angle: '+Rocket.angle);
 			console.log(' ');
 		}
 
