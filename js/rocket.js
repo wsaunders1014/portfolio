@@ -72,42 +72,61 @@ $('#wrapper').on('click', function(e){
 	mouseY= e.pageY;
 	Rocket.target.left = e.pageX;
 	Rocket.target.top = e.pageY;
-	console.log('mouse: '+mouseX+', '+mouseY)
-	var angle  = getAngle(mouseX,Rocket.centerX,mouseY,Rocket.centerY);
+	//console.log('mouse: '+mouseX+', '+mouseY)
+	var absAngle  = getAngle(mouseX,Rocket.centerX,mouseY,Rocket.centerY);
 	var angleDistance = Math.sqrt((Math.pow((mouseX - (Rocket.left+Rocket.halfX)),2)) + (Math.pow((mouseY-(Rocket.top+Rocket.halfY)),2)));
-	console.log('Angle: '+angle);
+	console.log('Angle: '+absAngle);
 
-	var cp2Angle = -90 +(angle*2);
+	//adj angle should be -90deg
+	// -44 = 0
+
+	/*
+		-134+ -44
+		30 +44
+	*/
+	//angle = (90 + Rocket.angle) + absAngle;
+	//console.log('adjAngle: '+absAngle);
+
+
+	//var cp2Angle = -90 +(absAngle*2);
+	var cp2Angle = Rocket.angle +(absAngle*2);
+	// -90 + (-30 * 2)
+	// 28 + (-46 *2)
 	console.log('cp2Angle: '+cp2Angle);
-	var invCP2Angle = 90+ angle;
-	console.log('Inv Angle: '+invCP2Angle);
-	console.log('angDist: '+angleDistance);
-
-	var cp2Distance = angleDistance*.5;
-
-	
-	var polarX = mouseX + cp2Distance*( Math.cos(Math.radians(cp2Angle)));
-	var polarY = mouseY+ cp2Distance*( Math.sin(Math.radians(cp2Angle)));
-	console.log(polarX,polarY);
-
+	//var invCP2Angle = 90+ absAngle;
+	//console.log('Inv Angle: '+invCP2Angle);
+	//console.log('angDist: '+angleDistance);
+	// -90 = 0
+	// 0 = .5
+	var cp2Distance = Math.abs(angleDistance* (0.5 - ((absAngle/-90)/2)));
+	//var cp2Distance = angleDistance*.5;
+	//console.log(cp2Distance);
 	var cp1X,cp1Y,cp2X,cp2Y;
+	cp1X = Rocket.centerX + cp2Distance* (Math.cos(Math.radians(Rocket.angle)));
+	cp1Y = Rocket.centerY + cp2Distance* (Math.sin(Math.radians(Rocket.angle)));
+	cp2X = mouseX + cp2Distance*( Math.cos(Math.radians(cp2Angle)));
+	cp2Y = mouseY+ cp2Distance*( Math.sin(Math.radians(cp2Angle)));
+	//console.log(polarX,polarY);
+	console.log(cp1X, cp1Y);
+	
 
 
-	var curve = new Bezier(Rocket.centerX,Rocket.centerY, Rocket.centerX,500,polarX,polarY, mouseX,mouseY);
+	var curve = new Bezier(Rocket.centerX,Rocket.centerY, cp1X,cp1Y,cp2X,cp2Y, mouseX,mouseY);
 	var cDistance = curve.length();
 	var curveP=curve.getLUT();
 
 	
 	//Red Line
-	$(this).append('<div class="line" style="transform-origin:left center;width:'+(Math.round(angleDistance))+'px;top:'+(Rocket.top+Rocket.halfY)+'px;left:'+(Rocket.left+Rocket.halfX)+'px;transform:rotate('+(Math.round(angle))+'deg);"></div>');
+	$(this).append('<div class="line" style="transform-origin:left center;width:'+(Math.round(angleDistance))+'px;top:'+(Rocket.centerY)+'px;left:'+(Rocket.centerX)+'px;transform:rotate('+(Math.round(absAngle))+'deg);"></div>');
 	//Blue Line
 	$(this).append('<div class="line" style="background:#0000FF;transform-origin:left center;width:'+Math.round(cp2Distance)+'px;top:'+(mouseY)+'px;left:'+(mouseX)+'px;transform:rotate('+(Math.round(cp2Angle))+'deg);"></div>');
+	$(this).append('<div class="line" style="background:#0000FF;transform-origin:left center;width:'+(+cp2Distance)+'px;top:'+(Rocket.centerY)+'px;left:'+(Rocket.centerX)+'px;transform:rotate('+(Rocket.angle)+'deg);"></div>');
 	
 	//console.log(curve.getLUT());
-	//$('body').append('<div class="waypoint" style="background:#ff0000;top:'+(500) +'px;left:'+(Rocket.left+50)+'px;"></div>');
-	$('body').append('<div class="waypoint" style="background:#ff0000;top:'+(polarY-5) +'px;left:'+(polarX-5)+'px;"></div>');
-	for(i=0;i<curveP.length;i+=2){
-	//	$('body').append('<div class="waypoint" style="top:'+(curveP[i].y) +'px;left:'+(curveP[i].x)+'px;"></div>');
+	$('body').append('<div class="waypoint" style="background:#ff0000;top:'+(cp1Y-5) +'px;left:'+(cp1X-5)+'px;"></div>');
+	//$('body').append('<div class="waypoint" style="background:#ff0000;top:'+(polarY-5) +'px;left:'+(polarX-5)+'px;"></div>');
+	for(i=0;i<curveP.length;i+=4){
+		$('body').append('<div class="waypoint" style="top:'+(curveP[i].y-5) +'px;left:'+(curveP[i].x-5)+'px;"></div>');
 	}
 	var start = false;
 	var oldCoords = {x:Rocket.centerX,y:Rocket.centerY};
@@ -119,10 +138,15 @@ $('#wrapper').on('click', function(e){
 		var coords = curve.get(t);
 		var nextAngle = getAngle(coords.x,oldCoords.x,coords.y,oldCoords.y);
 		//console.log(coords);
-		Rocket.obj.css({left: coords.x-92.5,top:coords.y-50,transform:'rotate('+nextAngle+'deg)'});
+		Rocket.angle = nextAngle;
+		Rocket.obj.css({left: coords.x-Rocket.halfY,top:coords.y-Rocket.halfX,transform:'rotate('+nextAngle+'deg)'});
+		locateRocket(coords.x-92.5,coords.y-50);
 		oldCoords = coords;
 		if(progress < time)
 			window.requestAnimationFrame(move);
+		else {
+			console.log('Final Angle: '+Rocket.angle);
+		}
 
 	}
 	window.requestAnimationFrame(move);
@@ -130,12 +154,18 @@ $('#wrapper').on('click', function(e){
 });
 
 ////// HELPER FUNCTIONS ///////////
-function locateRocket(){
-	Rocket.left = Rocket.obj.position().left;
-	Rocket.top = Rocket.obj.position().top;
-	Rocket.centerX = Rocket.left + (Rocket.height/2);
-	Rocket.centerY = Rocket.top + (Rocket.width/2);
-	//console.log(Rocket.left,Rocket.top);
+function locateRocket(left, top){
+	Rocket.left = left || Rocket.obj.position().left;
+	Rocket.top = top || Rocket.obj.position().top;
+	if(left){
+		Rocket.centerX = left + (Rocket.width/2);
+		Rocket.centerY =  top + (Rocket.height/2);
+	}else {
+		Rocket.centerX =  Rocket.left + Rocket.halfX;
+		Rocket.centerY = Rocket.top + Rocket.halfY;
+	}
+	//$('#wrapper').append('<div class="waypoint" style="left:'+(Rocket.centerX-5)+'px;top:'+(Rocket.centerY-5)+'px;"></div>')
+	//console.log(Rocket.centerX,Rocket.centerY);
 }
 //helper function radians to degrees
 function getAngle(x2,x1,y2,y1){
