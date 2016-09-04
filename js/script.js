@@ -2,8 +2,8 @@ var w,h;
 $(document).ready(function(){
 	w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 	h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-	wrapperW = 3*w;
-	wrapperH = 3*h;
+	wrapperW = $('#wrapper').width();
+	wrapperH = $('#wrapper').height();
 	$('body').fitText(1.5);
 	var devPlanet = new Planet($('#dev'));
 	var actorPlanet = new Planet($('#actor'));
@@ -11,8 +11,8 @@ $(document).ready(function(){
 	locateRocket();
 	//Initialization
 	//$('#intro').css({top:(h-$('#intro').height())/2});
-	$('#rocket').css({left:(wrapperW - $('#rocket').width())/2,top:(wrapperH -$('#rocket').height())/2});
-	
+	$('#rocket').css({left:(wrapperW/2) -92.5,top:(wrapperH/2)-50});
+
 	//GALAXY MOVE
 	var hoverTimeout,hoverInterval;
 	$('.hover-bar').on("mouseover", function(e){
@@ -153,9 +153,7 @@ $(document).ready(function(){
 		writerPlanet = new Planet($('#writer'));
 		$('body').fitText(1.5);
 		//$('#intro').css({top:(h-$('#intro').height())/2});
-		if(!hasFlown){
-		//	$('#rocket').css({left:(w - $('#rocket').width())/2});
-		}
+		
 		paddedH = $('#magnifier .section-inner').height();
 		paddedW = $('#magnifier .section-inner').width();
 		$('#magnifier iframe').attr('width',paddedW);

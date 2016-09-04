@@ -3,8 +3,9 @@ ROCKET by Will Saunders
 8-20-16
 */
 //var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
-var wOffset = $('#wrapper').offset();
-console.log(wOffset);
+var wrapper = $('#wrapper');
+var wOffset = wrapper.offset();
+//console.log(wOffset);
 var time500 = 500;
 var Rocket ={
 	width:185,
@@ -60,8 +61,8 @@ var Rocket ={
 var mouseX;
 var mouseY;
 $('body').mousemove(function(e){
-	mouseX = e.pageX;
-	mouseY= e.pageY;
+	mouseX = e.pageX-wOffset.left;
+	mouseY= e.pageY-wOffset.top;
 	$('#debug .mouse').html(mouseX+', '+mouseY);
 	$('#debug .angle').html(Math.round(getAngle(mouseX,Rocket.left+Rocket.halfX,mouseY,Rocket.top+Rocket.halfY)));
 	//start = false;
@@ -71,11 +72,11 @@ var angle;
 var distance;
 
 var anim;
-var wrapper = $('#wrapper');
-$('#wrapper').on('click', function(e){
 
+wrapper.on('click', function(e){
 	mouseX = e.pageX-wOffset.left;
 	mouseY= e.pageY-wOffset.top;
+	
 	Rocket.target.left = mouseX;
 	Rocket.target.top = mouseY;
 	window.cancelAnimationFrame(anim);
@@ -114,12 +115,16 @@ $('#wrapper').on('click', function(e){
 	var curve = new Bezier(Rocket.centerX,Rocket.centerY, cp1X,cp1Y,cp2X,cp2Y, mouseX,mouseY);
 	var cDistance = curve.length();
 	var curveP=curve.getLUT();
+
+	wrapper.animate({left:'-='+(mouseX-Rocket.centerX),top:'-='+(mouseY-Rocket.centerY)},{duration:(cDistance/100)*500,step:function(){
+		wOffset = wrapper.offset();
+	}});
 	for(i=0;i<curveP.length;i+=4){
 		$('#waypoints').append('<div class="waypoint" style="top:'+(curveP[i].y-5) +'px;left:'+(curveP[i].x-5)+'px;"></div>');
 	}
 	var start = false;
 	var oldCoords = {x:Rocket.centerX,y:Rocket.centerY};
-
+	//console.log(curveP);
 	//if(absAngle > -90){
 		Rocket.leftEngine.stop().animate({opacity:1},300);
 	//}else {
@@ -159,17 +164,19 @@ $('#wrapper').on('click', function(e){
 
 ////// HELPER FUNCTIONS ///////////
 function locateRocket(left, top){
+
 	Rocket.left = left || Rocket.obj.position().left-wOffset.left;
 	Rocket.top = top || Rocket.obj.position().top- wOffset.top;
+//	console.log(Rocket.obj.offset().left + wOffset.left -92.5);
 	if(left){
 		Rocket.centerX = left + (Rocket.width/2);
 		Rocket.centerY =  top + (Rocket.height/2);
 	}else {
-		Rocket.centerX =  Rocket.left + Rocket.halfX;
-		Rocket.centerY = Rocket.top + Rocket.halfY;
+		Rocket.centerX =  Rocket.left - Rocket.halfY;
+		Rocket.centerY = Rocket.top + Rocket.halfX;
 	}
 	//$('#wrapper').append('<div class="waypoint" style="left:'+(Rocket.centerX-5)+'px;top:'+(Rocket.centerY-5)+'px;"></div>')
-	//console.log(Rocket.centerX,Rocket.centerY);
+//	console.log(Rocket.centerX,Rocket.centerY);
 }
 //helper function radians to degrees
 function getAngle(x2,x1,y2,y1){

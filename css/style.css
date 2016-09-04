@@ -60,6 +60,7 @@ img {
 .quadrant#quad3 {
   top: 0;
   left: 66.666%;
+  width: 33.334%;
 }
 .quadrant#quad4 {
   left: 0;
@@ -72,18 +73,23 @@ img {
 .quadrant#quad6 {
   top: 33.333%;
   left: 66.666%;
+  width: 33.334%;
 }
 .quadrant#quad7 {
   left: 0;
   top: 66.666%;
+  height: 33.334%;
 }
 .quadrant#quad8 {
   left: 33.333%;
   top: 66.666%;
+  height: 33.334%;
 }
 .quadrant#quad9 {
   left: 66.666%;
   top: 66.666%;
+  width: 33.334%;
+  height: 33.334%;
 }
 .hover-bar {
   position: absolute;
