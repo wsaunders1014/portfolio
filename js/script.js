@@ -8,37 +8,37 @@ $(document).ready(function(){
 	var devPlanet = new Planet($('#dev'));
 	var actorPlanet = new Planet($('#actor'));
 	var writerPlanet = new Planet($('#writer'));
-	locateRocket();
+	
 	//Initialization
 	//$('#intro').css({top:(h-$('#intro').height())/2});
 	$('#rocket').css({left:(wrapperW/2) -92.5,top:(wrapperH/2)-50});
-
+	locateRocket();
 	//GALAXY MOVE
 	var hoverTimeout,hoverInterval;
-	$('.hover-bar').on("mouseover", function(e){
-		var dir = $(this).attr('id');
-		//console.log(dir);
-		if(!hoverTimeout){
-			hoverTimeout = window.setTimeout(function(){
-				hoverInterval = window.setInterval(function(){
-					if(dir=='top'){
-						$('#wrapper').animate({top:'+=100'},499,'linear');
-					}else if(dir=='left'){
-						$('#wrapper').animate({left:'+=100'},499,'linear');
-					}else if(dir=='right'){
-						$('#wrapper').animate({left:'-=100'},499,'linear');
-					}else {
-						$('#wrapper').animate({top:'-=100'},499,'linear');
-					}
-				},500);
-			},1000);
-		}
-	}).on('mouseleave', function(e){
-		clearTimeout(hoverTimeout);
-		hoverTimeout= false;
-		clearInterval(hoverInterval);
-		hoverInterval = false;
-	})
+	// $('.hover-bar').on("mouseover", function(e){
+	// 	var dir = $(this).attr('id');
+	// 	//console.log(dir);
+	// 	if(!hoverTimeout){
+	// 		hoverTimeout = window.setTimeout(function(){
+	// 			hoverInterval = window.setInterval(function(){
+	// 				if(dir=='top'){
+	// 					$('#wrapper').animate({top:'+=100'},499,'linear');
+	// 				}else if(dir=='left'){
+	// 					$('#wrapper').animate({left:'+=100'},499,'linear');
+	// 				}else if(dir=='right'){
+	// 					$('#wrapper').animate({left:'-=100'},499,'linear');
+	// 				}else {
+	// 					$('#wrapper').animate({top:'-=100'},499,'linear');
+	// 				}
+	// 			},500);
+	// 		},1000);
+	// 	}
+	// }).on('mouseleave', function(e){
+	// 	clearTimeout(hoverTimeout);
+	// 	hoverTimeout= false;
+	// 	clearInterval(hoverInterval);
+	// 	hoverInterval = false;
+	// })
 
 	$('#pane').on('click touchstart', '.backToSpace',function(){
 		backToSpace();

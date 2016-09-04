@@ -63,8 +63,12 @@ var mouseY;
 $('body').mousemove(function(e){
 	mouseX = e.pageX-wOffset.left;
 	mouseY= e.pageY-wOffset.top;
+	var angle = getAngle(mouseX,Rocket.left+92.5,mouseY,Rocket.top+50);
+	angle =angle - Rocket.angle;
+	if(angle > 180)
+		angle -=360;
 	$('#debug .mouse').html(mouseX+', '+mouseY);
-	$('#debug .angle').html(Math.round(getAngle(mouseX,Rocket.left+Rocket.halfX,mouseY,Rocket.top+Rocket.halfY)));
+	$('#debug .angle').html(Math.round(angle));
 	//start = false;
 })
 var fly;
@@ -82,21 +86,32 @@ wrapper.on('click', function(e){
 	window.cancelAnimationFrame(anim);
 	//console.log('mouse: '+mouseX+', '+mouseY)
 	var absAngle  = getAngle(mouseX,Rocket.centerX,mouseY,Rocket.centerY);
-	var angleDistance = Math.sqrt((Math.pow((mouseX - (Rocket.left+Rocket.halfX)),2)) + (Math.pow((mouseY-(Rocket.top+Rocket.halfY)),2)));
+	var angleDistance = Math.sqrt((Math.pow((mouseX - (Rocket.left+92.5)),2)) + (Math.pow((mouseY-(Rocket.top+50)),2)));
+	absAngle =absAngle - Rocket.angle;
+	if(absAngle > 180)
+		absAngle -=360;
 	//console.log('abs Distance: '+angleDistance);
 	//console.log('Angle: '+absAngle);
-	var cp2Angle = (-180- Rocket.angle) +(absAngle*2);
-	if(cp2Angle < -360)
-		cp2Angle+=360;
-	if(cp2Angle > 360)
-		cp2Angle -=360;
 
-	var distRatio = Math.abs((Math.abs(Rocket.angle) - Math.abs(absAngle))/180);
-	if(cp2Angle-30 < absAngle && absAngle < cp2Angle+30 ){
-		cp2Angle+=140;
-		distRatio = 1.5;
-	}
+	var cp2Angle = (180 + Rocket.angle) +(absAngle*2);
+	if(absAngle < -90)
+		cp2Angle+=90;
+	if(absAngle > 90)
+		cp2Angle -=90;
+
+	//var distRatio = Math.abs((Math.abs(Rocket.angle) - Math.abs(absAngle))/180);
+	var distRatio = Math.abs((absAngle/90)*0.5);
+	 if(absAngle < -150 || absAngle > 150 ){
+	 	if(absAngle <0)
+	 		cp2Angle+=90;
+	 	else
+	 		cp2Angle-=90;
+	 }
+	distRatio = Math.max(0.04,distRatio);
+	console.log('cp2Angle: '+cp2Angle);
 	var cp2Distance = angleDistance* distRatio;
+
+	console.log('cp2Distance: '+cp2Distance)
 	var cp1X,cp1Y,cp2X,cp2Y;
 	cp1X = Rocket.centerX + cp2Distance* (Math.cos(Math.radians(Rocket.angle)));
 	cp1Y = Rocket.centerY + cp2Distance* (Math.sin(Math.radians(Rocket.angle)));
@@ -104,7 +119,7 @@ wrapper.on('click', function(e){
 	cp2Y = mouseY+ cp2Distance*( Math.sin(Math.radians(cp2Angle)));
 	
 	//Red Line
-	// $(this).append('<div class="line" style="transform-origin:left center;width:'+(Math.round(angleDistance))+'px;top:'+(Rocket.centerY)+'px;left:'+(Rocket.centerX)+'px;transform:rotate('+(Math.round(absAngle))+'deg);"></div>');
+	// $(this).append('<div class="line" style="transform-origin:left center;width:'+(Math.round(angleDistance))+'px;top:'+(Rocket.centerY)+'px;left:'+(Rocket.centerX)+'px;transform:rotate('+(Math.round(absAngle)-90)+'deg);"></div>');
 	// //Blue Line
 	// $(this).append('<div class="line" style="background:#0000FF;transform-origin:left center;width:'+Math.round(cp2Distance)+'px;top:'+(mouseY)+'px;left:'+(mouseX)+'px;transform:rotate('+(Math.round(cp2Angle))+'deg);"></div>');
 	//  $(this).append('<div class="line" style="background:#0000FF;transform-origin:left center;width:'+(+cp2Distance)+'px;top:'+(Rocket.centerY)+'px;left:'+(Rocket.centerX)+'px;transform:rotate('+(Rocket.angle)+'deg);"></div>');
@@ -116,9 +131,6 @@ wrapper.on('click', function(e){
 	var cDistance = curve.length();
 	var curveP=curve.getLUT();
 
-	wrapper.animate({left:'-='+(mouseX-Rocket.centerX),top:'-='+(mouseY-Rocket.centerY)},{duration:(cDistance/100)*500,step:function(){
-		wOffset = wrapper.offset();
-	}});
 	for(i=0;i<curveP.length;i+=4){
 		$('#waypoints').append('<div class="waypoint" style="top:'+(curveP[i].y-5) +'px;left:'+(curveP[i].x-5)+'px;"></div>');
 	}
@@ -142,7 +154,24 @@ wrapper.on('click', function(e){
 		var coords = curve.get(t);
 		var nextAngle = getAngle(coords.x,oldCoords.x,coords.y,oldCoords.y);
 		Rocket.angle = nextAngle;
-		//wrapper.css({left: ,top:,transform:'rotate('+nextAngle+'deg)'})
+		var wrapMoveX = wOffset.left - (coords.x-oldCoords.x);
+		var wrapMoveY = wOffset.top - (coords.y-oldCoords.y);
+		if(wrapMoveX > 0)
+			wrapMoveX = 0;
+		else if(wrapMoveX < -wrapperW + (wrapperW/3))
+			wrapMoveX = -wrapperW - (wrapperW/3);
+		else if (Rocket.centerX > w/2 && Rocket.centerX < wrapperW - w/2){
+			wrapper.css({left: wrapMoveX});
+			wOffset = wrapper.offset();
+		}
+		if(wrapMoveY > 0)
+			wrapMoveY = 0;
+		else if(wrapMoveY < -wrapperH + (wrapperH/3))
+			wrapMoveX = -wrapperH - (wrapperH/3);
+		else if (Rocket.centerY > h/2 && Rocket.centerY < wrapperH - h/2){
+			wrapper.css({top: wrapMoveY});
+			wOffset = wrapper.offset();
+		}
 		Rocket.obj.css({left: coords.x-Rocket.halfY,top:coords.y-Rocket.halfX,transform:'rotate('+nextAngle+'deg)'});
 		locateRocket(coords.x-92.5,coords.y-50);
 		oldCoords = coords;
@@ -153,7 +182,7 @@ wrapper.on('click', function(e){
 			Rocket.leftEngine.animate({opacity:0},300);
 			Rocket.rightEngine.stop().animate({opacity:0},300);
 			Rocket.isMoving = false;
-			console.log('Final Angle: '+Rocket.angle);
+		//	console.log('Final Angle: '+Rocket.angle);
 			console.log(' ');
 		}
 
@@ -165,15 +194,15 @@ wrapper.on('click', function(e){
 ////// HELPER FUNCTIONS ///////////
 function locateRocket(left, top){
 
-	Rocket.left = left || Rocket.obj.position().left-wOffset.left;
-	Rocket.top = top || Rocket.obj.position().top- wOffset.top;
-//	console.log(Rocket.obj.offset().left + wOffset.left -92.5);
+	Rocket.left = left || parseInt(Rocket.obj.css('left').match(/\d+/g)[0]);
+	Rocket.top = top || parseInt(Rocket.obj.css('top').match(/\d+/g)[0]);
+	//console.log(parseInt(Rocket.obj.css('left').match(/\d+/g)[0]));
 	if(left){
 		Rocket.centerX = left + (Rocket.width/2);
 		Rocket.centerY =  top + (Rocket.height/2);
 	}else {
-		Rocket.centerX =  Rocket.left - Rocket.halfY;
-		Rocket.centerY = Rocket.top + Rocket.halfX;
+		Rocket.centerX =  Rocket.left + 92.5;
+		Rocket.centerY = Rocket.top + 50;
 	}
 	//$('#wrapper').append('<div class="waypoint" style="left:'+(Rocket.centerX-5)+'px;top:'+(Rocket.centerY-5)+'px;"></div>')
 //	console.log(Rocket.centerX,Rocket.centerY);
