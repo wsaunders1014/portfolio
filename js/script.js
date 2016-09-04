@@ -1,10 +1,9 @@
 var w,h;
 $(document).ready(function(){
-
-
 	w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 	h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-
+	wrapperW = 3*w;
+	wrapperH = 3*h;
 	$('body').fitText(1.5);
 	var devPlanet = new Planet($('#dev'));
 	var actorPlanet = new Planet($('#actor'));
@@ -12,116 +11,35 @@ $(document).ready(function(){
 	locateRocket();
 	//Initialization
 	//$('#intro').css({top:(h-$('#intro').height())/2});
-	//$('#rocket').css({left:(w - $('#rocket').width())/2});
-
-
-
-	// ROCKET TRAVEL TO MOUSE
-	var rocket = $('#rocket');
-	var rocketW = rocket.width();
-	var rocketOrigin = rocketW/2;
-	var isLanding = false;
-	var isLanded =false;
-	var isFlying = false;
-	var rocketY = Math.round(rocket.position().top);
-	var rocketX = Math.round(rocket.position().left);
-	var rocketCenter = {x:rocketX+5,y:rocketY+92.5};
-	var mouseX;
-	var mouseY;
-	var waypointInterval=false;
-	var flight =false;
-	var rotate = false;
-	var landing = false;
-	var hasFlown = false;
-	var i = 0;
-
-	// $('#wrapper').click(function(e){ // Line debug / path illustrator.
-	// 	$(this).append('<div class="waypoint id-'+i+'"></div');
-	// 	$('.id-'+i).css({top:e.pageY-5,left:e.pageX-5});
-	// 	if(i!=0){
-	// 		var angle = -Math.degrees(Math.atan2((e.pageX-5)-$('.id-'+(i-1)).position().left,(e.pageY-5)-$('.id-'+(i-1)).position().top));
-	// 		if(angle > 0){ // fixes angles so 0 is up, and positive is on right side to sync with css
-	// 			angle = angle-180;
-	// 		}else {
-	// 			angle = angle+180;
-	// 		}
-	// 		distance = Math.sqrt((Math.pow(((e.pageX-5) - $('.id-'+(i-1)).position().left-5),2)) + (Math.pow(((e.pageY-5) - $('.id-'+(i-1)).position().top-5),2)));
-	// 	$(this).append('<div class="line" style="transform-origin:left center;width:'+distance+'px;top:'+ ($('.id-'+(i-1)).position().top+5)+'px;left:'+ ($('.id-'+(i-1)).position().left+5)+'px;transform:rotate('+(angle-90)+'deg);"></div>');
-	// 	}
-	// 	i++;
-	// });
-
-
-	$('#wrapper').on('mousedown touchstart', function(e){
-		 mouseX = e.pageX;
-		 mouseY = e.pageY;
-		 if(e.button ==0 ){ // only left clicks move Rocket.
-		 	if(!isLanded && !isLanding){
-				$('#intro').fadeOut(750);
-				$('#wrapper').on('mousemove',function(e){
-					mouseX = e.pageX;
-					mouseY = e.pageY;
-					if(!waypointInterval)
-						waypointInterval = window.setInterval(function(){setWaypoint(mouseX,mouseY)},200);
-				});	
-			}
-		}
-
-	}).mouseup(function(e){
-		if(e.button ==0 ){ // only left clicks move Rocket.
-			$('#wrapper').off('mousemove');
-			if(!isLanded && !isLanding){
-				mouseX = e.pageX;
-				mouseY = e.pageY;
-				if(!waypointInterval){
-					setWaypoint(e.pageX,e.pageY);
-				}else {
-					setWaypoint(e.pageX,e.pageY);
-					window.clearInterval(waypointInterval);
-					waypointInterval = false;
-				}
-				
-			}else if(isLanded && !isLanding){ // then it needs to unland.
-
-				// window.clearInterval(waypointInterval);
-				// waypointInterval = false;
-				// $('#pane').fadeOut(1000);
-				// $('.content').css({top:0});
-				// $('.info').fadeIn(1000);
-				// isLanding = true;
-				// isLanded = false;
-				// var angle = Math.degrees(Math.atan2(mouseY-rocketY,mouseX-rocketX));
-				// rotate = new TweenMax.to( rocket, 1.5, { directionalRotation:(angle+90)+'_short'});
-				// landing = new TweenMax.to(rocket.children('#rocket-img'),2.5,{ scale:1, onComplete:function(){
-				// 	 //Rising and Descending is considered landing.
-				// 	isLanding = false;
-				// }});
-			}else if(isLanding && !isLanded){
-
-				// window.clearInterval(waypointInterval);
-				// waypointInterval = false;
-				// landing.kill();
-				// $('#pane').fadeOut(1000);
-				// $('.content').css({top:0});
-				// $('.info').fadeIn(1000);
-				// isLanding = false;
-				// var angle = Math.degrees(Math.atan2(mouseY-rocketY,mouseX-rocketX));
-				// rotate = new TweenMax.to( rocket, 1.5, { directionalRotation:(angle+90)+'_short'});
-				// landing = new TweenMax.to(rocket.children('#rocket-img'),2.5,{ scale:1, onComplete:function(){
-				// 	 //Rising and Descending is considered landing.
-					
-				// }});
-			}
-		}
-	}).mouseleave(function(e){
-		//setWaypoint(e.pageX,e.pageY);
-		if(e.button ==0  && !isLanding){
-			//$('#wrapper').off('mousemove');
-			//window.clearInterval(waypointInterval);
-			//waypointInterval = false;
-		}
-	});
+	$('#rocket').css({left:(wrapperW - $('#rocket').width())/2,top:(wrapperH -$('#rocket').height())/2});
 	
+	//GALAXY MOVE
+	var hoverTimeout,hoverInterval;
+	$('.hover-bar').on("mouseover", function(e){
+		var dir = $(this).attr('id');
+		//console.log(dir);
+		if(!hoverTimeout){
+			hoverTimeout = window.setTimeout(function(){
+				hoverInterval = window.setInterval(function(){
+					if(dir=='top'){
+						$('#wrapper').animate({top:'+=100'},499,'linear');
+					}else if(dir=='left'){
+						$('#wrapper').animate({left:'+=100'},499,'linear');
+					}else if(dir=='right'){
+						$('#wrapper').animate({left:'-=100'},499,'linear');
+					}else {
+						$('#wrapper').animate({top:'-=100'},499,'linear');
+					}
+				},500);
+			},1000);
+		}
+	}).on('mouseleave', function(e){
+		clearTimeout(hoverTimeout);
+		hoverTimeout= false;
+		clearInterval(hoverInterval);
+		hoverInterval = false;
+	})
+
 	$('#pane').on('click touchstart', '.backToSpace',function(){
 		backToSpace();
 	});
@@ -174,84 +92,7 @@ $(document).ready(function(){
 	// 			}
 	// 		});
 	// });
-	function setWaypoint(x,y,instant){
-		/*if (instant){
-			rocket.children('#rocket-img').toggleClass('glow');
-			flight = TweenMax.to( rocket, 0, {top:y-rocketOrigin*2, left:x - rocketOrigin, ease:Power2.easeInOut,
-				onUpdate:function(){
-					rocketY = Math.round(rocket.position().top);
-					rocketX = Math.round(rocket.position().left);
-				},
-				onComplete:function(){
-					rocket.children('#rocket-img').toggleClass('glow');
-					isFlying=false;
-					if(checkCollision(x,y)){
-						$('#overlay').fadeIn(1000);
-						$('#pane').fadeIn(1000);
-						//$('.slide-out').fadeOut(1000);
-						isLanding = true;
-						landing = new TweenMax.to(rocket.children('#rocket-img'),0,{scale:0, onComplete:function(){
-							rocketY = Math.round(rocket.position().top);
-							rocketX = Math.round(rocket.position().left);
 
-							isLanded = true;	
-							isLanding = false;
-						}});
-					}
-				}});
-		}else{
-			var distance = Math.abs(Math.sqrt((Math.pow(x - (rocketX-50),2)) + (Math.pow(y - (rocketY-92.5),2))));
-			var angle = -Math.degrees(Math.atan2(x-(rocketX + 50), y-(rocketY + 92.5)));
-			if(angle > 0){ // fixes angles so 0 is up, and positive is on right side to sync with css
-				angle = angle-180;
-			}else {
-				angle = angle+180;
-			}
-			//console.log('Angle: '+angle);
-			//console.log(distance);
-			rotate = new TweenMax.to( rocket, 0.5, {directionalRotation:(angle)+'_short'});
-			if(!isFlying){
-				rocket.children('#rocket-img').addClass('glow');
-				isFlying = true;
-			}
-			flight = TweenMax.to( rocket, (.5*(distance/125)), {top:y-rocketOrigin*2, left:x - rocketOrigin, ease:Power2.easeInOut,
-				onUpdate:function(){
-					rocketY = Math.round(rocket.position().top);
-					rocketX = Math.round(rocket.position().left);
-				},
-				onComplete:function(){
-					rocket.children('#rocket-img').removeClass('glow');
-					isFlying=false;
-					
-					var tr=$('#rocket').css('transform'); //gets angle from matrix, for debug purposes only.
-					var values = tr.split('(')[1];
-					    values = values.split(')')[0];
-					    values = values.split(',');
-					var a = values[0];
-					var b = values[1];
-					var c = values[2];
-					var d = values[3];
-					var cAngle = Math.atan2(b, a) * (180/Math.PI);
-					//console.log('Final Angle: '+cAngle);
-
-					if(checkCollision(x,y)){
-						console.log(checkCollision(x,y));
-						location.hash = '#!'+checkCollision(x,y);
-						//$('.slide-out').fadeOut(1000);
-
-						isLanding = true;
-						landing = new TweenMax.to(rocket.children('#rocket-img'),2.5,{scale:0, onComplete:function(){
-							rocketY = Math.round(rocket.position().top);
-							rocketX = Math.round(rocket.position().left);
-
-							isLanded = true;	
-							isLanding = false;
-						}});
-					}
-				}
-			});
-		}*/
-	}///End Function
 
 	function checkCollision(x,y){
 		var collided = false;
@@ -301,7 +142,6 @@ $(document).ready(function(){
 	function resetPages(){
 		$('#scroll-bar').css({top:0});
 		$('.content').css({top:0});
-		//updateScrollVars();
 	}
 	////On Resize
 	$(window).resize(function(){
@@ -354,13 +194,6 @@ $(document).ready(function(){
 	});
 
 }); //END READY
-
-
-
-//helper function radians to degrees
-Math.degrees = function(radians) {
-  return radians * 180 / Math.PI;
-};
 
 //planet object
 function Planet(obj) {

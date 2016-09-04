@@ -167,44 +167,67 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
 	<script src="js/fittext.js"></script>
-	<script src="js/script.js"></script>
+	
 </head>
 <body>
-	<div id="wrapper">
-		<div id="dev" class="planet-holder">
-			<div class="glyph c1"><img src="img/glyph.png" alt="glyph" draggable="false"></div>
-			<div class="slide-out">
-				<div class="info unselectable">
-					<p class="title">Planet Developia</p>
-					<p class='details'>Legends say the best web developer in the quadrant lives here...</p>
+	<div id="wrapper" style="left:-100%;top:-100%;">
+		<div class="quadrant" id="quad1"></div>
+		<div class="quadrant" id="quad2"></div>
+		<div class="quadrant" id="quad3"></div>
+		<div class="quadrant" id="quad4"></div>
+		<div class="quadrant" id="main">
+			<div id="dev" class="planet-holder">
+				<div class="glyph c1"><img src="img/glyph.png" alt="glyph" draggable="false"></div>
+				<div class="slide-out">
+					<div class="info unselectable">
+						<p class="title">Planet Developia</p>
+						<p class='details'>Legends say the best web developer in the quadrant lives here...</p>
+					</div>
 				</div>
+				<div class="planet"></div>
 			</div>
-			<div class="planet"></div>
-		</div>
-		<div id="writer" class="planet-holder">
-			<div class="glyph c2"><img src="img/glyph.png" alt="glyph" draggable="false"></div>
-			<div class="slide-out">
-				<div class="info unselectable">			
-					<p class="title">Planet Writerious</p>
-					<p class='details'>This planet is known for its stories. Don't worry, we'll translate it into English for you.</p>
+			<div id="writer" class="planet-holder">
+				<div class="glyph c2"><img src="img/glyph.png" alt="glyph" draggable="false"></div>
+				<div class="slide-out">
+					<div class="info unselectable">			
+						<p class="title">Planet Writerious</p>
+						<p class='details'>This planet is known for its stories. Don't worry, we'll translate it into English for you.</p>
+					</div>
 				</div>
+				<div class="planet"></div>
 			</div>
-			<div class="planet"></div>
-		</div>
-		<div id="actor" class="planet-holder">
-			<div class="glyph c3"><img src="img/glyph.png" alt="glyph" draggable="false"></div>
-			<div class="slide-out">
-				<div class="info unselectable">
-					<p class="title">Planet Actorix</p>
-					<p class='details'>If you're looking for an actor, try this planet.</p>
+			<div id="actor" class="planet-holder">
+				<div class="glyph c3"><img src="img/glyph.png" alt="glyph" draggable="false"></div>
+				<div class="slide-out">
+					<div class="info unselectable">
+						<p class="title">Planet Actorix</p>
+						<p class='details'>If you're looking for an actor, try this planet.</p>
+					</div>
 				</div>
+				<div class="planet"></div>
 			</div>
-			<div class="planet"></div>
+			<div id="intro" class="bg">
+				<h1>I Am<br/>Will Saunders</h1><p>And this is my website.*</p><span>*This site is a work in progress. More of a proof of concept. Probably about 1% done. </span>
+			</div>
 		</div>
-	<!-- 	<div id="saturn"><figure class="ball"><span class="shadow"></span></figure></div> -->
-		<div id="intro" class="bg"><h1>I Am<br/>Will Saunders</h1><p>And this is my website.*</p><span>*This site is a work in progress. More of a proof of concept. Probably about 1% done. </span></div>
-		<div id="rocket"><div id="rocket-img"></div><div id="flames"></div></div>
+		<div class="quadrant" id="quad6"></div>
+		<div class="quadrant" id="quad7"></div>
+		<div class="quadrant" id="quad8"></div>
+		<div class="quadrant" id="quad9"></div>
+		<div id="rocket">
+			<div id="rocket-img">
+				<div id="glow"></div>
+				<div id="left-engine"></div>
+				<div id="right-engine"></div>
+			</div>
+		</div>
+		<div id='waypoints'></div>
 	</div>
+	<div class="hover-bar" id="left"></div>
+	<div class="hover-bar" id="top"></div>
+	<div class="hover-bar" id="right"></div>
+	<div class="hover-bar" id="bottom"></div>
+	
 	<div id="contact" class="planet-holder">
 		<div class='slide-out'>
 			<div class="info bg unselectable">			
@@ -262,6 +285,8 @@
 	<div class="mouse"></div>
 	<div class="angle"></div>
 </div>
+
+	<script src="js/script.js"></script>
 	<script src="js/form.js"></script>
 	<script src="js/bezier.js"></script>
 	<script src="js/rocket.js"></script>
