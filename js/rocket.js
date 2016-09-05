@@ -2,10 +2,11 @@
 ROCKET by Will Saunders
 8-20-16
 */
-//var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
 var wrapper = $('#wrapper');
 var wOffset = wrapper.offset();
-//console.log(wOffset);
+var mouseX;
+var mouseY;
+
 var time500 = 500;
 var Rocket ={
 	width:185,
@@ -58,8 +59,7 @@ var Rocket ={
 	
 	}
 }
-var mouseX;
-var mouseY;
+
 $('body').mousemove(function(e){
 	mouseX = e.pageX-wOffset.left;
 	mouseY= e.pageY-wOffset.top;
@@ -73,12 +73,10 @@ $('body').mousemove(function(e){
 	$('#debug .angle').html(Math.round(angle));
 	//start = false;
 })
-var fly;
-var angle;
 var distance;
 
 var anim;
-
+var oldCoords;
 wrapper.on('click', function(e){
 	mouseX = e.pageX-wOffset.left;
 	mouseY= e.pageY-wOffset.top;
@@ -87,43 +85,7 @@ wrapper.on('click', function(e){
 	start = false;
 	window.cancelAnimationFrame(anim);
 	//console.log('mouse: '+mouseX+', '+mouseY)
-
-
-	var absAngle  = getAngle(mouseX,Rocket.centerX,mouseY,Rocket.centerY);
-	var angleDistance = Math.sqrt((Math.pow((mouseX - (Rocket.left+92.5)),2)) + (Math.pow((mouseY-(Rocket.top+50)),2)));
-	absAngle =absAngle - Rocket.angle;
-	if(absAngle > 180)
-		absAngle -=360;
-	else if(absAngle<-180)
-		absAngle +=360;
-	//console.log('abs Distance: '+angleDistance);
-	//console.log('Angle: '+absAngle);
-
-	var cp2Angle = (180 + Rocket.angle) +(absAngle*2);
-	if(absAngle < -90 && absAngle >-150)
-		cp2Angle+=90;
-	if(absAngle > 90 && absAngle < 150)
-		cp2Angle -=90;
-
-	//var distRatio = Math.abs((Math.abs(Rocket.angle) - Math.abs(absAngle))/180);
-	var distRatio = Math.abs((absAngle/90)*0.5);
-	 if(absAngle < -150 || absAngle > 150 ){
-	 	distRatio=1.3;
-	 	if(absAngle <0)
-	 		cp2Angle+=115;
-	 	else
-	 		cp2Angle-=115;
-	 }
-	distRatio = Math.max(0.04,distRatio);
-	console.log('cp2Angle: '+cp2Angle);
-	var cp2Distance = angleDistance* distRatio;
-
-	console.log('cp2Distance: '+cp2Distance)
-	var cp1X,cp1Y,cp2X,cp2Y;
-	cp1X = Rocket.centerX + cp2Distance* (Math.cos(Math.radians(Rocket.angle)));
-	cp1Y = Rocket.centerY + cp2Distance* (Math.sin(Math.radians(Rocket.angle)));
-	cp2X = mouseX + cp2Distance*( Math.cos(Math.radians(cp2Angle)));
-	cp2Y = mouseY+ cp2Distance*( Math.sin(Math.radians(cp2Angle)));
+	
 	
 	//Red Line
 	// $(this).append('<div class="line" style="transform-origin:left center;width:'+(Math.round(angleDistance))+'px;top:'+(Rocket.centerY)+'px;left:'+(Rocket.centerX)+'px;transform:rotate('+(Math.round(absAngle)-90)+'deg);"></div>');
@@ -134,25 +96,31 @@ wrapper.on('click', function(e){
 	//console.log(curve.getLUT());
 	// $('body').append('<div class="waypoint" style="background:#ff0000;top:'+(cp1Y-5) +'px;left:'+(cp1X-5)+'px;"></div>');
 	//$('body').append('<div class="waypoint" style="background:#ff0000;top:'+(polarY-5) +'px;left:'+(polarX-5)+'px;"></div>');
+	
+	
+	
+	adjPath();
 	curve = new Bezier(Rocket.centerX,Rocket.centerY, cp1X,cp1Y,cp2X,cp2Y, mouseX,mouseY);
 	cDistance = curve.length();
-	
 	if(cDistance > 400 || Rocket.isMoving){
-		var curveP=curve.getLUT();
-		for(i=0;i<curveP.length;i+=4){
-			$('#waypoints').append('<div class="waypoint" style="top:'+(curveP[i].y-5) +'px;left:'+(curveP[i].x-5)+'px;"></div>');
-		}
 		
+		//adjPath();
+		
+		//var curveP=curve.getLUT();
+		// for(i=0;i<curveP.length;i+=4){
+		// 	$('#waypoints').append('<div class="waypoint" style="top:'+(curveP[i].y-5) +'px;left:'+(curveP[i].x-5)+'px;"></div>');
+		// }
 		//console.log(curveP);
 		//if(absAngle > -90){
+
 			Rocket.leftEngine.stop().animate({opacity:1},300);
 		//}else {
 			Rocket.rightEngine.stop().animate({opacity:1},300);
 		//}
 		
 		anim = window.requestAnimationFrame(move);
-	}else {
-		console.log(Rocket.angle+absAngle);
+	}else if(cDistance<400 && !Rocket.isMoving) {
+		//console.log(Rocket.angle+absAngle);
 		TweenMax.to(Rocket.obj,.6,{directionalRotation:Rocket.angle+absAngle+'_short',onUpdate:function(){
 			//set new Rocket Angle, every frame in case user clicks again.
 			var matrix = Rocket.obj.css('transform');
@@ -164,45 +132,10 @@ wrapper.on('click', function(e){
 			var c = values[2];
 			var d = values[3];
 			var angle = (Math.atan2(b, a) * 180)/Math.PI;
-			console.log(angle);
 			Rocket.angle = angle;
 		},onComplete:function(){
-
-			var absAngle  = getAngle(mouseX,Rocket.centerX,mouseY,Rocket.centerY);
-			var angleDistance = Math.sqrt((Math.pow((mouseX - (Rocket.left+92.5)),2)) + (Math.pow((mouseY-(Rocket.top+50)),2)));
-			absAngle =absAngle - Rocket.angle;
-			if(absAngle > 180)
-				absAngle -=360;
-			else if(absAngle<-180)
-				absAngle +=360;
-			//console.log('abs Distance: '+angleDistance);
-			//console.log('Angle: '+absAngle);
-
-			var cp2Angle = (180 + Rocket.angle) +(absAngle*2);
-			if(absAngle < -90 && absAngle >-150)
-				cp2Angle+=90;
-			if(absAngle > 90 && absAngle < 150)
-				cp2Angle -=90;
-
-			//var distRatio = Math.abs((Math.abs(Rocket.angle) - Math.abs(absAngle))/180);
-			var distRatio = Math.abs((absAngle/90)*0.5);
-			 if(absAngle < -150 || absAngle > 150 ){
-			 	distRatio=1.3;
-			 	if(absAngle <0)
-			 		cp2Angle+=115;
-			 	else
-			 		cp2Angle-=115;
-			 }
-			distRatio = Math.max(0.04,distRatio);
-			console.log('cp2Angle: '+cp2Angle);
-			var cp2Distance = angleDistance* distRatio;
-
-			console.log('cp2Distance: '+cp2Distance)
-			var cp1X,cp1Y,cp2X,cp2Y;
-			cp1X = Rocket.centerX + cp2Distance* (Math.cos(Math.radians(Rocket.angle)));
-			cp1Y = Rocket.centerY + cp2Distance* (Math.sin(Math.radians(Rocket.angle)));
-			cp2X = mouseX + cp2Distance*( Math.cos(Math.radians(cp2Angle)));
-			cp2Y = mouseY+ cp2Distance*( Math.sin(Math.radians(cp2Angle)));
+			adjPath();
+			
 			curve = new Bezier(Rocket.centerX,Rocket.centerY, cp1X,cp1Y,cp2X,cp2Y, mouseX,mouseY);
 			cDistance = curve.length();
 			anim = window.requestAnimationFrame(move);
@@ -223,10 +156,10 @@ function locateRocket(left, top){
 		Rocket.centerX =  Rocket.left + 92.5;
 		Rocket.centerY = Rocket.top + 50;
 	}
+	oldCoords = {x:Rocket.centerX,y:Rocket.centerY};
 	//$('#wrapper').append('<div class="waypoint" style="left:'+(Rocket.centerX-5)+'px;top:'+(Rocket.centerY-5)+'px;"></div>')
 //	console.log(Rocket.centerX,Rocket.centerY);
 }
-//helper function radians to degrees
 function getAngle(x2,x1,y2,y1){
 	var angle = Math.degrees(Math.atan2(y2-y1,x2-x1));
 	return angle;
@@ -234,15 +167,6 @@ function getAngle(x2,x1,y2,y1){
 Math.degrees = function(radians) {
   return (radians * 180) / Math.PI;
 };
-// function distance(x2,x1,y2,y1){
-// 	return	Math.sqrt((Math.pow((x2 - x1),2)) + (Math.pow((y2-y1),2)));
-// }
-// function getSlope(x2,x1,y2,y1){
-// 	return (y2-y1) / (x2-x1);
-// }
-// function getInvSlope(x2,x1,y2,y1){
-// 	return (x2-x1) / (y2-y1);
-// }
 Math.radians = function(angle){
 	return angle * Math.PI/180;
 }
@@ -253,8 +177,45 @@ var getPositionData = function(el) {
     }, el.offset());
 }
 var start = false;
-var oldCoords = {x:Rocket.centerX,y:Rocket.centerY};
-var curve, cDistance;
+
+var curve,cDistance,absAngle,cp2Angle,angleDistance,distRatio,cp2Distance,cp1X,cp1Y,cp2X,cp2Y;
+function adjPath(){
+	absAngle  = getAngle(mouseX,Rocket.centerX,mouseY,Rocket.centerY);
+	angleDistance = Math.sqrt((Math.pow((mouseX - (Rocket.left+92.5)),2)) + (Math.pow((mouseY-(Rocket.top+50)),2)));
+	absAngle =absAngle - Rocket.angle;
+	if(absAngle > 180)
+		absAngle -=360;
+	else if(absAngle<-180)
+		absAngle +=360;
+	//console.log('abs Distance: '+angleDistance);
+	//console.log('Angle: '+absAngle);
+
+	cp2Angle = (180 + Rocket.angle) +(absAngle*2);
+	if(absAngle < -90 && absAngle >-150)
+		cp2Angle+=90;
+	if(absAngle > 90 && absAngle < 150)
+		cp2Angle -=90;
+
+	//var distRatio = Math.abs((Math.abs(Rocket.angle) - Math.abs(absAngle))/180);
+	distRatio = Math.abs((absAngle/90)*0.5);
+	 if(absAngle < -150 || absAngle > 150 ){
+	 	distRatio=1.3;
+	 	if(absAngle <0)
+	 		cp2Angle+=115;
+	 	else
+	 		cp2Angle-=115;
+	 }
+	distRatio = Math.max(0.04,distRatio);
+	//console.log('cp2Angle: '+cp2Angle);
+	cp2Distance = angleDistance* distRatio;
+
+	//console.log('cp2Distance: '+cp2Distance)
+	
+	cp1X = Rocket.centerX + cp2Distance* (Math.cos(Math.radians(Rocket.angle)));
+	cp1Y = Rocket.centerY + cp2Distance* (Math.sin(Math.radians(Rocket.angle)));
+	cp2X = mouseX + cp2Distance*( Math.cos(Math.radians(cp2Angle)));
+	cp2Y = mouseY+ cp2Distance*( Math.sin(Math.radians(cp2Angle)));
+}
 function move(timestamp){
 	if(!Rocket.isMoving){
 		Rocket.isMoving = true;
@@ -265,8 +226,11 @@ function move(timestamp){
 	var time = (cDistance/100)*500;
 	var t = progress/time;
 	var coords = curve.get(t);
-	var nextAngle = getAngle(coords.x,oldCoords.x,coords.y,oldCoords.y);
-	Rocket.angle = nextAngle;
+	if(t !=0){
+		var nextAngle = getAngle(coords.x,oldCoords.x,coords.y,oldCoords.y);
+		Rocket.angle = nextAngle;
+	}
+
 	var wrapMoveX = wOffset.left - (coords.x-oldCoords.x);
 	var wrapMoveY = wOffset.top - (coords.y-oldCoords.y);
 	if(wrapMoveX > 0)
