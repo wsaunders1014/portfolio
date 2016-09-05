@@ -89,7 +89,7 @@ img {
   left: 66.666%;
   top: 66.666%;
   width: 33.334%;
-  height: 33.334%;
+  height: 33.33%;
 }
 .hover-bar {
   position: absolute;
@@ -99,27 +99,51 @@ img {
 }
 .hover-bar#left {
   left: 0;
-  top: 50px;
-  width: 50px;
-  height: calc(100% - 110px);
+  top: 100px;
+  width: 100px;
+  height: calc(100% - 210px);
+}
+.hover-bar#upLeft {
+  left: 0;
+  top: 0;
+  width: 100px;
+  height: 100px;
 }
 .hover-bar#top {
-  left: 50px;
+  left: 100px;
   top: 0px;
-  width: calc(100% - 100px);
-  height: 50px;
+  width: calc(100% - 200px);
+  height: 100px;
+}
+.hover-bar#upRight {
+  right: 0;
+  top: 0;
+  width: 100px;
+  height: 100px;
 }
 .hover-bar#right {
   right: 0;
-  width: 50px;
-  top: 50px;
-  height: calc(100% - 110px);
+  width: 100px;
+  top: 100px;
+  height: calc(100% - 210px);
+}
+.hover-bar#downRight {
+  right: 0;
+  bottom: 10px;
+  width: 100px;
+  height: 100px;
+}
+.hover-bar#downLeft {
+  left: 0;
+  bottom: 10px;
+  width: 100px;
+  height: 100px;
 }
 .hover-bar#bottom {
   bottom: 10px;
-  height: 50px;
-  width: calc(100% - 100px);
-  left: 50px;
+  height: 100px;
+  width: calc(100% - 200px);
+  left: 100px;
 }
 #intro {
   width: 40%;

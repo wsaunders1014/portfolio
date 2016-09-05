@@ -86,7 +86,7 @@ img {
 		left: 66.666%;
 		top: 66.666%;
 		width:33.334%;
-		height: 33.334%;
+		height: 33.33%;
 	}
 }
 .hover-bar {
@@ -96,27 +96,51 @@ img {
 	opacity: 0.3;
 	&#left{
 		left: 0;
-		top: 50px;
-		width:50px;
-		height: ~'calc(100% - 110px)';
+		top: 100px;
+		width:100px;
+		height: ~'calc(100% - 210px)';
+	}
+	&#upLeft {
+		left:0;
+		top: 0;
+		width:100px;
+		height: 100px;
 	}
 	&#top{
-		left: 50px;
+		left: 100px;
 		top: 0px;
-		width:~'calc(100% - 100px)';
-		height: 50px;
+		width:~'calc(100% - 200px)';
+		height: 100px;
+	}
+	&#upRight{
+		right:0;
+		top: 0;
+		width:100px;
+		height: 100px;
 	}
 	&#right {
 		right: 0;
-		width:50px;
-		top: 50px;
-		height: ~'calc(100% - 110px)';
+		width:100px;
+		top: 100px;
+		height: ~'calc(100% - 210px)';
+	}
+	&#downRight {
+		right:0;
+		bottom: 10px;
+		width:100px;
+		height: 100px;
+	}
+	&#downLeft {
+		left:0;
+		bottom: 10px;
+		width:100px;
+		height: 100px;
 	}
 	&#bottom{
 		bottom: 10px;
-		height: 50px;
-		width:~'calc(100% - 100px)';
-		left: 50px;
+		height: 100px;
+		width:~'calc(100% - 200px)';
+		left: 100px;
 	}
 }
 #intro {
