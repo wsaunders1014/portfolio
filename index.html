@@ -190,6 +190,7 @@
 					<div class="info unselectable">
 						<p class="title">Planet Developia</p>
 						<p class='details'>Legends say the best web developer in the quadrant lives here...</p>
+						<a href="developer" class="waypoint-btn">DEVELOPER</a>
 					</div>
 				</div>
 				<div class="planet"></div>
@@ -200,6 +201,7 @@
 					<div class="info unselectable">			
 						<p class="title">Planet Writerious</p>
 						<p class='details'>This planet is known for its stories. Don't worry, we'll translate it into English for you.</p>
+						<a href="writer" class="waypoint-btn">WRITER</a>
 					</div>
 				</div>
 				<div class="planet"></div>
@@ -210,13 +212,15 @@
 					<div class="info unselectable">
 						<p class="title">Planet Actorix</p>
 						<p class='details'>If you're looking for an actor, try this planet.</p>
+						<a href="actor" class="waypoint-btn">ACTOR</a>
 					</div>
 				</div>
 				<div class="planet"></div>
 			</div>
 		</div>
 		<div class="quadrant" id="quad6">
-			<div class="banner">Coming soon</div>
+			<!-- <div class="banner">Coming soon</div> -->
+			<div id="sun"></div>
 		</div>
 		<div class="quadrant" id="quad7">
 			<div class="banner">Under construction.</div>
@@ -233,6 +237,7 @@
 				<div id="left-engine"></div>
 				<div id="right-engine"></div>
 			</div>
+			<div id="explosion"><img src='img/explosion.gif' alt="boom"/></div>
 		</div>
 		<div id='waypoints'></div>
 	</div><!-- END WRAPPER -->
@@ -272,6 +277,10 @@
 				<div class="thank-you">Message Sent. Thanks!</div>
 			</div>
 		</div>
+	</div>
+	<div id="death-modal">
+		<h3 id="message">You Died.</h3>
+		<div id='restart'></div>
 	</div>
 	<div id="overlay"></div>
 	<div id="pane">	

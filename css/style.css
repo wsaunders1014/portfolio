@@ -39,8 +39,8 @@ img {
   height: auto;
 }
 #wrapper {
-  height: 300%;
   position: absolute;
+  height: 300%;
   width: 300%;
   top: 0;
   font-size: 0.3em;
@@ -49,9 +49,10 @@ img {
   background: url('../img/blue-bg.png') repeat;
 }
 .quadrant {
-  position: absolute;
-  width: 33.333%;
-  height: 33.333%;
+  position: relative;
+  float: left;
+  width: 33.33333333%;
+  height: 33.33333333%;
 }
 .quadrant .banner {
   -webkit-user-select: none;
@@ -66,47 +67,17 @@ img {
   font-size: 3em;
   font-family: 'Orbitron', sans-serif;
 }
-.quadrant#quad1 {
-  top: 0;
-  left: 0;
-}
-.quadrant#quad2 {
-  top: 0;
-  left: 33.333%;
-}
-.quadrant#quad3 {
-  top: 0;
-  left: 66.666%;
-  width: 33.334%;
-}
-.quadrant#quad4 {
-  left: 0;
-  top: 33.333%;
-}
-.quadrant#main {
-  top: 33.333%;
-  left: 33.333%;
-}
-.quadrant#quad6 {
-  top: 33.333%;
-  left: 66.666%;
-  width: 33.334%;
-}
-.quadrant#quad7 {
-  left: 0;
-  top: 66.666%;
-  height: 33.334%;
-}
-.quadrant#quad8 {
-  left: 33.333%;
-  top: 66.666%;
-  height: 33.334%;
-}
-.quadrant#quad9 {
-  left: 66.666%;
-  top: 66.666%;
-  width: 33.334%;
-  height: 33.33%;
+.quadrant#quad6 #sun {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 0;
+  padding-left: 19%;
+  background: url(../img/the_sun.png) no-repeat;
+  background-size: 100%;
 }
 .hover-bar {
   position: absolute;
@@ -218,9 +189,25 @@ img {
   letter-spacing: 1px;
 }
 .planet-holder .slide-out .info .details {
-  font-size: 0.7em;
+  font-size: 0.65em;
   line-height: 1.5em;
   margin-top: 4%;
+}
+.planet-holder .slide-out .info .waypoint-btn {
+  position: absolute;
+  bottom: 17%;
+  width: 50%;
+  left: 50%;
+  display: block;
+  text-indent: -5000px;
+  transform: translateX(-50%);
+  padding-bottom: 6%;
+  background: url('../img/waypoint-btn.png') no-repeat;
+  background-size: 100%;
+  background-position: 0 0%;
+}
+.planet-holder .slide-out .info .waypoint-btn:hover {
+  background-position: 0 100%;
 }
 .planet-holder .planet {
   position: absolute;
@@ -248,6 +235,9 @@ img {
   padding: 13% 17%;
   width: 72%;
 }
+#dev .slide-out .waypoint-btn {
+  bottom: 22%;
+}
 #dev .planet {
   background: url(../img/dev-planet.png) no-repeat;
   background-size: 100%;
@@ -269,6 +259,10 @@ img {
   position: absolute;
   padding: 13% 17%;
   width: 72%;
+}
+#actor .slide-out .waypoint-btn {
+  bottom: 22%;
+  padding-bottom: 5.7%;
 }
 #actor .planet {
   background: url(../img/actor-planet.png) no-repeat;
@@ -431,6 +425,20 @@ img {
   width: 69px;
   height: 86px;
   background: url('../img/glow.png') no-repeat;
+}
+#rocket #explosion {
+  display: none;
+}
+#rocket.exploding #rocket-img {
+  display: none;
+}
+#rocket.exploding #explosion {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
 }
 #pane {
   height: 78%;
@@ -722,6 +730,33 @@ img {
 }
 .content .actor-container h3 {
   padding: 0 0 1% 0;
+}
+#death-modal {
+  position: absolute;
+  width: 400px;
+  background: url(../img/blue-bg.png);
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 43px;
+  font-size: 41px;
+  text-align: center;
+}
+#death-modal #restart {
+  position: relative;
+  margin-top: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 39%;
+  padding-bottom: 11%;
+  font-weight: bold;
+  background: url('../img/restart-btn.png') no-repeat;
+  background-size: 100%;
+  background-position: 0% 100%;
+  cursor: pointer;
+}
+#death-modal #restart:hover {
+  background-position: 0% 0%;
 }
 .clr {
   clear: both;
