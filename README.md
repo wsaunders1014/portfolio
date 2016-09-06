@@ -1,4 +1,5 @@
 # portfolio
-New Portfolio site
+Creating a new portfolio site to showcase my whole persona, not just as a developer but also as Comedian, Movie Lover, and Screenwriter.
 
-Basic Alpha version of my new portfolio site.
+V.2
+I introduced a better pathing system for the ship to give it a more interesting/ slightly more realistic feel. Also added more "space", content coming soon.
