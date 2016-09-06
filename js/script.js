@@ -38,8 +38,8 @@ $(document).ready(function(){
 		$('#pane').fadeOut(1000);
 		$('.content').css({top:0});
 		$('.info').fadeIn(1000);
-		Rocket.isLanded = (Rocket.isLanded) ? false:true; 
-		Rocket.land();
+		// Rocket.isLanded = (Rocket.isLanded) ? false:true; 
+		Rocket.land(true);
 	}
 	//Planet Highlight 
 	var swooshTo = false;
@@ -153,6 +153,7 @@ function checkCollision(x,y){
 	function hashChange(hash){
 		var collided = hash.substr(2);
 		//console.log(collided)
+		$('#intro').hide();
 		if(collided){
 			oldHash = collided;
 			$('#pane').fadeIn(1000);

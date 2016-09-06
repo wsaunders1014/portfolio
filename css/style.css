@@ -170,6 +170,8 @@ img {
   position: relative;
   top: 50%;
   transform: translateY(-50%);
+  font-size: 38px;
+  height: 242px;
   text-align: center;
 }
 #intro h1 {
@@ -386,7 +388,7 @@ img {
   left: 1000px;
   top: 550px;
   transform-origin: center center;
-  z-index: 999;
+  z-index: 1000;
   transform: rotate(-90deg);
 }
 #rocket #rocket-img {

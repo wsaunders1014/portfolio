@@ -29,7 +29,11 @@ var Rocket ={
 	top:0,
 	left:0,
 	angle:-90,
-	land: function(){
+	land: function(landed){
+		if(landed){
+			Rocket.isLanded = landed;
+		}
+
 		if(!Rocket.isLanded){//land
 			TweenMax.to(Rocket.obj,2,{scale:0,onStart:function(){
 				Rocket.isLanding = true;
@@ -140,12 +144,9 @@ $(document).ready(function(){
 	});
 
 	wrapper.on('click', function(e){
-		$('#waypoints').html('');
 		$('#intro').fadeOut(750);
 		mouseX = e.pageX-wOffset.left;
 		mouseY= e.pageY-wOffset.top;
-		wrapper.append('<div class="waypoint" style="left:'+(mouseX-66.5)+'px;top:'+(mouseY-66.5)+'px;"><img src="img/waypoint.gif" alt="waypoint"/></div>')
-		
 		Rocket.target.left = mouseX;
 		Rocket.target.top = mouseY;
 		flight(mouseX,mouseY);
@@ -153,7 +154,8 @@ $(document).ready(function(){
 	});
 }); // END READY
 function flight(x,y,instant){
-
+	$('.waypoint').remove();
+	wrapper.children('#waypoints').append('<div class="waypoint" style="left:'+(x-66.5)+'px;top:'+(y-66.5)+'px;"><img src="img/waypoint.gif" alt="waypoint"/></div>')
 	start = false;
 	Rocket.isLanded = false;
 	window.cancelAnimationFrame(anim);
