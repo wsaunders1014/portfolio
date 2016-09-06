@@ -114,6 +114,7 @@ var Rocket ={
 			Rocket.leftEngine.animate({opacity:0},300);
 			Rocket.rightEngine.stop().animate({opacity:0},300);
 			Rocket.isMoving = false;
+			$('.waypoint').remove();
 			//console.log(checkCollision(coords.x,coords.y));
 			checkCollision(coords.x,coords.y);
 		//	console.log('Final Angle: '+Rocket.angle);
@@ -143,6 +144,8 @@ $(document).ready(function(){
 		$('#intro').fadeOut(750);
 		mouseX = e.pageX-wOffset.left;
 		mouseY= e.pageY-wOffset.top;
+		wrapper.append('<div class="waypoint" style="left:'+(mouseX-66.5)+'px;top:'+(mouseY-66.5)+'px;"><img src="img/waypoint.gif" alt="waypoint"/></div>')
+		
 		Rocket.target.left = mouseX;
 		Rocket.target.top = mouseY;
 		flight(mouseX,mouseY);
