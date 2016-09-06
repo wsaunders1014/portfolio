@@ -49,6 +49,16 @@ img {
   width: 33.333%;
   height: 33.333%;
 }
+.quadrant .banner {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 3em;
+  font-family: 'Orbitron', sans-serif;
+}
 .quadrant#quad1 {
   top: 0;
   left: 0;
@@ -157,7 +167,6 @@ img {
   top: 50%;
   transform: translateY(-50%);
   text-align: center;
-  display: none;
 }
 #intro h1 {
   text-transform: uppercase;

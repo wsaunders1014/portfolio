@@ -30,7 +30,23 @@ var Rocket ={
 	left:0,
 	angle:-90,
 	land: function(){
+		if(!Rocket.isLanded){//land
+			TweenMax.to(Rocket.obj,2,{scale:0,onStart:function(){
+				Rocket.isLanding = true;
+			},onComplete:function(){
+				Rocket.isLanded = true;
+				Rocket.isLanding = false;
+				
+			}});
 
+		}else {//take off
+			TweenMax.to(Rocket.obj,2,{scale:1,onStart:function(){
+				Rocket.isLanding = true;
+			},onComplete:function(){
+				Rocket.isLanded = false;
+				Rocket.isLanding = false;
+			}});
+		}
 	},
 	rotate: function(mouseX,mouseY){
 
@@ -98,37 +114,49 @@ var Rocket ={
 			Rocket.leftEngine.animate({opacity:0},300);
 			Rocket.rightEngine.stop().animate({opacity:0},300);
 			Rocket.isMoving = false;
+			//console.log(checkCollision(coords.x,coords.y));
+			checkCollision(coords.x,coords.y);
 		//	console.log('Final Angle: '+Rocket.angle);
 			//console.log(' ');
 		}
 	}
 }
+$(document).ready(function(){
 
-$('body').mousemove(function(e){
-	mouseX = e.pageX-wOffset.left;
-	mouseY= e.pageY-wOffset.top;
-	var angle = getAngle(mouseX,Rocket.left+92.5,mouseY,Rocket.top+50);
-	angle =angle - Rocket.angle;
-	if(angle > 180)
-		angle -=360;
-	else if(angle<-180)
-		angle +=360;
-	$('#debug .mouse').html(mouseX+', '+mouseY);
-	$('#debug .angle').html(Math.round(angle));
-	//start = false;
-})
 
-wrapper.on('click', function(e){
-	$('#waypoints').html('');
-	mouseX = e.pageX-wOffset.left;
-	mouseY= e.pageY-wOffset.top;
-	Rocket.target.left = mouseX;
-	Rocket.target.top = mouseY;
+	$('body').mousemove(function(e){
+		mouseX = e.pageX-wOffset.left;
+		mouseY= e.pageY-wOffset.top;
+		var angle = getAngle(mouseX,Rocket.left+92.5,mouseY,Rocket.top+50);
+		angle =angle - Rocket.angle;
+		if(angle > 180)
+			angle -=360;
+		else if(angle<-180)
+			angle +=360;
+		$('#debug .mouse').html(mouseX+', '+mouseY);
+		$('#debug .angle').html(Math.round(angle));
+		//start = false;
+	});
+
+	wrapper.on('click', function(e){
+		$('#waypoints').html('');
+		$('#intro').fadeOut(750);
+		mouseX = e.pageX-wOffset.left;
+		mouseY= e.pageY-wOffset.top;
+		Rocket.target.left = mouseX;
+		Rocket.target.top = mouseY;
+		flight(mouseX,mouseY);
+
+	});
+}); // END READY
+function flight(x,y,instant){
+
 	start = false;
+	Rocket.isLanded = false;
 	window.cancelAnimationFrame(anim);
 	//console.log('mouse: '+mouseX+', '+mouseY)
-	var distance = Math.sqrt(Math.pow(mouseX-Rocket.centerX,2)+Math.pow(mouseY-Rocket.centerY,2));
-	absAngle  = getAngle(mouseX,Rocket.centerX,mouseY,Rocket.centerY);
+	var distance = Math.sqrt(Math.pow(x-Rocket.centerX,2)+Math.pow(y-Rocket.centerY,2));
+	absAngle  = getAngle(x,Rocket.centerX,y,Rocket.centerY);
 	absAngle =absAngle - Rocket.angle;
 	if(absAngle > 180)
 		absAngle -=360;
@@ -157,13 +185,13 @@ wrapper.on('click', function(e){
 	}
 	if(absAngle <20 && absAngle >-20){
 		curve = false;
-		cDistance = getDistance(mouseX,oldCoords.x,mouseY,oldCoords.y);
-		xDistance = mouseX - Rocket.centerX;
-		yDistance = mouseY - Rocket.centerY;
+		cDistance = getDistance(x,oldCoords.x,y,oldCoords.y);
+		xDistance = x - Rocket.centerX;
+		yDistance = y - Rocket.centerY;
 		anim = window.requestAnimationFrame(Rocket.fly)
 	}else {
 		adjPath();
-		curve = new Bezier(Rocket.centerX,Rocket.centerY, cp1X,cp1Y,cp2X,cp2Y, mouseX,mouseY);
+		curve = new Bezier(Rocket.centerX,Rocket.centerY, cp1X,cp1Y,cp2X,cp2Y, x,y);
 		cDistance = curve.length();
 		if(cDistance > 400 || Rocket.isMoving){
 			// var curveP=curve.getLUT();
@@ -183,7 +211,7 @@ wrapper.on('click', function(e){
 			},onComplete:function(){
 				adjPath();
 				
-				curve = new Bezier(Rocket.centerX,Rocket.centerY, cp1X,cp1Y,cp2X,cp2Y, mouseX,mouseY);
+				curve = new Bezier(Rocket.centerX,Rocket.centerY, cp1X,cp1Y,cp2X,cp2Y, x,y);
 				var curveP=curve.getLUT();
 				// for(i=0;i<curveP.length;i+=4){
 				// 	$('#waypoints').append('<div class="waypoint" style="top:'+(curveP[i].y-5) +'px;left:'+(curveP[i].x-5)+'px;"></div>');
@@ -193,9 +221,7 @@ wrapper.on('click', function(e){
 			}});
 		}
 	}
-	
-});
-
+}
 ////// HELPER FUNCTIONS ///////////
 function easeInOut(time, begValue, changeValue, duration) {
 		if ((time/=duration/2) < 1) return changeValue/2*time*time*time + begValue;

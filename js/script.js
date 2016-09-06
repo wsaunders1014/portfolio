@@ -1,13 +1,14 @@
-var w,h;
+var w,h,devPlanet,actorPlanet,writerPlanet,oldHash=false;
+//hashChange(location.hash);
 $(document).ready(function(){
 	w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 	h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 	wrapperW = $('#wrapper').width();
 	wrapperH = $('#wrapper').height();
 	$('body').fitText(1.5);
-	var devPlanet = new Planet($('#dev'));
-	var actorPlanet = new Planet($('#actor'));
-	var writerPlanet = new Planet($('#writer'));
+	devPlanet = new Planet($('#dev'));
+	actorPlanet = new Planet($('#actor'));
+	writerPlanet = new Planet($('#writer'));
 	var hoverBarActive = false;
 	//Initialization
 	//$('#intro').css({top:(h-$('#intro').height())/2});
@@ -23,7 +24,7 @@ $(document).ready(function(){
 	var bottomBound = -(wrapperH -h);
 	var leftBound = 0;
 	var rightBound = -(wrapperW-w);
-	
+
 
 	$('#pane').on('click touchstart', '.backToSpace',function(){
 		backToSpace();
@@ -37,49 +38,95 @@ $(document).ready(function(){
 		$('#pane').fadeOut(1000);
 		$('.content').css({top:0});
 		$('.info').fadeIn(1000);
-		$('.glow').removeClass('glow');
-		isLanding = true;
-		isLanded = false;
-		landing = new TweenMax.to(rocket.children('#rocket-img'),2.5,{ scale:1, onComplete:function(){
-			isLanding = false;
-		}});
+		Rocket.isLanded = (Rocket.isLanded) ? false:true; 
+		Rocket.land();
 	}
 	//Planet Highlight 
-	// var swooshTo = false;
-	// var swoosh1 = TweenMax.to($('.glyph').eq(0),8,{rotation:360,repeat:-1,ease:'linear'});
-	// var swoosh2 = TweenMax.to($('.glyph').eq(1),8,{rotation:510,repeat:-1,ease:'linear'});
-	// var swoosh3 = TweenMax.to($('.glyph').eq(2),8,{rotation:-360,repeat:-1,ease:'linear'});
-	// $('.planet').on('mouseover touhstart touchmove', function(e){
-	// 	if($(this).is($('.planet').eq(0))) {
-	// 		swoosh1.pause();
-	// 		degrees=156;
-	// 	}else if($(this).is($('.planet').eq(1))){
-	// 		swoosh2.pause();
-	// 		degrees=334;
-	// 	}else {
-	// 		swoosh3.pause();
-	// 		degrees=157;
-	// 	}
-	// 	swooshTo = new TweenMax.to($(this).siblings('.glyph'),.3,{directionalRotation:degrees+'_short',ease:Power3.easeOut, onComplete:function(){
-	// 		$(this.target[0]).next().fadeIn(500);
-	// 	}});
+	var swooshTo = false;
+	var swoosh1 = TweenMax.to($('.glyph').eq(0),8,{rotation:360,repeat:-1,ease:'linear'});
+	var swoosh2 = TweenMax.to($('.glyph').eq(1),8,{rotation:510,repeat:-1,ease:'linear'});
+	var swoosh3 = TweenMax.to($('.glyph').eq(2),8,{rotation:-360,repeat:-1,ease:'linear'});
+	$('.planet').on('mouseover touhstart touchmove', function(e){
+		if($(this).is($('.planet').eq(0))) {
+			swoosh1.pause();
+			degrees=156;
+		}else if($(this).is($('.planet').eq(1))){
+			swoosh2.pause();
+			degrees=334;
+		}else {
+			swoosh3.pause();
+			degrees=157;
+		}
+		swooshTo = new TweenMax.to($(this).siblings('.glyph'),.3,{directionalRotation:degrees+'_short',ease:Power3.easeOut, onComplete:function(){
+			$(this.target[0]).next().fadeIn(500);
+		}});
 		
-	// }).on('mouseleave touchend', function(e){
-	// 	swooshTo.kill();
-	// 		$(this).siblings('.slide-out').fadeOut(500,function(){
-	// 			//swoosh = TweenMax.to($('.glyph'),8,{directionalRotation:360+'_cw',repeat:-1,ease:'linear'});
-	// 			if($(this).parent().index()== 0) {
-	// 					swoosh1.resume(3.4666, true);
-	// 			}else if($(this).parent().index() == 1){
-	// 					swoosh2.resume(4.08888, true);
-	// 			}else {
-	// 					swoosh3.resume(4.5666, true);
-	// 			}
-	// 		});
-	// });
+	}).on('mouseleave touchend', function(e){
+		swooshTo.kill();
+			$(this).siblings('.slide-out').fadeOut(500,function(){
+				//swoosh = TweenMax.to($('.glyph'),8,{directionalRotation:360+'_cw',repeat:-1,ease:'linear'});
+				if($(this).parent().index()== 0) {
+						swoosh1.resume(3.4666, true);
+				}else if($(this).parent().index() == 1){
+						swoosh2.resume(4.08888, true);
+				}else {
+						swoosh3.resume(4.5666, true);
+				}
+			});
+	});
+	function resetPages(){
+		$('#scroll-bar').css({top:0});
+		$('.content').css({top:0});
+	}
+	////On Resize
+	$(window).resize(function(){
+		w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+		h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+		$('body').fitText(2);
+		devPlanet = new Planet($('#dev'));
+		actorPlanet = new Planet($('#actor'));
+		writerPlanet = new Planet($('#writer'));
+		$('body').fitText(1.5);
+		//$('#intro').css({top:(h-$('#intro').height())/2});
+		
+		paddedH = $('#magnifier .section-inner').height();
+		paddedW = $('#magnifier .section-inner').width();
+		$('#magnifier iframe').attr('width',paddedW);
+		$('#magnifier iframe').attr('height',paddedW*0.75);
+	});
 
+	hashChange(location.hash);
+	// LOWER MENU TOUCH EVENTS
+	$('#menu a').on('click touchstart',function(e){
+		backToSpace();
+		var hash = $(this).attr('href');
+		console.log(e)
+		if(hash =='developer'){
+			flight(devPlanet.centerX,devPlanet.centerY);
+		}else if(hash == 'writer') {
+			flight(writerPlanet.centerX,writerPlanet.centerY);
+		}else if(hash == 'actor'){
+			flight(actorPlanet.centerX,actorPlanet.centerY);
+		}
+		// setTimeout(function(){
+		// 	$('#menu').hide();
+		// },1000);
+		e.preventDefault();
+	});
+	$('#nav-btn').on('touchstart',function(){
+		$('#menu').show();
+	});
 
-	function checkCollision(x,y){
+	//portfolio iframe fix 
+	$('body').on('click touchstart', '.mouse-intercept', function(){
+		$(this).hide();
+	});
+
+}); //END READY
+window.onhashchange = function(e){
+	hashChange(location.hash);
+}
+function checkCollision(x,y){
 		var collided = false;
 		if(x>devPlanet.left && x < devPlanet.right){
 			if(y>devPlanet.top && y < devPlanet.bottom){
@@ -95,6 +142,21 @@ $(document).ready(function(){
 			}
 		}
 		if(collided){
+			Rocket.land();
+			location.hash = '#!'+collided;
+			return collided;
+		}else {
+			return false;
+		}
+	}
+	
+	function hashChange(hash){
+		var collided = hash.substr(2);
+		//console.log(collided)
+		if(collided){
+			oldHash = collided;
+			$('#pane').fadeIn(1000);
+			$('#overlay').fadeIn(1000);
 			$.get(collided+'.html', function(data){
 				$('#pane .content').html(data);
 
@@ -118,70 +180,12 @@ $(document).ready(function(){
 				}
 				//updateScrollVars();
 			});
-			return collided;
-		}else {
-			return false;
 		}
 	}
-
-	function resetPages(){
-		$('#scroll-bar').css({top:0});
-		$('.content').css({top:0});
-	}
-	////On Resize
-	$(window).resize(function(){
-		w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-		h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-		$('body').fitText(2);
-		devPlanet = new Planet($('#dev'));
-		actorPlanet = new Planet($('#actor'));
-		writerPlanet = new Planet($('#writer'));
-		$('body').fitText(1.5);
-		//$('#intro').css({top:(h-$('#intro').height())/2});
-		
-		paddedH = $('#magnifier .section-inner').height();
-		paddedW = $('#magnifier .section-inner').width();
-		$('#magnifier iframe').attr('width',paddedW);
-		$('#magnifier iframe').attr('height',paddedW*0.75);
-	});
-	window.onhashchange = function(e){
-		hashChange(location.hash);
-	}
-	function hashChange(hash){
-		
-		if(hash =='#!developer'){
-			setWaypoint(devPlanet.centerX,devPlanet.centerY,true);
-		}else if(hash == '#!writer') {
-			setWaypoint(writerPlanet.centerX,writerPlanet.centerY,true);
-		}else if(hash == '#!actor'){
-			setWaypoint(actorPlanet.centerX,actorPlanet.centerY,true);
-		}else {
-			location.hash = '';
-		}
-	}
-	hashChange(location.hash);
-	// LOWER MENU TOUCH EVENTS
-	$('#menu a').on('touchstart',function(e){
-		location.hash= e.currentTarget.hash;
-		setTimeout(function(){
-			$('#menu').hide();
-		},1000);
-	});
-	$('#nav-btn').on('touchstart',function(){
-		$('#menu').show();
-	});
-
-	//portfolio iframe fix 
-	$('body').on('click touchstart', '.mouse-intercept', function(){
-		$(this).hide();
-	});
-
-}); //END READY
-
 //planet object
 function Planet(obj) {
-	this.top= obj.position().top;
-	this.left=obj.position().left;
+	this.top= (h*1)+obj.position().top;
+	this.left=(w*1)+obj.position().left;
 	this.height = obj.innerHeight();
 	this.width = obj.innerWidth();
 	this.bottom= this.top + this.height;
