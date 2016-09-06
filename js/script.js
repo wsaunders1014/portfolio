@@ -153,9 +153,11 @@ function checkCollision(x,y){
 	function hashChange(hash){
 		var collided = hash.substr(2);
 		//console.log(collided)
-		$('#intro').hide();
+		if(oldHash==false)
+			//$('#intro').hide();
 		if(collided){
 			oldHash = collided;
+			$('#intro').hide();
 			$('#pane').fadeIn(1000);
 			$('#overlay').fadeIn(1000);
 			$.get(collided+'.html', function(data){

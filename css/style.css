@@ -54,6 +54,9 @@ img {
   height: 33.333%;
 }
 .quadrant .banner {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
   position: relative;
   top: 50%;
   transform: translateY(-50%);
@@ -774,6 +777,9 @@ img {
   height: 133px;
   position: absolute;
   z-index: 999;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 .line {
   position: absolute;
