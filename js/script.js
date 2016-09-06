@@ -1,125 +1,31 @@
-var w,h;
+var w,h,devPlanet,actorPlanet,writerPlanet,oldHash=false;
+//hashChange(location.hash);
 $(document).ready(function(){
 	w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 	h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-
+	wrapperW = $('#wrapper').width();
+	wrapperH = $('#wrapper').height();
 	$('body').fitText(1.5);
-	var devPlanet = new Planet($('#dev'));
-	var actorPlanet = new Planet($('#actor'));
-	var writerPlanet = new Planet($('#writer'));
-
+	devPlanet = new Planet($('#dev'));
+	actorPlanet = new Planet($('#actor'));
+	writerPlanet = new Planet($('#writer'));
+	var hoverBarActive = false;
 	//Initialization
 	//$('#intro').css({top:(h-$('#intro').height())/2});
-	//$('#rocket').css({left:(w - $('#rocket').width())/2});
+	$('#rocket').css({left:(wrapperW/2) -92.5,top:(wrapperH/2)-50});
+	Rocket.locate();
+	//GALAXY MOVE
+	var hoverTimeout,hoverInterval;
+	var wrapperMoveAnim = false;
+	var start2 = false;
+	var centerPoint = {x:w/2,y:h/2};
+	var inc = 10;
+	var upperBound = 0;
+	var bottomBound = -(wrapperH -h);
+	var leftBound = 0;
+	var rightBound = -(wrapperW-w);
 
 
-
-	// ROCKET TRAVEL TO MOUSE
-	var rocket = $('#rocket');
-	var rocketW = rocket.width();
-	var rocketOrigin = rocketW/2;
-	var isLanding = false;
-	var isLanded =false;
-	var isFlying = false;
-	var rocketY = Math.round(rocket.position().top);
-	var rocketX = Math.round(rocket.position().left);
-	var rocketCenter = {x:rocketX+5,y:rocketY+92.5};
-	var mouseX;
-	var mouseY;
-	var waypointInterval=false;
-	var flight =false;
-	var rotate = false;
-	var landing = false;
-	var hasFlown = false;
-	var i = 0;
-
-	// $('#wrapper').click(function(e){ // Line debug / path illustrator.
-	// 	$(this).append('<div class="waypoint id-'+i+'"></div');
-	// 	$('.id-'+i).css({top:e.pageY-5,left:e.pageX-5});
-	// 	if(i!=0){
-	// 		var angle = -Math.degrees(Math.atan2((e.pageX-5)-$('.id-'+(i-1)).position().left,(e.pageY-5)-$('.id-'+(i-1)).position().top));
-	// 		if(angle > 0){ // fixes angles so 0 is up, and positive is on right side to sync with css
-	// 			angle = angle-180;
-	// 		}else {
-	// 			angle = angle+180;
-	// 		}
-	// 		distance = Math.sqrt((Math.pow(((e.pageX-5) - $('.id-'+(i-1)).position().left-5),2)) + (Math.pow(((e.pageY-5) - $('.id-'+(i-1)).position().top-5),2)));
-	// 	$(this).append('<div class="line" style="transform-origin:left center;width:'+distance+'px;top:'+ ($('.id-'+(i-1)).position().top+5)+'px;left:'+ ($('.id-'+(i-1)).position().left+5)+'px;transform:rotate('+(angle-90)+'deg);"></div>');
-	// 	}
-	// 	i++;
-	// });
-
-
-	$('#wrapper').on('mousedown touchstart', function(e){
-		 mouseX = e.pageX;
-		 mouseY = e.pageY;
-		 if(e.button ==0 ){ // only left clicks move Rocket.
-		 	if(!isLanded && !isLanding){
-				$('#intro').fadeOut(750);
-				$('#wrapper').on('mousemove',function(e){
-					mouseX = e.pageX;
-					mouseY = e.pageY;
-					if(!waypointInterval)
-						waypointInterval = window.setInterval(function(){setWaypoint(mouseX,mouseY)},200);
-				});	
-			}
-		}
-
-	}).mouseup(function(e){
-		if(e.button ==0 ){ // only left clicks move Rocket.
-			$('#wrapper').off('mousemove');
-			if(!isLanded && !isLanding){
-				mouseX = e.pageX;
-				mouseY = e.pageY;
-				if(!waypointInterval){
-					setWaypoint(e.pageX,e.pageY);
-				}else {
-					setWaypoint(e.pageX,e.pageY);
-					window.clearInterval(waypointInterval);
-					waypointInterval = false;
-				}
-				
-			}else if(isLanded && !isLanding){ // then it needs to unland.
-
-				// window.clearInterval(waypointInterval);
-				// waypointInterval = false;
-				// $('#pane').fadeOut(1000);
-				// $('.content').css({top:0});
-				// $('.info').fadeIn(1000);
-				// isLanding = true;
-				// isLanded = false;
-				// var angle = Math.degrees(Math.atan2(mouseY-rocketY,mouseX-rocketX));
-				// rotate = new TweenMax.to( rocket, 1.5, { directionalRotation:(angle+90)+'_short'});
-				// landing = new TweenMax.to(rocket.children('#rocket-img'),2.5,{ scale:1, onComplete:function(){
-				// 	 //Rising and Descending is considered landing.
-				// 	isLanding = false;
-				// }});
-			}else if(isLanding && !isLanded){
-
-				// window.clearInterval(waypointInterval);
-				// waypointInterval = false;
-				// landing.kill();
-				// $('#pane').fadeOut(1000);
-				// $('.content').css({top:0});
-				// $('.info').fadeIn(1000);
-				// isLanding = false;
-				// var angle = Math.degrees(Math.atan2(mouseY-rocketY,mouseX-rocketX));
-				// rotate = new TweenMax.to( rocket, 1.5, { directionalRotation:(angle+90)+'_short'});
-				// landing = new TweenMax.to(rocket.children('#rocket-img'),2.5,{ scale:1, onComplete:function(){
-				// 	 //Rising and Descending is considered landing.
-					
-				// }});
-			}
-		}
-	}).mouseleave(function(e){
-		//setWaypoint(e.pageX,e.pageY);
-		if(e.button ==0  && !isLanding){
-			//$('#wrapper').off('mousemove');
-			//window.clearInterval(waypointInterval);
-			//waypointInterval = false;
-		}
-	});
-	
 	$('#pane').on('click touchstart', '.backToSpace',function(){
 		backToSpace();
 	});
@@ -132,12 +38,8 @@ $(document).ready(function(){
 		$('#pane').fadeOut(1000);
 		$('.content').css({top:0});
 		$('.info').fadeIn(1000);
-		$('.glow').removeClass('glow');
-		isLanding = true;
-		isLanded = false;
-		landing = new TweenMax.to(rocket.children('#rocket-img'),2.5,{ scale:1, onComplete:function(){
-			isLanding = false;
-		}});
+		// Rocket.isLanded = (Rocket.isLanded) ? false:true; 
+		Rocket.land(true);
 	}
 	//Planet Highlight 
 	var swooshTo = false;
@@ -171,88 +73,60 @@ $(document).ready(function(){
 						swoosh3.resume(4.5666, true);
 				}
 			});
-			
 	});
-	function setWaypoint(x,y,instant){
-		if (instant){
-			rocket.children('#rocket-img').toggleClass('glow');
-			flight = TweenMax.to( rocket, 0, {top:y-rocketOrigin*2, left:x - rocketOrigin, ease:Power2.easeInOut,
-				onUpdate:function(){
-					rocketY = Math.round(rocket.position().top);
-					rocketX = Math.round(rocket.position().left);
-				},
-				onComplete:function(){
-					rocket.children('#rocket-img').toggleClass('glow');
-					isFlying=false;
-					if(checkCollision(x,y)){
-						$('#overlay').fadeIn(1000);
-						$('#pane').fadeIn(1000);
-						//$('.slide-out').fadeOut(1000);
-						isLanding = true;
-						landing = new TweenMax.to(rocket.children('#rocket-img'),0,{scale:0, onComplete:function(){
-							rocketY = Math.round(rocket.position().top);
-							rocketX = Math.round(rocket.position().left);
+	function resetPages(){
+		$('#scroll-bar').css({top:0});
+		$('.content').css({top:0});
+	}
+	////On Resize
+	$(window).resize(function(){
+		w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+		h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+		$('body').fitText(2);
+		devPlanet = new Planet($('#dev'));
+		actorPlanet = new Planet($('#actor'));
+		writerPlanet = new Planet($('#writer'));
+		$('body').fitText(1.5);
+		//$('#intro').css({top:(h-$('#intro').height())/2});
+		
+		paddedH = $('#magnifier .section-inner').height();
+		paddedW = $('#magnifier .section-inner').width();
+		$('#magnifier iframe').attr('width',paddedW);
+		$('#magnifier iframe').attr('height',paddedW*0.75);
+	});
 
-							isLanded = true;	
-							isLanding = false;
-						}});
-					}
-				}});
-		}else{
-			var distance = Math.abs(Math.sqrt((Math.pow(x - (rocketX-50),2)) + (Math.pow(y - (rocketY-92.5),2))));
-			var angle = -Math.degrees(Math.atan2(x-(rocketX + 50), y-(rocketY + 92.5)));
-			if(angle > 0){ // fixes angles so 0 is up, and positive is on right side to sync with css
-				angle = angle-180;
-			}else {
-				angle = angle+180;
-			}
-			//console.log('Angle: '+angle);
-			//console.log(distance);
-			rotate = new TweenMax.to( rocket, 0.5, {directionalRotation:(angle)+'_short'});
-			if(!isFlying){
-				rocket.children('#rocket-img').addClass('glow');
-				isFlying = true;
-			}
-			flight = TweenMax.to( rocket, (.5*(distance/125)), {top:y-rocketOrigin*2, left:x - rocketOrigin, ease:Power2.easeInOut,
-				onUpdate:function(){
-					rocketY = Math.round(rocket.position().top);
-					rocketX = Math.round(rocket.position().left);
-				},
-				onComplete:function(){
-					rocket.children('#rocket-img').removeClass('glow');
-					isFlying=false;
-					
-					var tr=$('#rocket').css('transform'); //gets angle from matrix, for debug purposes only.
-					var values = tr.split('(')[1];
-					    values = values.split(')')[0];
-					    values = values.split(',');
-					var a = values[0];
-					var b = values[1];
-					var c = values[2];
-					var d = values[3];
-					var cAngle = Math.atan2(b, a) * (180/Math.PI);
-					//console.log('Final Angle: '+cAngle);
-
-					if(checkCollision(x,y)){
-						console.log(checkCollision(x,y));
-						location.hash = '#!'+checkCollision(x,y);
-						//$('.slide-out').fadeOut(1000);
-
-						isLanding = true;
-						landing = new TweenMax.to(rocket.children('#rocket-img'),2.5,{scale:0, onComplete:function(){
-							rocketY = Math.round(rocket.position().top);
-							rocketX = Math.round(rocket.position().left);
-
-							isLanded = true;	
-							isLanding = false;
-						}});
-					}
-				}
-			});
+	hashChange(location.hash);
+	// LOWER MENU TOUCH EVENTS
+	$('#menu a').on('click touchstart',function(e){
+		backToSpace();
+		var hash = $(this).attr('href');
+		console.log(e)
+		if(hash =='developer'){
+			flight(devPlanet.centerX,devPlanet.centerY);
+		}else if(hash == 'writer') {
+			flight(writerPlanet.centerX,writerPlanet.centerY);
+		}else if(hash == 'actor'){
+			flight(actorPlanet.centerX,actorPlanet.centerY);
 		}
-	}///End Function
+		// setTimeout(function(){
+		// 	$('#menu').hide();
+		// },1000);
+		e.preventDefault();
+	});
+	$('#nav-btn').on('touchstart',function(){
+		$('#menu').show();
+	});
 
-	function checkCollision(x,y){
+	//portfolio iframe fix 
+	$('body').on('click touchstart', '.mouse-intercept', function(){
+		$(this).hide();
+	});
+
+}); //END READY
+window.onhashchange = function(e){
+	hashChange(location.hash);
+}
+function checkCollision(x,y){
 		var collided = false;
 		if(x>devPlanet.left && x < devPlanet.right){
 			if(y>devPlanet.top && y < devPlanet.bottom){
@@ -268,6 +142,24 @@ $(document).ready(function(){
 			}
 		}
 		if(collided){
+			Rocket.land();
+			location.hash = '#!'+collided;
+			return collided;
+		}else {
+			return false;
+		}
+	}
+	
+	function hashChange(hash){
+		var collided = hash.substr(2);
+		//console.log(collided)
+		if(oldHash==false)
+			//$('#intro').hide();
+		if(collided){
+			oldHash = collided;
+			$('#intro').hide();
+			$('#pane').fadeIn(1000);
+			$('#overlay').fadeIn(1000);
 			$.get(collided+'.html', function(data){
 				$('#pane .content').html(data);
 
@@ -291,80 +183,12 @@ $(document).ready(function(){
 				}
 				//updateScrollVars();
 			});
-			return collided;
-		}else {
-			return false;
 		}
 	}
-
-	function resetPages(){
-		$('#scroll-bar').css({top:0});
-		$('.content').css({top:0});
-		//updateScrollVars();
-	}
-	////On Resize
-	$(window).resize(function(){
-		w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-		h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-		$('body').fitText(2);
-		devPlanet = new Planet($('#dev'));
-		actorPlanet = new Planet($('#actor'));
-		writerPlanet = new Planet($('#writer'));
-		$('body').fitText(1.5);
-		//$('#intro').css({top:(h-$('#intro').height())/2});
-		if(!hasFlown){
-		//	$('#rocket').css({left:(w - $('#rocket').width())/2});
-		}
-		paddedH = $('#magnifier .section-inner').height();
-		paddedW = $('#magnifier .section-inner').width();
-		$('#magnifier iframe').attr('width',paddedW);
-		$('#magnifier iframe').attr('height',paddedW*0.75);
-	});
-	window.onhashchange = function(e){
-		hashChange(location.hash);
-	}
-	function hashChange(hash){
-		
-		if(hash =='#!developer'){
-			setWaypoint(devPlanet.centerX,devPlanet.centerY,true);
-		}else if(hash == '#!writer') {
-			setWaypoint(writerPlanet.centerX,writerPlanet.centerY,true);
-		}else if(hash == '#!actor'){
-			setWaypoint(actorPlanet.centerX,actorPlanet.centerY,true);
-		}else {
-			location.hash = '';
-		}
-	}
-	hashChange(location.hash);
-	// LOWER MENU TOUCH EVENTS
-	$('#menu a').on('touchstart',function(e){
-		location.hash= e.currentTarget.hash;
-		setTimeout(function(){
-			$('#menu').hide();
-		},1000);
-	});
-	$('#nav-btn').on('touchstart',function(){
-		$('#menu').show();
-	});
-
-	//portfolio iframe fix 
-	$('body').on('click touchstart', '.mouse-intercept', function(){
-		$(this).hide();
-	});
-
-}); //END READY
-
-
-
-//helper function radians to degrees
-Math.degrees = function(radians) {
-  return radians * 180 / Math.PI;
-};
-
 //planet object
 function Planet(obj) {
-	this.top= obj.position().top;
-	this.left=obj.position().left;
+	this.top= (h*1)+obj.position().top;
+	this.left=(w*1)+obj.position().left;
 	this.height = obj.innerHeight();
 	this.width = obj.innerWidth();
 	this.bottom= this.top + this.height;

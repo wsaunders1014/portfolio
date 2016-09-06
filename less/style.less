@@ -1,3 +1,6 @@
+html, body {
+		overflow: hidden;
+	}
 body {
 	width: 100%;
 	height: 100%;
@@ -33,16 +36,127 @@ img {
 	height: auto;
 }
 #wrapper {
-	height: 100%;
+	height: 300%;
 	position: absolute;
-    width: 100%;
+    width: 300%;
     top: 0;
 	font-size: 0.3em;
 }
 .bg {
 	background: url('../img/blue-bg.png') repeat;
 }
-
+.quadrant {
+	position: absolute;
+	width:33.333%;
+	height: 33.333%;
+	.banner {
+		.unselectable;
+		position: relative;
+		top: 50%;
+		transform:translateY(-50%);
+		text-align: center;
+		font-weight: bold;
+		text-transform: uppercase;
+		font-size: 3em;
+		font-family: 'Orbitron',sans-serif;
+	}
+	&#quad1 {
+		top:0;
+		left: 0;
+	}
+	&#quad2{
+		top:0;
+		left: 33.333%;
+	}
+	&#quad3{
+		top:0;
+		left: 66.666%;
+		width:33.334%;
+	}
+	&#quad4{
+		left: 0;
+		top: 33.333%;
+	}
+	&#main{
+		top: 33.333%;
+		left: 33.333%;
+	}
+	&#quad6{
+		top: 33.333%;
+		left: 66.666%;
+		width:33.334%;
+	}
+	&#quad7{
+		left: 0;
+		top: 66.666%;
+		height: 33.334%;
+	}
+	&#quad8{
+		left: 33.333%;
+		top: 66.666%;
+		height: 33.334%;
+	}
+	&#quad9{
+		left: 66.666%;
+		top: 66.666%;
+		width:33.334%;
+		height: 33.33%;
+	}
+}
+.hover-bar {
+	position: absolute;
+	z-index: 1000;
+	background: #fff;
+	opacity: 0.3;
+	&#left{
+		left: 0;
+		top: 100px;
+		width:100px;
+		height: ~'calc(100% - 210px)';
+	}
+	&#upLeft {
+		left:0;
+		top: 0;
+		width:100px;
+		height: 100px;
+	}
+	&#top{
+		left: 100px;
+		top: 0px;
+		width:~'calc(100% - 200px)';
+		height: 100px;
+	}
+	&#upRight{
+		right:0;
+		top: 0;
+		width:100px;
+		height: 100px;
+	}
+	&#right {
+		right: 0;
+		width:100px;
+		top: 100px;
+		height: ~'calc(100% - 210px)';
+	}
+	&#downRight {
+		right:0;
+		bottom: 10px;
+		width:100px;
+		height: 100px;
+	}
+	&#downLeft {
+		left:0;
+		bottom: 10px;
+		width:100px;
+		height: 100px;
+	}
+	&#bottom{
+		bottom: 10px;
+		height: 100px;
+		width:~'calc(100% - 200px)';
+		left: 100px;
+	}
+}
 #intro {
 	width: 40%;
 	min-width: 600px;
@@ -54,6 +168,8 @@ img {
 	position: relative;
 	top: 50%;
 	transform: translateY(-50%);
+	font-size: 38px;
+	height: 242px;
 	text-align: center;
 	h1 {
 		text-transform: uppercase;
@@ -271,35 +387,51 @@ img {
 }
 #rocket {
 	position: absolute;
-	bottom: 5%;
-	width: 100px;
-	left: ~"calc(50% - 50px)";
-	height:185px;
+	height:100px;
+	width: 185px;
+	left:1000px;
+	top: 550px;
 	transform-origin: center center;
-	z-index: 999;
+	z-index: 1000;
+	transform:rotate(-90deg);
+
 	#rocket-img {
 		position: relative;
-		width: 100px;
-		height: 185px;
-		top: 0%;
+		width: 185px;
+		height: 100px;
+		top: 0px;
 		left: 0px;
 		background: url(../img/serenity.png) no-repeat;
-		background-size: 200%;
-		background-position: 100% 0%;
+		background-size: 100% 100%;
 		z-index: 2;
 		user-select:none;
-		&.glow {
-			background-position: 0% 0;
+		#left-engine {
+			position: absolute;
+			top: 0;
+			left: 68px;
+			width:60px;
+			height: 28px;
+			opacity: 0;
+			background: url('../img/left-engine.png') no-repeat;
 		}
-	}
-	#flames {
-		position: absolute;
-		display: none;
-		background: url('../img/flame-sprite.png') no-repeat;
-		background-position: 0 0;
-		width: 100%;
-		height: 100%;
-		z-index: 1;
+		#right-engine {
+			position: absolute;
+			opacity: 0;
+		    top: 75px;
+    		left: 68px;
+			width:60px;
+			height: 28px;
+			background: url('../img/right-engine.png') no-repeat;
+		}
+		#glow {
+			position: absolute;
+		    top: 10px;
+    		left: 5px;
+    		opacity: 0;
+			width:69px;
+			height: 86px;
+			background: url('../img/glow.png') no-repeat;
+		}
 	}
 }
 
@@ -616,11 +748,16 @@ img {
 	position: relative;
 }
 #debug {
-	    position: absolute;
+	position: absolute;
     top: 0%;
     left: 0%;
-    font-size: 0.2em;
+    font-size: 12px;
     z-index: 1000;
+    background: #000;
+    padding:10px;
+    div {
+    	margin-bottom: 5px;
+    }
 }
 #control {
 	    position: absolute;
@@ -639,13 +776,11 @@ img {
     z-index: 3;
 }
 .waypoint {
-	width: 10px;
-	height: 10px;
-	border-radius: 10px;
-	background:#fff;
+	width: 133px;
+	height: 133px;
 	position: absolute;
-	opacity: 0.5;
-	z-index: 1100;
+	z-index: 999;
+	.unselectable;
 }
 .line {
 	position: absolute;
@@ -727,6 +862,13 @@ img {
 			}
 		}
 	}
+}
+.invis {
+	opacity: 0;
+}
+.info-box {
+	font-size:12px;
+	padding:5px;
 }
 #loader {
 	position: absolute;
