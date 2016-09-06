@@ -1,3 +1,5 @@
+@quad: 3;
+
 html, body {
 		overflow: hidden;
 	}
@@ -36,9 +38,9 @@ img {
 	height: auto;
 }
 #wrapper {
-	height: 300%;
 	position: absolute;
-    width: 300%;
+	height: @quad * 100%;
+    width: @quad * 100%;
     top: 0;
 	font-size: 0.3em;
 }
@@ -46,9 +48,10 @@ img {
 	background: url('../img/blue-bg.png') repeat;
 }
 .quadrant {
-	position: absolute;
-	width:33.333%;
-	height: 33.333%;
+	position: relative;
+	float: left;
+	width:100%/@quad;
+	height: 100%/@quad;
 	.banner {
 		.unselectable;
 		position: relative;
@@ -60,48 +63,20 @@ img {
 		font-size: 3em;
 		font-family: 'Orbitron',sans-serif;
 	}
-	&#quad1 {
-		top:0;
-		left: 0;
+	&#quad6 {
+
+		#sun {
+			.unselectable;
+			position: absolute;
+			right: 0;
+			height: 100%;
+			width: 0;
+			padding-left: 19%;
+			background: url(../img/the_sun.png) no-repeat;
+			background-size: 100%;
+		}
 	}
-	&#quad2{
-		top:0;
-		left: 33.333%;
-	}
-	&#quad3{
-		top:0;
-		left: 66.666%;
-		width:33.334%;
-	}
-	&#quad4{
-		left: 0;
-		top: 33.333%;
-	}
-	&#main{
-		top: 33.333%;
-		left: 33.333%;
-	}
-	&#quad6{
-		top: 33.333%;
-		left: 66.666%;
-		width:33.334%;
-	}
-	&#quad7{
-		left: 0;
-		top: 66.666%;
-		height: 33.334%;
-	}
-	&#quad8{
-		left: 33.333%;
-		top: 66.666%;
-		height: 33.334%;
-	}
-	&#quad9{
-		left: 66.666%;
-		top: 66.666%;
-		width:33.334%;
-		height: 33.33%;
-	}
+	
 }
 .hover-bar {
 	position: absolute;
@@ -199,6 +174,7 @@ img {
 		background-size: 100%;
 		background-position: 0% 0%;
 		display: none;
+
 		.info {
 	        width: 75%;
 		    padding: 13% 13%;
@@ -210,9 +186,25 @@ img {
 	    	    letter-spacing: 1px;
 	        }
 	        .details {
-	        	font-size: 0.7em;
+	        	font-size: 0.65em;
 			    line-height: 1.5em;
 			    margin-top: 4%;
+	        }
+	        .waypoint-btn {
+	        	position: absolute;
+	        	bottom: 17%;
+			    width: 50%;
+			    left: 50%;
+			    display: block;
+				text-indent: -5000px;
+			    transform: translateX(-50%);
+			    padding-bottom: 6%;
+	        	background: url('../img/waypoint-btn.png') no-repeat;
+	        	background-size: 100%;
+	        	background-position: 0 0%;
+	        	&:hover {
+	        		background-position: 0 100%;
+	        	}
 	        }
 		}
 	}
@@ -242,6 +234,9 @@ img {
 	        padding: 13% 17%;
    			width: 72%;
 		}
+		.waypoint-btn {
+		    bottom: 22%;
+		}
 	}
 	.planet {
 		background: url(../img/dev-planet.png) no-repeat;
@@ -264,6 +259,10 @@ img {
 			position: absolute;
 		    padding: 13% 17%;
     		width: 72%;
+		}
+		.waypoint-btn {
+		    bottom: 22%;
+	        padding-bottom: 5.7%;
 		}
 	}
 	.planet {
@@ -394,7 +393,6 @@ img {
 	transform-origin: center center;
 	z-index: 1000;
 	transform:rotate(-90deg);
-
 	#rocket-img {
 		position: relative;
 		width: 185px;
@@ -431,6 +429,22 @@ img {
 			width:69px;
 			height: 86px;
 			background: url('../img/glow.png') no-repeat;
+		}
+	}
+	#explosion {
+		display: none;
+	}
+	&.exploding {
+		#rocket-img {
+			display: none;
+		}
+		#explosion{
+			display: block;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
 		}
 	}
 }
@@ -725,6 +739,33 @@ img {
 			padding:0 0 1% 0;
 		}
 	}
+}
+#death-modal {
+	position: absolute;
+	width: 400px;
+	background: url(../img/blue-bg.png);
+	top: 100%;
+	left: 50%;
+	transform:translateX(-50%);
+    padding: 43px;
+    font-size: 41px;
+    text-align: center;
+    #restart {
+	    position: relative;
+    	margin-top: 26px;
+    	left: 50%;
+		transform:translateX(-50%);
+		width: 39%;
+		padding-bottom: 11%;
+		font-weight: bold;
+		background: url('../img/restart-btn.png') no-repeat;
+		background-size: 100%;
+		background-position: 0% 100%;
+		cursor: pointer;
+		&:hover {
+			background-position: 0% 0%;
+		}
+    }
 }
 .clr {
 	clear: both;

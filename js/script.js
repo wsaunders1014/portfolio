@@ -6,9 +6,11 @@ $(document).ready(function(){
 	wrapperW = $('#wrapper').width();
 	wrapperH = $('#wrapper').height();
 	$('body').fitText(1.5);
-	devPlanet = new Planet($('#dev'));
-	actorPlanet = new Planet($('#actor'));
-	writerPlanet = new Planet($('#writer'));
+	devPlanet = new Planet($('#dev'),1,1);
+	actorPlanet = new Planet($('#actor'),1,1);
+	writerPlanet = new Planet($('#writer'),1,1);
+	deathArray = [sun = new DeathObj($('#sun'),2,1)]
+	console.log(deathArray)
 	var hoverBarActive = false;
 	//Initialization
 	//$('#intro').css({top:(h-$('#intro').height())/2});
@@ -46,33 +48,33 @@ $(document).ready(function(){
 	var swoosh1 = TweenMax.to($('.glyph').eq(0),8,{rotation:360,repeat:-1,ease:'linear'});
 	var swoosh2 = TweenMax.to($('.glyph').eq(1),8,{rotation:510,repeat:-1,ease:'linear'});
 	var swoosh3 = TweenMax.to($('.glyph').eq(2),8,{rotation:-360,repeat:-1,ease:'linear'});
-	$('.planet').on('mouseover touhstart touchmove', function(e){
-		if($(this).is($('.planet').eq(0))) {
+	$('.planet-holder').on('mouseover touhstart touchmove', function(e){
+		if($(this).is($('.planet-holder').eq(0))) {
 			swoosh1.pause();
 			degrees=156;
-		}else if($(this).is($('.planet').eq(1))){
+		}else if($(this).is($('.planet-holder').eq(1))){
 			swoosh2.pause();
 			degrees=334;
 		}else {
 			swoosh3.pause();
 			degrees=157;
 		}
-		swooshTo = new TweenMax.to($(this).siblings('.glyph'),.3,{directionalRotation:degrees+'_short',ease:Power3.easeOut, onComplete:function(){
+		swooshTo = new TweenMax.to($(this).children('.glyph'),.3,{directionalRotation:degrees+'_short',ease:Power3.easeOut, onComplete:function(){
 			$(this.target[0]).next().fadeIn(500);
 		}});
 		
 	}).on('mouseleave touchend', function(e){
 		swooshTo.kill();
-			$(this).siblings('.slide-out').fadeOut(500,function(){
-				//swoosh = TweenMax.to($('.glyph'),8,{directionalRotation:360+'_cw',repeat:-1,ease:'linear'});
-				if($(this).parent().index()== 0) {
-						swoosh1.resume(3.4666, true);
-				}else if($(this).parent().index() == 1){
-						swoosh2.resume(4.08888, true);
-				}else {
-						swoosh3.resume(4.5666, true);
-				}
-			});
+		$(this).children('.slide-out').fadeOut(500,function(){
+			//swoosh = TweenMax.to($('.glyph'),8,{directionalRotation:360+'_cw',repeat:-1,ease:'linear'});
+			if($(this).parent().index()== 0) {
+					swoosh1.resume(3.4666, true);
+			}else if($(this).parent().index() == 1){
+					swoosh2.resume(4.08888, true);
+			}else {
+					swoosh3.resume(4.5666, true);
+			}
+		});
 	});
 	function resetPages(){
 		$('#scroll-bar').css({top:0});
@@ -100,7 +102,6 @@ $(document).ready(function(){
 	$('#menu a').on('click touchstart',function(e){
 		backToSpace();
 		var hash = $(this).attr('href');
-		console.log(e)
 		if(hash =='developer'){
 			flight(devPlanet.centerX,devPlanet.centerY);
 		}else if(hash == 'writer') {
@@ -111,6 +112,20 @@ $(document).ready(function(){
 		// setTimeout(function(){
 		// 	$('#menu').hide();
 		// },1000);
+		e.preventDefault();
+	});
+	$('.waypoint-btn').on('click touchstart',function(e){
+		backToSpace();
+		var hash = $(this).attr('href');
+		if(hash =='developer'){
+			flight(devPlanet.centerX,devPlanet.centerY);
+		}else if(hash == 'writer') {
+			flight(writerPlanet.centerX,writerPlanet.centerY);
+		}else if(hash == 'actor'){
+			flight(actorPlanet.centerX,actorPlanet.centerY);
+		}
+		$('#intro').hide();
+		e.stopPropagation();
 		e.preventDefault();
 	});
 	$('#nav-btn').on('touchstart',function(){
@@ -127,68 +142,98 @@ window.onhashchange = function(e){
 	hashChange(location.hash);
 }
 function checkCollision(x,y){
-		var collided = false;
-		if(x>devPlanet.left && x < devPlanet.right){
-			if(y>devPlanet.top && y < devPlanet.bottom){
-				collided='developer';
-			}
-		}else if(x>actorPlanet.left && x < actorPlanet.right){
-			if(y>actorPlanet.top && y <actorPlanet.bottom){
-				collided='actor';
-			}		
-		}else if(x>writerPlanet.left && x < writerPlanet.right){
-			if(y>writerPlanet.top && y < writerPlanet.bottom){
-				collided='writer';
-			}
+	var collided = false;
+	if(x>devPlanet.left && x < devPlanet.right){
+		if(y>devPlanet.top && y < devPlanet.bottom){
+			collided='developer';
 		}
-		if(collided){
-			Rocket.land();
-			location.hash = '#!'+collided;
-			return collided;
-		}else {
-			return false;
+	}else if(x>actorPlanet.left && x < actorPlanet.right){
+		if(y>actorPlanet.top && y <actorPlanet.bottom){
+			collided='actor';
+		}		
+	}else if(x>writerPlanet.left && x < writerPlanet.right){
+		if(y>writerPlanet.top && y < writerPlanet.bottom){
+			collided='writer';
 		}
 	}
+	if(collided){
+		Rocket.land();
+		location.hash = '#!'+collided;
+		return collided;
+	}else {
+		return false;
+	}
+}
+var dModal = $('#death-modal');
+function deathCheck(x,y){
+	var died = false;
+	for(let i = 0;i<deathArray.length;i++){
+		if(x >deathArray[i].left)
+			if(x<deathArray[i].right)
+				if(y>deathArray[i].top)
+					if(y<deathArray[i].bottom)
+						died = deathArray[i];
+	}
+	if(died) {
+		Rocket.isDead = true;
+		Rocket.obj.addClass('exploding').children('#explosion');
+		$('.waypoint').remove();
+		dModal.children('#message').html(died.message);
+		TweenMax.to(dModal,1,{top:(h/2)-20});
+		$('#restart').one('click',restart);
+	}
+}
+function restart(){
+	TweenMax.to(dModal,1,{top:'100%'});
+	Rocket.obj.removeClass('exploding').css({left:(w+w/2)-Rocket.halfX,top:(h+h/2)-Rocket.halfY, transform:'rotate(-90deg)'});
+	TweenMax.to(wrapper,2,{top:-h,left:-w, onComplete:function(){
+		wOffset = wrapper.offset();
+		Rocket.isDead = false;
+		Rocket.locate();
+		Rocket.angle = -90;
+	}});
 	
-	function hashChange(hash){
-		var collided = hash.substr(2);
-		//console.log(collided)
-		if(oldHash==false)
-			//$('#intro').hide();
-		if(collided){
-			oldHash = collided;
-			$('#intro').hide();
-			$('#pane').fadeIn(1000);
-			$('#overlay').fadeIn(1000);
-			$.get(collided+'.html', function(data){
-				$('#pane .content').html(data);
+}	
+function hashChange(hash){
+	var collided = hash.substr(2);
+	//console.log(collided)
+	if(oldHash==false)
+		//$('#intro').hide();
+	if(collided){
+		oldHash = collided;
+		$('#intro').hide();
+		$('#pane').fadeIn(1000);
+		$('#overlay').fadeIn(1000);
+		$.get(collided+'.html', function(data){
+			$('#pane .content').html(data);
 
-				if(collided =='actor'){
-					TweenMax.from([$('.actor-container section'),$('.actor-container .header')],1,{width:0, onComplete:function(){
-						$('#reel iframe').attr('width',$('#reel .section-inner').width());
-						$('#reel iframe').attr('height',$('#reel .section-inner').width()*0.5625);
-						updateScrollVars();
-					}});
-				
-				}else if (collided=='developer'){
-					TweenMax.from([$('.dev-container section'),$('.dev-container .header')],1,{width:0, onComplete:function(){
-						paddedW = $('#magnifier .section-inner').width();
-						$('#magnifier iframe').attr('width',paddedW);
-						$('#magnifier iframe').attr('height',paddedW*0.75);
-						updateScrollVars();
+			if(collided =='actor'){
+				TweenMax.from([$('.actor-container section'),$('.actor-container .header')],1,{width:0, onComplete:function(){
+					$('#reel iframe').attr('width',$('#reel .section-inner').width());
+					$('#reel iframe').attr('height',$('#reel .section-inner').width()*0.5625);
+					updateScrollVars();
+				}});
+			
+			}else if (collided=='developer'){
+				TweenMax.from([$('.dev-container section'),$('.dev-container .header')],1,{width:0, onComplete:function(){
+					paddedW = $('#magnifier .section-inner').width();
+					$('#magnifier iframe').attr('width',paddedW);
+					$('#magnifier iframe').attr('height',paddedW*0.75);
+					updateScrollVars();
 
-					}});
-				}else { //writer
-					TweenMax.from([$('.writer-container section'),$('.writer-container .header')],1,{width:0});
-				}
-				//updateScrollVars();
-			});
-		}
+				}});
+			}else { //writer
+				TweenMax.from([$('.writer-container section'),$('.writer-container .header')],1,{width:0});
+			}
+			//updateScrollVars();
+		});
 	}
+}
+
 //planet object
-function Planet(obj) {
-	this.top= (h*1)+obj.position().top;
-	this.left=(w*1)+obj.position().left;
+function Planet(obj,quadX,quadY) {
+	this.top= (h*quadY)+obj.position().top;
+	this.left=(w*quadX)+obj.position().left;
 	this.height = obj.innerHeight();
 	this.width = obj.innerWidth();
 	this.bottom= this.top + this.height;
@@ -197,8 +242,18 @@ function Planet(obj) {
 	this.centerY = this.top + this.height/2;
 	this.name = obj.attr('id');
 }
-
-var flameTimer;
+function DeathObj(obj,quadX,quadY){
+	this.top= (h*quadY)+obj.position().top;
+	this.left=(w*quadX)+obj.position().left;
+	this.height = obj.innerHeight();
+	this.width = obj.innerWidth();
+	this.bottom= this.top + this.height;
+	this.right= this.left+this.width;
+	this.centerX = this.left + this.width/2;
+	this.centerY = this.top + this.height/2;
+	this.name = obj.attr('id');
+	this.message = "Nice try, Icarus."
+}
 
 function Sprite(frames, obj, time){ //amount of frames, jQuery object, time in MS
 	this.index = 0;
