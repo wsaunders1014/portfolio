@@ -85,6 +85,7 @@ var Rocket ={
 			var nextAngle = getAngle(coords.x,oldCoords.x,coords.y,oldCoords.y);
 			Rocket.angle = nextAngle;
 		}
+		console.log(nextAngle);
 		Rocket.obj.css({left: coords.x-Rocket.halfX,top:coords.y-Rocket.halfY,transform:'rotate('+nextAngle+'deg)'});
 		//MOVE WRAPPER
 		var wrapMoveX = wOffset.left - (coords.x-oldCoords.x);
