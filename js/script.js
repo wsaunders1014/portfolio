@@ -28,6 +28,41 @@ $(document).ready(function(){
 	var rightBound = -(wrapperW-w);
 
 
+	// GLYPH ANIMATIONS 
+	var topLeft =$('#top-left-corner');
+	var topRight = $('#top-right-corner');
+	var bottomLeft = $('#bottom-left-corner');
+	var bottomRight = $('#bottom-right-corner');
+	var toCorners = new TimelineLite();
+		toCorners.add(TweenMax.to(topLeft,1,{left:0,top:0,scale:1}));
+		toCorners.add(TweenMax.to(topRight,1,{right:0,top:0,scale:1}));
+		toCorners.add(TweenMax.to(bottomLeft,1,{left:0,bottom:0,scale:1}));
+		toCorners.add(TweenMax.to(bottomRight,1,{right:0,bottom:0,scale:1}));
+		toCorners.pause();
+
+
+	var introTop = $('#intro').position().top;
+	var introH = $('#intro').innerHeight();
+	var introLeft = $('#intro').position().left;
+
+	topLeft.css({top:introTop,left:introLeft});
+	topRight.css({top:introTop, left})
+	/*  top: 282px;
+    	left: 545px;
+	    transform: scale(0.7);
+
+	    top: 281px;
+    	right: 549px;
+	    transform: scale(0.7);
+
+        bottom: 345px;
+    	left: 540px;
+
+    	bottom: 350px;
+    	right: 554px;
+	    transform: scale(0.7);
+
+	*/
 	$('#pane').on('click touchstart', '.backToSpace',function(){
 		backToSpace();
 	});
@@ -65,7 +100,7 @@ $(document).ready(function(){
 		
 	}).on('mouseleave touchend', function(e){
 		swooshTo.kill();
-		$(this).children('.slide-out').fadeOut(500,function(){
+		$(this).children('.slide-out').not('#contact .slide-out').fadeOut(500,function(){
 			//swoosh = TweenMax.to($('.glyph'),8,{directionalRotation:360+'_cw',repeat:-1,ease:'linear'});
 			if($(this).parent().index()== 0) {
 					swoosh1.resume(3.4666, true);
@@ -76,10 +111,7 @@ $(document).ready(function(){
 			}
 		});
 	});
-	function resetPages(){
-		$('#scroll-bar').css({top:0});
-		$('.content').css({top:0});
-	}
+
 	////On Resize
 	$(window).resize(function(){
 		w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -140,6 +172,10 @@ $(document).ready(function(){
 }); //END READY
 window.onhashchange = function(e){
 	hashChange(location.hash);
+}
+function resetPages(){
+	$('#scroll-bar').css({top:0});
+	$('.content').css({top:0});
 }
 function checkCollision(x,y){
 	var collided = false;
