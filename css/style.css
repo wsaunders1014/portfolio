@@ -202,13 +202,13 @@ img {
 }
 .planet-holder .slide-out .info .waypoint-btn {
   position: absolute;
-  bottom: 17%;
+  bottom: 21%;
   width: 50%;
   left: 50%;
   display: block;
   text-indent: -5000px;
   transform: translateX(-50%);
-  padding-bottom: 6%;
+  padding-bottom: 9%;
   background: url('../img/waypoint-btn.png') no-repeat;
   background-size: 100%;
   background-position: 0 0%;
@@ -269,7 +269,7 @@ img {
 }
 #actor .slide-out .waypoint-btn {
   bottom: 22%;
-  padding-bottom: 5.7%;
+  padding-bottom: 9%;
 }
 #actor .planet {
   background: url(../img/actor-planet.png) no-repeat;
@@ -295,7 +295,7 @@ img {
   transform: rotateY(180deg);
 }
 #writer .slide-out .waypoint-btn:hover {
-  background-position: 0 107%;
+  background-position: 0 100%;
 }
 #writer .planet {
   background: url(../img/writer-planet.png) no-repeat;
@@ -776,7 +776,7 @@ img {
   width: 725px;
   height: 49px;
   background: url(../img/top-bar.png) no-repeat;
-  z-index: 1000;
+  z-index: 1001;
 }
 #top-left-corner {
   position: absolute;

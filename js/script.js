@@ -167,7 +167,8 @@ $(document).ready(function(){
 	hashChange(location.hash);
 	// LOWER MENU TOUCH EVENTS
 	$('#menu a').on('click touchstart',function(e){
-		backToSpace();
+		if(Rocket.isLanded)
+			backToSpace();
 		var hash = $(this).attr('href');
 		if(hash =='developer'){
 			flight(devPlanet.centerX,devPlanet.centerY);
@@ -177,10 +178,12 @@ $(document).ready(function(){
 			flight(actorPlanet.centerX,actorPlanet.centerY);
 		}
 		hideIntro();
+		notHomepage = false;
 		e.preventDefault();
 	});
 	$('.waypoint-btn').on('click touchstart',function(e){
-		backToSpace();
+		if(Rocket.isLanded)
+			backToSpace();
 		var hash = $(this).attr('href');
 		if(hash =='developer'){
 			flight(devPlanet.centerX,devPlanet.centerY);
@@ -190,8 +193,10 @@ $(document).ready(function(){
 			flight(actorPlanet.centerX,actorPlanet.centerY);
 		}
 		hideIntro();
+		notHomepage = false;
 		e.stopPropagation();
 		e.preventDefault();
+
 	});
 	$('#nav-btn').on('touchstart',function(){
 		$('#menu').show();
@@ -282,13 +287,14 @@ function checkCollision(x,y){
 var dModal = $('#death-modal');
 function deathCheck(x,y){
 	var died = false;
-	for(let i = 0;i<deathArray.length;i++){
+	var i;
+	for(i = 0;i<deathArray.length;i++){
 		if(x >deathArray[i].left)
 			if(x<deathArray[i].right)
 				if(y>deathArray[i].top)
 					if(y<deathArray[i].bottom)
 						died = deathArray[i];
-	}
+	};
 	if(died) {
 		Rocket.isDead = true;
 		Rocket.obj.addClass('exploding').children('#explosion');
