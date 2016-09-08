@@ -1,4 +1,5 @@
 var w,h,devPlanet,actorPlanet,writerPlanet,oldHash=false;
+var notHomepage = (location.hash.length>1) ? true:false;
 //hashChange(location.hash);
 $(document).ready(function(){
 	w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -13,9 +14,9 @@ $(document).ready(function(){
 	console.log(deathArray)
 	var hoverBarActive = false;
 	//Initialization
-	//$('#intro').css({top:(h-$('#intro').height())/2});
 	$('#rocket').css({left:(wrapperW/2) -92.5,top:(wrapperH/2)-50});
 	Rocket.locate();
+
 	//GALAXY MOVE
 	var hoverTimeout,hoverInterval;
 	var wrapperMoveAnim = false;
@@ -27,26 +28,40 @@ $(document).ready(function(){
 	var leftBound = 0;
 	var rightBound = -(wrapperW-w);
 
-
 	// GLYPH ANIMATIONS 
 	var topLeft =$('#top-left-corner');
 	var topRight = $('#top-right-corner');
 	var bottomLeft = $('#bottom-left-corner');
 	var bottomRight = $('#bottom-right-corner');
 	var toCorners = new TimelineLite();
-		toCorners.add(TweenMax.to(topLeft,1,{left:0,top:0,scale:1}));
-		toCorners.add(TweenMax.to(topRight,1,{right:0,top:0,scale:1}));
-		toCorners.add(TweenMax.to(bottomLeft,1,{left:0,bottom:0,scale:1}));
-		toCorners.add(TweenMax.to(bottomRight,1,{right:0,bottom:0,scale:1}));
+		toCorners.add('start',0);
+		toCorners.to(topLeft,0.5,{left:-7,top:-13,scale:1});
+		toCorners.to(topRight,0.5,{right:0-9,top:-13,scale:1},'start');
+		toCorners.to(bottomLeft,0.5,{left:-11,bottom:-9,scale:1},'start');
+		toCorners.to(bottomRight,0.5,{right:-4,bottom:-5,scale:1},'start');
 		toCorners.pause();
 
-
-	var introTop = $('#intro').position().top;
-	var introH = $('#intro').innerHeight();
-	var introLeft = $('#intro').position().left;
-
-	topLeft.css({top:introTop,left:introLeft});
-	topRight.css({top:introTop, left})
+	var intro = $('#intro');
+	var introTop = intro.position().top;
+	var introH = intro.innerHeight();
+	var introLeft = intro.offset().left;
+	// SET CORNERS TO INTRO.
+	topLeft.css({
+		top:introTop-13,
+		left:introLeft-7
+	});
+	topRight.css({
+		top:introTop-13, 
+		right:introLeft-9
+	});
+	bottomLeft.css({
+		bottom: h-(introTop+introH+9), 
+		left:introLeft-11
+	});
+	bottomRight.css({
+		bottom: h-(introTop+introH+9), 
+		right:introLeft-4
+	});
 	/*  top: 282px;
     	left: 545px;
 	    transform: scale(0.7);
@@ -61,7 +76,6 @@ $(document).ready(function(){
     	bottom: 350px;
     	right: 554px;
 	    transform: scale(0.7);
-
 	*/
 	$('#pane').on('click touchstart', '.backToSpace',function(){
 		backToSpace();
@@ -73,34 +87,38 @@ $(document).ready(function(){
 		location.hash='';
 		$('#overlay').fadeOut(1000);
 		$('#pane').fadeOut(1000);
-		$('.content').css({top:0});
-		$('.info').fadeIn(1000);
-		// Rocket.isLanded = (Rocket.isLanded) ? false:true; 
-		Rocket.land(true);
+		resetPages();
+		if(!notHomepage)
+			Rocket.land();
+		notHomepage = false;
 	}
-	//Planet Highlight 
+	//Planet Highlight Circles 
 	var swooshTo = false;
 	var swoosh1 = TweenMax.to($('.glyph').eq(0),8,{rotation:360,repeat:-1,ease:'linear'});
 	var swoosh2 = TweenMax.to($('.glyph').eq(1),8,{rotation:510,repeat:-1,ease:'linear'});
 	var swoosh3 = TweenMax.to($('.glyph').eq(2),8,{rotation:-360,repeat:-1,ease:'linear'});
+	var slideOut;
 	$('.planet-holder').on('mouseover touhstart touchmove', function(e){
-		if($(this).is($('.planet-holder').eq(0))) {
-			swoosh1.pause();
-			degrees=156;
-		}else if($(this).is($('.planet-holder').eq(1))){
-			swoosh2.pause();
-			degrees=334;
-		}else {
-			swoosh3.pause();
-			degrees=157;
+
+		if(!slideOut){
+			if($(this).is($('.planet-holder').eq(0))) {
+				swoosh1.pause();
+				degrees=156;
+			}else if($(this).is($('.planet-holder').eq(1))){
+				swoosh2.pause();
+				degrees=334;
+			}else {
+				swoosh3.pause();
+				degrees=157;
+			}
+			swooshTo = new TweenMax.to($(this).children('.glyph'),.3,{directionalRotation:degrees+'_short',ease:Power3.easeOut, onComplete:function(){
+				$(this.target[0]).next().fadeIn(500);
+			}});
 		}
-		swooshTo = new TweenMax.to($(this).children('.glyph'),.3,{directionalRotation:degrees+'_short',ease:Power3.easeOut, onComplete:function(){
-			$(this.target[0]).next().fadeIn(500);
-		}});
-		
+		slideOut =true;
 	}).on('mouseleave touchend', function(e){
 		swooshTo.kill();
-		$(this).children('.slide-out').not('#contact .slide-out').fadeOut(500,function(){
+		$(this).children('.slide-out').fadeOut(500,function(){
 			//swoosh = TweenMax.to($('.glyph'),8,{directionalRotation:360+'_cw',repeat:-1,ease:'linear'});
 			if($(this).parent().index()== 0) {
 					swoosh1.resume(3.4666, true);
@@ -109,9 +127,26 @@ $(document).ready(function(){
 			}else {
 					swoosh3.resume(4.5666, true);
 			}
+			slideOut = false;
 		});
 	});
 
+	wrapper.on('click', function(e){
+		$('#intro').fadeOut(750);
+		mouseX = e.pageX-wOffset.left;
+		mouseY= e.pageY-wOffset.top;
+		Rocket.target.left = mouseX;
+		Rocket.target.top = mouseY;
+		Rocket.isLanded = false;
+		toCorners.play();
+		if(!Rocket.isDead || !Rocket.isLanded){
+			window.cancelAnimationFrame(anim);
+			oldCoords = {x:Rocket.center.x,y:Rocket.center.y};
+			Rocket.origin= {left:Rocket.center.x,top:Rocket.center.y}
+			flight(mouseX,mouseY);
+		}
+
+	});
 	////On Resize
 	$(window).resize(function(){
 		w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -141,9 +176,7 @@ $(document).ready(function(){
 		}else if(hash == 'actor'){
 			flight(actorPlanet.centerX,actorPlanet.centerY);
 		}
-		// setTimeout(function(){
-		// 	$('#menu').hide();
-		// },1000);
+		hideIntro();
 		e.preventDefault();
 	});
 	$('.waypoint-btn').on('click touchstart',function(e){
@@ -156,7 +189,7 @@ $(document).ready(function(){
 		}else if(hash == 'actor'){
 			flight(actorPlanet.centerX,actorPlanet.centerY);
 		}
-		$('#intro').hide();
+		hideIntro();
 		e.stopPropagation();
 		e.preventDefault();
 	});
@@ -168,15 +201,61 @@ $(document).ready(function(){
 	$('body').on('click touchstart', '.mouse-intercept', function(){
 		$(this).hide();
 	});
+	function hideIntro(){
+		intro.fadeOut(1000);
+		toCorners.play();
+	}
+	intro.on('click', function(e){
+		e.stopPropagation();
+		hideIntro();
+	});
 
-}); //END READY
+
 window.onhashchange = function(e){
 	hashChange(location.hash);
 }
 function resetPages(){
 	$('#scroll-bar').css({top:0});
 	$('.content').css({top:0});
+
 }
+
+
+
+function hashChange(hash){
+	var collided = hash.substr(2);
+
+	if(collided){
+		hideIntro();
+		$('#pane').fadeIn(1000);
+		$('#overlay').fadeIn(1000);
+		$.get(collided+'.html', function(data){
+			$('#pane .content').html(data);
+
+			if(collided =='actor'){
+				TweenMax.from([$('.actor-container section'),$('.actor-container .header')],1,{width:0, onComplete:function(){
+					$('#reel iframe').attr('width',$('#reel .section-inner').width());
+					$('#reel iframe').attr('height',$('#reel .section-inner').width()*0.5625);
+					updateScrollVars();
+				}});
+			
+			}else if (collided=='developer'){
+				TweenMax.from([$('.dev-container section'),$('.dev-container .header')],1,{width:0, onComplete:function(){
+					paddedW = $('#magnifier .section-inner').width();
+					$('#magnifier iframe').attr('width',paddedW);
+					$('#magnifier iframe').attr('height',paddedW*0.75);
+					updateScrollVars();
+
+				}});
+			}else { //writer
+				TweenMax.from([$('.writer-container section'),$('.writer-container .header')],1,{width:0});
+			}
+			//updateScrollVars();
+		});
+	}
+}
+
+}); //END READY
 function checkCollision(x,y){
 	var collided = false;
 	if(x>devPlanet.left && x < devPlanet.right){
@@ -230,42 +309,6 @@ function restart(){
 	}});
 	
 }	
-function hashChange(hash){
-	var collided = hash.substr(2);
-	//console.log(collided)
-	if(oldHash==false)
-		//$('#intro').hide();
-	if(collided){
-		oldHash = collided;
-		$('#intro').hide();
-		$('#pane').fadeIn(1000);
-		$('#overlay').fadeIn(1000);
-		$.get(collided+'.html', function(data){
-			$('#pane .content').html(data);
-
-			if(collided =='actor'){
-				TweenMax.from([$('.actor-container section'),$('.actor-container .header')],1,{width:0, onComplete:function(){
-					$('#reel iframe').attr('width',$('#reel .section-inner').width());
-					$('#reel iframe').attr('height',$('#reel .section-inner').width()*0.5625);
-					updateScrollVars();
-				}});
-			
-			}else if (collided=='developer'){
-				TweenMax.from([$('.dev-container section'),$('.dev-container .header')],1,{width:0, onComplete:function(){
-					paddedW = $('#magnifier .section-inner').width();
-					$('#magnifier iframe').attr('width',paddedW);
-					$('#magnifier iframe').attr('height',paddedW*0.75);
-					updateScrollVars();
-
-				}});
-			}else { //writer
-				TweenMax.from([$('.writer-container section'),$('.writer-container .header')],1,{width:0});
-			}
-			//updateScrollVars();
-		});
-	}
-}
-
 //planet object
 function Planet(obj,quadX,quadY) {
 	this.top= (h*quadY)+obj.position().top;

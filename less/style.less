@@ -45,7 +45,7 @@ img {
 	font-size: 0.3em;
 }
 .bg {
-	background: url('../img/blue-bg.png') repeat;
+	background: url('../img/blue-bg2.png') repeat;
 }
 .quadrant {
 	position: relative;
@@ -136,20 +136,34 @@ img {
 	margin: 0 auto;
 	color: #fff;
 	padding:43px 20px 20px;
-	cursor: pointer;
 	z-index: 1000;
 	position: relative;
 	top: 47%;
 	transform: translateY(-50%);
 	font-size: 38px;
 	text-align: center;
+	border-radius: 25px;
 	#intro-text {
 		background: url(../img/intro-text.png) no-repeat;
-	    width: 728px;
+	    width: 563px;
 		height: 285px;
 		position: relative;
 		margin-left: 13px;
-		margin-top: 0px;
+		margin: 0 auto;
+		#explore-btn {
+			position: absolute;
+			width: 235px;
+			height: 71px;
+			background: url(../img/explore-btn.png) no-repeat;
+			background-size: 200% 100%;
+			bottom:5px;
+			left: 50%;
+			transform:translateX(-50%);
+			cursor: pointer;
+			&:hover {
+				background-position:100% 0;
+			}
+		}
 	}
 	h1 {
 		opacity: 0;
@@ -386,7 +400,7 @@ img {
 	left:1000px;
 	top: 550px;
 	transform-origin: center center;
-	z-index: 1001;
+	z-index: 999;
 	transform:rotate(-90deg);
 	#rocket-img {
 		position: relative;
@@ -453,7 +467,7 @@ img {
 	}
     height: 78%;
     position: relative;
-    top: 3%;
+    top: 5%;
     margin: 0 auto;
     display: none;
     z-index: 1000;
@@ -781,6 +795,8 @@ img {
 	transform-origin: left top;
 	background: url(../img/top-left-glyph.png) no-repeat;
 	z-index: 1000;
+	transform:scale(0.7);
+	pointer-events: none;
 }
 #top-right-corner {
 	position: absolute;
@@ -791,6 +807,8 @@ img {
 	transform-origin: right top;
 	background: url(../img/top-right-glyph.png) no-repeat;
 	z-index: 1000;
+	transform:scale(0.7);
+	pointer-events: none;
 }
 #bottom-left-corner {
 	position: absolute;
@@ -801,6 +819,7 @@ img {
 	transform-origin: left bottom;
 	background: url(../img/bottom-left-glyph.png) no-repeat;
 	z-index: 1000;
+	pointer-events: none;
 }
 #bottom-right-corner {
 	position: absolute;
@@ -811,6 +830,46 @@ img {
 	transform-origin: right bottom;
 	background: url(../img/bottom-right-glyph.png) no-repeat;
 	z-index: 1000;
+	transform:scale(0.7);
+	pointer-events: none;
+}
+#social {
+	position: absolute;
+	top: 3px;
+	left: 500px;
+	height: 33.5px;
+    width: 159px;
+	.social-btn {
+		width: 53px;
+		height: 100%;
+		background: url(../img/social-btns.png) no-repeat;
+		background-size: 300% 200%;
+		float: left;
+		cursor: pointer;
+		a{
+			display: block;
+			width: 100%;
+			height: 100%;
+		}
+		&#twitter {
+			background-position: -8% 0%;
+			&:hover{
+				background-position: -8% 108%;
+			}
+		}
+		&#instagram{
+			background-position: 55% 0%;
+			&:hover{
+				background-position: 55% 108%;
+			}
+		}
+		&#tumblr {
+			background-position: 116% 0%;
+			&:hover{
+				background-position: 116% 108%;
+			}
+		}
+	}
 }
 .form-error {
 	outline:1px solid #FF0000;
@@ -871,16 +930,19 @@ img {
 
 #nav {
 	position: absolute;
-    left: 96px;
-    top: 4px;
+    left: 48px;
+    top: -4px;
     cursor: pointer;
-    width: 108px;
+    width: 208px;
     height: 47px;
 	#nav-btn{
-	    height: 100%;
+	    height: 96%;
    	 	width: 100%;
         position: absolute;
+        background: url('../img/nav-btn.png') no-repeat;
+        background-size: 100% 200%;
 	    &:hover {
+	    	background-position:0 101%;
 	    }
 	}
 	&:hover{
@@ -891,8 +953,8 @@ img {
 }
 #menu {
 	position: absolute;
-	top: 75%;
-    left: -41%;
+	top: 86%;
+    left: 0%;
     width: 201px;
     height: 127px;
     display: none;
@@ -907,9 +969,9 @@ img {
     		height: 100%;
     	}
     	&#dev-btn {
-    		background-position: 0% 0%;
+    		background-position: 0% -3%;
     		&:hover{
-    			background-position: 98% 0%;
+    			background-position: 98% -3%;
     		}
     	}
     	&#writer-btn {
