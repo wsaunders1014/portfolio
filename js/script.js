@@ -1,5 +1,6 @@
 var w,h,devPlanet,actorPlanet,writerPlanet,oldHash=false;
 var notHomepage = (location.hash.length>1) ? true:false;
+	var moonPlayed = false;
 //hashChange(location.hash);
 $(document).ready(function(){
 	w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -10,9 +11,9 @@ $(document).ready(function(){
 	devPlanet = new Planet($('#dev'),1,1);
 	actorPlanet = new Planet($('#actor'),1,1);
 	writerPlanet = new Planet($('#writer'),1,1);
-	deathArray = [sun = new DeathObj($('#sun'),2,1)]
+	deathArray = [sun = new DeathObj($('#sun'),2,1,'Nice try, Icarus!'),deathStar = new DeathObj($('#death-star'),0,0,'Now you know the true power of the dark side.')];
 	console.log(deathArray)
-	var hoverBarActive = false;
+
 	//Initialization
 	$('#rocket').css({left:(wrapperW/2) -92.5,top:(wrapperH/2)-50});
 	Rocket.locate();
@@ -83,6 +84,10 @@ $(document).ready(function(){
 	$('#overlay').on('click touchstart',function(){
 		backToSpace();
 	});
+	Rocket.obj.on('click',function(e){
+		e.stopPropagation();
+		console.log(Rocket.center.x,Rocket.center.y);
+	});
 	function backToSpace(){
 		location.hash='';
 		$('#overlay').fadeOut(1000);
@@ -139,7 +144,13 @@ $(document).ready(function(){
 		Rocket.target.top = mouseY;
 		Rocket.isLanded = false;
 		toCorners.play();
-		if(!Rocket.isDead || !Rocket.isLanded){
+
+		Rocket.currQuadX = Math.floor(mouseX/w);
+		Rocket.currQuadY = Math.floor(mouseY/h);
+		quadAction(Rocket.currQuadX,Rocket.currQuadY);
+		console.log(Rocket.currQuadX,Rocket.currQuadY);
+
+		if(!Rocket.isDead && !Rocket.isLanded){
 			window.cancelAnimationFrame(anim);
 			oldCoords = {x:Rocket.center.x,y:Rocket.center.y};
 			Rocket.origin= {left:Rocket.center.x,top:Rocket.center.y}
@@ -214,52 +225,46 @@ $(document).ready(function(){
 		e.stopPropagation();
 		hideIntro();
 	});
-
-
-window.onhashchange = function(e){
-	hashChange(location.hash);
-}
-function resetPages(){
-	$('#scroll-bar').css({top:0});
-	$('.content').css({top:0});
-
-}
-
-
-
-function hashChange(hash){
-	var collided = hash.substr(2);
-
-	if(collided){
-		hideIntro();
-		$('#pane').fadeIn(1000);
-		$('#overlay').fadeIn(1000);
-		$.get(collided+'.html', function(data){
-			$('#pane .content').html(data);
-
-			if(collided =='actor'){
-				TweenMax.from([$('.actor-container section'),$('.actor-container .header')],1,{width:0, onComplete:function(){
-					$('#reel iframe').attr('width',$('#reel .section-inner').width());
-					$('#reel iframe').attr('height',$('#reel .section-inner').width()*0.5625);
-					updateScrollVars();
-				}});
-			
-			}else if (collided=='developer'){
-				TweenMax.from([$('.dev-container section'),$('.dev-container .header')],1,{width:0, onComplete:function(){
-					paddedW = $('#magnifier .section-inner').width();
-					$('#magnifier iframe').attr('width',paddedW);
-					$('#magnifier iframe').attr('height',paddedW*0.75);
-					updateScrollVars();
-
-				}});
-			}else { //writer
-				TweenMax.from([$('.writer-container section'),$('.writer-container .header')],1,{width:0});
-			}
-			//updateScrollVars();
-		});
+	window.onhashchange = function(e){
+		hashChange(location.hash);
 	}
-}
+	function resetPages(){
+		$('#scroll-bar').css({top:0});
+		$('.content').css({top:0});
 
+	}
+	function hashChange(hash){
+		var collided = hash.substr(2);
+
+		if(collided){
+			hideIntro();
+			$('#pane').fadeIn(1000);
+			$('#overlay').fadeIn(1000);
+			$.get(collided+'.html', function(data){
+				$('#pane .content').html(data);
+
+				if(collided =='actor'){
+					TweenMax.from([$('.actor-container section'),$('.actor-container .header')],1,{width:0, onComplete:function(){
+						$('#reel iframe').attr('width',$('#reel .section-inner').width());
+						$('#reel iframe').attr('height',$('#reel .section-inner').width()*0.5625);
+						updateScrollVars();
+					}});
+				
+				}else if (collided=='developer'){
+					TweenMax.from([$('.dev-container section'),$('.dev-container .header')],1,{width:0, onComplete:function(){
+						paddedW = $('#magnifier .section-inner').width();
+						$('#magnifier iframe').attr('width',paddedW);
+						$('#magnifier iframe').attr('height',paddedW*0.75);
+						updateScrollVars();
+
+					}});
+				}else { //writer
+					TweenMax.from([$('.writer-container section'),$('.writer-container .header')],1,{width:0});
+				}
+				//updateScrollVars();
+			});
+		}
+	}
 }); //END READY
 function checkCollision(x,y){
 	var collided = false;
@@ -285,35 +290,99 @@ function checkCollision(x,y){
 	}
 }
 var dModal = $('#death-modal');
+var deathLaser = false;
 function deathCheck(x,y){
 	var died = false;
 	var i;
-	for(i = 0;i<deathArray.length;i++){
+	var laser = false;
+	for(i=0; i<deathArray.length; i++){
 		if(x >deathArray[i].left)
 			if(x<deathArray[i].right)
 				if(y>deathArray[i].top)
-					if(y<deathArray[i].bottom)
+					if(y<deathArray[i].bottom){
 						died = deathArray[i];
+						//console.log(died)
+						window.cancelAnimationFrame(anim);
+					}
 	};
 	if(died) {
-		Rocket.isDead = true;
-		Rocket.obj.addClass('exploding').children('#explosion');
+		
 		$('.waypoint').remove();
-		dModal.children('#message').html(died.message);
-		TweenMax.to(dModal,1,{top:(h/2)-20});
-		$('#restart').one('click',restart);
+		if(died.name = 'death-star'){
+			//console.log($('.laser').position().top+$('#death-star').offset().top);
+			if(!deathLaser){
+				deathLaser = true;
+				$('#death-laser').animate({opacity:1},500,function(){
+					var laserAngle = getAngle(Rocket.center.x,$('.laser').position().left-$('#death-star').offset().left,Rocket.center.y, $('.laser').position().top+$('#death-star').offset().top);
+					var laserDistance = getDistance(Rocket.center.x, $('.laser').position().left+$('#death-star').offset().left, Rocket.center.y, $('.laser').position().top+$('#death-star').offset().top);
+					//console.log(laserAngle)
+					$('.laser').css({transform:'rotate('+laserAngle+'deg)'});
+					$('.laser').stop(true).animate({width:laserDistance, ease:'linear'}, 50,function(){
+						explode();
+						deathMessage(died.message);
+						$(this).delay(100).css({width:0});
+						$('#death-laser').delay(100).css({opacity:0});
+					});
+				})
+			}
+		}else {
+			explode();
+			deathMessage(died.message);
+		}
 	}
 }
+function quadAction(quadX,quadY){
+	if(quadX == 0){
+		if(quadY == 0){
+			//death star
+			if(!moonPlayed){
+				document.getElementById('moon').play();
+				moonPlayed = true;
+			}
+		}else if(quadY == 1){
+
+		}else if(quadY == 2){
+
+		}
+	}else if(quadX == 1){
+		if(quadY == 0){
+
+		}else if(quadY == 1){
+
+		}else if(quadY == 2){
+			
+		}
+	}else if(quadX==2){
+		if(quadY == 0){
+
+		}else if(quadY == 1){
+
+		}else if(quadY == 2){
+			
+		}
+	}
+}
+function explode(){
+	Rocket.isDead = true;
+	Rocket.obj.addClass('exploding').children('#explosion').html('<img src="img/explosion.gif" alt="boom">');
+	setTimeout(function(){Rocket.obj.children('#explosion').html('');},2400)
+}
+function deathMessage(message){
+	dModal.children('#message').html(message);
+	TweenMax.to(dModal,1,{top:(h/2)-20});
+	$('#restart').one('click',restart);
+}
 function restart(){
-	TweenMax.to(dModal,1,{top:'100%'});
+	TweenMax.to(dModal,1,{top:'125%'});
 	Rocket.obj.removeClass('exploding').css({left:(w+w/2)-Rocket.halfX,top:(h+h/2)-Rocket.halfY, transform:'rotate(-90deg)'});
 	TweenMax.to(wrapper,2,{top:-h,left:-w, onComplete:function(){
 		wOffset = wrapper.offset();
 		Rocket.isDead = false;
 		Rocket.locate();
+		deathLaser = false;
 		Rocket.angle = -90;
+		Rocket.obj.children('#explosion').html('');
 	}});
-	
 }	
 //planet object
 function Planet(obj,quadX,quadY) {
@@ -327,19 +396,18 @@ function Planet(obj,quadX,quadY) {
 	this.centerY = this.top + this.height/2;
 	this.name = obj.attr('id');
 }
-function DeathObj(obj,quadX,quadY){
-	this.top= (h*quadY)+obj.position().top;
-	this.left=(w*quadX)+obj.position().left;
-	this.height = obj.innerHeight();
-	this.width = obj.innerWidth();
+function DeathObj(obj,quadX,quadY,dthMsg){
+	this.top = (h*quadY)+obj.position().top + obj.children('.hit-box').position().top;
+	this.left = (w*quadX) + obj.position().left+ obj.children('.hit-box').position().left;
+	this.height = obj.children('.hit-box').innerHeight();
+	this.width = obj.children('.hit-box').innerWidth();
 	this.bottom= this.top + this.height;
 	this.right= this.left+this.width;
 	this.centerX = this.left + this.width/2;
 	this.centerY = this.top + this.height/2;
 	this.name = obj.attr('id');
-	this.message = "Nice try, Icarus."
+	this.message = dthMsg;
 }
-
 function Sprite(frames, obj, time){ //amount of frames, jQuery object, time in MS
 	this.index = 0;
 	this.isAnimating = false;
@@ -362,7 +430,6 @@ function Sprite(frames, obj, time){ //amount of frames, jQuery object, time in M
 		},time/12, this.index, width);
 
 	}
-
 	this.stopAnim = function(){
 		this.isAnimating = false;
 		window.clearInterval(this.timerVar);

@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		'img/dev-planet.png',
 		'img/writer-planet.png',
 		'img/glyph.png',
-		'img/satellite.png',
 		'img/serenity.png',
 		'img/star-bg.jpg',
 		'img/slide-out.png',

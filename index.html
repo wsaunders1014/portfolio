@@ -172,7 +172,12 @@
 <body>
 	<div id="wrapper" style="left:-100%;top:-100%;">
 		<div class="quadrant" id="quad1">
-			<div class="banner">Nothing out here.</div>
+			<!-- <div class="banner">Nothing out here.</div> -->
+			<div id="death-star">
+				<div class="hit-box"></div>
+				<div id="death-laser"></div>
+				<div class="laser"></div>
+			</div>
 		</div>
 		<div class="quadrant" id="quad2">
 			<div class="banner">Empty.</div>
@@ -226,7 +231,7 @@
 		</div>
 		<div class="quadrant" id="quad6">
 			<!-- <div class="banner">Coming soon</div> -->
-			<div id="sun"></div>
+			<div id="sun"><div class="hit-box"></div></div>
 		</div>
 		<div class="quadrant" id="quad7">
 			<div class="banner">Under construction.</div>
@@ -243,7 +248,7 @@
 				<div id="left-engine"></div>
 				<div id="right-engine"></div>
 			</div>
-			<div id="explosion"><img src='img/explosion.gif' alt="boom"/></div>
+			<div id="explosion"><!-- <img src='img/explosion.gif' alt="boom"/> --></div>
 		</div>
 		<div id='waypoints'></div>
 	</div>
@@ -301,7 +306,9 @@
 	<div class="mouse"></div>
 	<div class="angle"></div>
 </div>
-
+<audio id='moon' preload='auto'>
+	<source src="audio/thats-no-moon.mp3" type="audio/mpeg">
+</audio>
 	<script src="js/script.js"></script>
 	<script src="js/form.js"></script>
 	<script src="js/bezier.js"></script>

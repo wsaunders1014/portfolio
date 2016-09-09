@@ -5,7 +5,6 @@ ROCKET by Will Saunders
 var wrapper = $('#wrapper');
 var wOffset = wrapper.offset();
 var mouseX,mouseY,anim,oldCoords,xDistance,yDistance;
-var time500 = 500;
 var Rocket ={
 	width:185,
 	height:100,
@@ -23,6 +22,8 @@ var Rocket ={
 	isCoasting:false,
 	isAccelerating: false,
 	isDecelerating:false,
+	currQuadX:1,
+	currQuadY:1,
 	target:{top:0,left:0},
 	origin:{left:0,top:0},
 	center:{x:0,y:0},
