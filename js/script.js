@@ -1,6 +1,8 @@
 var w,h,devPlanet,actorPlanet,writerPlanet,oldHash=false;
 var notHomepage = (location.hash.length>1) ? true:false;
 	var moonPlayed = false;
+var audioPlaying = false;
+var muted = false;
 //hashChange(location.hash);
 $(document).ready(function(){
 	w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -86,8 +88,29 @@ $(document).ready(function(){
 	});
 	Rocket.obj.on('click',function(e){
 		e.stopPropagation();
-		console.log(Rocket.center.x,Rocket.center.y);
+	//	console.log(Rocket.center.x,Rocket.center.y);
+		if(!audioPlaying && !muted)
+			$('#cantdo')[0].play();
 	});
+	$('audio').on('ended',function(){
+		audioPlaying = false;
+	});
+	$('audio').on('play',function(){
+		audioPlaying = true;
+	});
+	$('#audio-ctrl').on('click touchstart', function(){
+		muted = (muted == false) ? true:false;
+		$(this).toggleClass('muted');
+		if(muted){
+			$('audio').each(function(){
+				this.volume = 0;
+			});
+		}else {
+			$('audio').each(function(){
+				this.volume =1;
+			});
+		}
+	})
 	function backToSpace(){
 		location.hash='';
 		$('#overlay').fadeOut(1000);
@@ -307,7 +330,7 @@ function deathCheck(x,y){
 	};
 	if(died) {
 		
-		$('.waypoint').remove();
+		$('#waypoint').remove();
 		if(died.name = 'death-star'){
 			//console.log($('.laser').position().top+$('#death-star').offset().top);
 			if(!deathLaser){
@@ -334,15 +357,27 @@ function deathCheck(x,y){
 function quadAction(quadX,quadY){
 	if(quadX == 0){
 		if(quadY == 0){
-			//death star
+			//Quad 1 = Death Star
 			if(!moonPlayed){
-				document.getElementById('moon').play();
-				moonPlayed = true;
+				if(!muted){
+					document.getElementById('moon').play();
+					moonPlayed = true;
+				}
 			}
 		}else if(quadY == 1){
-
+			//Quad 4
 		}else if(quadY == 2){
+			//Quad 7
+			if(!muted)
+				$('#march')[0].play();
+			TweenMax.to($('#leia-ship'),40,{top:'100%',left:'-100%',scale:0.7,ease:Power0.easeIn,onComplete:function(){
+				$('#leia-ship').remove();
 
+			}});
+			TweenMax.to($('#star-destroyer'),90,{top:'100%',left:'-150%',scale:1.5,ease:Power0.easeIn,onComplete:function(){
+				$('#star-destroyer').remove();
+				$('#march')[0].pause();
+			}});
 		}
 	}else if(quadX == 1){
 		if(quadY == 0){

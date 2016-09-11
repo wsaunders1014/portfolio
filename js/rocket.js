@@ -120,7 +120,7 @@ var Rocket ={
 			Rocket.rightEngine.stop().animate({opacity:0},300);
 			Rocket.isMoving = false;
 			//console.log(Rocket.angle);
-			$('.waypoint').remove();
+			$('#waypoint').remove();
 			//console.log(checkCollision(coords.x,coords.y));
 			checkCollision(coords.x,coords.y);
 			console.log('Final Angle: '+Rocket.angle);
@@ -145,8 +145,8 @@ $(document).ready(function(){
 
 }); // END READY
 function flight(x,y,instant){
-	$('.waypoint').remove();
-	wrapper.children('#waypoints').append('<div class="waypoint" style="left:'+(x-66.5)+'px;top:'+(y-66.5)+'px;"><img src="img/waypoint.gif" alt="waypoint"/></div>')
+	$('#waypoint').remove();
+	wrapper.append('<div id="waypoint" style="position:absolute; left:'+(x-66.5)+'px;top:'+(y-66.5)+'px;"><img src="img/waypoint.gif" alt="waypoint"/></div>')
 	start = false;
 	
 	//console.log('mouse: '+mouseX+', '+mouseY)
@@ -192,30 +192,32 @@ function flight(x,y,instant){
 		adjPath();
 		curve = new Bezier(Rocket.center.x,Rocket.center.y, cp1X,cp1Y,cp2X,cp2Y, x,y);
 		cDistance = curve.length();
-		if(cDistance > 400 || Rocket.isMoving){
-			// var curveP=curve.getLUT();
+		//if(cDistance > 400 || Rocket.isMoving){
+		//	var curveP=curve.getLUT();
+			// console.log(curveP);
 			// for(i=0;i<curveP.length;i+=4){
 			// 	$('#waypoints').append('<div class="waypoint" style="top:'+(curveP[i].y-5) +'px;left:'+(curveP[i].x-5)+'px;"></div>');
 			// }
 			anim = window.requestAnimationFrame(Rocket.fly);
-		}else if(cDistance<400 && !Rocket.isMoving) {
-			//console.log(Rocket.angle+absAngle);
-			TweenMax.to(Rocket.obj,.6,{directionalRotation:Rocket.angle+absAngle+'_short',onUpdate:function(){
-				//set new Rocket Angle, every frame in case user clicks again.
-				var matrix = Rocket.obj.css('transform');
-				Rocket.angle = matrix2Angle(matrix);
-			},onComplete:function(){
-				adjPath();
+	//	}
+		// else if(cDistance<400 && !Rocket.isMoving) {
+		// 	//console.log(Rocket.angle+absAngle);
+		// 	TweenMax.to(Rocket.obj,.6,{directionalRotation:Rocket.angle+absAngle+'_short',onUpdate:function(){
+		// 		//set new Rocket Angle, every frame in case user clicks again.
+		// 		var matrix = Rocket.obj.css('transform');
+		// 		Rocket.angle = matrix2Angle(matrix);
+		// 	},onComplete:function(){
+		// 		adjPath();
 				
-				curve = new Bezier(Rocket.center.x,Rocket.center.y, cp1X,cp1Y,cp2X,cp2Y, x,y);
-				var curveP=curve.getLUT();
-				// for(i=0;i<curveP.length;i+=4){
-				// 	$('#waypoints').append('<div class="waypoint" style="top:'+(curveP[i].y-5) +'px;left:'+(curveP[i].x-5)+'px;"></div>');
-				// }
-				cDistance = curve.length();
-				anim = window.requestAnimationFrame(Rocket.fly);
-			}});
-		}
+		// 		curve = new Bezier(Rocket.center.x,Rocket.center.y, cp1X,cp1Y,cp2X,cp2Y, x,y);
+		// 		var curveP=curve.getLUT();
+		// 		for(i=0;i<curveP.length;i+=4){
+		// 			$('#waypoints').append('<div class="waypoint" style="top:'+(curveP[i].y-5) +'px;left:'+(curveP[i].x-5)+'px;"></div>');
+		// 		}
+		// 		cDistance = curve.length();
+		// 		anim = window.requestAnimationFrame(Rocket.fly);
+		// 	}});
+		// }
 	}
 }
 ////// HELPER FUNCTIONS ///////////
