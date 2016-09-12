@@ -123,7 +123,7 @@ var Rocket ={
 			$('#waypoint').remove();
 			//console.log(checkCollision(coords.x,coords.y));
 			checkCollision(coords.x,coords.y);
-			console.log('Final Angle: '+Rocket.angle);
+		//	console.log('Final Angle: '+Rocket.angle);
 			//console.log(' ');
 		}
 	}
@@ -146,7 +146,7 @@ $(document).ready(function(){
 }); // END READY
 function flight(x,y,instant){
 	$('#waypoint').remove();
-	wrapper.append('<div id="waypoint" style="position:absolute; left:'+(x-66.5)+'px;top:'+(y-66.5)+'px;"><img src="img/waypoint.gif" alt="waypoint"/></div>')
+	wrapper.append('<div id="waypoint" style="position:absolute; left:'+(x-66.5)+'px;top:'+(y-66.5)+'px;"><img src="img/waypoint.gif" alt="waypoint" draggable = "false"/></div>')
 	start = false;
 	
 	//console.log('mouse: '+mouseX+', '+mouseY)
@@ -157,7 +157,7 @@ function flight(x,y,instant){
 		absAngle -=360;
 	else if(absAngle<-180)
 		absAngle +=360;
-	
+
 	if(absAngle > 20){
 		Rocket.rightEngine.stop().animate({opacity:0.5},300)
 		Rocket.leftEngine.stop().animate({opacity:1},300);
@@ -189,8 +189,8 @@ function flight(x,y,instant){
 		}});
 		anim = window.requestAnimationFrame(Rocket.fly)
 	}else {
-		adjPath();
-		curve = new Bezier(Rocket.center.x,Rocket.center.y, cp1X,cp1Y,cp2X,cp2Y, x,y);
+		adjPath(x,y);
+		curve = new Bezier(Rocket.center.x,Rocket.center.y, cp1X,cp1Y, cp2X,cp2Y, x,y);
 		cDistance = curve.length();
 		//if(cDistance > 400 || Rocket.isMoving){
 		//	var curveP=curve.getLUT();
@@ -198,7 +198,7 @@ function flight(x,y,instant){
 			// for(i=0;i<curveP.length;i+=4){
 			// 	$('#waypoints').append('<div class="waypoint" style="top:'+(curveP[i].y-5) +'px;left:'+(curveP[i].x-5)+'px;"></div>');
 			// }
-			anim = window.requestAnimationFrame(Rocket.fly);
+		anim = window.requestAnimationFrame(Rocket.fly);
 	//	}
 		// else if(cDistance<400 && !Rocket.isMoving) {
 		// 	//console.log(Rocket.angle+absAngle);
@@ -261,9 +261,9 @@ var getPositionData = function(el) {
 var start = false;
 
 var curve,cDistance,absAngle,cp2Angle,angleDistance,distRatio,cp2Distance,cp1X,cp1Y,cp2X,cp2Y;
-function adjPath(){
-	absAngle  = getAngle(mouseX,Rocket.center.x,mouseY,Rocket.center.y);
-	angleDistance = Math.sqrt((Math.pow((mouseX - (Rocket.pos.left+92.5)),2)) + (Math.pow((mouseY-(Rocket.pos.top+50)),2)));
+function adjPath(x,y){
+	absAngle  = getAngle(x,Rocket.center.x,y,Rocket.center.y);
+	angleDistance = Math.sqrt((Math.pow((x - (Rocket.pos.left+92.5)),2)) + (Math.pow((y-(Rocket.pos.top+50)),2)));
 	absAngle =absAngle - Rocket.angle;
 	if(absAngle > 180)
 		absAngle -=360;
@@ -289,6 +289,6 @@ function adjPath(){
 	
 	cp1X = Rocket.center.x + cp2Distance* (Math.cos(Math.radians(Rocket.angle)));
 	cp1Y = Rocket.center.y + cp2Distance* (Math.sin(Math.radians(Rocket.angle)));
-	cp2X = mouseX + cp2Distance*( Math.cos(Math.radians(cp2Angle)));
-	cp2Y = mouseY+ cp2Distance*( Math.sin(Math.radians(cp2Angle)));
+	cp2X = x + cp2Distance*( Math.cos(Math.radians(cp2Angle)));
+	cp2Y = y+ cp2Distance*( Math.sin(Math.radians(cp2Angle)));
 }

@@ -83,10 +83,10 @@ img {
 }
 .quadrant#quad1 #death-star .hit-box {
   position: absolute;
-  width: 200%;
-  left: -50%;
+  width: 150%;
+  left: 37%;
   top: -50%;
-  height: 150%;
+  height: 118%;
 }
 .quadrant#quad1 #death-star #death-laser {
   position: absolute;
@@ -107,6 +107,16 @@ img {
   background: url(../img/laser-bg.png) repeat-x;
   background-size: 100% 100%;
   transform-origin: left center;
+}
+.quadrant#quad2 #warp {
+  width: 200px;
+  height: 200px;
+  top: 10%;
+  left: 40%;
+  position: absolute;
+  background: url(../img/warp-sprite.png) no-repeat;
+  background-size: 1900% 100%;
+  background-position: 0% 0%;
 }
 .quadrant#quad6 #sun {
   -webkit-user-select: none;
@@ -134,9 +144,12 @@ img {
   width: 1868px;
   height: 900px;
   transform: scale(0);
-  z-index: 1000;
+  z-index: 1001;
   background: url(../img/star-destroyer.png) no-repeat;
   pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 .quadrant#quad7 #star-destroyer #laser-sprite {
   width: 100%;
@@ -151,6 +164,9 @@ img {
   transform: scale(0);
   z-index: 1001;
   pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
   background: url(../img/leia-ship.png) no-repeat;
 }
 .hover-bar {
@@ -376,6 +392,40 @@ img {
   background: url(../img/writer-planet.png) no-repeat;
   background-size: 100%;
 }
+#lv246bg {
+  top: 10%;
+  position: absolute;
+  left: 25%;
+  width: 53%;
+  padding-bottom: 31%;
+  height: 0;
+  background: url(../img/lv246-1.png) no-repeat;
+  background-size: 100%;
+}
+#lv246 {
+  top: 33.4%;
+  left: 41%;
+  width: 8.1%;
+  padding-bottom: 8.1%;
+  height: 0;
+}
+#lv246 .slide-out {
+  transform: rotateY(-180deg);
+  right: 95%;
+  width: 134%;
+  top: 18%;
+  height: 0;
+  padding-bottom: 67%;
+}
+#lv246 .slide-out .info {
+  position: absolute;
+  transform: rotateY(180deg);
+  font-size: 0.4em;
+}
+#lv246 .planet {
+  background: url(../img/lv246-2.png) no-repeat;
+  background-size: 100%;
+}
 #contact {
   top: 83%;
   left: 88%;
@@ -453,15 +503,16 @@ img {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+  pointer-events: none;
+  user-drag: none;
   z-index: 2;
 }
 .glyph img {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
-}
-.glyph.c2 {
-  transform: rotate(150deg);
+  pointer-events: none;
+  user-drag: none;
 }
 #rocket {
   position: absolute;

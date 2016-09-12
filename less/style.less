@@ -77,10 +77,10 @@ img {
 			background-size: 100%;
 			.hit-box {
 				position: absolute;
-				width:200%;
-				left: -50%;
+				width:150%;
+				left: 37%;
 				top: -50%;
-				height: 150%;
+				height: 118%;
 			}
 			#death-laser {
 				position: absolute;
@@ -102,6 +102,18 @@ img {
 				background-size: 100% 100%;
 				transform-origin: left center;
 			}
+		}
+	}
+	&#quad2 {
+		#warp {
+			width: 200px;
+			height: 200px;
+			top: 10%;
+			left: 40%;
+			position: absolute;
+			background: url(../img/warp-sprite.png) no-repeat;
+			background-size: 1900% 100%;
+			background-position: 0% 0%;
 		}
 	}
 	&#quad6 {
@@ -131,10 +143,10 @@ img {
 			width:1868px;
 			height: 900px;
 			transform: scale(0.0);
-			z-index: 1000;
+			z-index: 1001;
 			background: url(../img/star-destroyer.png)no-repeat;
 			.no-select;
-			.unselectabe;
+			.unselectable;
 			#laser-sprite {
 				width: 100%;
 				height: 100%;
@@ -149,7 +161,7 @@ img {
 			transform: scale(0.0);
 			z-index: 1001;
 			.no-select;
-			.unselectabe;
+			.unselectable;
 			background: url(../img/leia-ship.png)no-repeat;
 		}
 	}
@@ -381,6 +393,40 @@ img {
 		background-size: 100%;
 	}
 }
+#lv246bg {
+	top: 10%;
+    position: absolute;
+    left: 25%;
+    width: 53%;
+    padding-bottom: 31%;
+    height: 0;
+	background: url(../img/lv246-1.png) no-repeat;
+	background-size: 100%;
+}
+#lv246 {
+    top: 33.4%;
+    left: 41%;
+    width: 8.1%;
+    padding-bottom: 8.1%;
+	height: 0;
+	.slide-out {
+		transform: rotateY(-180deg);
+	    right: 95%;
+	    width: 134%;
+	    top: 18%;
+	    height: 0;
+	    padding-bottom: 67%;
+		.info {
+			position: absolute;
+		    transform: rotateY(180deg);
+		    font-size: 0.4em;
+		}
+	}
+	.planet {
+		background: url(../img/lv246-2.png) no-repeat;
+		background-size: 100%;
+	}
+}
 
 #contact {
     top: 83%;
@@ -462,15 +508,16 @@ img {
 	-webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
+    pointer-events: none;
+    user-drag:none;
     z-index: 2;
     img {
     	-webkit-user-select: none;
 	    -moz-user-select: none;
 	    user-select: none;
+	    pointer-events: none;
+	    user-drag:none;
     }
-	&.c2 {
-		transform: rotate(150deg);
-	}
 }
 #rocket {
 	position: absolute;
