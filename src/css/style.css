@@ -2,6 +2,14 @@ html,
 body {
   overflow: hidden;
 }
+strong {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+em {
+  font-style: italic;
+  font-size: 1.1em;
+}
 body {
   width: 100%;
   height: 100%;
@@ -10,7 +18,7 @@ body {
   color: #fff;
   font-size: 12px;
   line-height: 16px;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   background: url('../img/star-bg.jpg') no-repeat;
   background-color: #111;
 }
@@ -25,7 +33,6 @@ a:hover {
 }
 iframe {
   display: block;
-  margin: 0 auto;
 }
 h1,
 h2,
@@ -44,6 +51,7 @@ img {
   width: 300%;
   top: 0;
   font-size: 0.3em;
+  z-index: 2;
   cursor: url(../img/cursor.png) 42.5 34.5, auto;
 }
 .bg {
@@ -537,12 +545,12 @@ img {
   z-index: 2;
   user-select: none;
 }
-@media (min-width: 960px) {
+@media (min-width: 1025px) {
   #rocket #rocket-img {
     transform: scale(1);
   }
 }
-@media (min-width: 768px) and (max-width: 960px) {
+@media (min-width: 768px) and (max-width: 1024px) {
   #rocket #rocket-img {
     transform: scale(0.7);
   }
@@ -589,23 +597,25 @@ img {
   left: 0;
 }
 #pane {
-  height: 78%;
-  position: relative;
-  top: 5%;
-  margin: 0 auto;
-  display: none;
-  z-index: 1000;
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
   font-size: 0.3em;
 }
 @media (min-width: 960px) {
   #pane {
-    width: 960px;
+    width: 940px;
   }
 }
 @media (min-width: 768px) and (max-width: 960px) {
   #pane {
-    width: 738px;
+    width: 748px;
   }
+}
+#pane.front {
+  z-index: 1000;
 }
 #scroll {
   width: 20px;
@@ -642,166 +652,215 @@ img {
 }
 .content {
   position: relative;
-  z-index: 2;
   font-size: 14px;
 }
-.content .header {
-  background: url(../img/blue-bg.png);
-  margin-bottom: 1%;
-  overflow: hidden;
-}
-@media (min-width: 960px) {
-  .content .header .w960 {
-    width: 930px;
-  }
-}
-@media (min-width: 768px) and (max-width: 960px) {
-  .content .header .w960 {
-    width: 738px;
-  }
-}
-.content .header h2 {
-  font-size: 32px;
-  padding: 1%;
-  float: left;
-}
-.content .header .backToSpace {
+.content h2 {
+  font-size: 2em;
   font-weight: bold;
-  font-size: 1em;
-  cursor: pointer;
-  float: right;
-  padding: 16px 6px 7px 0;
-}
-.content .header .backToSpace span {
-  font-size: 0.7em;
-  font-weight: normal;
-  letter-spacing: 1px;
-  margin: 0 3px;
-}
-.content .header .backToSpace:hover {
-  color: #95a8e8;
-}
-.content h3 {
-  font-size: 1.5em;
-  padding: 0 0 2%;
-}
-.content h3 span {
-  width: 100%;
-  height: 1px;
-  background: #fff;
-  display: block;
-  margin-top: 1%;
+  margin-bottom: 1.5%;
+  line-height: 1.3em;
 }
 .content p {
-  line-height: 1.4em;
+  margin: 0.8% 0 1.5%;
+  font-size: 1em;
+  line-height: 1.6em;
 }
-.content section {
-  background: url(../img/blue-bg.png);
-  width: 100%;
-  margin-bottom: 2%;
-  overflow: hidden;
+.content h3 {
+  font-size: 1.43em;
+  margin-top: 1.8%;
 }
-.content section .section-inner {
-  padding: 2%;
+.content h3,
+.content h4 {
+  font-weight: bold;
+  margin-bottom: 1.8%;
 }
-.content section ul {
-  list-style-type: square;
+.content h4 {
+  margin-top: 2.4%;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: medium;
 }
-.content section ul li {
-  margin: 6px 0px 1px 29px;
-  line-height: 1.4em;
+.content h4 a {
+  color: #eda240;
 }
-.content section .twitter {
-  margin-top: 10px;
-  float: left;
-  margin-left: 6%;
-}
-.content section .twitter iframe {
-  margin: 0;
-}
-.content section .instagram {
-  float: left;
-  margin-top: 9px;
-  margin-left: 7%;
-}
-.content .two-col .col-one {
-  float: left;
-  width: 49.5%;
-}
-.content .two-col .col-two {
-  float: right;
-  width: 49.5%;
-}
-.content .two-col section {
-  background: url(../img/blue-bg.png);
-  width: 100%;
-  margin-bottom: 2%;
-}
-.content .two-col section .section-inner {
-  padding: 2%;
-}
-.content .two-col section ul {
-  list-style-type: square;
-  font-size: 14em;
-}
-.content .two-col section ul li {
-  margin: 6px 0px 1px 29px;
-  font-size: 12px;
+.content h4 a:hover {
+  color: #fff;
 }
 .content .dev-container {
   position: relative;
-  height: auto;
+  perspective: 2400px;
 }
-@media (min-width: 960px) {
+@media (min-width: 1024px) {
   .content .dev-container {
-    max-width: 930px;
+    max-width: 960px;
   }
 }
-@media (min-width: 768px) and (max-width: 960px) {
+@media (min-width: 768px) and (max-width: 1023px) {
   .content .dev-container {
-    max-width: 738px;
+    max-width: 768px;
   }
 }
 .content .dev-container img {
   width: 100%;
   margin: 5px 0;
 }
-.content .dev-container .about-me {
-  font-size: 1.3em;
-}
 .content .dev-container iframe {
   z-index: 99;
 }
-.content .dev-container #magnifier .section-inner div {
-  position: relative;
+.content .dev-container table {
+  width: 62%;
+  margin-left: -0.1%;
 }
-.content .dev-container .mouse-intercept {
-  position: absolute !important;
-  width: 100%;
-  height: 100%;
-  top: 0%;
+.content .dev-container table td {
+  padding: 1.4% 3.8% 0.4% 0.4%;
+}
+.content .dev-container #screen {
+  font-size: 14px;
+  transform-style: preserve-3d;
+  height: auto;
+}
+.content .dev-container #screen #screen-front,
+.content .dev-container #screen #screen-back {
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
   left: 0;
-  z-index: 100;
+  width: 100%;
+  z-index: 3;
+}
+.content .dev-container #screen #screen-front iframe,
+.content .dev-container #screen #screen-back iframe {
+  width: 71%;
+  height: 95%;
+  margin: 1.5% auto;
+}
+.content .dev-container #screen #screen-front {
+  transform: rotateY(0deg);
+  background: url(../img/blue-bg2.png);
+  border-radius: 42px;
+}
+.content .dev-container #screen #screen-back {
+  background: url(../img/blue-bg2.png);
+  border-radius: 42px;
+  transform: rotateY(180deg);
+}
+.content .dev-container #screen .padding-wrapper {
+  width: 80%;
+  position: relative;
+  margin: 0 auto;
+  padding: 5%;
+}
+.content .dev-container #screen .padding-wrapper #corp-logos {
+  width: 100%;
+  padding-bottom: 9%;
+  background: url(../img/corp-logos.png) no-repeat;
+}
+.content .dev-container #screen .padding-wrapper .images {
+  width: 100%;
+}
+.content .dev-container #screen .padding-wrapper .images img {
+  width: 49%;
+  margin: 0;
+}
+.content .dev-container #screen .padding-wrapper .images p {
+  float: right;
+  width: 49%;
+}
+.content .dev-container #screen .padding-wrapper .images a {
+  margin-top: 2.4%;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: medium;
+  color: #eda240;
+}
+.content .dev-container #screen .padding-wrapper .images a:hover {
+  color: #fff;
+}
+.content .dev-container .slide {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  z-index: 1;
+}
+.content .dev-container .slide .padding-wrapper {
+  width: 80%;
+  position: relative;
+  margin: 0 auto;
+  padding: 5%;
+}
+.content .dev-container .slide .padding-wrapper #corp-logos {
+  width: 100%;
+  padding-bottom: 9%;
+  background: url(../img/corp-logos.png) no-repeat;
+}
+.content .dev-container .slide .flipped {
+  transform: rotateY(180deg);
+  position: absolute;
+  z-index: 9;
+}
+.content .dev-container #dev-social {
+  position: absolute;
+  top: 18.5%;
+  right: 98.9%;
+  height: 0;
+  padding-bottom: 23%;
+  width: 9.6%;
+  background: url('../img/dev-social-bg.png') no-repeat;
+  background-size: 100%;
+}
+.content .dev-container #dev-social div {
+  position: absolute;
+  width: 71%;
+  height: 76%;
+  top: 14%;
+  left: 14%;
+}
+.content .dev-container #dev-social div a {
+  display: block;
+  height: 25%;
+  width: 100%;
   cursor: pointer;
 }
-.content .dev-container .mouse-intercept div {
+.content .projects {
   position: relative;
-  top: 50%;
-  transform: translateY(-50%);
+  width: 100%;
+  height: 30px;
+  margin-top: 10px;
+}
+.content .projects .num {
+  width: 4%;
+  height: 26px;
+  float: left;
+  background: url('../img/numbers-bg.png') no-repeat;
+  background-size: 100% 300%;
+  padding: 11px 0 0;
   text-align: center;
+  font-family: 'Orbitron', sans-serif;
   font-weight: bold;
-  font-family: 'Orbitron';
-  font-size: 3em;
-  letter-spacing: 2px;
+  margin-right: 6px;
+  cursor: pointer;
+}
+.content .projects .num:hover {
+  background-position: 0% 50%;
+}
+.content .projects .num.active {
+  background-position: 0% 100%;
+  color: #4c9dc6;
+}
+.content .writer-container {
+  background: url(../img/blue-bg2.png);
+  padding: 5%;
+  border-radius: 42px;
+  min-height: 530px;
 }
 @media (min-width: 960px) {
   .content .writer-container .header .w960 {
-    width: 960px;
+    width: 940px;
   }
 }
 @media (min-width: 768px) and (max-width: 960px) {
   .content .writer-container .header .w960 {
-    max-width: 738px;
+    max-width: 748px;
   }
 }
 .content .writer-container .holder {
@@ -814,6 +873,14 @@ img {
   float: left;
   width: 30%;
   margin: 0;
+  height: 0;
+  padding-bottom: 40%;
+}
+.content .writer-container .headshot .section-inner img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30%;
 }
 .content .writer-container .bio {
   position: absolute;
@@ -838,6 +905,10 @@ img {
 .content .actor-container {
   position: relative;
   max-width: 930px;
+  background: url(../img/blue-bg2.png);
+  padding: 5%;
+  border-radius: 42px;
+  min-height: 530px;
 }
 .content .actor-container .holder {
   width: 100%;
@@ -849,29 +920,33 @@ img {
   float: left;
   width: 55%;
   margin: 0;
+  height: 0;
+  padding-bottom: 35%;
 }
 .content .actor-container .headshots img {
-  width: 49%;
-  float: left;
+  width: 27%;
+  position: absolute;
+  top: 3%;
+  left: 0;
 }
 .content .actor-container .headshots #commercial {
   margin-left: 1%;
-  float: right;
+  left: 27%;
 }
 .content .actor-container .bio {
   position: absolute;
   right: 0;
   margin: 0;
-  height: 100%;
   width: 44%;
-}
-@media (min-width: 768px) and (max-width: 960px) {
-  .content .actor-container .bio {
-    overflow-y: auto;
-  }
 }
 .content .actor-container .bio p {
   padding: 1%;
+}
+.content .actor-container .bio .twitter {
+  float: left;
+}
+.content .actor-container .bio .instagram {
+  float: left;
 }
 .content .actor-container #reel {
   clear: both;
@@ -999,13 +1074,12 @@ img {
 }
 .bottom-right-corner {
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: -4px;
+  right: -9px;
   width: 492px;
   height: 340px;
   transform-origin: right bottom;
   z-index: 1000;
-  transform: scale(0.7);
   pointer-events: none;
 }
 .bottom-right-corner.glyph-1 {
@@ -1114,10 +1188,10 @@ img {
   top: 0%;
   width: 100%;
   height: 100%;
-  background: #fff;
-  opacity: 0.6;
   z-index: 1000;
   cursor: pointer;
+  background: #000;
+  opacity: 0.4;
   display: none;
 }
 #nav {

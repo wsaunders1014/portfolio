@@ -6,8 +6,8 @@ var wrapper = $('#wrapper');
 var wOffset = wrapper.offset();
 var mouseX,mouseY,anim,oldCoords,xDistance,yDistance;
 var Rocket ={
-	width:185,
-	height:100,
+	width:$('#rocket').width(),
+	height:$('#rocket').height(),
 	halfY:50,
 	halfX:92.5,
 	speed:125,

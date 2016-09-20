@@ -8,7 +8,7 @@
     <meta name="keywords" content="Front End Developer, Screenwriter, Actor, Comedian">
     <meta name="author" content="Will Saunders">
     <meta property="og:image" content="http://iamwillsaunders.com/img/preview.jpg">
-	<link href="https://fonts.googleapis.com/css?family=Orbitron|Raleway" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Orbitron|Open+Sans" rel="stylesheet">
 	<style>
 		@-webkit-keyframes uil-ring-anim {
 		0% {
@@ -303,22 +303,24 @@
 		<div id="audio-ctrl"></div>
 	</div>
 
-	<div class="top-left-corner glyph-1"></div>
-	<div class="top-left-corner glyph-4"></div>
-	<div class="top-left-corner glyph-2"></div>
-	<div class="top-left-corner glyph-3"></div>
-	
-	<div class="top-left-corner glyph-5"></div>
-	<div class="top-right-corner glyph-1"></div>
-	<div class="top-right-corner glyph-2"></div>
-	<div class="top-right-corner glyph-3"></div>
-	<div class="top-right-corner glyph-4"></div>
-	<div class="bottom-left-corner glyph-1"></div>
-	<div class="bottom-left-corner glyph-2"></div>
-	<div class="bottom-right-corner glyph-1"></div>
-	<div class="bottom-right-corner glyph-2"></div>
-	<div class="bottom-right-corner glyph-3"></div>
-	<div class="bottom-right-corner glyph-4"></div>
+	<div class="top-left-corner glyph-1 shift"></div>
+	<div class="top-left-corner glyph-4 shift"></div>
+	<div class="top-left-corner glyph-2 shift"></div>
+	<div class="top-left-corner glyph-3 shift"></div>
+	<div class="top-left-corner glyph-5 shift"></div>
+
+	<div class="top-right-corner glyph-1 shift"></div>
+	<div class="top-right-corner glyph-2 shift"></div>
+	<div class="top-right-corner glyph-3 shift"></div>
+	<div class="top-right-corner glyph-4 shift"></div>
+
+	<div class="bottom-left-corner glyph-1 shift"></div>
+	<div class="bottom-left-corner glyph-2 shift"></div>
+
+	<div class="bottom-right-corner glyph-3 shift"></div>
+	<div class="bottom-right-corner glyph-1 shift"></div>
+	<div class="bottom-right-corner glyph-2 shift"></div>
+	<div class="bottom-right-corner glyph-4 shift"></div>
 <div id="loader">
 	<div id="gif">
 		<div class='uil-ring-css'>
@@ -327,10 +329,10 @@
 		<div class="loading-text"><span id="percent">00</span>% LOADED</div>
 	</div>
 </div>
-<div id="debug">
+<!-- <div id="debug">
 	<div class="mouse"></div>
 	<div class="angle"></div>
-</div>
+</div> -->
 <audio id='moon' preload='auto'>
 	<source src="audio/thats-no-moon.mp3" type="audio/mpeg">
 </audio>
@@ -344,40 +346,5 @@
 	<script src="js/form.js"></script>
 	<script src="js/bezier-shard.js"></script>
 	<script src="js/rocket.js"></script>
-	<!-- <script src="js/scroll.js"></script> -->
 </body>
 </html>
-<!-- 	<div class="hover-bar" id="left"></div>
-	<div class="hover-bar" id="upLeft"></div>
-	<div class="hover-bar" id="top"></div>
-	<div class="hover-bar" id="upRight"></div>
-	<div class="hover-bar" id="right"></div>
-	<div class="hover-bar" id="downRight"></div>
-	<div class="hover-bar" id="downLeft"></div>
-	<div class="hover-bar" id="bottom"></div> -->
-	<!-- <div id="contact" class="planet-holder">
-		<div class='slide-out'>
-			<div class="info bg unselectable">			
-				<p class="title">Contact Satellite</p>
-				<p class='details'>Send a <a id="message-link" href="#">message</a> into the void. Or <a href="mailto:willsaunders1014@gmail.com"/>email</a> me.</p>
-				<div id="contact-form">
-					<div class="form-errors"></div>
-
-					<form action="php/form-process.php" method="POST">
-						<div>
-							<div class="heading">First Name:</div><div id="fname" class="input"> <input type="text" placeholder="First Name" name="fname" maxlength='10' required/></div>
-						</div>
-						<div>
-							<div class="heading">Email:</div><div id="email" class="input"> <input type="text" placeholder="Email" required placeholder="Email" name="email" maxlength="50" /></div>
-						</div>
-						<div>
-							<div class="heading">Message:</div><div id="message" class="input"> <textarea required name="message" rows='5' placeholder="Leave me a message!"></textarea></div>
-						</div>
-						<button class="close" type="button">Close</button><input class="submit" type="submit" disabled/>
-					</form>
-					<div class="clr"></div>
-				</div>
-				<div class="thank-you">Message Sent. Thanks!</div>
-			</div>
-		</div>
-	</div> -->

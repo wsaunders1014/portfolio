@@ -56,7 +56,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		'img/explore-btn.png',
 		'img/social-btns.png',
 		'img/waypoint.gif',
-		'img/explosion.gif'
+		'img/explosion.gif',
+		'img/corp-logos.png'
 	], removeLoader);
 });
 function removeLoader(){
