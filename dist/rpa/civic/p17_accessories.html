@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+		var index =0;
+		$(document).ready(function(){
+			$('.thumbnail').on('click',function(){
+			    var src = $(this).children('img').first().attr('src');
+				$('.on').removeClass('on');
+				$('.active').removeClass('active');
+
+				$(this).children('.overlay').addClass('on');
+				var index = $(this).index()+1;
+
+				$('#main-image').attr('src',src);
+				$('#copy img').attr('src','img/acc/copy-'+index+'.jpg');
+			});
+			$('.thumbnail').hover(function(){
+				$(this).children('.overlay').addClass('active');
+			},
+			function(){
+				$(this).children('.overlay').removeClass('active');
+			});
+		});
+	</script>
+	<style type="text/css">
+		html,body {
+			margin:0px;
+			padding:0px;
+			background:#fff;
+			height:100%;
+overflow: hidden;
+		}
+		img {
+			width:100%;
+
+		}
+		#container {
+			overflow:hidden;
+			height:100%;
+		}
+		#header {
+			width:50.3%;
+			position: absolute;
+			left: 4%;
+			top: 0%;
+		}
+		#showcase {
+			width: 51.6%;
+			position: absolute;
+			left: 3.73263888888889%;
+			top:27%;
+		}
+		#main-image {
+		}
+		#copy {
+			position: absolute;
+			left: 56%;
+			top: 78%;
+			width:40%;
+		}
+		#gallery {
+			position: absolute;
+			right:3.73263888888889%;
+			width: 40.10416666666667%;
+			height: 50%;
+			top: 27%;
+		}
+		.thumbnail {
+			width: 32%;
+			height: 30.7%;
+			position:relative;
+			float: left;
+			margin-right: 1.3%;
+			margin-bottom: 1.3%;
+			cursor:pointer;
+			border-radius: 12px;
+			-moz-border-radius: 12px; -webkit-border-radius: 12px;
+			overflow: hidden;
+		}
+		.thumbnail img {
+			position:absolute;
+		}
+		.overlay {
+			width: 100%;
+			position: absolute;
+			height: 100%;
+			background:url(img/acc/black.png) repeat;
+			z-index: 7;
+			top: 0%;
+			left:0%;
+		
+			display:none;
+		}
+		.on {
+			display:block;
+		}
+		.active {
+			display:block;
+		}
+
+
+		/* iPads (landscape) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : landscape) {
+.overlay {  }
+}
+
+/* iPads (portrait) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : portrait) {
+.overlay { }
+}
+	</style>
+	<style></style>
+</head>
+<body id="accessories">
+	<div id="container">
+		<div id="header"><img src="img/acc/main-copy.jpg" />
+		</div>
+		<div id="showcase">
+			<img id="main-image" src="img/acc/acc-1.jpg" />
+		</div>
+		<div id="gallery">
+			<div id="acc-1" class="thumbnail"><img src="img/acc/acc-1.jpg"/><div class="overlay on"><img src="img/acc/acc-type_1.png"></div></div>
+			<div id="acc-2" class="thumbnail"><img src="img/acc/acc-2.jpg"/><div class="overlay"><img src="img/acc/acc-type_2.png"/></div></div>
+			<div id="acc-3" class="thumbnail"><img src="img/acc/acc-3.jpg"/><div class="overlay"><img src="img/acc/acc-type_3.png"/></div></div>
+			<div id="acc-4" class="thumbnail"><img src="img/acc/acc-4.jpg"/><div class="overlay"><img src="img/acc/acc-type_4.png"/></div></div>
+			<div id="acc-5" class="thumbnail"><img src="img/acc/acc-5.jpg"/><div class="overlay"><img src="img/acc/acc-type_5.png"/></div></div>
+			<div id="acc-6" class="thumbnail"><img src="img/acc/acc-6.jpg"/><div class="overlay"><img src="img/acc/acc-type_6.png"/></div></div>
+			<div id="acc-7" class="thumbnail"><img src="img/acc/acc-7.jpg"/><div class="overlay"><img src="img/acc/acc-type_7.png"/></div></div>
+			<div id="acc-8" class="thumbnail"><img src="img/acc/acc-8.jpg"/><div class="overlay"><img src="img/acc/acc-type_8.png"/></div></div>
+			<div id="acc-9" class="thumbnail"><img src="img/acc/acc-9.jpg"/><div class="overlay"><img src="img/acc/acc-type_9.png"/></div></div>
+		</div>
+		<div id="copy"><img src="img/acc/copy-1.jpg"/>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<head>
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
+<link rel="stylesheet" type="text/css" href="css/reset.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/slider.css" />
+<!--[if gte IE 9]>
+  <style type="text/css">
+    .gradient {
+       filter: none;
+    }
+  </style>
+<![endif]-->
+
+<style type="text/css">
+	img {
+		max-width:100%;
+		max-height:100%;
+		
+		}
+</style>
+</head>
+<body class="gradient ampm">
+	<div id="frameWrapper">
+		<div id="base"></div>
+		<div id="content">
+			<div id="overlays" class="small">
+				<div id="am" class="time"><img src="images/am-pm-morning.jpg"/></div>
+				<div id="noon" class="time transparent"><img src="images/am-pm-noon.jpg"/></div>
+				<div id="pm" class="time transparent"><img src="images/am-pm-evening.jpg"/></div>
+				
+			</div>
+			<div id="text1">
+				<img src="images/am-pm-text1.jpg" />
+			</div>
+			<div id="slider">
+				<div class="slider-ctrl" draggable>
+					<div class="sun"><img id="morning-sun"  style="opacity:1.0" src="images/am-pm-sun-beginning.png" />
+					<img id="noon-sun" class="transparent" src="images/am-pm-sun-noon.png" />
+					<img id="evening-moon" class="transparent" src="images/am-pm-moon-beginning.png" /></div>
+					
+				</div>
+				<div id="sun-overlay" class="snapTo" ><img src="images/am-pm-sun-mtns.png" /></div>
+				<div id="moon-overlay" class="transparent snapTo"><img src="images/am-pm-moon-mtns.png" /></div>
+			</div>
+			<div id="text2" class="transparent">
+				<img src="images/am-pm-text2.jpg" />
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,10 +1,19 @@
-var w,h,devPlanet,actorPlanet,writerPlanet,oldHash=location.hash;
+var devPlanet,actorPlanet,writerPlanet,degrees,oldHash=location.hash;
+var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+var	h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 var notHomepage = (location.hash.length>1) ? true:false;
 var moonPlayed = false, marchPlayed = false;
 var audioPlaying = false;
 var muted = false;
 var url = location.origin +location.pathname;
 var introOn = (!oldHash) ? true:false;
+var wrapperW =0;
+var wrapperH = 0;
+var deathArray = [];
+var sun = {};
+var deathStar = {};
+var degrees = 0;
+var toCorner = {};
 $(document).ready(function(){
 	w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 	h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -172,14 +181,14 @@ $(document).ready(function(){
 	
 	//EVENT HANDLERS
 	wrapper.on('click', function(e){
+		console.log('test')
 		mouseX = e.pageX-wOffset.left;
 		mouseY= e.pageY-wOffset.top;
 		Rocket.target.left = mouseX;
 		Rocket.target.top = mouseY;
 		Rocket.isLanded = false;
 		if(introOn){
-			toCorners.play();
-			introOn = false;
+			hideIntro();
 		}
 
 		Rocket.currQuadX = Math.floor(mouseX/w);

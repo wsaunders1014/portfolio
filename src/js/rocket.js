@@ -4,7 +4,7 @@ ROCKET by Will Saunders
 */
 var wrapper = $('#wrapper');
 var wOffset = wrapper.offset();
-var mouseX,mouseY,anim,oldCoords,xDistance,yDistance;
+var mouseX,mouseY,anim,oldCoords,xDistance,yDistance,origAngle;
 var Rocket ={
 	width:$('#rocket').width(),
 	height:$('#rocket').height(),
