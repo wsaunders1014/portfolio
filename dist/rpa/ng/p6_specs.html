@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+		document.ondragstart = function () { return false; };
+		
+$(document).ready(function(){
+		featuresH = $('#features').height();
+
+		var sliderTop = 0;
+		var slidePercent =0;
+	
+		var sliderPos2 = 0;
+		var ctrlH = $('#scrollbar').height(); 
+		var trackH = $("#slider").height(); 
+		var topLimit = $('#slider').offset().top; 
+		var featuresTop = $('#copy').position().top;
+		var bottomLimit = topLimit+trackH-(ctrlH);
+		
+			$('#scrollbar').on('mousedown',function(event){
+			event.preventDefault();
+			$(this).addClass('dragging');
+		$(document).on('mousemove', function(event){
+				
+				
+				sliderPos2 = event.pageY -ctrlH/2;
+				if (sliderPos2 < topLimit)
+					sliderPos2 = topLimit;
+				if (sliderPos2 > bottomLimit)
+					sliderPos2 = bottomLimit;
+				$('.dragging').offset({
+					top:sliderPos2
+				});
+				
+				var sliderTop = $('#scrollbar').position().top;
+
+				var slidePercent = sliderTop / (trackH-(ctrlH));
+				//console.log(slidePercent);
+				
+				dist = slidePercent *  ($('#copy img').height() - $('#copy').height());
+
+				$('#copy img').css({top: - dist});
+
+			}).on('mouseup',function(){
+				$('.dragging').removeClass('dragging');
+				$(this).off('mousemove');
+				$(this).off('mouseup');
+			});
+		});
+		document.addEventListener('touchmove',function(event){
+			event.preventDefault();
+		});
+		//mobile
+		var ctrl2 = document.getElementById('copy-holder');
+			ctrl2.addEventListener('touchstart',function(event){
+				event.preventDefault();
+				var touchStart = event.changedTouches[0];
+				var touchStartY = touchStart.pageY;
+				$('#scrollbar').addClass('dragging');
+				
+				ctrl2.addEventListener('touchmove',function(event){
+					event.preventDefault();
+					var touchMove = event.changedTouches[0];			
+					sliderPos2 = touchMove.pageY -(ctrlH/2);
+					if (sliderPos2 < topLimit)
+						sliderPos2 = topLimit;
+					if (sliderPos2 > bottomLimit)
+						sliderPos2 = bottomLimit;
+					$('.dragging').offset({
+						top:sliderPos2
+					});
+				 var sliderTop = $('#scrollbar').position().top;
+
+				var slidePercent = sliderTop / (trackH-ctrlH);
+				
+				dist = slidePercent *  ($('#copy img').height() - $('#copy').height());
+
+				$('#copy img').css({top: - dist});
+				},false);
+				ctrl2.addEventListener('touchend',function(event){
+					event.preventDefault();
+					
+					$('.dragging').removeClass('dragging');
+				
+				
+				},false);
+			},false);
+			
+			$(window).resize(function(){
+			
+			//feature slider orientation reset
+				ctrlH = $('#scrollbar').outerHeight(); 
+				trackH = $("#slider").height(); 
+				topLimit = $('#slider').offset().top; 
+				bottomLimit = trackH+topLimit-ctrlH;
+				featuresTop = $('#copy').position().top;
+				$('#scrollbar').css('top','0px');
+				$('#copy img').css('top','0px');
+			});
+});
+</script>
+	<style type="text/css">
+		body {
+			margin:0px;
+			padding:0px;
+			background:#fff;
+			overflow: hidden;
+		}
+		img {
+
+		}
+		#container {
+			width:100%;
+			display:block;
+		}
+		#container img {
+			position:absolute;
+
+			width:100%;
+		}
+		.clr {
+			clear:both;
+		}
+		#copy-holder {
+			position:absolute;
+			top:16%;
+			left:7.5%;
+			width:41.5%;
+			height:43%;
+		}
+		#slider {
+			position: absolute;
+			top: 1%;
+			left: 95.2%;
+			width: 5.1%;
+			height: 98%;
+		}
+		#scrollbar {
+			position: absolute;
+			width: 55%;
+			height: 69%;
+			left:17%;
+			cursor:pointer;
+		}
+		
+		#copy {
+			position: absolute;
+			top: 1%;
+			left: 1%;
+			width: 94.4%;
+			height: 96%;
+			overflow: hidden;
+		}
+		#copy img {
+		
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<img id="cover1" src="img/specs/base.jpg" />
+		<div id="copy-holder">
+			<div id="slider">
+				<div id="scrollbar"><img src="img/specs/scrollbar.png"></div>
+			</div>
+			<div id="copy">
+				<img src="img/specs/copy.png"/>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

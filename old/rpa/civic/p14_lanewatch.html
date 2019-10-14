@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<head>
+	<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	document.ondragstart = function () { return false; };
+	$(document).ready(function(){
+		//$('#btns div').click(function(){
+		//	$('.off').addClass('hide');
+		//	$(this).children('.off').removeClass('hide');
+			
+		//});
+		$('#btns div').hover(function(){
+			$(this).children('.hover').removeClass('hide');
+		},function(){
+			$(this).children('.hover').addClass('hide');
+		});
+		$('#lanewatch-btn').click(function(){
+			$('.mirror').hide();
+			$('.lanewatch').show();
+			$('.on').addClass('hide');
+			$(this).children('.on').removeClass('hide');
+			$('.active').removeClass('active');
+			$('.bottom').addClass('active');
+		});
+		$('#mirror-btn').click(function(){
+			$('.active').removeClass('active');
+			$('.on').addClass('hide');
+			$(this).children('.on').removeClass('hide');
+			$('.lanewatch').hide();
+			$('.bottom-2').addClass('active');
+			$('.mirror').show();
+		});
+		$('#close-btn').click(function(){
+			$('.lanewatch').hide();
+			$('.mirror').hide();
+			$('.on').addClass('hide');
+			$('.bottom').removeClass('active');
+			$('.bottom-2').addClass('active');
+			
+		});
+		
+		
+	});
+	</script>
+	<style type="text/css">
+		html,body {
+			margin:0px;
+			padding:0px;
+			background:#fff;
+			height:100%;
+			overflow: hidden;
+		}
+		div {
+			padding:0px;
+			margin:0px;
+			line-height:0px;
+		}
+		img {
+			width:100%;
+			padding:0px;
+			margin:0px;
+		}  
+		#container {
+			overflow:hidden;
+			height:100%;
+		}
+		#top {
+			position:relative;
+			
+		}
+		#middle {
+			position:relative;
+			
+		}
+		#base-2 {
+			display:block;
+		}
+		#mirror-overlay{
+			display:block;
+			position: absolute;
+			width:100%;
+			top: 0%;
+		}
+		#lanewatch-overlay {
+			display:none;
+			position: absolute;
+			width:100%;
+			top: 0%;
+		}
+		#bottom{	
+			position:relative;
+			
+		}
+		#btns {
+			position: absolute;
+			top: 68%;
+			width: 30%;
+			overflow: hidden;
+			height: 6.8%;
+			left: 9.5%;
+		}
+		#btns img {
+			position:absolute;
+		}
+		#mirror-btn{
+			width: 43.5%;
+			position: absolute;
+			cursor:pointer;
+		}
+		#lanewatch-btn {
+			width: 43.5%;
+			position: absolute;
+			left: 53%;
+			cursor:pointer;
+		}
+	
+	#text {
+		position: absolute;
+		z-index: 3;
+		top: 52%;
+		left: 21%;
+		width: 43%;
+		height: 43%;
+	}
+	#text img {
+		position:absolute;
+		display:none;
+		width: 100%;
+	}
+	#close-btn {
+		position: absolute;
+		top: 5%;
+		right: 2%;
+		width: 8%;
+		display:block;
+		cursor:pointer;
+		text-align:center;
+		height:5%;
+	}
+	#close-btn img {
+		width:30%;
+	}
+	#lanewatch-overlay2{
+		position: absolute;
+		width: 54.8%;
+		bottom: 11.69%;
+		height: 14.1%;
+		right: 5.3%;
+		display:none;
+	}
+	.hide,.active{
+		display:none;
+	}
+	.current {display:inline;}
+	</style>
+</head>
+<body id="specifications">
+	<div id="container">
+		<div id="top">
+			<img src="img/lw/base_01.jpg"/>
+			<div id="text"><img class="mirror" style="display:block;" src="img/lw/mirror-text.png"/>
+			<img class="lanewatch" src="img/lw/lanewatch-text.png"></div>
+		</div>
+		<div id="middle">
+			<div id="base-2"><img src="img/lw/base_02.jpg"/></div>
+			<div id="mirror-overlay" class="mirror"><img src="img/lw/mirror-overlay.jpg"/></div>
+			<div id="lanewatch-overlay" class="lanewatch"><img src="img/lw/lanewatch-overlay.jpg"/></div>
+		</div>
+		<div id="bottom">
+			<img src="img/lw/base_03.jpg" class='bottom'/>
+			<img src="img/lw/bottom-2.jpg" class="bottom-2 active"/>
+			<div id="btns">
+				<div id="mirror-btn"><img src="img/lw/mirror-btn-off.png"/><img class="hover hide" src="img/lw/mirror-btn-hover.png"/><img class="on" src="img/lw/mirror-btn-on.png"/></div>
+				<div id="lanewatch-btn"><img src="img/lw/lw-btn-off.png"/><img class="hover hide" src="img/lw/lw-btn-hover.png"/><img class="on hide" src="img/lw/lw-btn-on.png"/></div>
+				
+			</div>
+		</div>
+		<div id="close-btn" class="lanewatch mirror"><img src="img/lw/close-btn.png"/></div>
+	</div>
+</body>
+</html>

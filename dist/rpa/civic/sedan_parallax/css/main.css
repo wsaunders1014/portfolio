@@ -1,0 +1,396 @@
+﻿body, html
+{
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #fff;
+    margin: 0 auto;
+}
+#frame 
+{
+    background: url(../images/clear.png);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5001;
+}
+#main {
+    height: 93.1%;
+    overflow: hidden;
+    position: relative;
+    width: 94.79166666666667%;
+	margin-left: 2.6%;
+	margin-top: 2.6%;
+    -moz-user-select: none; 
+    -khtml-user-select: none; 
+    -webkit-user-select: none; 
+    -o-user-select: none; 
+
+}
+#section1 div.content img 
+{
+    width: 100%;
+}
+#verticalScrollArea {
+    position: absolute;
+    width: 100%;
+	height:100%;
+}
+div.section {
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 100%;
+	height:100%;
+	line-height: 0px;
+	margin-top:-1px;
+}
+
+#section1{
+    top: 0;
+	 background-color: #000;
+}
+#section1 div.background {
+    width: 100%;
+}
+.background img {
+	width:100%;
+}
+#section1 div.content 
+{
+   position: absolute;
+   top: 62%;
+   width: 37.6557%;
+   padding-left: 6.3%;
+}
+
+#section2 {
+    background-color: #000;
+    overflow: visible;
+}
+#section2 div.content, #section3 div.content, #section4 div.content, #section5 div.content, #section6 div.content {
+    bottom: 0;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
+#section3 {
+    z-index: 6;
+	background-color: #000;
+}
+#section3 div.background 
+{
+}
+
+#section4 {
+    z-index: 4;
+	background-color: #000;
+}
+
+
+#section5 {
+    z-index: 3;
+	background-color: #000;
+}
+
+.separator 
+{
+  
+    height: 241px;
+    width: 100%;    
+    bottom: 0;
+}
+#section6 {
+z-index:2;
+background-color: #000;
+}
+
+/************************* Text ***********************************/
+.content img {
+	width:100%;
+}
+#section2 div#thumbs-up {
+    right: 0;
+    margin-right: 63.326%;
+    margin-top: 10%;
+    position: absolute;
+    width: 31.087912%;
+    z-index: 1;
+    opacity: 1.0;
+}
+#section2 div#thumbs-up img 
+{
+    width: 100%;
+}
+.text {
+margin-top:2%;
+}
+#section2 div#thumbs-up div.text {
+    width: 100%;
+    z-index: 0;
+    opacity: 0;
+}
+#section2 div#disclaimer {
+	position:absolute;
+	left: 6%;
+	width: 44%;
+	bottom: 7%;
+	opacity:0;
+}
+#section2 div#disclaimer img{
+	width:100%;
+}
+#section2 div#black-overlay {
+	background: url(../images/blk-trans.png);
+	width:32%;
+	left:-30%;
+	height:100%;
+	position:relative;
+	padding-top: 4%;
+}
+#section2 div#black-overlay img {
+width:80%;
+margin:0 auto;
+opacity:0;
+}
+#section2 div#distraction-free {
+	right: 0;
+    margin-right: -17.326%;
+    margin-top: 27%;
+    position: absolute;
+    width: 20.087912%;
+    z-index: 1;
+    opacity: 1.0;
+}
+#section2 div#distraction-free div.text {
+    z-index: 1;
+    opacity: 0;
+	height:189px;
+}
+
+#section3 div#hello {
+    left:44%;
+    position: absolute;
+    text-align: left;
+    width: 23.6264%;
+    z-index: 5;
+    background-size: 100%;
+}
+#section3 div#hello-list{
+    left:3%;
+    position: absolute;
+    text-align: left;
+    width:50%;
+    z-index: 5;
+    background-size: 100%;
+	opacity:0;
+	top:-140%;
+}
+#section3 div#hello div.text {
+  
+    z-index: 1;
+    opacity: 0;
+	height:189px;
+}
+#section4 div#comfort-zone {
+	position:absolute;
+	left:6%;
+	width:26%;
+	top:2%;
+}
+#section4 div#comfort-zone .text{
+   
+	width:142%;
+    left:16%;
+    position: absolute;
+	height:100%;
+	opacity:0;
+}
+
+#section5 div#comfort {
+	position: absolute;
+	width: 33.3%;
+	left:55%;
+	top: 7%;
+}
+#section5 div#comfort div.text {
+
+	opacity:0;
+}
+#section5 div#convenience {
+	position:absolute;
+	width: 37%;
+	left:55.5%;
+	top: 38.5%;
+	opacity:0;
+}
+#section5 div#convenience div.text {
+	
+	margin-top: 4%;
+	opacity:0;
+}
+#section5 div#plus-sign {
+	position: absolute;
+	width: 22.7%;
+	top: 18%;
+	left:59.5%;
+	opacity:0;
+}
+#section5 div#seats {
+	position: absolute;
+	top:68%;
+	width: 30%;
+	right: 5%;
+}
+#section5 div#seats img {
+	position: absolute;
+	left: 0%;
+	top: 0%;
+	opacity:0;
+}
+#section6 div#quick-easy {
+	position:absolute;
+	width: 40.5%;
+	right: 3%;
+	top: 6%;
+
+}
+#section6 div#quick-easy div.text {
+	opacity:0;
+}
+/*
+#section4 div#bar {
+    background: url(../images/meter-bars.jpg) no-repeat left;
+    height: 51px;
+    margin: 390px 0 0 273px;
+    position: absolute;
+    width: 0;
+}
+#section5 div#pedal {
+    background: url(../images/pedal-text.png) no-repeat;
+    height: 38px;
+    margin: -8.30564% 0 0 4.57875457%;
+    padding: 23.05764% 0 0 17.1245421%;
+    text-align: left;
+    width: 36.538461538%;
+    z-index: 5;
+    position: absolute;
+    opacity: 1;
+    background-size: 100% auto;
+}
+
+*/
+
+#verticalScrollArea .inner {
+    overflow: hidden;
+}
+
+/************************* scroll bar *****************************/
+#scrollBar {
+    background-color: #3C3C3C;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 16px;
+    z-index: 2500;
+    height: 100%;
+}
+.thumb {
+    background: url(../images/scrollbar_handle.png) repeat;
+    height: 37px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: 2500;
+    width: 100%;
+    cursor: pointer;
+}
+
+#scrolldiv {
+    color: #000000;
+    height: 9295px;
+    margin: auto;
+    width: 600px;
+}
+
+#container {
+    height: 100%;
+    left: 0;
+    margin: 0 auto;
+    overflow: auto;
+    position: absolute;
+    top: 0;
+    width: 1148px; /*120%;*/
+    z-index: 6000;
+}
+/*************************** arrows ********************************/
+
+#instructions {
+    background: url(../images/down-arrow.png) no-repeat;
+    bottom: 0;
+    cursor: pointer;
+    height: 50px;
+    margin: 40px;
+    position: absolute;
+    right: 0;
+    width: 51px;
+    z-index: 5002;
+}
+#scrollto {
+    background-color: #FFFFFF;
+    color: #000000;
+    height: auto;
+    margin: 0 auto;
+    padding: 50px;
+    position: relative;
+    top: 200px;
+    width: 200px;
+    display: none;
+}
+#slider {
+            position:absolute;
+            width: 5%;
+            right: 3%;
+            height: 73%;
+            z-index: 9999;
+            top: 12%;
+        }
+        #slider-ctrl {
+            width:65%;
+            height: 6.7%;
+            position: absolute;
+            right: 14%;
+            display: block;
+            z-index: 4;
+            cursor: pointer;
+        }
+        #slider-ctrl img {
+            width:100%;
+        }
+        #track {
+            background:#fefefe;
+            position: absolute;
+            height: 100%;
+            width: 18%;
+            right: 37%;
+            top:2.5%;
+            z-index: 3;
+            bottom:2.5%;
+            border-radius:5px;
+            opacity: .75;
+        }
+		#scroll-cta {
+			position:absolute;
+			top: 80%;
+			width: 14%;
+			left: 42%;
+			z-index: 10;
+		}
+	img{
+		width:100%;
+	}

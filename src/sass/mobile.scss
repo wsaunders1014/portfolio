@@ -1,0 +1,9 @@
+@media screen and (max-width:576px){
+  body{
+  }
+  #portfolio{
+    .item{
+      flex-basis: 100%;
+    }
+  }
+}

@@ -1,0 +1,920 @@
+<!DOC html>
+<head>
+
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="description" content="Discover New Games to Play With Your Friends With Capri Sun!">
+<title>Capri Sun: Push Play</title>
+<link rel="stylesheet" href="css/style.css"/>
+
+<link rel="icon" type="image/png" href="img/favicon.png"/>
+<link rel="apple-touch-icon" href="img/iOS_icon_114x114.png"/>
+<link rel="apple-touch-icon" sizes="72x72" href="img/iOS_icon_72x72.png"/>
+<link rel="apple-touch-icon" sizes="114x114" href=""/>
+<link rel="apple-touch-icon" sizes="144x144" href="img/iOS_icon_114x114.png"/>
+
+<script src="js/tracking.js"></script>
+<script>
+  if(pages.platform == 'phone'){
+    location.href='http://'+location.hostname+location.pathname+'m/';
+  }
+</script>
+<script src="js/jq.js"></script>
+<script src="js/TweenMax.js"></script>
+
+<script>
+// Normalizes from 0 - 1 to min - max
+function normalize(x, min, max){
+  return x * (max - min) + min;
+}
+
+var preload_pictures = function(picture_urls) {
+
+  setTimeout(function(){
+    if(loaded < picture_urls.length){
+      removeLoader();
+    }
+  },8000);
+  var loaded = 0;
+  var percent = 0;
+
+  for(var i = 0; i < picture_urls.length; i++){
+    var img = new Image();
+
+    img.onerror = function() {
+      console.log("Error: " + this.src);
+      preloadProgress();
+    }
+
+    img.onload  = function() {
+      preloadProgress();
+    }
+
+    img.src = "img/" + picture_urls[i];
+  }
+
+  function preloadProgress(){
+    loaded ++;
+    if(loaded == 1)
+    {
+      //$("#preloader").css("background-image", "url(img/bg_frost.jpg)");
+    }
+
+    percent = loaded/ picture_urls.length;
+    $('#block').css({height: normalize(percent, 32, 68) + '%'});
+    if(percent == 1) {
+     removeLoader();
+    }
+  }
+}
+function removeLoader(){
+  $("#content").show();
+  TweenMax.to($('#preloader'), 0.7, {height: 0, onComplete: function(){
+    // playSprite('logoSprite',17,1700);
+  }});
+}
+preload_pictures([
+  'PushPlay_v01.png',
+  'PushPlay_v01_.png',
+  'ad-text@2x.jpg',
+  'all-games.png',
+  'answer-bg.png',
+  'back-btn.png',
+  'bg.jpg',
+  'bg_frost.jpg',
+  'button-bg.png',
+  'day-of-play.png',
+  'expand.png',
+  'favicon.png',
+  'featured/asterisk.png',
+  'featured/close-btn.png',
+  'featured/divider.png',
+  'featured/get-game-btn.png',
+  'featured/how-to-play.png',
+  'featured/players.png',
+  'featured/print-btn.png',
+  'featured/roller-blades.png',
+  'featured/share-bg.png',
+  'featured/vote-bg.png',
+  'featured/vote-btns.png',
+  'featured/vote-co.png',
+  'featured/vote-thanks.png',
+  'featured/what-you-need.png',
+  'featured/where-to-play.png',
+  'featured/yellow-bg.png',
+  'featured-game-btn.png',
+  'footer-legal-bg.png',
+  'footer.png',
+  'gallery/all-games.png',
+  'gallery/bg.jpg',
+  'gallery/bg_frost.jpg',
+  'gallery/carot.png',
+  'gallery/cat-balls.png',
+  'gallery/cat-bullseye.png',
+  'gallery/cat-race.png',
+  'gallery/cat-racket.png',
+  'gallery/cat-running.png',
+  'gallery/cat-sock.png',
+  'gallery/cat-spinner.png',
+  'gallery/cat-water.png',
+  'gallery/cat-wheels.png',
+  'gallery/close-btn.png',
+  'gallery/drip.png',
+  'gallery/fade-out.png',
+  'gallery/gallery-bg.png',
+  'gallery/gallery-doodle-1.png',
+  'gallery/gallery-doodle-2.png',
+  'gallery/girls-right.png',
+  'gallery/more-games.png',
+  'gallery/new_this_week.png',
+  'gallery/photos.png',
+  'gallery/print-btn.png',
+  'gallery/view-btn.png',
+  'gallery-btn-doodle.png',
+  'gamegallery_over.png',
+  'games/arrows.png',
+  'games/blue-bg.png',
+  'games/card-bg.png',
+  'games/card-extra-bg.png',
+  'games/clouds.png',
+  'games/header-choose.png',
+  'games/header-more.png',
+  'games/green-bg.png',
+  'games/lt-green-edge.png',
+  'games/nick-logo.png',
+  'games/print-logo.png',
+  'games/ready-to-play.png',
+  'games/set-up.png',
+  'games/vote-btn.png',
+  'games-gallery-btn.png',
+  'girl_tube.png',
+  'green-edge.png',
+  'iOS_icon_114x114.png',
+  'iOS_icon_72x72.png',
+  'jumping_kids.png',
+  'left-bar-bg.png',
+  'left-bar-logo.png',
+  'left-column-bg.jpg',
+  'logo-bg.png',
+  'more-games.png',
+  'nick-micronav@2x.png',
+  'pictures.png',
+  'players/1.png',
+  'players/2.png',
+  'players/3.png',
+  'players/4.png',
+  'players/5.png',
+  'players/6-7.png',
+  'players/6.png',
+  'players/8-or-more.png',
+  'players/8.png',
+  'preload-logo.png',
+  'push-play.png',
+  'quiz/How_v02.png',
+  'quiz/How_v03.png',
+  'quiz/PLAY_v01.png',
+  'quiz/What_v02.png',
+  'quiz/What_v03.png',
+  'quiz/Where_v02.png',
+  'quiz/Where_v03.png',
+  'quiz/answer-bg.png',
+  'quiz/blue-close-btn.png',
+  'quiz/capri-co.png',
+  'quiz/checkmark.png',
+  'quiz/green-close-btn.png',
+  'quiz/header.png',
+  'quiz/page-count-bg.png',
+  'quiz/play-btn-try-again.png',
+  'quiz/play-btn.png',
+  'quiz/play-text.png',
+  'quiz/question-bg-blue.png',
+  'quiz/question-bg-green.png',
+  'quiz/question-bg-how.png',
+  'quiz/question-bg-where.png',
+  'quiz/questions.png',
+  'quiz/reset-arrow.png',
+  'quiz/reset-btn.png',
+  'quiz/select-btn.png',
+  'random-btn-doodle.png',
+  'randomgame_over.png',
+  'share-bg.png',
+  'share-btn.png',
+  'spike.png',
+  'staf/bg-input.png',
+  'staf/bg-send.png',
+  'staf/bg-x.png',
+  'staf/bg.png',
+  'staf/result.png',
+  'staf.png',
+  'star-player/badge1.png',
+  'star-player/star-banner.png',
+  'star-player/star1.png',
+  'star-player-btn.png',
+  'stuff/ball.png',
+  'stuff/balloon.png',
+  'stuff/basketball.png',
+  'stuff/beach-ball.png',
+  'stuff/blankets.png',
+  'stuff/bouncy-ball.png',
+  'stuff/broom.png',
+  'stuff/bucket.png',
+  'stuff/chalk.png',
+  'stuff/empty-cans.png',
+  'stuff/helmet.png',
+  'stuff/none.png',
+  'stuff/paper.png',
+  'stuff/plastic-cups.png',
+  'stuff/pool-noodle.png',
+  'stuff/skateboard.png',
+  'stuff/sock.png',
+  'stuff/sticks.png',
+  'stuff/tennis-ball.png',
+  'stuff/tennis-rackets.png',
+  'stuff/toilet-paper.png',
+  'stuff/towel.png',
+  'stuff/water.png',
+  'tablet_rotate.jpg',
+  'tmnt-bg.jpg',
+  'tmnt-games/how-to-play.png',
+  'tmnt-games/tile-workout.gif',
+  'tmnt-games/tile-grouphug.gif',
+  'tmnt-games/tmnt-card-bg.png',
+  'tmnt-games/tmnt-player-count-bg.png',
+  'tmnt-games/tmnt-tile-frame.png',
+  'tmnt-games/turtles-promo.png',
+  'tmnt-games/turtles-promo2.png',
+  'tmnt-games/what-you-need.png',
+  'tmnt-games/where-to-play.png',
+  'turtles-ninja-games-turtles.png',
+  'turtles-ninja-games.png',
+  'weekly/bg.png',
+  'weekly/logo-bg.png',
+  'weekly/text.png',
+  'weekly-co-doodle.png',
+  'where/backyard.png',
+  'where/driveway.png',
+  'where/field.png',
+  'where/pool.png',
+  'where/sidewalk.png',
+  'yellow-edge.png'
+]);
+</script>
+</head>
+
+<div id="top-bar">
+  <a href="http://www.nick.com/" target="_blank" id="nick"><img src="img/nick-micronav@2x.png"></a>
+  <img src="img/ad-text@2x.jpg" id="ad-text"/>
+</div>
+<div id="main">
+  <div id="preloader">
+    <div id="preload">
+      <img src="img/preload-logo.png"/>
+      <div id="block"></div>
+    </div>
+  </div>
+  <div id="content">
+    <div id="kid-tube" class="layer" data-depth="0.2"></div>
+    <div id="kids-jump" class="layer" data-depth="0.2"></div>
+    <div id="quiz" class="layer" data-depth="0.1">
+      <div id="header" class="layer"></div>
+      <div id="quiz-questions">
+        <div class="quiz-item stuffSprite" id="stuff" data-cat="stuff">
+          <div class="image"></div>
+          <img src="m/img/quiz/quiz-text-1.png" class="text"/>
+        </div>
+        <div class="quiz-item playersSprite" id="players" data-cat="players">
+          <div class="image"></div>
+          <img src="m/img/quiz/quiz-text-2.png" class="text"/>
+        </div>
+        <div class="quiz-item whereSprite" id="where" data-cat="where">
+          <div class="image"></div>
+          <img src="m/img/quiz/quiz-text-3.png" class="text"/>
+        </div>
+        <div class="quiz-item play-btn playSprite">
+        </div>
+        <div class="quiz-item reset-btn"><div id="reset-arrow"></div></div>
+      </div>
+      <div id="quiz-answers">
+        <div id="answer-close-btn">
+          <div class="hover-x"></div>
+          <div class="text-x"></div>
+        </div>
+        <div id="answer-header"></div>
+        <div id="answers">
+          <!-- Answers will dynamically load here -->
+        </div>
+        <div id="page-turner">
+          <div class="arrow" id="left"></div>
+          <div class="arrow" id="right"></div>
+          <div id="pages"></div>
+        </div>
+      </div>
+    </div>
+    <div id="games-list">
+      <div class="pagination layer" data-depth="0.1">
+        <div class="btn-pag" id="pag-prev"></div>
+        <div class="btn-pag" id="pag-next"></div>
+      </div>
+      <div class="padding-clear layer" data-depth="0.1">
+        <div class="games-header-container">
+          <div class="header-choose"></div>
+          <div class="header-more"></div>
+        </div>
+        <div class="padding-clear" id="list-holder">
+         <!-- Results will dynamically load here -->
+        </div>
+        <div class="back-btn " id="btn-back-sky">
+          <div class="hover-back"></div>
+          <div class="text-back"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="btn-staf">
+    <div class="hover"></div>
+    <div class="text"></div>
+  </div>
+
+  <div id="capri-co">
+    <div id="weekly" class="wk-0"></div>
+  </div>
+
+  <!--///////////////////// GAMES GALLERY /////////////////////-->
+  <div id="gallery" class="scrollable">
+    <div class="scroll-holder scrollable">
+      <div class="scroll-inner scrollable">
+         <!-- <div class="new-header"></div>
+        <div class="week-title"></div>
+        <div id="photos"></div>
+       <div class="games" id="new"></div> -->
+
+        <div id="sorters">
+          <div class="all-header"></div>
+          <div class="sorter player-sort unselected"><span>Players &gt;</span>
+            <div class="inner-menu">
+                <ul>
+                  <li data-id="1">1</li>
+                  <li data-id="2">2</li>
+                  <li data-id="3">3</li>
+                  <li data-id="4">4</li>
+                  <li data-id="5">5</li>
+                  <li data-id="6">6 - 7</li>
+                  <li data-id="8">8 or more</li>
+                  <li data-id="view-all">View All</li>
+                </ul>
+            </div>
+          </div>
+          <div class="sorter where-sort unselected"><span>Where &gt;</span>
+            <div class="inner-menu">
+                <ul>
+                  <li data-id="field">Grass Field</li>
+                  <li data-id="driveway">Garage Driveway</li>
+                  <li data-id="pool">Swimming Pool</li>
+                  <li data-id="backyard">Backyard</li>
+                  <li data-id="sidewalk">Sidewalk</li>
+                  <li data-id="view-all">View All</li>
+                </ul>
+            </div>
+          </div>
+           <div class="sorter sort unselected" style="left: 25%;"><span>Sort</span>
+            <div class="carot"></div>
+            <div class="inner-menu">
+                <ul>
+                  <li data-id="newest" class="selected">Newest</li>
+                  <li data-id="alphabetical">Alphabetical</li>
+                  <li data-id="minplayers">Min. Players</li>
+                  <li data-id="maxplayers">Max. Players</li>
+                </ul>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="games" id="all">
+        </div>
+      </div>
+    </div>
+    <div class="edge"></div>
+    <div id="fade"></div>
+    <div class="back-btn" id="btn-back-games">
+      <div class="hover-back"></div>
+      <div class="text-back"></div>
+    </div>
+  </div>
+  <!--///////////////////// STAR PLAYER /////////////////////-->
+  <div id="starplayer-gallery">
+    <div class="banner-container">
+      <div class="banner"></div>
+    </div>
+    <div class="star"></div>
+    <div class="badge"></div>
+    <div class="edge"></div>
+    <div class="back-btn wide-page-back" id="btn-back-slide-starplayer">
+      <div class="hover-back"></div>
+      <div class="text-back"></div>
+    </div>
+  </div>
+  <!--///////////////////// TMNT PAGE /////////////////////-->
+  <div id="tmnt-gallery">
+    <div class="scroll-holder scrollable">
+      <div id="parallax-tmnt" class="scroll-inner scrollable">
+        <div id="tmnt-games-list" class="layer" data-depth="0.1">
+          <div class="padding-clear" id="tmnt-list-holder">
+           <!-- Results will dynamically load here -->
+          </div>
+          <div class="pagination">
+            <div class="btn-pag" id="pag-prev-tmnt"></div>
+            <div class="btn-pag" id="pag-next-tmnt"></div>
+          </div>
+        </div>
+        <div class="tmnt-promo2 layer" data-depth="0.3"></div>
+      </div>
+    </div>
+    <div class="back-btn wide-page-back" id="btn-back-tmnt">
+      <div class="hover-back"></div>
+      <div class="text-back"></div>
+    </div>
+  </div>
+
+  <!--///////////////////// GAME DETAIL VIEW /////////////////////-->
+  <div id="game-slide" class="scrollable">
+    <div class="scroll-holder scrollable">
+      <div class="scroll-inner scrollable">
+        <div class="title"></div>
+        <div class="big-desc"></div>
+        <div class="needs">
+          <div class="header"></div>
+          <div class="inside"></div>
+        </div>
+        <div class="instructions">
+        <!--   <div class="header" id='setup'></div>-->
+          <div class="inside"></div>
+          <div class="header" id="ready"></div>
+          <div class="inside"></div>
+        </div>
+      </div>
+    </div>
+    <div id="share-co">
+      <div class="print-btn"></div>
+    </div>
+    <div class="back-btn" id="btn-back-slide">
+      <div class="hover-back"></div>
+      <div class="text-back"></div>
+    </div>
+    <div class="edge"></div>
+  </div>
+
+  <!--/////////////////// TMNT GAME DETAIL VIEW ///////////////////-->
+  <div id="game-slide-tmnt" class="scrollable">
+    <div class="tmnt-promo-2"></div>
+    <div class="scroll-holder scrollable">
+      <div class="scroll-inner scrollable">
+        <div class="title"></div>
+        <div class="big-desc"></div>
+        <div class="needs">
+          <div class="header"></div>
+          <div class="inside"></div>
+        </div>
+        <div class="instructions">
+        <!--   <div class="header" id='setup'></div>-->
+          <div class="inside"></div>
+          <div class="header" id="ready"></div>
+          <div class="inside"></div>
+        </div>
+      </div>
+    </div>
+    <div id="share-co">
+      <div class="print-btn"></div>
+    </div>
+    <div class="back-btn" id="btn-back-slide-tmnt">
+      <div class="hover-back"></div>
+      <div class="text-back"></div>
+    </div>
+  </div>
+
+  <!--///////////////////// STAF /////////////////////-->
+  <div id="staf">
+    <div id="share-result"></div>
+    <div class="field" id="field-1">
+      <div class="bg-input"></div>
+      <input class="text-input" id="staf-1" type="text" tabindex="1" maxlength="15" placeholder="YOUR FIRST NAME">
+    </div>
+    <div class="field" id="field-2">
+      <div class="bg-input odd"></div>
+      <input class="text-input" id="staf-2" type="text" tabindex="2" maxlength="15" placeholder="YOUR FRIEND'S FIRST NAME">
+    </div>
+    <div class="field" id="field-3">
+      <div class="bg-input"></div>
+      <input class="text-input" id="staf-3" type="email" tabindex="3" placeholder="YOUR FRIEND'S EMAIL">
+    </div>
+    <div id="staf-send" tabindex="4">
+      <div class="hover"></div>
+      <div class="text"></div>
+    </div>
+    <div id="staf-x">
+      <div class="hover-x"></div>
+      <div class="text-x"></div>
+    </div>
+  </div>
+
+  <!--///////////////////// LEFT MENU /////////////////////-->
+  <div id="left-bar">
+    <div class="inside">
+      <div id="logo"><!--<div class="logoSprite"></div>--></div>
+      <div id="wwdop-logo"></div>
+      <div id="gallery-btn"></div>
+      <div id="starplayer-btn"></div>
+      <div id="tmnt-btn">
+        <div class="turtles"></div>
+        <div class="logo"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="nick-footer">
+  <style type="text/css">
+    .new-footer {
+        background-image: url('img/footer.png');
+        background-size: 100%;
+        background-repeat: no-repeat;
+        bottom: 0;
+        right: 0;
+        position: absolute;
+        width: 340px;
+    }
+    .new-footer div.footer-legal {
+        background-color: transparent;
+        margin: 0;
+        padding: 0 6px 0 0;
+        position: static;
+        text-align: right;
+        width: auto;
+    }
+    .footer-legal ul {
+        margin: 10px 0 0;
+        -webkit-padding-start: 0;
+    }
+    .new-footer div.footer-legal li {
+        border: medium none;
+        float: none;
+    }
+    li.footer-item {
+        display: inline-block;
+        height: 15px;
+        margin-right: 4px;
+        padding-left: 8px;
+        position: relative;
+    }
+    li.footer-item .footer-text.footer-mama {
+        background: url("http://nick.mtvnimages.com/nick/nick-web/img/footer-sprite.png") no-repeat scroll -9px -40px rgba(0, 0, 0, 0);
+        height: 16px;
+        margin-top: -3px;
+        width: 101px;
+    }
+    li.footer-item .footer-text {
+        color: #fff;
+        cursor: pointer;
+        float: left;
+        font-family: Arial;
+        font-size: 10px;
+        font-weight: 700;
+        margin-top: 2px;
+    }
+    li.footer-item .status-arrow {
+        background: url("http://nick.mtvnimages.com/nick/nick-web/img/footer-sprite.png") no-repeat scroll -57px -56px rgba(0, 0, 0, 0);
+        float: right;
+        height: 7px;
+        margin-left: 10px;
+        margin-top: 5px;
+        width: 9px;
+    }
+    li.footer-item .bubble-container {
+        display: none;
+        position: relative;
+        z-index: 99;
+    }
+    li.footer-item .bubble-container .bubble {
+        background-color: #fff;
+        border-radius: 8px;
+        bottom: 30px;
+        box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.3);
+        min-width: 255px;
+        position: absolute;
+        right: -20px;
+        z-index: 2;
+    }
+    li.footer-item .bubble-container .bubble .bubble-content {
+        padding: 9px 15px 15px;
+    }
+    li.footer-item .bubble-container .bubble .bubble-content .item {
+        box-sizing: border-box;
+        clear: both;
+        float: left;
+        height: 25px;
+        line-height: 10px;
+        margin-bottom: 5px;
+        padding-right: 20px;
+        text-align: left;
+        text-transform: uppercase;
+    }
+    li.footer-item .bubble-container .bubble .bubble-content .item a {
+        color: #333;
+        font-family: Arial;
+        font-size: 11px;
+    }
+    li.footer-item .bubble-container .bubble .bubble-content .item a:hover {
+        color: #ff6700;
+        text-decoration: none;
+    }
+    .new-footer div.footer-legal a {
+        border: medium none;
+        font-weight: normal;
+    }
+    li.footer-item a {
+        text-decoration: none;
+    }
+    li.footer-item .bubble-container .bubble .bubble-arrow {
+        border-color: #fff transparent transparent;
+        border-style: solid;
+        border-width: 8px 10px 0;
+        bottom: -7px;
+        height: 0;
+        margin: 0 auto;
+        position: absolute;
+        right: 16px;
+        width: 0;
+    }
+    li.footer-item .bubble-container .bubble.bubble-privacy {
+        min-width: 264px;
+    }
+    li.footer-item .bubble-container .bubble.bubble-more {
+        min-width: 518px;
+    }
+    li.footer-item .bubble-container .bubble .bubble-content ul {
+        display: inline-block;
+        float: left;
+        list-style-type: none;
+        margin: 0;
+        max-width: 50%;
+        padding: 0 0 0 10px;
+    }
+    .new-footer div.footer-legal li {
+        border: medium none;
+        float: none;
+    }
+    li.footer-item .bubble-container .bubble .bubble-content .icon-nick-kid-and-teens {
+        background: url("http://nick.mtvnimages.com/nick/nick-web/img/footer-sprite.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+        clear: left;
+        float: left;
+        height: 39px;
+        width: 120px;
+    }
+    li.footer-item .bubble-container .bubble .bubble-content .copyright-info {
+        float: right;
+        font-family: Arial;
+        font-size: 9px;
+        padding-bottom: 5px;
+        width: 220px;
+    }
+</style>
+
+
+<div class="new-footer">
+    <div class="footer-legal">
+        <ul>
+            <li class="footer-item footer-item-mama">
+                <div class="footer-mama footer-text"></div>
+                <div class="status-arrow"></div>
+                <div class="bubble-container">
+                    <div class="bubble bubble-mama">
+                        <div class="bubble-content">
+                            <div class="item"><a href="http://www.nick.com/" target="_blank">nick</a></div>
+                            <div class="item"><a href="http://www.teennick.com/" target="_blank">teennick</a></div>
+                            <div class="item"><a href="http://www.nickjr.com/" target="_blank">nick jr.</a></div>
+                            <div class="item"><a href="http://www.nickatnite.com/" target="_blank">nick at nite</a></div>
+                            <div class="item"><a href="http://www.nick.com/experiences/" target="_blank">travel (AD)</a></div>
+                        </div>
+                        <div class="bubble-arrow"></div>
+                    </div>
+                </div>
+            </li>
+            <li class="footer-item footer-item-privacy">
+                <div class="footer-text">PRIVACY</div>
+                <div class="status-arrow"></div>
+                <div class="bubble-container">
+                    <div class="bubble bubble-privacy">
+                        <div class="bubble-content">
+                            <div class="item"><a id="Privacy Policy (updated 02/09/2016)" href="http://www.nick.com/legal/nickelodeon-privacy-policy/" target="_blank">Privacy Policy (updated 02/09/2016)</a></div>
+                            <div class="item"><a id="Terms of Use" href="http://www.nick.com/club/parents-terms-of-use.html" target="_blank">Terms of Use</a></div>
+                        </div>
+                        <div class="bubble-arrow"></div>
+                    </div>
+                </div>
+            </li>
+            <li class="footer-item footer-item-more">
+                <div class="footer-text">MORE</div>
+                <div class="status-arrow"></div>
+                <div class="bubble-container">
+                    <div class="bubble bubble-more">
+                        <div class="bubble-content">
+                            <ul class="more-items-left">
+                                <li class="bubble-more-item">
+                                    <div data-index="" class="item">
+                                        <a href="http://www.nick.com/legal/nickelodeon-privacy-policy/" target="_blank">Privacy Policy (updated 02/09/2016)</a>
+                                    </div>
+                                </li>
+                                <li class="bubble-more-item">
+                                    <div data-index="" class="item">
+                                        <a href="http://www.nick.com/info/report-a-concern.html" target="_blank">Report A Concern</a>
+                                    </div>
+                                </li>
+                                <li class="bubble-more-item">
+                                    <div data-index="" class="item">
+                                        <a href="http://www.nick.com/club/parents-terms-of-use.html" target="_blank">Terms of Use</a>
+                                    </div>
+                                </li>
+                                <li class="bubble-more-item">
+                                    <div data-index="" class="item">
+                                        <a href="http://www.nick.com/shows/tvschedule/" target="_blank">TV Schedule</a>
+                                    </div>
+                                </li>
+                                <li class="bubble-more-item">
+                                    <div data-index="" class="item">
+                                        <a href="http://www.nick.com/club/parents-online-safety-guide.html" target="_blank">Safety</a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="more-items-right">
+                                <li class="bubble-more-item">
+                                    <div data-index="" class="item">
+                                        <a href="http://exodus.nick.com/site/signup" target="_blank">Newsletter</a>
+                                    </div>
+                                </li><li class="bubble-more-item">
+                                    <div data-index="" class="item">
+                                        <a href="http://media.viacom.com/accessibility/" target="_blank">Closed Captioning Contact</a>
+                                    </div>
+                                </li><li class="bubble-more-item">
+                                    <div data-index="" class="item">
+                                        <a href="http://www.nick.com/sitemap" target="_blank">Sitemap</a>
+                                    </div>
+                                </li><li class="bubble-more-item">
+                                    <div data-index="" class="item">
+                                        <a href="http://www.nick.com/info/copyright.html" target="_blank">Copyright Compliance</a>
+                                    </div>
+                                </li><li class="bubble-more-item">
+                                    <div data-index="" class="item">
+                                        <a href="http://srp.viacom.com/sitefaq.html" target="_blank">Ad Choices</a>
+                                    </div>
+                               </li>
+                            </ul>
+                            <div class="icon-nick-kid-and-teens"></div>
+                            <div class="copyright-info">
+                                &copy; 2016 Viacom International Inc. All Rights Reserved. Nick and all related titles, logos and characters are trademarks of Viacom International Inc.
+                            </div>
+                        </div>
+                        <div class="bubble-arrow"></div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var footerItemMamaShowing = false;
+    var footerItemPrivacyShowing = false;
+    var footerItemMoreShowing = false;
+
+    [].forEach.call(document.querySelectorAll(".footer-item-mama"), function(el) {
+        el.addEventListener("click", function() {
+            if (footerItemMamaShowing == true) {
+                footerItemMamaShowing = false;
+
+                [].forEach.call( document.querySelectorAll('.footer-item-mama .bubble-container'), function(el) {
+                  el.style.display = 'none';
+                });
+                [].forEach.call( document.querySelectorAll('.footer-item-mama .status-arrow'), function(el) {
+                  el.style.backgroundPosition = '-57px -56px';
+                });
+            } else {
+                footerItemMamaShowing = true;
+                footerItemPrivacyShowing = false;
+                footerItemMoreShowing = false;
+
+                [].forEach.call( document.querySelectorAll('.bubble-container'), function(el) {
+                  el.style.display = 'none';
+                });
+                [].forEach.call( document.querySelectorAll('.status-arrow'), function(el) {
+                  el.style.backgroundPosition = '-57px -56px';
+                });
+
+                [].forEach.call( document.querySelectorAll('.footer-item-mama .bubble-container'), function(el) {
+                  el.style.display = 'block';
+                });
+                [].forEach.call( document.querySelectorAll('.footer-item-mama .status-arrow'), function(el) {
+                  el.style.backgroundPosition = '-57px -64px';
+                });
+            }
+        });
+    });
+
+
+    [].forEach.call(document.querySelectorAll(".footer-item-privacy"), function(el) {
+        el.addEventListener("click", function() {
+            if (footerItemPrivacyShowing == true) {
+                footerItemPrivacyShowing = false;
+
+                [].forEach.call( document.querySelectorAll('.footer-item-privacy .bubble-container'), function(el) {
+                  el.style.display = 'none';
+                });
+                [].forEach.call( document.querySelectorAll('.footer-item-privacy .status-arrow'), function(el) {
+                  el.style.backgroundPosition = '-57px -56px';
+                });
+            } else {
+                footerItemPrivacyShowing = true;
+                footerItemMamaShowing = false;
+                footerItemMoreShowing = false;
+
+                [].forEach.call( document.querySelectorAll('.bubble-container'), function(el) {
+                  el.style.display = 'none';
+                });
+                [].forEach.call( document.querySelectorAll('.status-arrow'), function(el) {
+                  el.style.backgroundPosition = '-57px -56px';
+                });
+
+                [].forEach.call( document.querySelectorAll('.footer-item-privacy .bubble-container'), function(el) {
+                  el.style.display = 'block';
+                });
+                [].forEach.call( document.querySelectorAll('.footer-item-privacy .status-arrow'), function(el) {
+                  el.style.backgroundPosition = '-57px -64px';
+                });
+            }
+        });
+    });
+
+    [].forEach.call(document.querySelectorAll(".footer-item-more"), function(el) {
+        el.addEventListener("click", function() {
+            if (footerItemMoreShowing == true) {
+                footerItemMoreShowing = false;
+
+                [].forEach.call( document.querySelectorAll('.footer-item-more .bubble-container'), function(el) {
+                  el.style.display = 'none';
+                });
+
+                [].forEach.call( document.querySelectorAll('.footer-item-more .status-arrow'), function(el) {
+                  el.style.backgroundPosition = '-57px -56px';
+                });
+            } else {
+                footerItemMoreShowing = true;
+                footerItemMamaShowing = false;
+                footerItemPrivacyShowing = false;
+
+                [].forEach.call( document.querySelectorAll('.bubble-container'), function(el) {
+                  el.style.display = 'none';
+                });
+                [].forEach.call( document.querySelectorAll('.status-arrow'), function(el) {
+                  el.style.backgroundPosition = '-57px -56px';
+                });
+
+                [].forEach.call( document.querySelectorAll('.footer-item-more .bubble-container'), function(el) {
+                  el.style.display = 'block';
+                });
+                [].forEach.call( document.querySelectorAll('.footer-item-more .status-arrow'), function(el) {
+                  el.style.backgroundPosition = '-57px -64px';
+                });
+            }
+        });
+    });
+</script>
+</div>
+<div id="expand">
+  <div class="overlay"></div>
+  <div class="content"></div>
+</div>
+<div id="print">
+  <div class="title"></div>
+  <div class="big-desc"></div>
+  <div class="needs">
+    <div class="header"><img src="img/featured/what-you-need.png" alt="WHAT YOU NEED"/></div>
+    <div class="inside"></div>
+  </div>
+  <div class="instructions">
+ <!--    <div class="header" id='setup'><img src="img/games/set-up.png" alt="SET UP" /></div> -->
+    <div class="inside"></div>
+    <div class="header" id="ready"><img src="img/games/ready-to-play.png" alt="READY TO PLAY"/></div>
+    <div class="inside"></div>
+  </div>
+  <div id="print-logo"><img src="img/games/print-logo.png" alt="PUSH PLAY"/></div>
+  <div id="nick-logo"><img src="img/games/nick-logo.png" alt="nickelodeon"/></div>
+</div>
+<img src="img/tablet_rotate.jpg" id="rotate"/>
+<script src="js/parallax.js"></script>
+<script src="js/dates.js"></script>
+<script src="js/scripts.js"></script>
+<script src="js/fittext.js"></script>
+<script src="js/games.js"></script>
+<script src="js/games-tmnt.js"></script>
+<script src="js/jquery.scrollTo.min.js"></script>
+</body>
+</html>

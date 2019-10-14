@@ -1,0 +1,16 @@
+Hours:
+12/23 - 2:00 PM - 6:00 PM  11:00PM- 2:00 AM  -- 7 Hours
+12/24 - 1:00 PM - 2:00PM  4:00PM - 6:30 PM -- 3 Hours
+12/25 - 2:00 PM - 4:00 PM 8:00 PM -11:00 PM -- 5 Hours
+12/27 - 2:00 PM - 4:00 PM 11:00 PM - 2:00 AM -- 5 Hours
+12/29 - 5:00 PM - 7:00 PM 9:30 PM - 2:00 AM -- 6.5 Hours
+bug list:
+
+General:
+
+	
+
+Mobile(iPad):
+
+	Magnify:
+		white lines on left right sides.
