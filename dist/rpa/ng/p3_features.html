@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	console = window.console || { log: function() {} };
+		document.ondragstart = function () { return false; };
+		
+		
+		$(document).ready(function(){
+			var i = 0;
+			
+			$('#btns div').on('click', function(){
+				var index = $(this).index();
+				
+				if (index ==3){
+					$('#left-arrow').removeClass('hidden');
+					$('#right-arrow').addClass('hidden');
+				}else if(index ==0){
+					$('#left-arrow').addClass('hidden');
+					$('#right-arrow').removeClass('hidden');
+				}else{
+					$('#right-arrow').removeClass('hidden');
+					$('#left-arrow').removeClass('hidden');
+				}
+				//$('#copy img').addClass('hidden').eq(index).removeClass('hidden');
+				$('#copy img').fadeOut(500);
+						$('#copy img').eq(index).delay(250).fadeIn(500);
+				$('.inactive').removeClass('hidden');
+				$('.active').addClass('hidden');
+				$(this).children('.active').removeClass('hidden');
+				$(this).children('.inactive').addClass('hidden');
+				i=index;
+			});
+			
+			$('#left-arrow').click(function(){
+				if(i >=1){
+					i--;
+				
+					if(i==0)
+						$('#left-arrow').addClass('hidden');
+				$('#right-arrow').removeClass('hidden');	
+				//$('#copy img').addClass('hidden').eq(i).removeClass('hidden');
+				$('#copy img').eq(i+1).fadeOut(500);
+						$('#copy img').eq(i).delay(250).fadeIn(500);	
+				$('.inactive').removeClass('hidden');
+				$('.active').addClass('hidden');
+				$('#btns div').eq(i).children('.active').removeClass('hidden');
+				$('#btns div').eq(i).children('.inactive').addClass('hidden');
+				}
+			});
+			$('#right-arrow').click(function(){
+			if(i <=2){
+				i++;
+				
+				if(i==3)
+					$('#right-arrow').addClass('hidden');
+				
+				$('#left-arrow').removeClass('hidden');
+				//$('#copy img').addClass('hidden').eq(i).removeClass('hidden');
+				$('#copy img').eq(i-1).fadeOut(500);
+						$('#copy img').eq(i).delay(250).fadeIn(500);
+				$('.inactive').removeClass('hidden');
+				$('.active').addClass('hidden');
+					$('#btns div').eq(i).children('.active').removeClass('hidden');
+				$('#btns div').eq(i).children('.inactive').addClass('hidden');
+				}
+			});
+			
+			AttachEvent(document.body,'touchmove', function(event) {
+				event.preventDefault();
+			}, false); 
+			
+			
+			AttachEvent(document.body,'touchstart',function(event){
+				event.preventDefault();
+				var touchStart = event.changedTouches[0];
+				touchStartX = touchStart.pageX;
+				AttachEvent(document.body,'touchend', function(event){
+					event.preventDefault();
+					var touchMove = event.changedTouches[0];
+					touchEndX = touchMove.pageX;
+					dist = touchEndX - touchStartX;
+					if (i == 2)
+						$('#right-arrow').addClass('hidden');
+					if (i == 1)
+						$('#left-arrow').addClass('hidden');
+					if (dist < 0 && i < 3) {
+						i++;
+						$('#left-arrow').removeClass('hidden');
+						
+						$('#copy img').eq(i-1).fadeOut(500);
+						$('#copy img').eq(i).fadeIn(500);
+						$('.inactive').removeClass('hidden');
+				$('.active').addClass('hidden');
+				$('#btns div').eq(i).children('.active').removeClass('hidden');
+				$('#btns div').eq(i).children('.inactive').addClass('hidden');
+					}else if (dist > 0 && i > 0) {
+						i--;
+						$('#right-arrow').removeClass('hidden');
+						$('#copy img').eq(i+1).fadeOut(500);
+						$('#copy img').eq(i).fadeIn(500);	
+						$('.inactive').removeClass('hidden');
+				$('.active').addClass('hidden');
+				$('#btns div').eq(i).children('.active').removeClass('hidden');
+				$('#btns div').eq(i).children('.inactive').addClass('hidden');
+					}
+					this.removeEventListener('touchend',arguments.callee,false);
+				},false);
+				
+			},false);
+		});
+		function AttachEvent(element, type,handler) {
+			if(element.addEventListener){
+				element.addEventListener(type, handler, false);
+			} else if (document.attachEvent) {
+				element.attachEvent(type,handler)
+			}else {
+				element['on'+type] = handler;
+			}
+			
+		}
+		
+	</script>
+	<style type="text/css">
+		body {
+			margin:0px;
+			padding:0px;
+			background:#fff;
+			overflow: hidden;
+		}
+		img {
+			width:100%;
+			position:absolute;
+			border:none;
+		}
+		#container {
+			overflow:hidden;
+			height:100%;
+		}
+		#base {
+			height:100%;
+			width:100%;
+			position:relative;
+			z-index:1;
+		}
+		#btns {
+			position:absolute;
+			top: 15%;
+			left: 37.9%;
+			width: 24.3%;
+			height:6%;
+			z-index:3;
+		}
+		#btns div {
+			position: relative;
+			top: 0%;
+			width: 17.7%;
+			float: left;
+			cursor: pointer;
+			height:100%;
+		}
+		.cng {
+			left:0%;
+		}
+		.eco {
+			left:9.9%;
+		}
+		.safety {
+			left:19%;
+		}
+		.carpool {
+			left:29.4%;
+		}
+		#arrows {
+			position: absolute;
+			width: 61%;
+			left: 19.5%;
+			top: 24.5%;
+			height:7%;
+			z-index:10;
+		}
+		#copy {
+			position:absolute;
+			top: 23%;
+			left: 22%;
+			width: 56.6%;
+			height:18%;
+			z-index:4;
+		}
+		.ap {
+			position:absolute;
+			}
+		#right-arrow {
+			position: absolute;
+			width: 5.1%;
+			right: 0%;
+			cursor:pointer;
+			height: 100%;
+		}
+		#right-arrow img {
+			position: relative;
+			width: 39%;
+			left: 33%;
+			top: 15%;
+		}
+		#left-arrow {
+			position: absolute;
+			left: 0%;
+			width: 5.1%;
+			cursor:pointer;
+			height: 100%;
+		}
+		#left-arrow img{
+			position: relative;
+			width: 39%;
+			left: 33%;
+			top: 15%;
+		}
+		.hidden {
+			display:none;
+		}
+	</style>
+</head>
+<body id="features">
+	<div id="container">
+		<img id="base" src="img/features/base.jpg">
+		<div id="btns">
+			<div  class="cng">
+				<img class="inactive hidden" src="img/features/cng-btn-inactive.png"/>
+				<img class="active" src="img/features/cng-btn.png"/>
+				
+			</div>
+			<div class="eco">
+				<img class="inactive" src="img/features/eco-btn-inactive.png"/>
+				<img class="active hidden" src="img/features/leaf-btn.png"/>
+			</div>
+			<div class="safety">
+				<img class="inactive" src="img/features/safety-btn-inactive.png"/>
+				<img class="active hidden" src="img/features/safety-btn.png"/>
+			</div>
+			<div class="carpool">
+				<img class="inactive" src="img/features/carpool-btn-inactive.png"/>
+				<img class="active hidden" src="img/features/carpool-btn.png"/>
+			</div>
+			
+		</div>
+		<div id="arrows">
+			<div id="left-arrow" class="hidden"> <img src="img/features/left-arrow.png"/></div>
+			<div id="right-arrow"><img src="img/features/right-arrow.png"/></div>
+		</div>
+		<div id="copy">
+			<a href="http://www.afdc.energy.gov/locator/stations/results?utf8+%E2%9C%93&location=&filtered=true&fuel=CNG&owner=all&payment=all&ev_level1=true&ev_level2=true&ev_dc_fast=true&radius_miles=5" target="_BLANK" ><img class="ap" src="img/features/cng-copy.png"/></a>
+			<img class="ap hidden" src="img/features/eco-copy.png"/>
+			<img class="ap hidden" src="img/features/safety-copy.png"/>
+			<img class="ap hidden" src="img/features/carpool-copy.png"/>
+		</div>
+	</div>
+</body>
+</html>

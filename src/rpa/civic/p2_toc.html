@@ -21,8 +21,8 @@ var src = '';
 	},function(){
 		$(this).attr('src',src);
 	});
-		
-		
+
+
 		var ctrlH = $('#slider-ctrl').outerHeight();
 		var contentsTop = $('#contents').position().top;
 		var containerH = $('#container').height();
@@ -33,15 +33,15 @@ var src = '';
 		var contentH = 0;
 		var dist =0;
 		//console.log(containerH);
-		
+
 		$(window).load(function(){
 			contentH = $('#contents').outerHeight();
-		
-		});	
+
+		});
 		var trackH = $("#track").height();
 		var topLimit = $('#slider').offset().top;
 		var bottomLimit = trackH+topLimit;
-		
+
 		$('#slider-ctrl').on('mousedown',function(event){
 			event.preventDefault();
 			$(this).addClass('dragging');
@@ -65,7 +65,7 @@ var src = '';
 				else if(dist ==0)
 					dist = -(contentsTop);
 				$('#contents').css({top:-dist});
-				
+
 				$('#scroll-cta').delay(500).fadeOut(500);
 			}).on('mouseup',function(){
 				$('.dragging').removeClass('dragging');
@@ -90,7 +90,7 @@ var src = '';
 				event.preventDefault();
 				var touchMove = event.changedTouches[0];
 				var touchEndY= touchMove.pageY;
-				
+
 				//console.log(touchEndY);
 				//console.log(touchStartY);
 				dist = touchEndY - touchStartY;
@@ -107,7 +107,7 @@ var src = '';
 				//sliderPos = touchMove.pageY;
 				console.log(currentPos);
 				//console.log(upperStop);
-				 
+
 				if (currentPos < topLimit)
 					currentPos = topLimit;
 				if (currentPos > bottomLimit)
@@ -117,17 +117,17 @@ var src = '';
 				});
 				 sliderTop = $('#slider-ctrl').position().top;
 				 slidePercent = (sliderTop / trackH)*.7135;
-			
+
 				$('#scroll-cta').delay(500).fadeOut(500);
 			},false);
-			
+
 			document.addEventListener('touchend',function(event){
 				$('#slider-ctrl').removeClass('dragging');
 				var touchMove = event.changedTouches[0];
 				var touchEndY= touchMove.pageY;
 				contentsTop = $('#contents').position().top;
 			},false);
-			
+
 			 // mousewheel
 			//Firefox
 			$(document).bind('DOMMouseScroll', function (e) {
@@ -138,14 +138,14 @@ var src = '';
 					sliderOffset = $('#slider-ctrl').offset().top;
 					if (sliderOffset >= bottomLimit-scrollDist)
 						scrollDist = bottomLimit - sliderOffset;
-					
+
 					$('#slider-ctrl').stop().animate({top:'+='+scrollDist},100,function(){
-					
+
 					});
 					sliderTop = $('#slider-ctrl').position().top;
 					slidePercent = (sliderTop / trackH)*.7135;
 					dist = slidePercent *  contentH;
-			
+
 					if(dist < contentsTop)
 						dist = -contentsTop;
 					$('#contents').stop().animate({top:-dist},200,'linear');
@@ -153,16 +153,16 @@ var src = '';
 				}
 				//scroll up
 				else {
-					sliderOffset = $('#slider-ctrl').position().top;			
+					sliderOffset = $('#slider-ctrl').position().top;
 					if (sliderOffset < scrollDist)
 						scrollDist = scrollDist -(50-sliderOffset);
 					$('#slider-ctrl').stop().animate({top:'-='+scrollDist},200,function(){
 						sliderTop = $('#slider-ctrl').position().top;
 						console.log(sliderTop);
 					});
-					
-					slidePercent = (sliderTop / trackH)*.7135;					
-					dist = slidePercent *  contentH;		
+
+					slidePercent = (sliderTop / trackH)*.7135;
+					dist = slidePercent *  contentH;
 					if(dist < contentsTop)
 						dist = -contentsTop;
 					$('#contents').stop().animate({top:-dist},200,'linear');
@@ -177,11 +177,11 @@ var src = '';
 				//scroll down
 				console.log(e.originalEvent);
 				if (e.originalEvent.wheelDelta < 0 || e.originalEvent.deltaX > 0){
-				
+
 					sliderOffset = $('#slider-ctrl').offset().top;
 					if (sliderOffset >= bottomLimit-scrollDist)
 						scrollDist = bottomLimit - sliderOffset;
-					
+
 					$('#slider-ctrl').finish().animate({top:'+='+scrollDist},100,function(){
 						sliderTop = $('#slider-ctrl').position().top;
 						if(sliderTop > bottomLimit-topLimit){
@@ -190,7 +190,7 @@ var src = '';
 						}
 						slidePercent = (sliderTop / trackH)*.7135;
 						dist = slidePercent *  contentH;
-				
+
 						if(dist < contentsTop)
 							dist = -contentsTop;
 						$('#contents').finish().animate({top:-dist},100);
@@ -199,24 +199,24 @@ var src = '';
 				//scroll up
 				else {
 				//console.log(e.originalEvent.wheelDelta);
-					sliderOffset = $('#slider-ctrl').position().top;			
+					sliderOffset = $('#slider-ctrl').position().top;
 					if (sliderOffset < scrollDist)
 						scrollDist = scrollDist -(scrollDist-sliderOffset);
 					$('#slider-ctrl').finish().animate({top:'-='+scrollDist},100,function(){
-						sliderTop = $('#slider-ctrl').position().top;					
-						slidePercent = (sliderTop / trackH)*.7135;					
-						dist = slidePercent *  contentH;		
+						sliderTop = $('#slider-ctrl').position().top;
+						slidePercent = (sliderTop / trackH)*.7135;
+						dist = slidePercent *  contentH;
 						if(dist < contentsTop)
 							dist = -contentsTop;
 						$('#contents').finish().animate({top:-dist},100);
-					});		
+					});
 				}
 				return false;
 			});
-			
+
 			$(window).resize(function(){
 				 ctrlH = $('#slider-ctrl img').outerHeight();
-				 
+
 				 windowH = $(window).height();
 				 contentH = $('#contents').outerHeight();
 				 trackH = $("#track").height();
@@ -225,10 +225,10 @@ var src = '';
 				$('#contents').removeAttr('style');
 				contentsTop = $('#contents').position().top;
 				$('#slider-ctrl').css('top',0+'px');
-				
+
 				topLimit = $('#slider').offset().top;
 				bottomLimit = trackH+topLimit;
-	
+
 	});
 });
 function getTop(el) {
@@ -277,7 +277,7 @@ el.get
 		.width15 {
 			width:16%;
 		}
-		
+
 		#contents {
 			width: 90%;
 			position: absolute;
@@ -319,7 +319,7 @@ el.get
 			bottom:2.5%;
 			border-radius:5px;
 		}
-		
+
 		#scroll-cta {
 			position:absolute;
 			top: 83%;
@@ -340,28 +340,28 @@ el.get
 		</div>
 		<div id="contents">
 		<div class="left width50">
-			<a href="" onclick="API.gotoPage(3);"><img src="img/toc/3.jpg"></a>
-			<a href="" onclick="API.gotoPage(5);"><img src="img/toc/5.jpg"></a>
+			<a href="p3_civic-family.html" ><img src="img/toc/3.jpg"></a>
+			<a href="" ><img src="img/toc/5.jpg"></a>
 		</div>
 		<div class="right width50">
-			<a href="" onclick="API.gotoPage(4);"><img src="img/toc/4.jpg"></a>
+			<a href="p4_magnifier.html" onclick="API.gotoPage(4);"><img src="img/toc/4.jpg"></a>
 		</div>
 		<div class="clear"></div>
 		<div class="left width66">
-			<a href="" onclick="API.gotoPage(6);"><img src="img/toc/6.jpg"></a>
+			<a href="si_parallax/index.htm" onclick="API.gotoPage(6);"><img src="img/toc/6.jpg"></a>
 		</div>
 		<div class="right width33">
-			<a href="" onclick="API.gotoPage(7);"><img src="img/toc/7.jpg"></a>
+			<a href="p7_fun-to-drive.html" onclick="API.gotoPage(7);"><img src="img/toc/7.jpg"></a>
 		</div>
 		<div class="clear"></div>
 		<div class="left width66">
-			<a href="" onclick="API.gotoPage(8);"><img src="img/toc/8.jpg"></a>
+			<a href="sedan_parallax/index.htm" onclick="API.gotoPage(8);"><img src="img/toc/8.jpg"></a>
 		</div>
 		<div class="right width33">
 			<a href="" onclick="API.gotoPage(9);"><img src="img/toc/9.jpg"></a>
 		</div>
 		<div class="left width50">
-			<a href="" onclick="API.gotoPage(10);"><img src="img/toc/10.jpg"></a>
+			<a href="p10_audio-screen.html" onclick="API.gotoPage(10);"><img src="img/toc/10.jpg"></a>
 			<a href="" onclick="API.gotoPage(12);"><img src="img/toc/12.jpg"></a>
 		</div>
 		<div class="right width50">
@@ -369,24 +369,24 @@ el.get
 		</div>
 		<div class="clear"></div>
 		<div class="left width66">
-			<a href="" onclick="API.gotoPage(13);"><img src="img/toc/13.jpg"></a>
+			<a href="p13_altfuels.html" onclick="API.gotoPage(13);"><img src="img/toc/13.jpg"></a>
 		</div>
 		<div class="right width33">
-			<a href="" onclick="API.gotoPage(14);"><img src="img/toc/14.jpg"></a>
+			<a href="p14_lanewatch.html" onclick="API.gotoPage(14);"><img src="img/toc/14.jpg"></a>
 		</div>
 		<div class="clear"></div>
 		<div class="left width33">
 			<a href="" onclick="API.gotoPage(15);"><img src="img/toc/15.jpg"></a>
 		</div>
 		<div class="right width66">
-			<a href="" onclick="API.gotoPage(16);"><img src="img/toc/16.jpg"></a>
+			<a href="p16_safety-numbers.html" onclick="API.gotoPage(16);"><img src="img/toc/16.jpg"></a>
 		</div>
 		<div class="clear"></div>
 		<div class="left width33">
-			<a href="" onclick="API.gotoPage(17);"><img src="img/toc/17.jpg"></a>
+			<a href="p17_accessories.html" onclick="API.gotoPage(17);"><img src="img/toc/17.jpg"></a>
 		</div>
 		<div class="right width15">
-			<a href="" onclick="API.gotoPage(18);"><img src="img/toc/18.jpg"></a>
+			<a href="p18_specifications.html" onclick="API.gotoPage(18);"><img src="img/toc/18.jpg"></a>
 
 		</div>
 		<div class="right" style="width:49.2%;">
@@ -394,9 +394,9 @@ el.get
 
 		</div>
 		<div class="clear"></div>
-		
+
 	</div>
-	
+
 	</div>
 </body>
 </html>

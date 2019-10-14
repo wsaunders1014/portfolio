@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	console = window.console || { log: function() {} };
+		console.log('tech ready');
+		$('.icons').click(function(){
+			var index = $(this).index();
+			
+			$('.icons img').removeClass('hidden');
+			$(this).children('img').addClass('hidden');
+			$('#main img').addClass('hidden');
+			$('#copy img').addClass('hidden');
+			if(index > 1)
+			$('#main img').eq(index-2).removeClass('hidden');
+			
+			$('#copy > img').eq(index-1).removeClass('hidden');
+			
+			if(index ==4){
+				$('#display-links').show();
+				
+				$('.btns').removeClass('hidden').eq(0).addClass('hidden');
+			}else
+				$('#display-links').hide();
+		});
+		$('.btns').click(function(){
+			var index = $(this).index();
+			
+			$('.btns').removeClass('hidden');
+			$(this).addClass('hidden');
+			$('#display-copy img').addClass('hidden');
+			$('#display-base img').addClass('hidden');
+			$('#copy img').addClass('hidden');
+			if(index != 1){		
+			$('#display-copy img').eq(index-2).removeClass('hidden');
+			$('#display-base img').eq(index-2).removeClass('hidden');
+			}else if(index==1){
+				$('#display-copy img').addClass('hidden');
+				$('#display-base img').addClass('hidden');
+				$('#display').removeClass('hidden');
+			}
+		});
+	});
+</script>
+	<style type="text/css">
+		body {
+			margin:0px;
+			padding:0px;
+			background:#fff;
+			overflow: hidden;
+		}
+		img {
+
+		}
+		#container {
+			width:100%;
+			display:block;
+		}
+		#container img {
+			position:absolute;
+
+			width:100%;
+		}
+		#main {
+			position: absolute;
+			height: 75.4%;
+			width: 89.1%;
+			left: 5.5%;
+			top: 6.45%;
+		}
+		#filmstrip {
+			position: absolute;
+			width: 89.1%;
+			left: 5.5%;
+			top: 83%;
+			height: 14%;
+		}
+		.icons {
+			position: relative;
+			float: left;
+			width: 16%;
+			margin-right: .8%;
+			height: 77%;
+			cursor:pointer;
+		}
+		.icons img {
+			position: relative !IMPORTANT;
+		}
+		#copy {
+			position: absolute;
+			left: 65.32%;
+			top: 40%;
+			width: 29.3%;
+			line-height: 0px;
+		}
+		#copy img {
+			position:absolute;
+		}
+		#display-links {
+			position:absolute;
+			top: 48%;
+			left: 67%;
+			width: 26%;
+			display:none;
+		}
+		#display-links img {
+			position:absolute;
+		}
+		
+		.clr {
+			clear:both;
+		}
+		.hidden {
+			display:none;
+		}
+		.btns {
+			width:17.1% !important;
+			cursor:pointer;
+		}
+		#strip-base {
+			left:0%;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<img id="cover1" src="img/tech/base.jpg" />
+		<div id="main">
+			<img class="hidden" src="img/tech/rearview-base.jpg" />
+			<img class="hidden" src="img/tech/wheel-base.jpg" />
+			<img class="hidden" src="img/tech/display-base.jpg" />
+			<img class="hidden" src="img/tech/handsfree-base.jpg" />
+			<img class="hidden" src="img/tech/usb-base.jpg" />
+			<div id="display-base">
+				<img class="hidden" src="img/tech/display-pandora-base.jpg"/>
+				<img class="hidden" src="img/tech/display-link-base.jpg"/>
+				<img class="hidden" src="img/tech/display-usb-base.jpg"/>
+				
+			</div>
+		</div>
+		<div id="copy">
+			<img src="img/tech/ldw-copy.png"/>
+			<img class="hidden" src="img/tech/rearview-copy.png"/>
+			<img class="hidden" src="img/tech/wheel-copy.png"/>
+			<img class="hidden" id="display" src="img/tech/display-copy.png"/>
+			<img class="hidden" src="img/tech/bluetooth-copy.png"/>
+			<img class="hidden" src="img/tech/connected-copy.png"/>
+			<div id="display-copy">
+				<img class="hidden" src="img/tech/pandora-copy.png"/>
+				<img class="hidden" src="img/tech/link-copy.png"/>
+				<img class="hidden" src="img/tech/display-usb-copy.png"/>
+			</div>
+		</div>
+		<div id="display-links">
+			<img src="img/tech/icons-inactive.png" style="margin-top: 0.6%;">
+			<img class="btns hidden" src="img/tech/display-home-btn.png" style="left: -0.2%;">
+			<img class="btns" src="img/tech/display-pandora-btn.png" style="left: 27.2%;">
+			<img class="btns" src="img/tech/display-link-btn.png" style="left: 55%;">
+			<img class="btns" src="img/tech/display-usb-btn.png" style="left: 83.6%;">
+		</div>
+		<div id="filmstrip">
+			<img id="strip-base" src="img/tech/icons-inactive.jpg">
+			<div class="icons">
+				<img class="hidden" src="img/tech/ldw-active.jpg">
+			</div>
+			<div class="icons">
+				<img src="img/tech/rearview-active.jpg">
+			</div>
+			<div class="icons">
+				<img src="img/tech/wheel-active.jpg">
+			</div>
+			<div class="icons">
+				<img src="img/tech/display-active.jpg">
+			</div>
+			<div class="icons">
+				<img src="img/tech/handsfree-active.jpg">
+			</div>
+			<div class="icons" style="margin-right:0%;">
+				<img src="img/tech/usb-active.jpg">
+			</div>
+		</div>
+	</div>
+</body>
+</html>
