@@ -3,18 +3,33 @@
   margin: 1vh auto 2vh;
   max-width: 1200px;
 }
+* {
+  box-sizing: border-box;
+}
+$headingColor: #2d2d2d;
+$textColor: #000;
+$orange:#e69138;
 body{
   margin: 0;
   padding: 0;
-  background:#5f5d5e;
+  background: rgb(255,255,255);
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 82%, rgba(230,230,230,1) 100%);
   font-family: 'Roboto', sans-serif;
   letter-spacing: 2px;
+  font-size: 16px;
+  line-height: 225%;
+  color: $textColor;
+  overflow-x: hidden;
 }
 h1,h2,h3,h4,h5,h6{
   font-family: 'Orbitron',sans-serif;
+  color:$headingColor;
+}
+a:hover{
+  text-decoration: underline;
+  font-weight: bold;
 }
 main{
-
   padding-top:1px;
   margin-top:-1px;
   padding-bottom:10%;
@@ -27,21 +42,22 @@ h1{
   text-transform: uppercase;
   font-size: 48px;
   line-height: 0.8em;
-  text-shadow: 0px 0px 10px #ffffff87;
+
 
 }
-.white{
-  color: #fff;
+.iam{
+  color: #000;
   font-size: 32px;
   text-shadow: none;
 }
 .orange{
-  color:#ef7015;
+  color:$orange;
 }
+$grey:#6b6b6b;
 .grey{
-  color: #2d2d2d;
+  color:$grey;
 }
-nav{
+#social{
   @include baseW;
   text-align: center;
   border-top: 2px solid #000;
@@ -51,16 +67,27 @@ nav{
     li{
       display: inline-block;
       margin-right: 10px;
+      width: 25px;
       &:last-child{
         margin:0
       }
       img{
         height: 25px;
+        width: 100%;
+        object-fit: cover;
+        object-position: top;
+        transition: transform 0.2s;
       }
       a{
-        color: #fff;
+
         text-transform: uppercase;
         vertical-align: middle;
+        &:hover{
+          img{
+            object-position: bottom;
+            transform:scale(1.4);
+          }
+        }
       }
     }
   }
@@ -83,49 +110,69 @@ a{
   font-weight: bold;
   @include baseW;
 }
-
+//remove line-height padding from first line.
+p:before{
+  position: relative;
+  content: "";
+  display: block;
+  margin-top:-11px;
+}
 #about-me{
   margin-bottom: 2vh;
-  display: flex;
-  justify-content: space-between;
-  .photo{
+  display:block;
+  position: relative;
+  #photo{
     width: 30%;
-    flex:0 0 30%;
     display: inline-block;
     object-fit: cover;
     object-position: center;
-
+    position: absolute;
+    top: 0;
+    height: calc(100% - 11px);
   }
   .bio{
-    flex:0 0 65%;
-    color: #fff;
-    display: inline-block;
+    width:65%;
     margin: 0;
-    font-size: 16px;
-    line-height: 1.4em;
-    text-align: justify;
+    margin-left: 35%;
+    display: inline-block;
   }
+}
+.pic-swap{
+  color: $orange;
+  font-weight: bold;
 }
 #skills{
   text-align: center;
   ul{
     display: grid;
-    grid-template-columns: 20% 30% 30% 20%;
+    grid-template-columns: 25% 25% 25% 25%;
     grid-auto-rows:1fr;
     li{
-      color: #fff;
+
       font-family: 'Orbitron';
       font-size: 14px;
       padding:10px 0;
       text-align: center;
-      span{
-        font-size: 0.7em;
+      .level{
+        border: 1px solid $grey;
+        width:50%;
+        display: block;
+        height: 10px;
+        margin:0 auto;
+        border-radius: 10px;
+        .number{
+          display: block;
+          height: 100%;
+          background-color:$orange;
+          width:0%;
+          transition:width 1s;
+        }
       }
       &:nth-of-type(4n+0){
-        text-align: right;
+      //  text-align: right;
       }
       &:nth-of-type(4n+1){
-        text-align:left;
+      //  text-align:left;
       }
     }
   }
@@ -143,18 +190,23 @@ a{
   perspective: 1000px;
   transform:translateZ(0px);
   justify-content: space-between;
+  overflow: unset;
 }
 .item{
   transform-style: preserve-3d;
-  transform:translateZ(0px);
+  transform:translateX(-100%);
+  opacity: 0;
   width: 45%;
   flex:0 0 45%;
   overflow: hidden;
   cursor: pointer;
   margin-bottom: 8%;
-  transition:transform 1s;
+  transition:all 0.3s;
   box-shadow: 10px 10px 15px #00000087;
   z-index: 1;
+  &:nth-of-type(even){
+    transform:translateX(100%);
+  }
   a{
 
   }
@@ -171,13 +223,14 @@ a{
   }
   .info{
     position: absolute;
-    bottom:-100%;
-    width: 90%;
+    bottom:-110%;
+    width: 100%;
     left: 0;
-    transition:bottom 1s;
-    background-color:rgba(0, 0, 0, 0.5);
+    transition:all 0.2s;
+    background-color:rgba(0, 0, 0, 0.8);
     padding:5%;
     color:#fff;
+    font-size: 12px;
     a{
       h3{
 
@@ -194,9 +247,25 @@ a{
   }
   //transition:transform 1s;
 }
+.interaction{
+  position: absolute;
+  background:#000;
+  color:#fff;
+  border-radius: 20px;
+  padding:1% 2%;
+}
+
+@media (max-width:700px){
+  .item{
+    .info{
+      font-size:10px;
+    }
+  }
+}
 .padding-reset{
   display: block;
   position: absolute;
+  text-align: center;
   width: 100%;
   height: 100%;
   top: 0;

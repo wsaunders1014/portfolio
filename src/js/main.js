@@ -1,178 +1,120 @@
-import '../sass/common.scss';
+//import '../sass/common.scss';
 import '../sass/main.scss';
 import '../sass/mobile.scss';
 import {projects} from './projects.js';
-//console.log(projects)
-//const projectsObj = projects;
+var intObs
 var screenW = window.innerWidth, screenH = window.innerHeight;
+window.addEventListener('load', function(){
+  intObs = new IntersectionObserver((entries,obs) =>{
+    console.log(entries);
+    entries.forEach((entry)=>{
+      //console.log(entry)
+      console.log(entry.target.getAttribute('id'),entry.intersectionRatio)
+        if(entry.intersectionRatio > 0.4){
+          $(entry.target).css({transform:'translateX(0)',opacity:1})
+            obs.unobserve(entry.target);
+        }
+
+    })
+  },{rootMargin:"-10% 55%",threshold:[0,0.4]});
+  let elements = document.querySelectorAll('.item');
+  for(let el of elements){
+    intObs.observe(el);
+  }
+  console.log(intObs)
+})
 $(document).ready(function(){
-
-
-  // let zoomSensitivity = 400;
-  // let zoomLevel = 1;
-  // let dragSensitivity =5;
-  // let topBound = screenH*.4;
-  // let leftBound = screenW*.4;;
-  // let bottomBound = screenH -screenH*.4;
-  // let rightBound = screenW - screenW*.4;
-  // var navigatingX = false, navigatingY = false;
-  // var intervalX = false,intervalY = false;
+  //Create Skill grid
   const skills = [
-    'HTML5','CSS3','JavaScript<br/><span>(ECMA2017+)</span>','Git',
-    'PHP','SASS/LESS','React','Webpack',
-    'REST','Sketch','Redux','Gulp',
-    'mySQL','Photoshop','jQuery','Node.js'
-  ]
-  console.log(skills.length)
+    {name:'HTML5',level:10,message:'Kind of goes without saying...'},
+    {name:'CSS3',level:10,message:'See HTML5'},
+    {name:'JavaScript',level:8,message:'Still learning something new everyday'},
+    {name:'Git',level:5,message:'My commit messages can be pretty entertaining.'},
+    {name:'PHP',level:5,message:'An oldie but goldie'},
+    {name:'SASS / LESS',level:8,message:'I can\'t go back to normal CSS'},
+    {name:'React',level:5,message:'A relatively new skill, but one I\'m actively working on.'},
+    {name:'Webpack',level:5,message:'Setting up a config file is always a good time.'},
+    {name:'REST',level:4,message:'As in HTTP verbs, not laying around.'},
+    {name:'Sketch',level:5,message:'I don\'t know why anyone uses Photoshop for web anymore'},
+    {name:'Redux',level:5,message:'Makes React so much easier.'},
+    {name:'Gulp.js',level:7,message:'Used it before switching to Webpack.'},
+    {name:'mySQL',level:6,message:'I pronounce it \'My Sequel\' but I don\'t know if it\'s correct.'},
+    {name:'Photoshop',level:8,message:'I know my way around a layer comp.'},
+    {name:'jQuery',level:9,message:'Good ol\' spaghetti code.'},
+    {name:'Node.js',level:3,message:"Mostly with Express to create some very simple API's."}
+  ];
+  const skillLevel = [10,10,8,]
+  for(let i=0;i<skills.length;i++){
+    $('#skills').find('ul').eq(0).append(`<li><span>${skills[i].name}</span><span class="level"><span class="number" data-number=${skills[i].level}></span></span></li>`);
+
+  }
+  const animateBar = ($bar,level) =>{
+    $bar.css({width:level+'0%'})
+  }
+
+  //Animate skill bar\
+
+
+  for(let i=0;i<skills.length;i++){
+    setTimeout(()=>{animateBar($('.number').eq(i),skills[i].level)},100*i);
+  }
+
+
+
+  //Loads each project from json as an article. Saves me from doing it all manually.
   for(let i=0;i<projects.length;i++){
     $('#portfolio').append(`
-      <article class="item" id="${projects[i].title.toLowerCase().split(' ').join('_')}">
+      <article class="item ${projects[i].source}" id="${projects[i].title.toLowerCase().split(' ').join('_')}">
         <a href="${projects[i].url}" target="_blank">
           <img class="loading" src="img/loading.gif" data-src="img/${projects[i].img}" alt="Project: ${projects[i].title}"/>
         </a>
         <div class="info">
           Project: <a href="${projects[i].url}" target="_blank">${projects[i].title}</a><br/>
-          Company: ${projects[i].company}
-        ${(projects[i].repo) ? projects[i].repo:""}
+          Company: ${projects[i].company}<br/>
+        ${(projects[i].repo) ? "<a href="+projects[i].repo+">View Git Repo</a>":""}
         </div>
       </article>`);
-  //  $('#content > .portfolio').append(`<div class="item" style="width:${randomNumInRange(200,500)}px;height:${randomNumInRange(200,400)}px;left:${randomNumInRange(-1000,4000)}px;top:${randomNumInRange(-1000,4000)}px;transform:translateZ(-${randomNumInRange(500,2500)}px)"></div>`)
   }
-  for(let i=0;i<skills.length;i++){
-    $('#skills').find('ul').eq(0).append(`<li>${skills[i]}</li>`)
-  }
+
+
+
+  /// Swap pic out on keyword
+  var oldSrc;
+  $('.pic-swap').hover(function(){
+    oldSrc = $('#photo').attr('src')
+    let image = new Image();
+    let newSrc = $(this).attr('data-src');
+    $('#photo').attr('src',newSrc);
+  },function(){
+    $('#photo').attr('src',oldSrc)
+  })
+  //Skill Messages
+  $('#skills ul li span').on('mouseenter',(e)=>{
+    let index = $(e.currentTarget).parent().index();
+  //  $('body').append(`<div style="top:${e.pageY-30}px;left:${e.pageX+10}px" class="interaction">${skills[index].message}</div>`);
+  }).on('mousemove',(e)=>{
+    $('.interaction').css({top:e.pageY-30,left:e.pageX+10})
+  }).on('mouseleave',()=>{
+    $('.interaction').remove();
+  });
+  //Swaps out loading gif for actual image based on data-src attr.
   $('img').each(function(){
     let newImg = new Image();
-    newImg.src = $(this).attr('data-src');
-    imageLoadPromise(newImg).then(()=>{
-        $(this).attr('src',$(this).attr('data-src'));
-        $(this).removeClass('loading')
-    })
-
-
+    if( $(this).attr('data-src')){
+      newImg.src = $(this).attr('data-src');
+      imageLoadPromise(newImg).then(()=>{
+          $(this).attr('src',$(this).attr('data-src'));
+          $(this).removeClass('loading')
+      })
+    }
   })
   function imageLoadPromise(img){
     return new Promise(resolve=>img.onload = resolve)
   }
-  $('#quoterunner, #gotmovers').on('click',()=>{
-    alert('Warning: This is a live website, so do not enter your actual information in or you will get emailed and/or called. A lot.')
-  } )
-  /*$('.portfolio').on('mousedown', function(e){
-    e.preventDefault();
-
-    let endGoal = 1000;
-    //RIGHT MOUSE BUTTON IS CLICKED
-    if(e.which ===3){
-      navigating = true;
-      var active = false;
-      var currentX;
-      var currentY;
-      var initialX;
-      var initialY;
-      var xOffset = e.target.getBoundingClientRect().left;
-      var yOffset = e.target.getBoundingClientRect().top;
-    //  let shiftX = e.clientX - egg.getBoundingClientRect().left;
-    //  let shiftY = ev.clientY - egg.getBoundingClientRect().top;
-      initialX = e.clientX - xOffset;
-      initialY = e.clientY - yOffset;
-      console.log('initial', initialX,initialY)
-      $(this).on('mousemove',function(e){
-
-        $('.portfolio').on('mouseup',function(e){
-          initialX = currentX - xOffset;
-          initialY = currentY - yOffset;
-          $('.portfolio').off('mousemove');
-        })
-        currentX = e.clientX - initialX;
-        currentY = e.clientY - initialY;
-
-        xOffset =  e.target.getBoundingClientRect().left;
-        yOffset =  e.target.getBoundingClientRect().top;
-        TweenLite.set($('.item'),{x:`+=${currentX/100}`,y:`+=${currentY/100}`})
-      })
-      //RETURN FALSE TO BLOCK CONTEXT MENU
-      return false;
-    }
-  }) */
-
-/*$('.portfolio').on('mousedown', function(e){
-    if(e.which===3){
-      $('.portfolio').on('mousemove',(e)=> {handlePan(e.pageX,e.pageY)});
-      return false;
-    }
-  }).on('mouseup',function(){
-    $(this).off('mousemove');
-    navigatingX = false;
-    navigatingY = false;
-    clearInterval(intervalX);
-    clearInterval(intervalY);
+  //Notify user of website issues
+  $('.live-eq').on('click',()=>{
+    alert('Warning: This is a live lead generation website, so do not enter your actual information in or you will get emailed and/or called. A lot.')
   })
+  $('.wayback').click(()=> alert('Notice: This site was rebuilt from the Wayback archive so some images may be missing and some functionality might not work as expected.'))
 
-  $(document).mouseleave(function(){
-    clearInterval(intervalX);
-    clearInterval(intervalY);
-    navigatingX = false,navigatingY = false;
-  });*/
-  function handlePan(mouseX,mouseY){
-    if(mouseX < leftBound && navigatingX !== true){
-      navigatingX=true;
-      panX('right');
-    }else if(mouseX >= leftBound && mouseX <= rightBound && navigatingX === true){
-      navigatingX = false;
-      clearInterval(intervalX);
-      intervalX = false;
-      console.log(intervalX);
-    }else if(mouseX > rightBound && navigatingX===false){
-      console.log('test')
-      navigatingX = true;
-      panX('left')
-    }
-
-    if(mouseY < topBound && navigatingY !== true){
-      navigatingY=true;
-      panY('down');
-    }else if(mouseY >= topBound && mouseY <= bottomBound && navigatingY === true){
-      navigatingY = false;
-      clearInterval(intervalY);
-      intervalY = false;
-
-    }else if(mouseY > bottomBound && navigatingY===false){
-
-      navigatingY = true;
-      panY('up')
-    }
-  }
-  function panX(direction){
-    if(navigatingX){
-      if(direction === "left")
-        intervalX = setInterval(()=>{TweenLite.set($('.item'),{x:`-=${dragSensitivity}px`})},10);
-      else if(direction === 'right')
-        intervalX = setInterval(()=>{TweenLite.set($('.item'),{x:`+=${dragSensitivity}px`})},10);
-    }
-  }
-  function panY(direction){
-    if(navigatingY){
-      if(direction === "up")
-        intervalY = setInterval(()=>{TweenLite.set($('.item'),{y:'-=5px'})},10);
-      else if(direction === 'down')
-        intervalY = setInterval(()=>{TweenLite.set($('.item'),{y:'+=5px'})},10);
-    }
-  }
-  /*$('body').on('contextmenu',function(e){
-    e.preventDefault();
-    return false;
-  })*/
-/*  $('#content').find('.portfolio').on('wheel',function(e){
-    let delta = e.originalEvent.wheelDelta;
-    console.log(e.originalEvent);
-    if(delta > 0){
-      zoomLevel -=1;
-      TweenLite.to($('.item'),0.5,{z:`+=${zoomSensitivity}px`})
-    }else{
-      zoomLevel +=1;
-      TweenLite.to($('.item'),0.5,{z:`-=${zoomSensitivity}px`})
-    }
-    console.log(zoomLevel)
-  })*/
 })
-const randomNumInRange = (min,max) => Math.floor(Math.random() * (max - min + 1)) + min;

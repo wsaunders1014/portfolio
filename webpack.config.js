@@ -18,6 +18,7 @@ module.exports = {
             },
             {
               test: /\.html$/,
+              exclude: /nick/,
               use: [
                   {
                     loader: "html-loader",
@@ -27,10 +28,14 @@ module.exports = {
             },
             {
               test: /\.scss$/i,
-              use: ['style-loader',"css-loader",'sass-loader' ]
+              use: [MiniCssExtractPlugin.loader,"css-loader",'sass-loader' ]
             },
             {
-              test: /\.(jpg|png|gif|svg|mp3)$/,
+              test:/\.css/,
+              use:[MiniCssExtractPlugin.loader,'css-loader']
+            },
+            {
+              test: /\.(jpg|png|gif|svg|mp3|css)$/,
               //include:path.join(__dirname,'/dist/img'),
               use: {
                 loader: "file-loader",
@@ -53,11 +58,14 @@ module.exports = {
         filename:"index.html"
       }),
       new MiniCssExtractPlugin({
-        filename: "[name].css",
-        chunkFilename: "[id].css"
+        filename: "css/[name].css",
+        chunkFilename: "css/[id].css"
       }),
       new CopyPlugin([
-        {from:'src/img', to:'img'}
+        {from:'src/img', to:'img'},
+        {from:'src/rpa', to:'rpa'},
+        {from:'src/24', to:'24'},
+        {from:'src/focus', to:'focus'}
       ])
     ]
 };
