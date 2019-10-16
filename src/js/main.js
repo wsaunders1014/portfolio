@@ -6,10 +6,9 @@ var intObs
 var screenW = window.innerWidth, screenH = window.innerHeight;
 window.addEventListener('load', function(){
   intObs = new IntersectionObserver((entries,obs) =>{
-    console.log(entries);
+
     entries.forEach((entry)=>{
       //console.log(entry)
-      console.log(entry.target.getAttribute('id'),entry.intersectionRatio)
         if(entry.intersectionRatio > 0.4){
           $(entry.target).css({transform:'translateX(0)',opacity:1})
             obs.unobserve(entry.target);
@@ -21,7 +20,7 @@ window.addEventListener('load', function(){
   for(let el of elements){
     intObs.observe(el);
   }
-  console.log(intObs)
+
 })
 $(document).ready(function(){
   //Create Skill grid
@@ -66,7 +65,10 @@ $(document).ready(function(){
     $('#portfolio').append(`
       <article class="item ${projects[i].source}" id="${projects[i].title.toLowerCase().split(' ').join('_')}">
         <a href="${projects[i].url}" target="_blank">
-          <img class="loading" src="img/loading.gif" data-src="img/${projects[i].img}" alt="Project: ${projects[i].title}"/>
+          <picture class="loading" data-src="img/${projects[i].img}.webp">
+            <source srcset="img/${projects[i].img}.webp" type="image/webp"/>
+            <img src="img/${projects[i].img+projects[i].ext}" alt="Project: ${projects[i].title}"/>
+          </picture>
         </a>
         <div class="info">
           Project: <a href="${projects[i].url}" target="_blank">${projects[i].title}</a><br/>
@@ -82,7 +84,6 @@ $(document).ready(function(){
   var oldSrc;
   $('.pic-swap').hover(function(){
     oldSrc = $('#photo').attr('src')
-    let image = new Image();
     let newSrc = $(this).attr('data-src');
     $('#photo').attr('src',newSrc);
   },function(){
@@ -98,15 +99,20 @@ $(document).ready(function(){
     $('.interaction').remove();
   });
   //Swaps out loading gif for actual image based on data-src attr.
-  $('img').each(function(){
+  $('.loading').each(function(){
     let newImg = new Image();
-    if( $(this).attr('data-src')){
-      newImg.src = $(this).attr('data-src');
-      imageLoadPromise(newImg).then(()=>{
-          $(this).attr('src',$(this).attr('data-src'));
-          $(this).removeClass('loading')
-      })
-    }
+    newImg.src = $(this).attr('data-src');
+    imageLoadPromise(newImg).then(()=>{
+    //       $(this).attr('src',$(this).attr('data-src'));
+    //       $(this).removeClass('loading')
+    //  $(this).find('source').eq(0).remove();
+      $(this).removeClass('loading')
+    // if( $(this).attr('data-src')){
+    })
+
+    //   newImg.src = $(this).attr('data-src');
+    //
+    //}
   })
   function imageLoadPromise(img){
     return new Promise(resolve=>img.onload = resolve)
