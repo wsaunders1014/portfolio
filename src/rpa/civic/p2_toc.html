@@ -14,12 +14,17 @@ $(document).ready(function(){
 
 var src = '';
 	$('#contents img').hover(function(){
-		src = $(this).attr('src');
-		var newSrcArry = src.split('.');
-		var newSrc = newSrcArry[0] +'_hover.jpg';
-		$(this).attr('src',newSrc);
+    src = $(this).attr('src');
+    if($(this).parent('a').attr('href') !=''){
+
+  		var newSrcArry = src.split('.');
+  		var newSrc = newSrcArry[0] +'_hover.jpg';
+  		$(this).attr('src',newSrc);
+    }
+
 	},function(){
-		$(this).attr('src',src);
+
+		  $(this).attr('src',src);
 	});
 
 
@@ -75,7 +80,7 @@ var src = '';
 				$(this).off('mousemove');
 			});
 		});
-		//MOBILE INTERACTIONS
+		  //MOBILE INTERACTIONS
 			var touchStartY = 0;
 			//var ctrl = document.getElementById('slider-ctrl');
 			document.addEventListener('touchstart',function(event){
@@ -341,7 +346,7 @@ el.get
 		<div id="contents">
 		<div class="left width50">
 			<a href="p3_civic-family.html" ><img src="img/toc/3.jpg"></a>
-			<a href="" ><img src="img/toc/5.jpg"></a>
+		  <a href=""><img src="img/toc/5.jpg"></a>
 		</div>
 		<div class="right width50">
 			<a href="p4_magnifier.html" onclick="API.gotoPage(4);"><img src="img/toc/4.jpg"></a>

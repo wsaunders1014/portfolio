@@ -1,9 +1,48 @@
 @media screen and (max-width:576px){
   body{
   }
+  section{
+    width:90%;
+  }
+  .question{
+    text-align: center;
+  }
+  h1 {
+    .grey{
+      line-height: 1em;
+    }
+  }
+  #about-me{
+    display: block;
+    #photo{
+      width: 100%;
+      display: block;
+      position: relative;
+    }
+    .bio{
+      margin-top:1vh;
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+  #skills{
+    ul li{
+      font-size: 12px;
+    }
+  }
   #portfolio{
     .item{
       flex-basis: 100%;
+      transform:translateY(100%);
+      .info{
+        display: none;
+      }
+      &:hover{
+        transform:none;
+      }
     }
+  }
+  section:last-of-type{
+    text-align: center;
   }
 }
