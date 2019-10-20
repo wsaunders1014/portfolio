@@ -12,6 +12,15 @@
       line-height: 1em;
     }
   }
+  #social {
+    ul li a:hover{
+
+      img{
+        object-position: top;
+        transform:none;
+      }
+    }
+  }
   #about-me{
     display: block;
     #photo{
@@ -20,9 +29,10 @@
       position: relative;
     }
     .bio{
-      margin-top:1vh;
+      margin-top:20px;
       width: 100%;
       margin-left: 0;
+
     }
   }
   #skills{
@@ -33,7 +43,9 @@
   #portfolio{
     .item{
       flex-basis: 100%;
-      transform:translateY(100%);
+      transition: all 0.5s;
+      transform:translate(0,100%);
+      opacity: 0;
       .info{
         display: none;
       }

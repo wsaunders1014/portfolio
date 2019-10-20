@@ -7,7 +7,7 @@ module.exports = {
     entry: './src/js/main.js',
     output: {
         path: path.resolve( __dirname, './dist/' ),
-        filename: 'js/main.js',
+        filename: 'js/main.[chunkhash].js',
     },
     module: {
         rules: [
@@ -40,13 +40,17 @@ module.exports = {
               use: {
                 loader: "file-loader",
                 options: {
-                  name: "[path][name].[hash].[ext]",
+                  name: "img/[name].[contenthash].[ext]",
                 }
               }
             }
         ]
     },
     devServer:{
+      host:'0.0.0.0',
+      port:8080,
+      inline:true,
+      useLocalIp:true,
       contentBase:"./src",
       watchContentBase:true,
       hot:true,
@@ -58,14 +62,11 @@ module.exports = {
         filename:"index.html"
       }),
       new MiniCssExtractPlugin({
-        filename: "css/[name].css",
+        filename: "css/[name].[chunkhash].css",
         chunkFilename: "css/[id].css"
       }),
       new CopyPlugin([
         {from:'src/img', to:'img'},
-        {from:'src/rpa', to:'rpa'},
-        {from:'src/24', to:'24'},
-        {from:'src/focus', to:'focus'}
       ])
     ]
 };

@@ -5,21 +5,6 @@ import {projects} from './projects.js';
 var intObs
 var screenW = window.innerWidth, screenH = window.innerHeight;
 window.addEventListener('load', function(){
-  intObs = new IntersectionObserver((entries,obs) =>{
-
-    entries.forEach((entry)=>{
-      //console.log(entry)
-        if(entry.intersectionRatio > 0.4){
-          $(entry.target).css({transform:'translateX(0)',opacity:1})
-            obs.unobserve(entry.target);
-        }
-
-    })
-  },{rootMargin:"-10% 55%",threshold:[0,0.4]});
-  let elements = document.querySelectorAll('.item');
-  for(let el of elements){
-    intObs.observe(el);
-  }
 
 })
 $(document).ready(function(){
@@ -30,7 +15,7 @@ $(document).ready(function(){
     {name:'JavaScript',level:8,message:'Still learning something new everyday'},
     {name:'Git',level:5,message:'My commit messages can be pretty entertaining.'},
     {name:'PHP',level:5,message:'An oldie but goldie'},
-    {name:'SASS / LESS',level:8,message:'I can\'t go back to normal CSS'},
+    {name:'SASS',level:8,message:'I can\'t go back to normal CSS'},
     {name:'React',level:5,message:'A relatively new skill, but one I\'m actively working on.'},
     {name:'Webpack',level:5,message:'Setting up a config file is always a good time.'},
     {name:'REST',level:4,message:'As in HTTP verbs, not laying around.'},
@@ -42,7 +27,6 @@ $(document).ready(function(){
     {name:'jQuery',level:9,message:'Good ol\' spaghetti code.'},
     {name:'Node.js',level:3,message:"Mostly with Express to create some very simple API's."}
   ];
-  const skillLevel = [10,10,8,]
   for(let i=0;i<skills.length;i++){
     $('#skills').find('ul').eq(0).append(`<li><span>${skills[i].name}</span><span class="level"><span class="number" data-number=${skills[i].level}></span></span></li>`);
 
@@ -78,6 +62,42 @@ $(document).ready(function(){
       </article>`);
   }
 
+  if (!'IntersectionObserver' in window &&
+    !'IntersectionObserverEntry' in window &&
+    !'intersectionRatio' in window.IntersectionObserverEntry.prototype) {
+    // load polyfill now
+    alert('not supported')
+}else{
+  intObs = new IntersectionObserver((entries,obs) =>{
+    console.log(entries);
+    entries.forEach((entry)=>{
+      //console.log(entry)
+
+        if(entry.intersectionRatio > 0.4){
+          $(entry.target).css({transform:'translate(0,0)',opacity:1})
+            obs.unobserve(entry.target);
+        }
+
+    })
+  },{rootMargin:"0% 0% -10%",threshold:[0,0.4]});
+  let elements = document.querySelectorAll('.item');
+  for(let el of elements){
+    intObs.observe(el);
+  }
+  $('h1 > span').each(function(){
+    intObs.observe(this)
+  })
+  intObs.observe($('#social')[0])
+  $('.question').each(function(){
+    intObs.observe(this)
+  })
+  intObs.observe($('#photo')[0])
+  intObs.observe($('.bio')[0])
+  intObs.observe($('.bio')[1])
+  $('#skills ul li').each(function(){
+    intObs.observe(this)
+  })
+}
 
 
   /// Swap pic out on keyword
@@ -90,11 +110,23 @@ $(document).ready(function(){
     $('#photo').attr('src',oldSrc)
   })
   //Skill Messages
-  $('#skills ul li span').on('mouseenter',(e)=>{
-    let index = $(e.currentTarget).parent().index();
-  //  $('body').append(`<div style="top:${e.pageY-30}px;left:${e.pageX+10}px" class="interaction">${skills[index].message}</div>`);
+  $('#skills ul li > span:first-child').on('mouseenter',(e)=>{
+    if(screenW > 600){
+      //decide to show on left or right side
+        let index = $(e.currentTarget).parent().index();
+      if(e.pageX > screenW/2){//show on left
+          $('body').append(`<div style="top:${e.pageY-30}px;right:${e.pageX+10}px" class="interaction">${skills[index].message}</div>`);
+      }else{
+          $('body').append(`<div style="top:${e.pageY-30}px;left:${e.pageX+10}px" class="interaction">${skills[index].message}</div>`);
+      }
+    }
+
   }).on('mousemove',(e)=>{
-    $('.interaction').css({top:e.pageY-30,left:e.pageX+10})
+      if(e.pageX > screenW/2){
+        $('.interaction').css({top:e.pageY-30,right:screenW-e.pageX+10})
+      }else {
+        $('.interaction').css({top:e.pageY-30,left:e.pageX+10})
+      }
   }).on('mouseleave',()=>{
     $('.interaction').remove();
   });
@@ -123,4 +155,8 @@ $(document).ready(function(){
   })
   $('.wayback').click(()=> alert('Notice: This site was rebuilt from the Wayback archive so some images may be missing and some functionality might not work as expected.'))
 
+
+  $(window).resize(function(){
+    screenW = window.innerWidth, screenH = window.innerHeight;
+  })
 })

@@ -6,15 +6,31 @@
 * {
   box-sizing: border-box;
 }
+
+#debug{
+  width:100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  min-height: 200px;
+  z-index: 1000;
+  border: 1px solid #000;
+  display: none;
+}
+
+
 $headingColor: #2d2d2d;
 $textColor: #000;
 $orange:#e69138;
+$mainfont:'Open Sans',sans-serif;
+$accentfont:'Cairo', sans-serif;
 body{
   margin: 0;
   padding: 0;
   background: rgb(255,255,255);
   background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 82%, rgba(230,230,230,1) 100%);
-  font-family: 'Roboto', sans-serif;
+  font-family: $mainfont;
   letter-spacing: 2px;
   font-size: 16px;
   line-height: 225%;
@@ -22,7 +38,7 @@ body{
   overflow-x: hidden;
 }
 h1,h2,h3,h4,h5,h6{
-  font-family: 'Orbitron',sans-serif;
+  font-family:$accentfont;
   color:$headingColor;
 }
 a:hover{
@@ -42,20 +58,37 @@ h1{
   text-transform: uppercase;
   font-size: 48px;
   line-height: 0.8em;
-
-
+  font-weight: 600;
+  margin-bottom:1.5vh;
 }
 .iam{
   color: #000;
-  font-size: 32px;
-  text-shadow: none;
+  font-size: 28px;
+  font-family: $mainfont;
+  font-weight: 400;
+  transition:all 0.3s;
+  display: block;
+  transform:translate(0,-100%);
+  opacity: 0;
 }
 .orange{
   color:$orange;
+  transition:all 0.3s;
 }
 $grey:#6b6b6b;
 .grey{
+  transition:all 0.3s;
   color:$grey;
+
+}
+h1{
+  .grey,.orange{
+
+    transform:translate(0,-100%);
+    opacity: 0;
+    display: inline-block;
+  }
+
 }
 #social{
   @include baseW;
@@ -63,6 +96,9 @@ $grey:#6b6b6b;
   border-top: 2px solid #000;
   max-width: 400px;
   padding-top: 20px;
+  transform:translate(0,100%);
+  opacity: 0;
+  transition:all 0.3s;
   ul{
     li{
       display: inline-block;
@@ -107,16 +143,21 @@ a{
   font-size: 28px;
   width: 80%;
   margin: 2vh auto 1vh;
+  font-family: $accentfont;
   font-weight: bold;
   @include baseW;
+  transform:translate(0,100%);
+  opacity: 0;
+  transition:all 0.3s;
 }
 //remove line-height padding from first line.
-p:before{
+p:first-of-type:before{
   position: relative;
   content: "";
   display: block;
   margin-top:-11px;
 }
+
 #about-me{
   margin-bottom: 2vh;
   display:block;
@@ -129,12 +170,21 @@ p:before{
     position: absolute;
     top: 0;
     height: calc(100% - 11px);
+    transform:translate(-100%,0%);
+    opacity: 0;
+    transition: all 0.3s;
   }
   .bio{
     width:65%;
-    margin: 0;
+    margin: 0 0 1em 0;
     margin-left: 35%;
     display: inline-block;
+    transform:translate(100%,0);
+    opacity: 0;
+    transition: all 0.3s;
+    &:last-of-type{
+      margin-bottom: 0;
+    }
   }
 }
 .pic-swap{
@@ -148,8 +198,10 @@ p:before{
     grid-template-columns: 25% 25% 25% 25%;
     grid-auto-rows:1fr;
     li{
-
-      font-family: 'Orbitron';
+      transition:all 0.3s;
+      transform:translate(0,100%);
+      opacity: 0;
+      font-family: $accentfont;
       font-size: 14px;
       padding:10px 0;
       text-align: center;
@@ -190,11 +242,10 @@ p:before{
   perspective: 1000px;
   transform:translateZ(0px);
   justify-content: space-between;
-  overflow: unset;
 }
 .item{
   transform-style: preserve-3d;
-  transform:translateX(-100%);
+  transform:translate(0,50%);
   opacity: 0;
   width: 45%;
   flex:0 0 45%;
@@ -205,7 +256,7 @@ p:before{
   box-shadow: 10px 10px 15px #00000087;
   z-index: 1;
   &:nth-of-type(even){
-    transform:translateX(100%);
+
   }
   a{
 
@@ -240,7 +291,7 @@ p:before{
   &:hover{
     z-index: 2;
     box-shadow:20px 20px 25px #00000087;
-    transform:scale(1.1);
+    transform:scale(1.1) !important;
     .info{
       bottom:0;
     }
