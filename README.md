@@ -14,6 +14,12 @@ The development server opens http://localhost:8080 and reloads when source
 files change. Stop it with Ctrl+C. To start without opening a browser, use
 `npm start -- --no-open`.
 
+The older interactive portfolio is served at http://localhost:8080/old/.
+Restart the server after changing `webpack.config.js`. Its HTML and scripts
+are in `old/`, and its restored CSS is in `old/css/`. The original LESS source
+is in `old/less/`; this legacy stylesheet is not compiled by the current build.
+The legacy contact form requires PHP and cannot submit through the Webpack server.
+
 - `npm run build` generates production files in `dist/`.
 - `npm run dev` watches and rebuilds development files in `dist/`, without a server.
 

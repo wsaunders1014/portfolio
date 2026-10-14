@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+ <script type="text/javascript" charset="utf-8" src="si-animation_edgePreload.js"></script>
+    <style>
+        .edgeLoad-EDGE-323978359 { visibility:hidden; }
+    </style>
+<script type="text/javascript">
+
+function animateRedRings(){
+	$('.ring-1').animate({opacity:1.0},300);
+	$('.ring-2').delay(300).animate({opacity:1.0},300);
+	$('.ring-3').delay(600).animate({opacity:1.0},300,function(){
+		$('.ring-1').animate({opacity:0},300);
+		$('.ring-2').delay(300).animate({opacity:0},300);
+		$('.ring-3').delay(600).animate({opacity:0},300);
+	});
+
+}
+function animateGreenRings(){
+	$('.greenrings').show();
+	$('.green-1').animate({opacity:1.0},300);
+	$('.green-2').delay(300).animate({opacity:1.0},300);
+	$('.green-3').delay(600).animate({opacity:1.0},300,function(){
+		$('.green-1').animate({opacity:0},300);
+		$('.green-2').delay(300).animate({opacity:0},300);
+		$('.green-3').delay(600).animate({opacity:0},300);
+	});
+
+}
+var redRings;
+var greenRings;
+$(document).ready(function(){
+
+jQuery.easing['jswing'] = jQuery.easing['swing'];
+jQuery.extend( jQuery.easing,
+{
+	def: 'easeOutQuad',
+	swing: function (x, t, b, c, d) {
+		//alert(jQuery.easing.default);
+		return jQuery.easing[jQuery.easing.def](x, t, b, c, d);
+	},
+	easeOutQuad: function (x, t, b, c, d) {
+		return -c *(t/=d)*(t-2) + b;
+	}
+});
+	$('#skid-large').css('width',function(){
+			var skidWidth = $('#container').width() * 0.7126736111111111;
+			return skidWidth;
+		});
+		$('#skid-small').css('width',function(){
+			var skidWidth = $('#container').width() *0.5894097222222222;
+			return skidWidth;
+		});
+	var oldIndex = 0;
+	var index = 0;
+
+	$('#menu ul li').click(function(event){
+		$('#menu ul li').children('.on').addClass('hide');
+		$(this).children('.on').removeClass('hide');
+		
+
+	
+		 index = $(this).index();
+		 console.log(index);
+		if (index != 2){
+			$('.redrings img').hide().stop();
+			window.clearInterval(redRings);
+		
+		}
+		if (index != 4){
+			$('.greenrings img').hide().stop();
+			window.clearInterval(greenRings);
+		}
+		if (index == 0 ){ //Excitement Awaits
+			$('#chart2').hide().animate({opacity:0.0},0);
+			$("#hero-slides").animate({'left':index * -100+'%'},1500,'linear');
+			$('#copy img').hide();
+			$('#copy img').eq(index).show();
+			if(index !=oldIndex){
+				$('#btn').animate({bottom:'-50%',width:'10%',left:'70%'},750,function(){
+					$('#btn img').hide().eq(index).show();
+				});
+				$('#btn').animate({bottom:'2.2%',width:'31.95%',left:'60%'},1000);
+			}
+			$('#btn-cta').css('display','block');
+			$('#select').show();
+			$('.details').hide().animate({opacity:0.0},0);
+		}else if(index == 1) { // G Design Shift
+		   $('#btn-cta').hide();
+			$("#hero-slides").animate({'left':index * -100+'%'},1500,'linear');
+			$('#copy img').hide();
+			$('#copy img').eq(index).show();
+			$('#chart2').delay(1400).show().animate({opacity:1.0},1000); // NEW
+			if(oldIndex !=2 && index!=oldIndex){
+				$('#btn').animate({bottom:'-50%',width:'10%',left:'70%'},750,function(){
+					$('#btn img').hide().eq(index).show();
+				});
+			$('#btn').animate({bottom:'2.2%',width:'31.95%',left:'60%'},1000);
+			}else {
+				$('#btn img').hide().eq(index).show();
+			}
+			
+
+			$('#btn-cta').hide();
+		}else if(index ==2){ //Paddle Shifters
+			$('#btn-cta').css('display','block');
+			$("#hero-slides").animate({'left':(index-1) * -100+'%'},1500,'linear');
+			$('#copy img').hide();
+			$('#copy img').eq(index).show();
+			if(oldIndex !=1 && index!=oldIndex){
+			$('#btn').animate({bottom:'-50%',width:'10%',left:'70%'},750,function(){
+				$('#btn img').hide().eq(index).show();
+			});
+
+			$('#btn').animate({bottom:'2.2%',width:'31.95%',left:'60%'},1000);
+			}else {
+				$('#btn img').hide().eq(index).show();
+			}
+			$('.details').hide().animate({opacity:0.0},0);
+			$('#chart').delay(1400).show().animate({opacity:1.0},1000,function(){
+				$('.redrings img').show();
+				animateRedRings();
+				redRings = window.setInterval(animateRedRings,2400);
+			});
+			//$('#ps-detail').delay(200).show().animate({opacity:1.0},1000);
+
+			$('#btn-cta').show();
+
+		}else if(index ==3){ //Performance
+			$('#chart2').hide().animate({opacity:0.0},0);
+			$('#copy img').hide();
+			$('#copy img').eq(index).show();
+			if(index !=oldIndex){
+				$('#btn').animate({bottom:'-50%',width:'10%',left:'70%'},750,function(){
+					$('#btn img').hide().eq(index).show();
+				});
+				$('#btn').animate({bottom:'2.2%',width:'31.95%',left:'60%'},1000);
+			}
+			$('.details').hide().animate({opacity:0.0},0);
+			$('.redrings').hide();
+			window.clearInterval(redRings);
+			
+			$("#hero-slides").animate({'left':(index-1) * -100+'%'},1500,'linear',function(){
+				$('#btn-cta').hide();
+			});
+
+
+		}else if(index ==4){ //Efficiency
+	
+			$('#chart2').hide().animate({opacity:0.0},0);
+			$('#copy img').hide();
+			$('#copy img').eq(index).show();
+			$('#btn-cta').css('display','block');
+			$('#eco-boost').removeAttr('style');
+			if(index !=oldIndex){
+				$('#btn').animate({bottom:'-50%',width:'10%',left:'70%'},750,function(){
+					$('#btn img').hide().eq(index).show();
+				});
+				$('#btn').animate({bottom:'2.2%',width:'31.95%',left:'60%'},1000,function(){
+				$('.greenrings img').show();
+				animateGreenRings();
+				greenRings = window.setInterval(animateGreenRings,2400);
+				});
+			}
+			
+			
+			$("#hero-slides").animate({'left':(index-1) * -100+'%'},1500,'linear');
+			$('.details').hide().animate({opacity:0.0},0);
+
+		
+		}
+		var isClicked = false;
+		$('.greenrings').click(function(){
+		
+				if(isClicked == false) {
+					$('#eco-boost').clearQueue();
+					$('#eco-boost').show().animate({opacity:1.0},1000);
+					isClicked = true;
+				}else{
+					$('#eco-boost').clearQueue();
+					$('#eco-boost').animate({opacity:0},700,function(){$(this).hide();});
+					isClicked = false;
+				}
+			});
+		var isClicked2 = false;
+		$('.redrings').click(function(){
+		
+				if(isClicked2 == false) {
+					$('#ps-detail').clearQueue();
+					$('#ps-detail').show().animate({opacity:1.0},700);
+
+					isClicked2 = true;
+				}else{
+					$('#ps-detail').clearQueue();
+					$('#ps-detail').animate({opacity:0},700,function(){$('#ps-detail').hide();});
+					isClicked2 = false;
+				}
+			});
+		
+		
+		if (index !=0){
+			$('#select').hide();
+		}
+		
+		oldIndex = index;
+		
+	});
+	
+	$('#shifter-btn').click(function(){		
+	});
+	var audio = document.getElementById('engine-sound');
+	$('#ea-btn').click(function(){
+		audio.play();
+	});
+
+	$('ul li').hover(function() {
+		$(this).children('.hover').removeClass('hide');
+	},
+	function() {
+		$(this).children('.hover').addClass('hide');
+	});
+
+});
+</script>
+<style type="text/css">
+	html,body {
+			margin:0px;
+			padding:0px;
+			background:#fff;
+			overflow: hidden;
+			height:100%;
+		}
+		img {
+			width:100%;
+		}
+		ul {
+			list-style: none;
+			padding: 0px;
+			margin: 0px;
+			height: 100%;
+		}
+		#menu {
+			width: 13.8%;
+			height: 75%;
+			position: relative;
+			top: 15%;
+			left: 3%;
+		}
+		ul li {
+			height:13.5%;
+			margin-bottom:5%;
+			overflow: hidden;
+			cursor:pointer;
+		}
+
+		ul li a {
+			display:block;
+			width:100%;
+			height:100%;
+
+		}
+		#paddle-btn,.steering-btn {
+			width:104%;
+		}
+		#container {
+			overflow:hidden;
+			height:94.79166666666666%;
+			padding: 2.60416666666667%
+		}
+		#top {
+			height:62.6%;
+			width: 100%;
+			overflow: hidden;
+			position:relative;
+		}
+		#bottom {
+			background:url(img/ftd/gray.jpg) no-repeat;
+			background-size:100%;
+			height:36%;
+			margin-top: 1.4%;
+			width:100%;
+		}
+		#copy {
+			height: 75%;
+			position: absolute;
+			top: 69%;
+			left: 20%;
+			width: 40%;
+		}
+		#btn {
+			position: absolute;
+			bottom: 2.2%;
+			left: 60%;
+			width: 31.95%;
+			cursor:pointer;
+			z-index:10;
+		}
+		#hero-slides {
+			width:400%;
+			position: relative;
+			height:100%;
+		}
+		#hero-slides img {
+			float:left;
+			width:25%;
+		}
+		#chart {
+			position:absolute;
+			width: 35.4%;
+			height: 78%;
+			right: 8%;
+			display: none;
+			top: 6%;
+			opacity:0.0;
+		}
+		#chart2 {
+			position:absolute;
+			width: 35.4%;
+			height: 78%;
+			right: 8%;
+			display: none;
+			top: 6%;
+			opacity:0.0;
+		}
+		#eco-boost {
+			position:absolute;
+			top: 68%;
+			width: 51.5%;
+			height: 29%;
+			left: 6%;
+			opacity:0;
+			display:none;
+		}
+		#ps-detail {
+			position:absolute;
+			top: 66.7%;
+			width: 16.4%;
+			height: 13%;
+			left: 42.5%;
+			display:none;
+			opacity:0;
+		}
+		#btn-cta {
+			position:absolute;
+			bottom: 4%;
+			left: 56%;
+			width: 6.25%;
+			
+		}
+		#drift {
+			position:relative;
+			height:100%;
+			width:100%;
+			top:-100%;
+			display:none;
+		}
+		#car {
+			position: absolute;
+			width: 69.634259%;
+			top: 42%;
+			left: 100%;
+		}
+		#car img {
+			position:absolute;
+		}
+		#flare {
+			width: 38%;
+			height: 71%;
+			position: absolute;
+			right: 7%;
+		}
+		#skids {
+			position: absolute;
+			top: 80.5%;
+			width: 0%;
+			right:12%;
+			height: 8%;
+			overflow:hidden;
+		}
+		#skid-large {
+			top: 80%;
+			position: absolute;
+			right: 0px;
+		}
+		#skid-small {
+			right: 0px;
+			position:absolute;
+		}
+		#base {
+			position:relative;
+			width:25%;
+			display:inline;
+			height:100%;
+			float:left;
+			overflow:hidden;
+			
+		}
+		#base img {
+			width: 100%;
+			left: 0%;
+			position: absolute;
+			top:0%;
+		}
+		ul li img {
+			position:absolute;
+		}
+		.redrings {
+			position: absolute;
+			width: 5.3%;
+			height: 7%;
+			top: 71%;
+			z-index: 10;
+			cursor:pointer;
+		}
+		.redrings img {
+			position:absolute;
+			opacity:0;
+		}
+		.greenrings {
+			position: absolute;
+			width: 34.5%;
+			top: 57.5%;
+			left: 58.7%;
+			display:none;
+			cursor:pointer;
+			z-index:11;
+		}
+		.greenrings img{
+			position:absolute;
+			opacity:0;
+		}
+		#select {
+			position: absolute;
+			bottom: 3%;
+			width: 6%;
+			right: 5%;
+		}
+		#Stage {
+			border-radius: 18px 18px 0px 0px;
+		}
+		.hide {
+			display:none;
+		}
+		#page-title {
+			position:absolute;
+			top:0%;
+			left: 4%;
+			width: 12.9%;
+			height: 3%;
+			z-index: 100;
+		}
+		#Stage > div {
+			filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(
+            src='img/trans.png', sizingMethod='scale');
+		}
+</style>
+</head>
+<body id="fun-to-drive">
+	<div id="container">
+	<div id="page-title">
+			<img src="img/ftd/page-header.jpg"/>
+		</div>
+		<div id="top">
+			<div id="hero-slides">
+				<img src="img/ftd/excitement-hero.jpg" />
+				<img src="img/ftd/gd-hero.jpg"/>
+				<div id="base">
+					<div id="Stage" class="EDGE-323978359" style="z-index: 3;">	
+						<div id="Stage_background" class="edgeLoad-EDGE-323978359" style="visibility:visible;"></div>
+						<div id="Stage_skid-large" class="edgeLoad-EDGE-323978359"></div>
+						<div id="Stage_skid-small" class="edgeLoad-EDGE-323978359"></div>
+						<div id="Stage_wheels-spin-masked" class="edgeLoad-EDGE-323978359"></div>
+						<div id="Stage_car-top" class="edgeLoad-EDGE-323978359"></div>
+						<div id="Stage_flare" class="edgeLoad-EDGE-323978359"></div>
+						<div id="Stage_wheels" class="edgeLoad-EDGE-323978359"></div>
+						<div id="Stage__tire-smoke" class="edgeLoad-EDGE-323978359"></div>
+						<div id="Stage_big-smoke" class="edgeLoad-EDGE-323978359"></div>
+						<div id="Stage_light-smoke" class="edgeLoad-EDGE-323978359"></div>
+						<div id="Stage_light-smoke2" class="edgeLoad-EDGE-323978359"></div>
+					</div> <img src="images/base.jpg"/>
+				</div>
+				<img src="img/ftd/eff-hero.jpg"/>
+			</div>
+			<div id="chart" class="details">
+				<img src="img/ftd/chart.png"/>
+			</div>
+            	<div id="chart2" class="details2">
+				<img src="img/ftd/chart.png"/>
+			</div>
+			<div id="eco-boost" class="details">
+				<img src="img/ftd/eff-sm-img.png"/>
+			</div>
+			<div id="drift" class="details">
+			<!--	<div id="skids">
+					<img id="skid-large" src="img/ftd/skid-large.png" />
+					<img id="skid-small" src="img/ftd/skid-small.png" />
+				</div>
+				<div id="car">
+					<img src="img/ftd/si-spin.png" />
+					<img id="wheels" src="img/ftd/wheels.png" style="opacity:0.0;" />
+				</div>
+				<div id="flare">
+					<img src="img/ftd/flare.png" />
+				</div> -->
+				
+			</div>
+		</div>
+		<div id="bottom">
+			<div id="menu">
+				<ul>
+					<li><img src="img/ftd/ea-btn-off.jpg"/><img class="hide hover" src="img/ftd/ea-btn-hover.jpg"/><img class="on" src="img/ftd/ea-btn-on.jpg"/></li>
+					<li><img src="img/ftd/gd-btn-off.jpg"/><img class="hide hover" src="img/ftd/gd-btn-hover.jpg"/><img class="hide on" src="img/ftd/gd-btn-on.jpg"/></li>
+					<li><img src="img/ftd/ps-btn-off.jpg"/><img class="hide hover" src="img/ftd/ps-btn-hover.jpg"/><img class="hide on" src="img/ftd/ps-btn-on.jpg"/></li>
+					<li><img src="img/ftd/perf-btn-off.jpg"/><img class="hide hover" src="img/ftd/perf-btn-hover.jpg"/><img class="hide on" src="img/ftd/perf-btn-on.jpg"/></li>
+					<li><img src="img/ftd/eff-btn-off.jpg"/><img class="hide hover" src="img/ftd/eff-btn-hover.jpg"/><img class="hide on" src="img/ftd/eff-btn-on.jpg"/></li>
+				</ul>
+			</div>
+			<div id="copy">
+				<img src="img/ftd/ea-copy.jpg" />
+				<img src="img/ftd/gd-copy.jpg" style="display:none"/>
+				<img src="img/ftd/ps-copy.jpg" style="display:none"/>
+				<img src="img/ftd/perf-copy.jpg" style="display:none"/>
+				<img src="img/ftd/eff-copy.jpg" style="display:none"/>
+			</div>
+			<div id="btn-cta"><img src="img/ftd/btn-cta.png"/></div>
+			<div id="select"><img src="img/ftd/select.jpg"></div>
+			<div id="btn">
+				<img src="img/ftd/stop-btn.png" id="ea-btn"/>
+				<img class="steering-btn" src="img/ftd/steeringwheel-btn.png" style="display:none" />
+				<img src="img/ftd/paddleshifter-btn.png" style="display:none" id="paddle-btn"/>
+				<img src="img/ftd/drift-btn.png" style="display:none" id="shifter-btn"/>
+				<img src="img/ftd/econ-btn.png" style="display:none" id="econ-btn"/>
+			</div>
+			<div id="ps-detail" class="details">
+				<img src="img/ftd/ps-sm-img.jpg"/>
+			</div>
+			<div class="redrings" style="left:63%;">
+				<img class="ring-1" src="img/ftd/red-ring-1.png"/>
+				<img class="ring-2" src="img/ftd/red-ring-2.png"/>
+				<img class="ring-3" src="img/ftd/red-ring-3.png"/>
+			</div>
+			<div class="redrings" style="left:84.7%;">
+				<img class="ring-1" src="img/ftd/red-ring-1.png"/>
+				<img class="ring-2" src="img/ftd/red-ring-2.png"/>
+				<img class="ring-3" src="img/ftd/red-ring-3.png"/>
+			</div>
+			<div class="greenrings">
+				<img class="green-1" src="img/ftd/green-ring-1.png"/>
+				<img class="green-2" src="img/ftd/green-ring-2.png"/>
+				<img class="green-3" src="img/ftd/green-ring-3.png"/>
+			</div>
+			<audio id="engine-sound" preload="auto">
+			  <source src="engine-sound.mp3" type="audio/mpeg">
+			  
+			</audio>
+		</div>
+	</div>
+</body>
+</html>

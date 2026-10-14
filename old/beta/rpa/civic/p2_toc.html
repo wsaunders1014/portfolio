@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<head>
+<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="//secure.api.viewer.zmags.com/widgets/iframe.js" type="text/javascript"></script>
+<script type="text/javascript">
+    // Set up interface with the embedded viewer API.
+    var Iframe = com.zmags.api.widgets.Iframe;
+    var API = Iframe.getViewerAPI();
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+var src = '';
+	$('#contents img').hover(function(){
+		src = $(this).attr('src');
+		var newSrcArry = src.split('.');
+		var newSrc = newSrcArry[0] +'_hover.jpg';
+		$(this).attr('src',newSrc);
+	},function(){
+		$(this).attr('src',src);
+	});
+		
+		
+		var ctrlH = $('#slider-ctrl').outerHeight();
+		var contentsTop = $('#contents').position().top;
+		var containerH = $('#container').height();
+		var windowH = $(window).height();
+		var sliderPos = 0;
+		var sliderTop =0;
+		var slidePercent = 0;
+		var contentH = 0;
+		var dist =0;
+		//console.log(containerH);
+		
+		$(window).load(function(){
+			contentH = $('#contents').outerHeight();
+		
+		});	
+		var trackH = $("#track").height();
+		var topLimit = $('#slider').offset().top;
+		var bottomLimit = trackH+topLimit;
+		
+		$('#slider-ctrl').on('mousedown',function(event){
+			event.preventDefault();
+			$(this).addClass('dragging');
+			$('#container').on('mousemove', function(event){
+				sliderPos = event.pageY -ctrlH/2;
+				if (sliderPos < topLimit)
+					sliderPos = topLimit;
+				if (sliderPos > bottomLimit)
+					sliderPos = bottomLimit;
+				$('.dragging').offset({
+					top:sliderPos
+				});
+				 sliderTop = $('#slider-ctrl').position().top;
+
+				 slidePercent = (sliderTop / trackH)*.7135;
+				if (slidePercent ===undefined)
+					slidePercent = 0;
+				dist = slidePercent *  contentH;
+				if (dist > contentH - windowH)
+					dist = contentH -windowH + contentsTop;
+				else if(dist ==0)
+					dist = -(contentsTop);
+				$('#contents').css({top:-dist});
+				
+				$('#scroll-cta').delay(500).fadeOut(500);
+			}).on('mouseup',function(){
+				$('.dragging').removeClass('dragging');
+				$(this).off('mousemove');
+			}).on('mouseleave',function(){
+				$('.dragging').removeClass('dragging');
+				$(this).off('mousemove');
+			});
+		});
+		//MOBILE INTERACTIONS
+			var touchStartY = 0;
+			//var ctrl = document.getElementById('slider-ctrl');
+			document.addEventListener('touchstart',function(event){
+				event.preventDefault();
+				var touchStart = event.changedTouches[0];
+				touchStartY = touchStart.pageY;
+				//console.log(touchStartY);
+				$('#slider-ctrl').addClass('dragging');
+
+			},false);
+			document.addEventListener('touchmove',function(event){
+				event.preventDefault();
+				var touchMove = event.changedTouches[0];
+				var touchEndY= touchMove.pageY;
+				
+				//console.log(touchEndY);
+				//console.log(touchStartY);
+				dist = touchEndY - touchStartY;
+				//console.log('dist= '+ dist);
+				var upperStop = contentH - containerH;
+				if (contentsTop+dist < -upperStop){ // -1821 < -1893 - dist(-73)
+					dist=-(upperStop + contentsTop)
+				}else if(contentsTop+dist > 0){
+					dist =-contentsTop;
+				}
+				//console.log('dist= '+ dist);
+				$('#contents').css({top:contentsTop+dist});
+				var currentPos = ((Math.abs($('#contents').position().top) /upperStop)*trackH+topLimit);
+				//sliderPos = touchMove.pageY;
+				console.log(currentPos);
+				//console.log(upperStop);
+				 
+				if (currentPos < topLimit)
+					currentPos = topLimit;
+				if (currentPos > bottomLimit)
+					currentPos = bottomLimit;
+				$('.dragging').offset({
+					top:currentPos
+				});
+				 sliderTop = $('#slider-ctrl').position().top;
+				 slidePercent = (sliderTop / trackH)*.7135;
+			
+				$('#scroll-cta').delay(500).fadeOut(500);
+			},false);
+			
+			document.addEventListener('touchend',function(event){
+				$('#slider-ctrl').removeClass('dragging');
+				var touchMove = event.changedTouches[0];
+				var touchEndY= touchMove.pageY;
+				contentsTop = $('#contents').position().top;
+			},false);
+			
+			 // mousewheel
+			//Firefox
+			$(document).bind('DOMMouseScroll', function (e) {
+				$('#scroll-cta').delay(500).fadeOut(500);
+				var scrollDist= 50;
+				//scroll down
+				if (e.originalEvent.detail > 0){
+					sliderOffset = $('#slider-ctrl').offset().top;
+					if (sliderOffset >= bottomLimit-scrollDist)
+						scrollDist = bottomLimit - sliderOffset;
+					
+					$('#slider-ctrl').stop().animate({top:'+='+scrollDist},100,function(){
+					
+					});
+					sliderTop = $('#slider-ctrl').position().top;
+					slidePercent = (sliderTop / trackH)*.7135;
+					dist = slidePercent *  contentH;
+			
+					if(dist < contentsTop)
+						dist = -contentsTop;
+					$('#contents').stop().animate({top:-dist},200,'linear');
+
+				}
+				//scroll up
+				else {
+					sliderOffset = $('#slider-ctrl').position().top;			
+					if (sliderOffset < scrollDist)
+						scrollDist = scrollDist -(50-sliderOffset);
+					$('#slider-ctrl').stop().animate({top:'-='+scrollDist},200,function(){
+						sliderTop = $('#slider-ctrl').position().top;
+						console.log(sliderTop);
+					});
+					
+					slidePercent = (sliderTop / trackH)*.7135;					
+					dist = slidePercent *  contentH;		
+					if(dist < contentsTop)
+						dist = -contentsTop;
+					$('#contents').stop().animate({top:-dist},200,'linear');
+				}
+				return false;
+			});
+
+			//IE, Opera, Safari
+			$(document).on('wheel mousewheel', function (e) {
+				$('#scroll-cta').delay(500).fadeOut(500);
+				var scrollDist= 50;
+				//scroll down
+				console.log(e.originalEvent);
+				if (e.originalEvent.wheelDelta < 0 || e.originalEvent.deltaX > 0){
+				
+					sliderOffset = $('#slider-ctrl').offset().top;
+					if (sliderOffset >= bottomLimit-scrollDist)
+						scrollDist = bottomLimit - sliderOffset;
+					
+					$('#slider-ctrl').finish().animate({top:'+='+scrollDist},100,function(){
+						sliderTop = $('#slider-ctrl').position().top;
+						if(sliderTop > bottomLimit-topLimit){
+							sliderTop = bottomLimit-topLimit;
+							$('#slider-ctrl').css('top',bottomLimit-topLimit);
+						}
+						slidePercent = (sliderTop / trackH)*.7135;
+						dist = slidePercent *  contentH;
+				
+						if(dist < contentsTop)
+							dist = -contentsTop;
+						$('#contents').finish().animate({top:-dist},100);
+					});
+				}
+				//scroll up
+				else {
+				//console.log(e.originalEvent.wheelDelta);
+					sliderOffset = $('#slider-ctrl').position().top;			
+					if (sliderOffset < scrollDist)
+						scrollDist = scrollDist -(scrollDist-sliderOffset);
+					$('#slider-ctrl').finish().animate({top:'-='+scrollDist},100,function(){
+						sliderTop = $('#slider-ctrl').position().top;					
+						slidePercent = (sliderTop / trackH)*.7135;					
+						dist = slidePercent *  contentH;		
+						if(dist < contentsTop)
+							dist = -contentsTop;
+						$('#contents').finish().animate({top:-dist},100);
+					});		
+				}
+				return false;
+			});
+			
+			$(window).resize(function(){
+				 ctrlH = $('#slider-ctrl img').outerHeight();
+				 
+				 windowH = $(window).height();
+				 contentH = $('#contents').outerHeight();
+				 trackH = $("#track").height();
+				 sliderPos = 0;
+				 dist=0;
+				$('#contents').removeAttr('style');
+				contentsTop = $('#contents').position().top;
+				$('#slider-ctrl').css('top',0+'px');
+				
+				topLimit = $('#slider').offset().top;
+				bottomLimit = trackH+topLimit;
+	
+	});
+});
+function getTop(el) {
+el.get
+}
+</script>
+<style type="text/css">
+	html,body {
+			margin:0px;
+			padding:0px;
+			background:#fff;
+			height:100%;
+			overflow: hidden;
+			font-family: droid-sans,arial,sans-serif;
+		}
+		img {
+			width:100%;
+			margin:0% 0 1%;
+			border:0;
+		}
+		#container {
+			height:100%;
+			-webkit-overflow-scrolling: touch;
+			width:100%;
+			position:relative;
+		}
+		.left {
+			float:left;
+		}
+		.right {
+			float:left;
+			margin-left: .931%;
+		}
+		.clear {
+			clear:both;
+		}
+		.width50 {
+			width:49.5%;
+		}
+		.width66 {
+			width:66.1%;
+		}
+		.width33 {
+			width:32.9%;
+		}
+		.width15 {
+			width:16%;
+		}
+		
+		#contents {
+			width: 90%;
+			position: absolute;
+			left: 2.6%;
+			top:0%;
+			padding-top: 2.6%;
+			padding-bottom:2.6%;
+			line-height:0;
+			padding-right: 10%;
+		}
+		#slider {
+			position:relative;
+			width: 3%;
+			left: 94%;
+			height: 73%;
+			z-index: 99;
+			top: 12%;
+		}
+		#slider-ctrl {
+			width:105%;
+			position: absolute;
+			left:-2.5%;
+			display: block;
+			z-index: 4;
+			cursor: pointer;
+			line-height:0;
+		}
+		#slider-ctrl img {
+			position:relative;
+		}
+		#track {
+			background:#c7c8ca;
+			position: absolute;
+			height: 100%;
+			width: 22%;
+			right: 37%;
+			top:2.5%;
+			z-index: 3;
+			bottom:2.5%;
+			border-radius:5px;
+		}
+		
+		#scroll-cta {
+			position:absolute;
+			top: 83%;
+			width: 14%;
+			left: 42%;
+			z-index: 10;
+		}
+</style>
+</head>
+<body id="toc">
+	<div id="container">
+		<div id="scroll-cta">
+			<img src="img/toc/scroll-cta.png"/>
+		</div>
+		<div id="slider">
+			<div id="track"></div>
+			<div id="slider-ctrl"><img src="img/toc/slider-ctrl.jpg" draggable='false'/></div>
+		</div>
+		<div id="contents">
+		<div class="left width50">
+			<a href="" onclick="API.gotoPage(3);"><img src="img/toc/3.jpg"></a>
+			<a href="" onclick="API.gotoPage(5);"><img src="img/toc/5.jpg"></a>
+		</div>
+		<div class="right width50">
+			<a href="" onclick="API.gotoPage(4);"><img src="img/toc/4.jpg"></a>
+		</div>
+		<div class="clear"></div>
+		<div class="left width66">
+			<a href="" onclick="API.gotoPage(6);"><img src="img/toc/6.jpg"></a>
+		</div>
+		<div class="right width33">
+			<a href="" onclick="API.gotoPage(7);"><img src="img/toc/7.jpg"></a>
+		</div>
+		<div class="clear"></div>
+		<div class="left width66">
+			<a href="" onclick="API.gotoPage(8);"><img src="img/toc/8.jpg"></a>
+		</div>
+		<div class="right width33">
+			<a href="" onclick="API.gotoPage(9);"><img src="img/toc/9.jpg"></a>
+		</div>
+		<div class="left width50">
+			<a href="" onclick="API.gotoPage(10);"><img src="img/toc/10.jpg"></a>
+			<a href="" onclick="API.gotoPage(12);"><img src="img/toc/12.jpg"></a>
+		</div>
+		<div class="right width50">
+			<a href="" onclick="API.gotoPage(11);"><img src="img/toc/11.jpg"></a>
+		</div>
+		<div class="clear"></div>
+		<div class="left width66">
+			<a href="" onclick="API.gotoPage(13);"><img src="img/toc/13.jpg"></a>
+		</div>
+		<div class="right width33">
+			<a href="" onclick="API.gotoPage(14);"><img src="img/toc/14.jpg"></a>
+		</div>
+		<div class="clear"></div>
+		<div class="left width33">
+			<a href="" onclick="API.gotoPage(15);"><img src="img/toc/15.jpg"></a>
+		</div>
+		<div class="right width66">
+			<a href="" onclick="API.gotoPage(16);"><img src="img/toc/16.jpg"></a>
+		</div>
+		<div class="clear"></div>
+		<div class="left width33">
+			<a href="" onclick="API.gotoPage(17);"><img src="img/toc/17.jpg"></a>
+		</div>
+		<div class="right width15">
+			<a href="" onclick="API.gotoPage(18);"><img src="img/toc/18.jpg"></a>
+
+		</div>
+		<div class="right" style="width:49.2%;">
+			<a href="" onclick="API.gotoPage(19);"><img src="img/toc/19.jpg"></a>
+
+		</div>
+		<div class="clear"></div>
+		
+	</div>
+	
+	</div>
+</body>
+</html>

@@ -139,7 +139,7 @@
     }
   };
 
-  export var Bezier = function(coords) {
+  var Bezier = function(coords) {
     var args = (coords && coords.forEach) ? coords : [].slice.call(arguments);
     var coordlen = false;
     if(typeof args[0] === "object") {
@@ -450,4 +450,3 @@
       return ret;
     }
   };
-export default Bezier;
