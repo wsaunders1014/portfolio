@@ -1,0 +1,1477 @@
+html {
+  height: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+@media screen and (min-device-width: 668px) {
+  ::-webkit-scrollbar {
+    width: 14px;
+    position: fixed;
+    right: 0;
+  }
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-thumb {
+    border: 4px solid rgba(255, 255, 255, 0);
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0);
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #d8d8d84d;
+    border-radius: 14px;
+    opacity: 0.77;
+  }
+}
+em {
+  font-style: italic;
+}
+@font-face {
+  font-family: 'ProximaNova';
+  src: url('../fonts/ProximaNova-Regular.eot');
+  src: url('../fonts/ProximaNova-Regular.eot?#iefix') format('embedded-opentype'), url('../fonts/ProximaNova-Regular.woff2') format('woff2'), url('../fonts/ProximaNova-Regular.woff') format('woff'), url('../fonts/ProximaNova-Regular.svg#ProximaNova-Regular') format('svg');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'ProximaNova';
+  src: url('../fonts/ProximaNova-Bold.eot');
+  src: url('../fonts/ProximaNova-Bold.eot?#iefix') format('embedded-opentype'), url('../fonts/ProximaNova-Bold.woff2') format('woff2'), url('../fonts/ProximaNova-Bold.woff') format('woff'), url('../fonts/ProximaNova-Bold.svg#ProximaNova-Bold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'ProximaNova';
+  src: url('../fonts/ProximaNova-Thin.eot');
+  src: url('../fonts/ProximaNova-Thin.eot?#iefix') format('embedded-opentype'), url('../fonts/ProximaNova-Thin.woff') format('woff'), url('../fonts/ProximaNova-Thin.ttf') format('truetype'), url('../fonts/ProximaNova-Thin.svg#ProximaNova-Thin') format('svg');
+  font-weight: 300;
+  font-style: normal;
+}
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'ProximaNova';
+  font-weight: 500;
+  height: auto;
+  min-height: 100vh;
+  color: #104493;
+  background: #fff;
+}
+.mobile {
+  display: none;
+}
+img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+ul {
+  list-style: none;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+#wrapper {
+  height: auto;
+  width: 100%;
+  min-height: 89vh;
+  position: relative;
+}
+#wrapper .fyc-banner {
+  display: block;
+  font-weight: 500;
+  width: calc(100% - 3.1vw);
+  margin-left: 10%;
+  font-size: 1.2vw;
+  padding-left: 7vw;
+  padding-right: 2vw;
+  position: relative;
+  margin: 0 auto;
+}
+#wrapper .fyc-banner a {
+  width: 7.5vw;
+  position: relative;
+  left: 0;
+  display: block;
+  float: left;
+  top: 1.1vw;
+  opacity: 1;
+  transition: opacity 1s;
+}
+#wrapper .fyc-banner a.start {
+  opacity: 0;
+}
+#wrapper .fyc-banner .nowrap {
+  display: flex;
+  justify-content: space-between;
+  float: left;
+  width: 83.8vw;
+  margin-left: 3.2vw;
+  line-height: 3.9vw;
+}
+#wrapper .fyc-banner .nowrap t {
+  transform: rotateY(0deg);
+  transition: transform 1s;
+}
+#wrapper .fyc-banner .nowrap.start t {
+  transform: rotateY(90deg);
+}
+#wrapper .title {
+  position: fixed;
+  height: 34.9vw;
+  top: 1.4vw;
+  left: 1.7vw;
+  width: 5.1vw;
+  background-image: url(../img/AWARDS_2018.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  text-align: right;
+  opacity: 1;
+  transition: opacity 1s;
+}
+#wrapper .title.start {
+  opacity: 0;
+}
+@media screen and (min-aspect-ratio:160/100) and (min-device-width:1024px) {
+  #wrapper .title {
+    font-size: 7vmin;
+  }
+}
+#wrapper .limiter {
+  padding-top: 1px;
+  margin: 40px auto 0;
+}
+.limiter {
+  height: auto;
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+}
+.inline-clear:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+#rsvp-form {
+  background: #fff;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 12;
+  padding: 30px;
+  display: none;
+  width: 520px;
+  max-height: 90%;
+  outline: 2px solid;
+  box-shadow: 15px 15px 27px rgba(0, 0, 0, 0.3);
+}
+#rsvp-form h2 {
+  font-weight: 500;
+  margin: 0;
+  font-size: 46px;
+  float: left;
+  border-right: 2px solid #104493;
+  padding-right: 20px;
+}
+#rsvp-form .screening-info {
+  float: left;
+  margin-left: 10px;
+  position: relative;
+  top: 0px;
+  margin-bottom: 20px;
+  width: 65%;
+}
+#rsvp-form .screening-info .movie {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+#rsvp-form .screening-info .date {
+  text-transform: capitalize;
+}
+#rsvp-form form {
+  clear: left;
+  display: block;
+}
+#rsvp-form form .input {
+  height: 30px;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 18px;
+  width: calc(50% - 17px);
+  display: inline-block;
+  font: inherit;
+  line-height: 50px;
+  height: 50px;
+  margin-bottom: 30px;
+  position: relative;
+}
+#rsvp-form form .input > div {
+  cursor: pointer;
+  position: relative;
+}
+#rsvp-form form .input > div span {
+  margin-left: 10px;
+}
+#rsvp-form form .input > div.error:not(.hasDropdown) {
+  font-size: 12px;
+  color: #ff0000;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  white-space: nowrap;
+  line-height: 1.6em;
+}
+#rsvp-form form .input .hasDropdown.error {
+  color: #ff0000;
+}
+#rsvp-form form .input.pushRight {
+  margin-right: 24px;
+}
+#rsvp-form form .input.fullWidth {
+  width: 100%;
+}
+#rsvp-form form .input.reception {
+  height: 90px;
+  line-height: 30px;
+  display: none;
+}
+#rsvp-form form .input.reception .hasDropdown {
+  line-height: 50px;
+}
+#rsvp-form form input {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-transform: uppercase;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+#rsvp-form form input.error {
+  color: #ff0000;
+}
+#rsvp-form form input::-webkit-input-placeholder {
+  color: inherit;
+  font: inherit;
+}
+#rsvp-form form input,
+#rsvp-form form .hasDropdown {
+  border: 2px solid;
+}
+#rsvp-form form .hasDropdown {
+  background: url(../img/ui/dropdown-arrow.jpg) no-repeat;
+  background-position: 95% center;
+}
+#rsvp-form form .dropdown {
+  position: absolute;
+  max-height: 130px;
+  overflow-y: auto;
+  background: #fff;
+  width: 100%;
+  right: -1px;
+  top: 100%;
+  border: 1px solid;
+  display: none;
+  z-index: 1;
+}
+#rsvp-form form .dropdown .value {
+  padding: 0 20px 0 0;
+  box-sizing: border-box;
+  height: 30px;
+  border-bottom: 1px solid;
+  line-height: 30px;
+  background: #EEE;
+  text-align: right;
+}
+#rsvp-form form .dropdown .value:last-child {
+  border-bottom: none;
+}
+#rsvp-form form .dropdown .value:hover {
+  background: #153f7b;
+  color: #fff;
+}
+#rsvp-form .submit-btn {
+  background: #c19941;
+  color: #fff;
+  clear: left;
+  line-height: 43px;
+  padding: 5px 0px;
+  font-weight: 700;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+}
+#rsvp-form .submit-btn:hover {
+  background: #deb24f;
+}
+#rsvp-form #rsvp-message {
+  font-size: 14px;
+  line-height: 1.2em;
+  display: none;
+  text-align: center;
+  font-weight: 500;
+}
+#rsvp-form #rsvp-message h3 {
+  font-weight: 300;
+  border-bottom: 1px solid rgba(21, 63, 123, 0.3);
+  padding-bottom: 12px;
+  font-size: 35px;
+  display: inline-block;
+  margin: 0 auto;
+  line-height: 1em;
+}
+#rsvp-form #rsvp-message h4 {
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 1.6em;
+}
+#rsvp-form #rsvp-message div:first-of-type {
+  font-weight: bold;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+#rsvp-form .rsvp-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 10px;
+  padding-right: 20px;
+  cursor: pointer;
+  font-weight: 700;
+}
+#rsvp-form .rsvp-close-btn .x {
+  color: #c19941;
+  position: absolute;
+  right: 0;
+  top: -9px;
+  font-size: 24px;
+  width: 20px;
+  height: 20px;
+  font-weight: 700;
+  transform: rotate(-45deg);
+}
+#add-to-calendar {
+  background: #c19941;
+  color: #fff;
+  clear: left;
+  line-height: 43px;
+  padding: 6px 0  4px;
+  font-weight: 700;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  margin: 29px auto 0;
+  font-size: 18px;
+  width: 212px;
+  position: relative;
+}
+#add-to-calendar > a {
+  display: block;
+  height: 100%;
+}
+#add-to-calendar > a:focus {
+  outline: none;
+}
+#add-to-calendar:hover {
+  background: #c19941;
+}
+#add-to-calendar:hover ul {
+  display: block;
+}
+#add-to-calendar ul {
+  position: absolute;
+  top: 100%;
+  padding: 0 0 0 15px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  display: none;
+  background: #fff;
+  box-shadow: inset 0px 8px 10px -5px #ccc;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  outline: 1px solid #c19941;
+}
+#add-to-calendar ul li {
+  text-align: left;
+  line-height: 1.4em;
+}
+#add-to-calendar ul li a {
+  text-decoration: none;
+  font-weight: 500;
+  color: #c19941;
+}
+#add-to-calendar ul li a:hover {
+  color: #c19941;
+}
+footer {
+  position: relative;
+  z-index: 10;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 9px;
+  text-align: center;
+  color: #104493;
+  left: 0;
+  margin-top: 15px;
+}
+footer a {
+  color: inherit;
+}
+#footer {
+  position: relative;
+  bottom: 0px;
+  width: 90%;
+  margin: 10px auto 0;
+  text-align: center;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.3em;
+}
+.loader {
+  width: 50px;
+  margin: 0 auto;
+}
+.clear:after {
+  display: table;
+  content: "";
+  clear: both;
+}
+.nowrap {
+  white-space: nowrap;
+}
+@media screen and (orientation:portrait) {
+  #wrapper .fyc-banner {
+    position: relative;
+  }
+}
+@media screen and (orientation:portrait) {
+  header nav ul {
+    width: 100%;
+  }
+  header nav ul li {
+    font-size: 9px;
+  }
+  header nav ul li .submenu-holder {
+    min-width: 160px;
+  }
+  header nav ul li .submenu {
+    font-size: 9px;
+    line-height: 1.5em;
+    min-width: 130px;
+  }
+  header nav ul li.batb-btn .submenu-holder {
+    left: 0;
+  }
+  header nav ul li.batb-btn .submenu {
+    text-align: left;
+  }
+  #wrapper {
+    overflow-y: auto;
+  }
+  #wrapper .fyc-banner {
+    padding-left: 0;
+    width: 96%;
+  }
+  #wrapper .fyc-banner .no-wrap {
+    width: 87%;
+    margin-right: 0;
+    margin-left: 3%;
+  }
+  #wrapper .title {
+    transform: none;
+    left: 0;
+    position: relative;
+    width: 98%;
+    top: 0;
+  }
+  #boxes {
+    position: relative;
+    width: 95%;
+    margin: 5% auto 2%;
+    transform: none;
+    left: 0;
+    top: 0;
+  }
+  #boxes .box {
+    width: 49% !important;
+    margin-left: 0% !important;
+    clear: none !important;
+    margin-bottom: 2%;
+  }
+  #boxes .box#cars {
+    margin: 1% 2% 0;
+  }
+  #boxes .box#coco-box {
+    margin: 0 0%;
+  }
+  #boxes .box:nth-of-type(odd) {
+    margin-right: 2%;
+  }
+  .page .limiter > div {
+    position: relative;
+  }
+  .page .limiter > div .logo,
+  .page .limiter > div .content {
+    position: relative;
+  }
+  .page .limiter .consider .logo {
+    width: 30%;
+    margin: 40px auto 0;
+    left: 0;
+    top: 0;
+  }
+  .page .limiter .consider .content {
+    width: 90%;
+    left: 0;
+    top: 0;
+    margin: 30px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .page .limiter .consider .content .first .h3 {
+    font-size: 1.4em;
+  }
+  .page .limiter .consider .content .first .subline {
+    font-size: 1.1em;
+  }
+  .page .limiter .consider .content .first p {
+    font-size: 1em;
+  }
+  .page .limiter .consider .content .first .name {
+    font-size: 1.5em;
+  }
+  .page .limiter .screenings .content {
+    margin: 0 auto;
+  }
+  .page#coco-page .limiter {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 100%;
+  }
+  .page#coco-page .synopsis .content {
+    width: 47vw;
+    top: 1vh;
+    position: absolute;
+  }
+  .page#coco-page .screenplay .content {
+    position: absolute;
+    bottom: 6vh;
+    left: 62%;
+    transform: translateX(-50%);
+    right: initial;
+  }
+  .page#coco-page .song {
+    padding-left: 3vw;
+    width: 47vw;
+  }
+  .page#coco-page .song .content {
+    left: 0vw;
+  }
+  .page#coco-page .score .content {
+    margin-top: -1px;
+    padding: 1px 3vw 0;
+    width: 94vw;
+  }
+  .page#coco-page .score .content .quote {
+    right: 3vw;
+  }
+  .page#coco-page .screenplay .content {
+    left: 58%;
+  }
+  .page#sw-page .bg-holder .bg.fyc {
+    background-position-x: center !important;
+  }
+  .page#sw-page .consider .content {
+    top: 0;
+    left: 0;
+    text-shadow: 1px 1px 1px #000;
+  }
+  .page#sw-page .screenings .content {
+    min-width: initial;
+    width: 90%;
+    transform: none;
+    left: 0%;
+  }
+  .page#sw-page .screenings .content .screening {
+    width: 45%;
+    margin-right: 2.5%;
+  }
+  .page#sw-page .synopsis .content {
+    right: 6vw;
+    position: absolute;
+  }
+  .page#gotg-page .consider .content {
+    top: 1vh;
+    margin: 0 auto;
+  }
+  .page#gotg-page .screenplay .content {
+    position: absolute;
+  }
+  .page#thor-page .consider .content {
+    top: 5vh;
+    margin: 0 auto;
+    left: 0;
+  }
+  .page#thor-page .screenings .guild-members-co {
+    bottom: 8vh;
+  }
+  .page#thor-page .screenings .content {
+    left: initial;
+    transform: none;
+    top: 5vh;
+  }
+  .page#thor-page .score .content .featurette .quote {
+    margin-top: 4vh;
+  }
+  .page#thor-page .score .content .featurette .quote span {
+    font-size: 12px;
+  }
+  .page#batb-page .bg-holder .bg.synopsis {
+    width: 100%;
+  }
+  .page#batb-page .quote p,
+  .page#batb-page .bottom-quote p {
+    font-size: 13px;
+  }
+  .page#batb-page .consider .quote {
+    display: none;
+  }
+  .page#batb-page .consider .content {
+    top: 1vh;
+    margin-top: 0;
+  }
+  .page#batb-page .screenings .special-bg {
+    width: 100%;
+    position: relative;
+    height: 43%;
+  }
+  .page#batb-page .screenings .special-bg .quote {
+    position: absolute;
+    bottom: 3vh;
+    width: 35%;
+    left: 2vw;
+    display: block;
+  }
+  .page#batb-page .screenings .thumb.three.active {
+    left: 4%;
+  }
+  .page#batb-page .screenings .thumb {
+    z-index: 4;
+    width: 29vh;
+    height: 16vh;
+    left: 2vw !important;
+    transform-origin: bottom left;
+  }
+  .page#batb-page .screenings .thumb.one {
+    bottom: 36vh;
+  }
+  .page#batb-page .screenings .thumb.one.active {
+    bottom: 36vh;
+  }
+  .page#batb-page .screenings .thumb.two {
+    bottom: 18.6vh;
+  }
+  .page#batb-page .screenings .thumb.two.active {
+    bottom: 18.6vh;
+  }
+  .page#batb-page .screenings .thumb.three {
+    bottom: 1vh;
+  }
+  .page#batb-page .screenings .thumb.three.active {
+    bottom: 1vh;
+  }
+  .page#batb-page .screenings .content {
+    position: relative;
+    width: 100%;
+    height: 57%;
+    margin: 0;
+    right: 0;
+    left: initial;
+  }
+  .page#batb-page .screenings .content .quote {
+    display: none;
+  }
+  .page#batb-page .screenings .content.scrollerActive .scrollable {
+    width: 60%;
+    margin-left: 40%;
+  }
+  .page#batb-page .screenings .content .scroller {
+    left: 92%;
+    top: 2.2vh;
+    height: 91%;
+  }
+  .page#batb-page .screenings .content .synopsis {
+    width: 80%;
+    margin: 2vh auto 0;
+    font-size: 13px;
+  }
+  .page#batb-page .screenings .content .synopsis p {
+    max-height: initial;
+    margin: 0;
+  }
+  .page#batb-page .screenings .content h3 {
+    font-size: 29px;
+    left: 0;
+    margin: 2vh auto;
+  }
+  .page#batb-page .screenings .content .disclaimer {
+    font-size: 10px;
+  }
+  .page#batb-page .screenings .content .screenings-holder {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .page#batb-page .screenings .content .screenings-holder .screening .date {
+    font-size: 12px;
+    white-space: wrap;
+  }
+  .page#batb-page .screenings .content .netflix {
+    margin: 10px auto;
+  }
+  .page#batb-page .cast .quote {
+    display: none;
+  }
+  .page#batb-page .cast .article {
+    right: 3vw;
+    left: initial;
+    width: 30vh;
+    bottom: 20vh;
+  }
+  .page#batb-page .filmmakers .content .quote > div:first-child p {
+    font-size: 11px;
+    line-height: 1.5em;
+  }
+  .page#batb-page .filmmakers .content .name-list .name {
+    font-size: 13px;
+  }
+  .page#batb-page .filmmakers .bottom-quote {
+    right: 1vw;
+    width: 50%;
+  }
+  .page#batb-page .filmmakers .bottom-quote .author {
+    margin-right: 11px;
+    font-size: 12px;
+  }
+  .page#batb-page .press .content .article {
+    min-width: 38%;
+    margin-right: 12%;
+  }
+  .page#batb-page .screenplay .quote {
+    top: 3vh;
+  }
+  .page#batb-page .screenplay .quote p {
+    margin-top: 0;
+  }
+  .page#batb-page .screenplay .content {
+    position: absolute;
+  }
+  .page#lou-page .limiter {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  .page#lou-page .consider .content {
+    width: 100%;
+  }
+  .page#lou-page .consider .content .nom {
+    position: relative;
+    top: initial;
+    right: initial;
+    margin: 0 auto;
+  }
+  .page#lou-page .synopsis .content {
+    top: 4%;
+    width: 80%;
+  }
+  .page#lou-page .filmmakers .content {
+    position: absolute;
+  }
+  .page#lou-page .press .scroll-down {
+    left: 0;
+    bottom: 6vh;
+  }
+  .page#lou-page .press .content {
+    left: 50%;
+  }
+  .page#cars-page .limiter {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  .page#cars-page .consider .content {
+    left: 0;
+    color: #ffda9e;
+  }
+  .page#cars-page .consider .content .name {
+    color: #fff;
+  }
+  .page#cars-page .screenings .content {
+    left: 0;
+  }
+  .page#cars-page .synopsis .content {
+    padding-top: 1px;
+    margin-top: -1px;
+  }
+  .page#cars-page .score .content {
+    overflow: hidden;
+  }
+  .page#cars-page .songs .content {
+    overflow: hidden;
+  }
+  #batb-overlay .overlay-content .photo img {
+    width: 80%;
+    height: auto;
+  }
+}
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+header {
+  position: relative;
+  top: -100%;
+}
+@media only screen and (max-width:1024px) and (orientation:landscape) {
+  .video-play-btn {
+    opacity: 0 !important;
+  }
+  html {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+  #wrapper .title {
+    width: 92vh;
+    font-size: 7vh;
+  }
+  #boxes {
+    width: 85vw;
+    transform: translateY(-48%) translateX(-48%);
+  }
+  header nav ul li .submenu {
+    font-size: 1.54vw;
+    line-height: 1.6em;
+  }
+  .page .limiter {
+    overflow-y: auto;
+  }
+  .page .limiter .screenings .content .city-holder {
+    font-size: 14px;
+  }
+  .page .limiter .screenings .content .disclaimer {
+    font-size: 10px;
+  }
+  .page .limiter .press .content {
+    overflow-y: auto;
+  }
+  .page .limiter footer {
+    font-size: 9px;
+  }
+  .page#batb-page .consider .content .name {
+    font-size: 1.3em;
+  }
+  .page#batb-page .consider .content h3 {
+    font-size: 1.2em;
+  }
+  .page#batb-page .screenings .content .scrollable {
+    width: 100%;
+  }
+  .page#batb-page .screenings .content .synopsis {
+    padding: 0 5%;
+  }
+  .page#batb-page .screenings .content .screenings-holder .screening .date {
+    font-size: 0.8em;
+  }
+  .page#batb-page .press .content .article {
+    width: 25%;
+  }
+  .page#batb-page .music {
+    padding-top: 1px;
+    margin-top: -1px;
+  }
+  .page#batb-page .music .quote {
+    position: relative;
+    top: 1vh;
+  }
+  .page#batb-page .music .content {
+    position: relative;
+    top: 5vh;
+  }
+  .page#batb-page .filmmakers .bottom-quote {
+    position: fixed;
+  }
+  .page#batb-page .filmmakers .content {
+    top: 4vh;
+  }
+  .page#batb-page .filmmakers .content .quote {
+    font-size: 10px;
+  }
+  .page#batb-page .filmmakers .featurette {
+    margin-bottom: 2vh;
+  }
+  .page#gotg-page .consider .content {
+    top: 2vh;
+  }
+  .page#gotg-page .synopsis .content {
+    width: 460px;
+    right: 3vw;
+  }
+  .page#thor-page .bg-holder .bg.fyc {
+    background-position-x: -27.76px !important;
+  }
+  .page#thor-page .bg-holder .bg.screenings {
+    background-size: auto 127%;
+  }
+  .page#thor-page .score .content .track-list {
+    overflow: auto !important;
+  }
+  .page#cars-page .bg-holder .bg.fyc {
+    background-position-y: top;
+  }
+  .page#cars-page .screenings .content {
+    top: 15vh;
+  }
+  .page#cars-page .songs .song {
+    display: inline-block;
+  }
+  .page#cars-page .songs .song:first-of-type {
+    margin-right: 7vw;
+  }
+  .page#cars-page .songs .song .song-title {
+    margin-top: 0;
+  }
+  .page#cars-page .press .content {
+    top: 2vh;
+  }
+  .page#cars-page .press .content .snippet:last-of-type {
+    margin-bottom: 0;
+  }
+  .page#coco-page .limiter {
+    overflow-y: initial;
+  }
+}
+@media only screen and (min-width:600px) and (max-width:851px) and (orientation:portrait) {
+  .video-play-btn {
+    opacity: 0 !important;
+  }
+  body {
+    position: fixed;
+  }
+  footer {
+    text-align: center;
+  }
+  header nav {
+    width: 100%;
+  }
+  header nav ul {
+    width: 100%;
+  }
+  header nav ul li {
+    font-size: 12px;
+  }
+  header nav ul li .submenu-holder {
+    left: 0;
+  }
+  header nav ul li .submenu-holder .submenu {
+    text-align: left;
+    width: 100%;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 1px 28px;
+    line-height: 2.1em;
+    font-size: 12px;
+  }
+  header nav ul li:hover .submenu-holder .submenu {
+    margin-top: -200%;
+  }
+  header nav ul li.open .submenu-holder {
+    display: block;
+  }
+  header nav ul li.open .submenu-holder .submenu {
+    margin-top: 0;
+  }
+  .page .limiter {
+    margin: -1px auto 0;
+    padding-top: 1px;
+    max-width: 100% !important;
+    overflow: hidden;
+    overflow-y: auto;
+  }
+  .page .limiter > div .logo,
+  .page .limiter > div .content {
+    position: relative;
+  }
+  .page .limiter footer {
+    position: relative;
+  }
+  .page .limiter .consider {
+    height: auto;
+    min-height: 100%;
+  }
+  .page .limiter .consider .logo {
+    width: 30%;
+    margin: 40px auto 0;
+    left: 0;
+    top: 0;
+  }
+  .page .limiter .consider .content {
+    margin: 30px auto 0;
+    justify-content: space-around;
+  }
+  .page .limiter .consider .content .first .h3 {
+    font-size: 1.4em;
+  }
+  .page .limiter .consider .content .first .subline {
+    font-size: 1.1em;
+  }
+  .page .limiter .consider .content .first p {
+    font-size: 1em;
+  }
+  .page .limiter .consider .content .first .name {
+    font-size: 1.5em;
+  }
+  .page .limiter .screenings .content {
+    left: 0;
+    width: 90%;
+    margin: 0 auto;
+  }
+  .page .limiter .screenings .content .disclaimer {
+    width: 573px;
+    left: 0;
+    margin: 0 auto;
+    position: relative;
+    top: 0;
+  }
+  .page .limiter .photos {
+    overflow-x: hidden;
+  }
+  .page .limiter .press .content {
+    overflow-y: auto;
+  }
+  .page#sw-page .screenings .disclaimer {
+    text-align: left;
+    margin: 0;
+    width: 50%;
+  }
+  .page#sw-page .screenings .guild-members-co {
+    bottom: 2vh;
+    font-size: 1.7vh;
+  }
+  .page#batb-page .bg-holder .bg.one {
+    background-position-x: -450px !important;
+    background-size: auto 120%;
+    background-position-y: -130px;
+  }
+  .page#batb-page .bg-holder .bg.filmmakers .condon {
+    background-position-x: 70% !important;
+  }
+  .page#batb-page .bg-holder .bg.cast {
+    background-position-x: -587.51px !important;
+  }
+  .page#batb-page .consider .quote {
+    display: none;
+  }
+  .page#batb-page .consider .logo {
+    height: 17vh;
+    margin-top: 1vh;
+    left: -3%;
+    margin-bottom: 2vh;
+  }
+  .page#batb-page .consider .content {
+    right: 0vw;
+    width: 490px;
+    top: 1vh;
+    transform: scale(0.99);
+    position: absolute;
+    left: initial;
+    margin-top: 0;
+    font-size: 8px;
+  }
+  .page#batb-page .screenings .special-bg {
+    width: 100%;
+    position: relative;
+    height: 43%;
+  }
+  .page#batb-page .screenings .special-bg .quote {
+    position: absolute;
+    bottom: 3vh;
+    width: 35%;
+    left: 2vw;
+    display: block;
+  }
+  .page#batb-page .screenings .thumb.three.active {
+    left: 4%;
+  }
+  .page#batb-page .screenings .thumb {
+    z-index: 4;
+    width: 29vh;
+    height: 16vh;
+    left: 2vw !important;
+    transform-origin: bottom left;
+  }
+  .page#batb-page .screenings .thumb.one {
+    bottom: 36vh;
+  }
+  .page#batb-page .screenings .thumb.one.active {
+    bottom: 36vh;
+  }
+  .page#batb-page .screenings .thumb.two {
+    bottom: 18.6vh;
+  }
+  .page#batb-page .screenings .thumb.two.active {
+    bottom: 18.6vh;
+  }
+  .page#batb-page .screenings .thumb.three {
+    bottom: 1vh;
+  }
+  .page#batb-page .screenings .thumb.three.active {
+    bottom: 1vh;
+  }
+  .page#batb-page .screenings .content {
+    position: relative;
+    width: 100%;
+    height: 57%;
+    margin: 0;
+    right: 0;
+    left: initial;
+    overflow-y: auto !important;
+  }
+  .page#batb-page .screenings .content .quote {
+    display: none;
+  }
+  .page#batb-page .screenings .content .scrollable {
+    width: 60%;
+    margin-left: 40%;
+  }
+  .page#batb-page .screenings .content .synopsis {
+    width: 80%;
+    margin: 2vh auto 0;
+  }
+  .page#batb-page .screenings .content .synopsis p {
+    max-height: 170px;
+    margin: 0;
+  }
+  .page#batb-page .screenings .content h3 {
+    font-size: 29px;
+    left: 0;
+    margin: 2vh auto;
+  }
+  .page#batb-page .screenings .content .disclaimer {
+    font-size: 10px;
+  }
+  .page#batb-page .screenings .content .screenings-holder .screening .date {
+    font-size: 12px;
+    white-space: wrap;
+  }
+  .page#batb-page .screenings .content .netflix {
+    margin: 10px auto;
+  }
+  .page#batb-page .cast {
+    padding-top: 1px;
+    margin-top: -1px;
+    height: auto;
+  }
+  .page#batb-page .cast .quote,
+  .page#batb-page .cast .article {
+    right: 3vw;
+    left: initial;
+    width: 40%;
+  }
+  .page#batb-page .cast .quote {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 1.5%;
+    border-radius: 20px;
+    box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.6);
+    display: none;
+  }
+  .page#batb-page .cast .article {
+    top: 0vh;
+    position: relative;
+    width: 35%;
+    bottom: 0;
+    right: 0;
+    margin: 489px auto 0;
+  }
+  .page#batb-page .cast .article .title {
+    font-size: 10px;
+    width: 120%;
+    left: -10%;
+    position: relative;
+  }
+  .page#batb-page .cast .severed-heads {
+    bottom: 0vh;
+    position: relative;
+    margin-bottom: 4vh;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .page#batb-page .cast .severed-heads .head {
+    width: 18%;
+    margin-bottom: -2%;
+  }
+  .page#batb-page .filmmakers {
+    overflow-x: hidden;
+  }
+  .page#batb-page .filmmakers .bottom-quote {
+    bottom: -33px;
+  }
+  .page#batb-page .filmmakers .bottom-quote p {
+    font-size: 12px;
+  }
+  .page#batb-page .filmmakers .content .quote {
+    left: -1vw;
+    position: relative;
+    width: 55vw;
+  }
+  .page#batb-page .filmmakers .content .quote > div p {
+    white-space: initial;
+    font-size: 11px;
+  }
+  .page#batb-page .filmmakers .content .quote > div p br {
+    display: none;
+  }
+  .page#batb-page .filmmakers .content .quote > div p span {
+    display: none;
+  }
+  .page#batb-page .filmmakers .content .name-list {
+    width: initial;
+    line-height: 1.4em;
+  }
+  .page#batb-page .filmmakers .content .bio {
+    width: 68vw;
+  }
+  .page#batb-page .filmmakers .content .bio .text {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .page#batb-page .press .quote {
+    left: 3vw;
+    height: 17vh;
+  }
+  .page#batb-page .press .content {
+    left: 3vw;
+    top: 22vh;
+    width: 93vw;
+    display: block;
+  }
+  .page#batb-page .press .content .article {
+    width: 42%;
+    min-width: 36%;
+    margin-right: 12%;
+  }
+  .page#batb-page .making-of .content .article {
+    width: 28vw;
+  }
+  .page#batb-page .making-of .content .articles2 {
+    right: 5vw;
+    bottom: 10vh;
+  }
+  .page#batb-page .screenplay .content {
+    bottom: 0;
+    position: absolute;
+  }
+  .page#batb-page .screenplay .content .download-button {
+    top: 100%;
+  }
+  .page#cars-page .limiter {
+    background: rgba(0, 0, 0, 0.3);
+  }
+  .page#cars-page .bg-holder .bg.score {
+    background-position-x: -485px !important;
+  }
+  .page#cars-page .consider {
+    color: #c31f14;
+    text-shadow: 1px 1px 1px #000;
+  }
+  .page#cars-page .consider .logo {
+    margin-top: 0;
+  }
+  .page#cars-page .consider .content .name {
+    color: #fff;
+  }
+  .page#cars-page .screenings .content {
+    left: 0;
+  }
+  .page#cars-page .press .content {
+    left: 0;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .page#cars-page .score .content .track-list {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .page#coco-page .limiter {
+    background: rgba(0, 0, 0, 0.3);
+  }
+  .page#coco-page .bg-holder .bg.fyc {
+    background-position-x: 33% !important;
+  }
+  .page#coco-page .bg-holder .bg.synopsis {
+    background-size: auto;
+    background-position-x: -416.939px !important;
+  }
+  .page#coco-page .screenings,
+  .page#coco-page .photos {
+    position: relative;
+  }
+  .page#coco-page .synopsis {
+    position: relative;
+  }
+  .page#coco-page .synopsis .content {
+    width: 80%;
+    left: 3%;
+    right: 0;
+    top: 1%;
+  }
+  .page#coco-page .videos .content {
+    width: 90%;
+    height: auto;
+  }
+  .page#coco-page .videos .content .video-container video {
+    width: 100%;
+    height: auto;
+  }
+  .page#coco-page .screenplay .content {
+    width: 50%;
+    top: 10%;
+    bottom: initial;
+    margin: 0 auto;
+    right: initial;
+  }
+  .page#coco-page .screenplay .content .download-button {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin: 0 auto;
+  }
+  .page#coco-page .score .content {
+    left: 5%;
+    width: 95%;
+  }
+  .page#coco-page .accolades {
+    width: 100%;
+    margin: 0;
+    position: relative;
+  }
+  .page#lou-page .limiter {
+    background: rgba(0, 0, 0, 0.3);
+  }
+  .page#lou-page .bg-holder .bg.synopsis {
+    background-position-x: 96% !important;
+  }
+  .page#lou-page .consider .content {
+    margin: 0 auto;
+    display: block;
+    top: 0;
+  }
+  .page#lou-page .consider .content .logo {
+    margin: 20px auto 10px;
+    padding-top: 0;
+  }
+  .page#lou-page .consider,
+  .page#lou-page .photos {
+    position: relative;
+    overflow-x: hidden;
+  }
+  .page#lou-page .synopsis .content {
+    left: 40%;
+    top: 7%;
+  }
+  .page#lou-page .filmmakers {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 94%;
+  }
+  .page#lou-page .filmmakers .content {
+    width: 60%;
+    left: 42%;
+    padding-bottom: 30px;
+  }
+  .page#gotg-page .limiter {
+    background: rgba(0, 0, 0, 0.3);
+  }
+  .page#gotg-page .bg-holder .bg.fyc {
+    background-position-x: -366.802px !important;
+  }
+  .page#gotg-page .bg-holder .bg.screenings {
+    background-position-x: -591.912px !important;
+  }
+  .page#gotg-page .bg-holder .bg.synopsis {
+    background-position-x: -400.735px !important;
+  }
+  .page#gotg-page .consider .content {
+    top: 1vh;
+    margin: 0 auto;
+  }
+  .page#gotg-page .screenings .content {
+    left: 0;
+  }
+  .page#gotg-page .synopsis .content {
+    right: 0;
+    left: 40%;
+    width: 440px;
+  }
+  .page#gotg-page .press {
+    height: 100%;
+  }
+  .page#gotg-page .press .content {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .page#gotg-page .photos {
+    position: relative;
+  }
+  .page#gotg-page .videos .content {
+    width: 90%;
+    height: auto;
+  }
+  .page#gotg-page .videos .content .video-list .video-title {
+    font-size: 2.3vw;
+  }
+  .page#gotg-page .videos .content .video-container video {
+    width: 100%;
+    height: auto;
+  }
+  .page#thor-page .limiter {
+    background: rgba(0, 0, 0, 0.3);
+  }
+  .page#thor-page .consider .content {
+    top: 5vh;
+    margin: 0 auto;
+    left: 0;
+  }
+  .page#thor-page .screenings .content {
+    left: 0;
+    transform: none;
+    top: 10vh;
+  }
+  .page#thor-page .screenings .content .city-holder {
+    max-height: initial;
+    height: auto;
+  }
+  .page#thor-page .score .content .track-list {
+    overflow: auto !important;
+  }
+  .page footer {
+    position: relative;
+    margin-top: 20px;
+    text-align: center !important;
+    top: -3px;
+    padding: 0 3px;
+  }
+  footer {
+    font-size: 9px;
+    left: 0;
+    z-index: 1;
+  }
+  .scroller {
+    display: none;
+  }
+  #batb-overlay .overlay-content .photo img {
+    width: 80%;
+    height: auto;
+  }
+}

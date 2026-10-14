@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" property="og:description" content=""/>
+<title>Disney FYC 2018</title>
+<!-- <link rel="stylesheet" type="text/css" href="css/style.css"> -->
+<style>
+html {
+  height: 100%;
+}
+@font-face {
+  font-family: 'Gotham';
+  src: url('fonts/Gotham-Medium.eot');
+  src: url('fonts/Gotham-Medium.eot?#iefix') format('embedded-opentype'), url('fonts/Gotham-Medium.woff2') format('woff2'), url('fonts/Gotham-Medium.woff') format('woff'), url('fonts/Gotham-Medium.svg#Gotham-Medium') format('svg');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gotham';
+  src: url('fonts/Gotham-Bold.eot');
+  src: url('fonts/Gotham-Bold.eot?#iefix') format('embedded-opentype'), url('fonts/Gotham-Bold.woff2') format('woff2'), url('fonts/Gotham-Bold.woff') format('woff'), url('fonts/Gotham-Bold.svg#Gotham-Bold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gotham';
+  src: url('fonts/Gotham-Light.eot');
+  src: url('fonts/Gotham-Light.eot?#iefix') format('embedded-opentype'), url('fonts/Gotham-Light.woff2') format('woff2'), url('fonts/Gotham-Light.woff') format('woff'), url('fonts/Gotham-Light.svg#Gotham-Light') format('svg');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'CenturyGothic';
+  src: url('fonts/CenturyGothic-Bold.eot');
+  src: url('fonts/CenturyGothic-Bold.eot?#iefix') format('embedded-opentype'), url('fonts/CenturyGothic-Bold.woff2') format('woff2'), url('fonts/CenturyGothic-Bold.woff') format('woff'), url('fonts/CenturyGothic-Bold.svg#CenturyGothic-Bold') format('svg');
+  font-weight: 700;
+  font-style: normal;
+}
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Gotham';
+  font-weight: 500;
+  height: calc(100% - 50px);
+  color: #fff;
+  background: #166db1;
+  border: 25px solid #166db1;
+  background: #0f2d61;
+  /* Old browsers */
+  background: -moz-linear-gradient(45deg, #0f2d61 0%, #0f2d61 10%, #153f84 34%, #0f2d60 50%, #0f2d60 63%, #0f3b75 77%, #0f2d61 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(45deg, #0f2d61 0%, #0f2d61 10%, #153f84 34%, #0f2d60 50%, #0f2d60 63%, #0f3b75 77%, #0f2d61 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(45deg, #0f2d61 0%, #0f2d61 10%, #153f84 34%, #0f2d60 50%, #0f2d60 63%, #0f3b75 77%, #0f2d61 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0f2d61', endColorstr='#0f2d61', GradientType=1);
+  /* IE6-9 fallback on horizontal gradient */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+@media only screen and (max-width:600px) and (orientation:portrait) {
+  body {
+    border: 10px solid #166db1;
+    height: auto;
+    min-height: calc(100% - 20px);
+  }
+}
+img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+ul {
+  list-style: none;
+}
+#wrapper {
+  height: 100%;
+  position: absolute;
+  height: calc(100% - 50px);
+  width: calc(100% - 50px);
+  overflow: hidden;
+  color: #fff;
+}
+@media only screen and (max-width:600px) and (orientation:portrait) {
+  #wrapper {
+    overflow-y: auto;
+    height: auto;
+    min-height: calc(100% - 20px);
+    min-width: calc(100% - 20px);
+    border-width: 10px;
+  }
+}
+@media screen and (max-width:667px) and (orientation:landscape) {
+  #wrapper {
+    overflow-y: auto;
+    height: auto;
+    min-height: calc(100% - 20px);
+    min-width: calc(100% - 20px);
+    border-width: 10px;
+  }
+}
+#wrapper .fyc-banner {
+  display: block;
+  color: #fff;
+  font-weight: 300;
+  width: calc(100% - 7.5vw);
+  margin-left: 10%;
+  font-size: 27.3px;
+  font-size: 1.4vw;
+  padding-left: 6vw;
+  padding-right: 2vw;
+  position: relative;
+  margin: 0 auto;
+}
+#wrapper .fyc-banner img {
+  width: 8%;
+  position: relative;
+  left: 0;
+  display: block;
+  float: left;
+  top: 50%;
+  transform: translateY(31%);
+}
+#wrapper .fyc-banner .nowrap {
+  display: flex;
+  justify-content: space-between;
+  float: left;
+  width: 86%;
+  margin-left: 4%;
+  margin-right: 1%;
+  line-height: 48px;
+  line-height: 5vw;
+}
+@media screen and (orientation:portrait) {
+  #wrapper .fyc-banner {
+    padding-left: 0;
+    width: 96%;
+    padding-right: 0;
+  }
+  #wrapper .fyc-banner img {
+    width: 9%;
+  }
+  #wrapper .fyc-banner .no-wrap {
+    width: 87%;
+    margin-right: 0;
+    margin-left: 3%;
+  }
+}
+@media only screen and (max-width:600px) and (orientation:portrait) {
+  #wrapper .fyc-banner img {
+    width: 38%;
+    top: 0;
+    margin-top: 8px;
+    transform: none;
+  }
+  #wrapper .fyc-banner .nowrap {
+    font-size: 5.7vw;
+    width: 56%;
+    margin: 0;
+    display: block;
+    line-height: 1.1em;
+    white-space: initial;
+    border-left: 1px solid;
+    padding-left: 2%;
+    margin-left: 3%;
+    margin-top: 13px;
+  }
+}
+@media screen and (max-width:667px) and (orientation:landscape) {
+  #wrapper .fyc-banner {
+    width: 94.5%;
+    padding-left: 5.5%;
+  }
+}
+#wrapper .title {
+  position: fixed;
+  font-weight: 300;
+  color: #2a80c2;
+  transform-origin: 0 0;
+  font-size: 5vmin;
+  font-size: 4.4vmax;
+  opacity: 0.8;
+  width: 93vh;
+  bottom: 0;
+  transform: translateY(52%) translateX(0.5%) rotate(-90deg);
+  text-align: right;
+}
+@media screen and (orientation:portrait) {
+  #wrapper .title {
+    transform: none;
+    left: 0;
+    position: relative;
+    width: 98%;
+    top: 0;
+  }
+}
+@media only screen and (max-width:1024px) and (orientation:landscape) {
+  #wrapper .title {
+    width: 92vh;
+    font-size: 7vh;
+  }
+}
+@media screen and (min-aspect-ratio:160/100) and (min-device-width:1024px) {
+  #wrapper .title {
+    font-size: 7vmin;
+    transform: translateY(93%) translateX(0.5%) rotate(-90deg);
+  }
+}
+@media only screen and (max-width:600px) and (orientation:portrait) {
+  #wrapper .title {
+    letter-spacing: 0.4vw;
+    font-size: 12vw;
+    width: 100%;
+    margin-top: 5px;
+    text-align: center;
+  }
+}
+@media screen and (max-width:667px) and (orientation:landscape) {
+  #wrapper .title {
+    position: absolute;
+    top: 120px;
+  }
+}
+@media screen and (max-aspect-ratio: 110/100){
+#wrapper .title {
+    transform: none;
+    left: 0;
+    position: relative;
+    width: 98%;
+    top: -.2vw;
+  }
+}
+footer {
+  position: fixed;
+  bottom: 7px;
+  width: 100%;
+  z-index: 10;
+  font-size: 9px;
+  text-align: center;
+  color: #0f2d60;
+ 
+}
+#footer{
+  width: calc(100% - 4vh);
+  position: absolute;
+  bottom: 34px;
+  left: 25px;
+  text-align: center;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 1.3em;
+}
+#footer a {
+  color: #fff;
+  text-decoration: none;
+}
+@media only screen and (max-width: 600px) and (orientation: portrait){
+  footer {
+    font-size: 10px;
+    color: #fff;
+    bottom: 17px;
+    width:calc(100% - 20px);
+  }
+  #footer{
+     position: absolute;bottom: 60px;text-align: center;font-weight: 300;
+    left:50%;
+    transform:translateX(-50%);
+  }
+}
+footer a {
+  color: inherit;
+}
+</style>
+</head>
+<body>
+  <div id="wrapper">
+
+    <div class="fyc-banner clear">
+      <img src="img/disney-logo-white.png" alt="Disney Logo"/> 
+      <span class="nowrap"><t>F</t><t>O</t><t>R</t><t> </t><t>Y</t><t>O</t><t>U</t><t>R</t><t> </t><t>C</t><t>O</t><t>N</t><t>S</t><t>I</t><t>D</t><t>E</t><t>R</t><t>A</t><t>T</t><t>I</t><t>O</t><t>N</t></t></span>
+    </div>
+    <div class="title">AWARDS 2018</div>
+    <div class="coming-soon" style="position: absolute;top:50%;left:50%;transform:translateX(-50%) translateY(-50%);opacity: 0.7;font-weight: 300;font-size: 4.8vw;">
+      COMING SOON
+    </div>
+    <div id="footer">
+      Walt Disney Studios Motion Pictures Awards Office  •  500 South Buena Vista Street Burbank, CA 91521-0222<br/>
+      PHONE: 818.560.6212 or 855.560.6212  •  EMAIL:<a style="color:#fff;text-decoration:none;" href="mailto:DISNEYAWARDSOFFICE@DISNEY.COM">DISNEYAWARDSOFFICE@DISNEY.COM</a>
+    </div>
+  </div>
+    <!-- <div id="boxes" class="clear"> -->
+    <!-- </div> -->
+
+  <!-- </div> -->
+ <footer>
+      <a href="http://corporate.disney.go.com/corporate/terms.html" target="_blank">Terms of Use</a> | 
+      <a target="" href="http://help.disney.com/articles/en_US/FAQ/Legal-Notices?ppLink=pp_wdig">Legal Notices</a> | 
+      <a href="http://corporate.disney.go.com/corporate/pp.html" target="_blank">Privacy Policy</a> | 
+      <a target="" href="https://disneyprivacycenter.com/notice-to-california-residents/">Your California Privacy Rights</a> | 
+      <a target="" href="https://disneyprivacycenter.com/kids-privacy-policy/english/">Children's Online Privacy Policy</a> | 
+      <a target="" href="http://preferences-mgr.truste.com/?type=disneycolor&amp;affiliateId=115">Interest-Based Ads</a>
+      <!-- <br class="mobile"> -->
+      &copy; 2018 <span>Disney</span>. All Rights Reserved.
+    </footer>
+  <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="js/scripts.js"></script> -->
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=eE5evalxQk">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png?v=eE5evalxQk">
+<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png?v=eE5evalxQk">
+<link rel="manifest" href="./manifest.json?v=eE5evalxQk">
+<link rel="mask-icon" href="./safari-pinned-tab.svg?v=eE5evalxQk" color="#5bbad5">
+<link rel="shortcut icon" href="./favicon.ico?v=eE5evalxQk">
+<meta name="theme-color" content="#ffffff">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" property="og:description" content="Walt Disney Studios 2018 For Your Consideration"/>
+<meta property="og:image" content="./img/preview-image.jpg"/>
+<title>Disney Academy Awards 2018</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<style>
+#logo{
+	width: 300px;
+	margin:20px auto 0;
+}
+#page-holder{
+	padding-top: 2vw;
+}
+#page-holder,.page{
+	display: block;
+}
+.page .subpages .limiter > div{
+	display: block;
+}
+ .page .subpages .limiter .score .content .track-list .track .switcher{
+ 	
+}
+ .page .subpages .limiter .score .content .track-list .track .switcher .number{
+ 	
+ }
+</style>
+</head>
+<body>
+<div id="logo"><a href="index.html"><img src="./img/mp_tt.jpg"></a></div>
+<div id="page-holder">
+	<div class="page" id="mp-page">
+		<div class="subpages">
+			<div class="limiter">
+				<div class="score">
+					<div class="content">
+					
+						<div class="category">BEST ORIGINAL SCORE</div>
+						<div class="name">MARC SHAIMAN</div>
+						<div class="audio-player">
+<p class="audio-demo-note" style="font-size:14px;line-height:1.4;letter-spacing:normal;margin:12px 0;">Audio unavailable in this portfolio demo.</p>
+							<div class="song-title">Money Woes</div>
+						
+							<audio controls controlsList="nodownload" autobuffer>
+								<source src="./media/toplay/mp/score/01_MoneyWoes.mp3" type="audio/mp3"/>
+							</audio>
+						
+
+							<div class="track-list">
+								<div class="col left"></div>
+								<div class="col right"></div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+	loaded = 'mp';
+var filmInfo = {
+	"mp":{
+		url:'mary-poppins-returns',
+		title:'Mary Poppins Returns',
+		page:'mp',
+		pageList:['consider','synopsis','screenings','score','songs','accolades'],
+		photos:0,
+		pageLoaded:false,
+		scoreLoaded:false,
+		currentTrack:0,
+		songs:[
+			{title:'The Place Where Lost Things Go', credits:'Emily Blunt', file:'./media/toplay/mp/songs/08_The_Place_Where_Lost_Things_Go.mp3'},
+			{title:'Trip A Little Light Fantastic',credits:'Lin-Manuel Miranda with Emily Blunt and Cast',file:'./media/toplay/mp/songs/10_Trip_A_Little_Light_Fantastic.mp3'}
+		],
+		score:{
+			titles:[
+				"Money Woes",
+				"To The Park",
+				"Out With The Trash",
+				"Kite Chase",
+				"Kite Chase (Reprise)",
+				"Mary Takes Charge",
+				"Mary Takes Charge (Reprise)",
+				"Up The Bannister",
+				"Up The Bannister (Reprise)",
+				"Magic Papers",
+				"Magic Papers (Reprise)",
+				"Jane To Wilkins",
+				"Two Faced Wilkins (Reprise)",
+				"Nursery Plans",
+				"Bowl Spin Into The Bowl",
+				"Outside The Tent",
+				"Royal Doulton Chase",
+				"Off To Topsy's",
+				"Off To Topsy's (Reprise)",
+				"Kids Sneak Off",
+				"Kids Burst In Chase",
+				"Lost In A Fog",
+				"When Did You All Get So Clever",
+				"GoodBye Old Friend",
+				"Race To Big Ben",
+				"Missing Signatures",
+				"Cherry Tree Lane",
+				"Mary Exits",
+				"Underneath The Lovely London Sky (Reprise)"
+			],
+			files:[
+				"01_MoneyWoes",
+				"02_ToThePark",
+				"03_OutWithTheTrash",
+				"04_KiteChase_pt1",
+				"05_KiteChase_pt2",
+				"06_MaryTakesCharge_pt1_",
+				"07_MaryTakesCharge_pt2",
+				"08_UpTheBannister_pt1",
+				"09_UpTheBannister_pt2",
+				"10_MagicPapers_pt1",
+				"11_MagicPapers_pt2",
+				"12_JaneToWilkins",
+				"13_TwoFacedWilkins_pt2",
+				"14_NurseryPlans",
+				"15_19_BowlSpinIntoTheBowl",
+				"16_OutsideTheTent",
+				"17_RoyalDoultonChase",
+				"18_OffToTopsys_pt1",
+				"19_OffToTopsys_pt2",
+				"20_KidsSneakOff",
+				"21_KidsBurstIn_Chase",
+				"22_LostInAFog",
+				"23_WhenDidYouAlGetSoClever",
+				"24_GoodByeOldFriend",
+				"25_RaceToBigBen",
+				"26_MissingSignatures",
+				"27_CherryTreeLane",
+				"28_MaryExits",
+				"29_UnderneathTheLovelyLondonSky_pt2",
+			]
+		}
+	}
+}
+$(document).ready(function(){
+	loadScore('mp');
+	$('.page').on('click touchstart', '.track',function(e){
+		e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+		var audioPlayer = $('#'+loaded+'-page').find('.score').find('.audio-player');
+		
+		var index = $(this).index('.track');
+		filmInfo[loaded].currentTrack= index;
+		console.log(index);
+		if($(this).hasClass('playing')){
+			audioPlayer.find('audio')[0].pause();
+			audioPlayer.find('audio')[0].currentTime = 0;
+			$(this).removeClass('playing');
+		}else{
+			stopAllMedia();
+			audioPlayer.find('.song-title').html(filmInfo[loaded].score.titles[index]);
+			audioPlayer.find('audio').find('source').attr('src','./media/toplay/'+loaded+'/score/'+filmInfo[loaded].score.files[index]+'.mp3');
+			audioPlayer.find('audio')[0].load();
+			audioPlayer.find('audio')[0].play();
+			//$('.play-btn').removeClass('playing');
+			$(this).addClass('playing');
+			
+		}
+	});
+	$('.play').on('click', function(){
+		var index = $(this).attr('data-id');
+		
+		// console.log(filmInfo[loaded].songs[index].file);
+		var audioPlayer = $('#'+loaded+'-page').find('.songs').find('.audio-player');
+		audioPlayer.find('.song-title').html(filmInfo[loaded].songs[index].title);
+		audioPlayer.find('.song-credit').html(filmInfo[loaded].songs[index].credits);
+		audioPlayer.find('source').attr('src',filmInfo[loaded].songs[index].file);
+		audioPlayer.find('audio')[0].load();
+		audioPlayer.find('audio')[0].play();
+	})
+	$('.play-all').on('click',function(){
+		$(this).parent().prev().find('.track').eq(0).trigger('click');
+	})
+	$('audio').contextmenu( function(e){
+		console.log('test')
+		e.preventDefault();
+		return false;
+	})
+	function stopAllMedia(){
+		$('.audio-player').each(function(){
+			$(this).find("audio")[0].pause();
+		});
+		if($('.playing').length != 0){
+			if( $('.playing').siblings('video').length > 0){
+				$('.playing').siblings('video')[0].pause();
+				$('.playing').siblings('video')[0].currentTime = 0;
+				$('.playing').siblings('video')[0].load();
+				$('.playing').siblings('img').fadeIn();
+				$('.playing').removeClass('playing').removeAttr('style');
+			}
+			if($('.playing').find('audio').length > 0){
+				$('.playing').find('audio')[0].pause();
+				$('.playing').find('audio')[0].currentTime = 0;
+				$('.playing').find('audio')[0].load();
+				$('.playing').removeClass('playing').removeAttr('style');
+			}
+		}
+		$('.playing').removeClass('playing');
+	}
+	function loadScore(film){
+	console.log('loadScore')
+
+	if(!filmInfo[film].scoreLoaded) {
+		filmInfo[film].scoreLoaded = true;
+		var audioPlayer = $('#'+film+'-page').find('.score').find('.audio-player');
+		audioPlayer.find('.song-title').html(filmInfo[film].score.titles[0])
+		audioPlayer.find('audio').find('source').attr('src','./media/toplay/'+film+'/score/'+filmInfo[film].score.files[0]+'.mp3');
+		audioPlayer.find('audio')[0].load();
+
+		for(var i = 0; i < filmInfo[film].score.titles.length; i ++){
+			$('#'+film+'-page').find('.score').find('.track-list').find('.col.'+((i < filmInfo[film].score.titles.length/2) ? 'left':'right')).append('<div class="track"><div class="switcher"><div class="number">'+(i+1)+'.</div><div data-song="'+filmInfo[film].score.titles[i]+'" class="play-btn"></div></div><div class="track-info"><div class="track-name">'+filmInfo[film].score.titles[i]+'</div></div></div>')
+		}
+		$('#'+film+'-page').find('.score').find('.track-list').find('.col.right').append('<div class="play-all"><img src="./img/ui/small-play-btn.png">Play All</div>');
+		$('#'+film+'-page').find('.score').find('.audio-player').find('audio')[0].addEventListener('ended', function(){
+			playNextSong();
+		})
+		
+			
+
+		
+	}
+}
+function playNextSong(){
+	console.log('song ended');
+	//console.log(filmInfo[film].score.titles.length)
+	if(filmInfo[loaded].currentTrack < filmInfo[loaded].score.titles.length-1){
+		filmInfo[loaded].currentTrack++;
+		var audioPlayer = $('#'+loaded+'-page').find('.score').find('.audio-player');
+		audioPlayer.find('.song-title').html(filmInfo[loaded].score.titles[filmInfo[loaded].currentTrack])
+		audioPlayer.find('audio').find('source').attr('src','./media/toplay/'+loaded+'/score/'+filmInfo[loaded].score.files[filmInfo[loaded].currentTrack]+'.mp3');
+		audioPlayer.find('audio')[0].load();
+		audioPlayer.find('audio')[0].play();
+		$('#'+loaded+'-page').find('.score').find('.track-list').find('.track').eq(filmInfo[loaded].currentTrack-1).removeClass('playing');
+		$('#'+loaded+'-page').find('.score').find('.track-list').find('.track').eq(filmInfo[loaded].currentTrack).addClass('playing');
+		//parent.removeClass('playing').siblings('.track').first().addClass('playing').find('audio')[0].play();
+	}
+		//parent.removeClass('playing').next('.track').addClass('playing').find('audio')[0].play();
+}
+})
+</script>
+</body>
+</html>

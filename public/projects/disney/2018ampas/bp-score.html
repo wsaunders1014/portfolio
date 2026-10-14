@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=eE5evalxQk">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png?v=eE5evalxQk">
+<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png?v=eE5evalxQk">
+<link rel="manifest" href="./manifest.json?v=eE5evalxQk">
+<link rel="mask-icon" href="./safari-pinned-tab.svg?v=eE5evalxQk" color="#5bbad5">
+<link rel="shortcut icon" href="./favicon.ico?v=eE5evalxQk">
+<meta name="theme-color" content="#ffffff">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" property="og:description" content="Walt Disney Studios 2018 For Your Consideration"/>
+<meta property="og:image" content="./img/preview-image.jpg"/>
+<title>Disney Academy Awards 2018</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<style>
+#logo{
+	width: 300px;
+	margin:20px auto 0;
+}
+#page-holder{
+	padding-top: 2vw;
+}
+#page-holder,.page{
+	display: block;
+}
+.page .subpages .limiter > div{
+	display: block;
+}
+ .page .subpages .limiter .score .content .track-list .track .switcher{
+ 	
+}
+ .page .subpages .limiter .score .content .track-list .track .switcher .number{
+ 	
+ }
+</style>
+</head>
+<body>
+<div id="logo"><a href="index.html"><img src="./img/bp_tt.png"></a></div>
+<div id="page-holder">
+	<div class="page" id="bp-page">
+		<div class="subpages">
+			<div class="limiter">
+				<div class="score">
+					<div class="content">
+					
+						<div class="category">BEST ORIGINAL SCORE</div>
+						<div class="name">LUDWIG GÖRANSSON</div>
+						<div class="audio-player">
+<p class="audio-demo-note" style="font-size:14px;line-height:1.4;letter-spacing:normal;margin:12px 0;">Audio unavailable in this portfolio demo.</p>
+							<div class="song-title">Wakanda Origins</div>
+						
+							<audio controls controlsList="nodownload" autobuffer>
+								<source src="./media/toplay/bp/score/01_Wakanda_Origins.mp3" type="audio/mp3"/>
+							</audio>
+						
+
+							<div class="track-list">
+								<div class="col left"></div>
+								<div class="col right"></div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+	loaded = 'bp';
+var filmInfo = {
+	"bp":{
+		url:'black-panther',
+		title:'Black Panther',
+		page:'bp',
+		pageList:['consider','synopsis','screenings','press','score','song','videos','accolades'],
+		photos:0,
+		pageLoaded:false,
+		scoreLoaded:false,
+		currentTrack:0,
+		score:{
+			titles:[
+				"Wakanda Origins",
+				"Njobu",
+				"Royal Talon Fighter",
+				"Wakanda",
+				"Warrior Falls",
+				"Mbaku",
+				"Waterfall Fight",
+				"Ancestral Plane",
+				"Killmonger",
+				"Flight to Lab",
+				"Casino Brawl",
+				"Busan Car Chase",
+				"Questioning Claw",
+				"Outsider",
+				"Is This Wakanda",
+				"Killmonger's Challenge",
+				"Killmonger vs T'Challa",
+				"Loyal to the Throne",
+				"Killmonger's Dream",
+				"Stealing the Herb",
+				"Entering Jabariland",
+				"Wake Up T'Challa",
+				"The Battle on Great Mound",
+				"Glory to Bast",
+				"The Return of Mbaku",
+				"King Slayer",
+				"A New Day",
+				"Spaceship Bugatti"
+			],
+			files:[
+				"01_Wakanda_Origins",
+				"02_Njobu",
+				"03_Royal_Talon_Fighter",
+				"04_Wakanda",
+				"05_Warrior_Falls",
+				"06_Mbaku",
+				"07_Waterfall_Fight",
+				"08_Ancestral_Plane",
+				"09_Killmonger",
+				"10_Flight_to_Lab",
+				"11_Casino_Brawl",
+				"12_Busan_Car_Chase",
+				"13_Questioning_Claw",
+				"14_Outsider",
+				"15_Is_This_Wakanda",
+				"16_Killmongers_Challenge",
+				"17_Killmonger_vs_TChalla",
+				"18_Loyal_to_the_Throne",
+				"19_Killmongers_Dream",
+				"20_Stealing_the_Herb",
+				"21_Entering_Jabariland",
+				"22_Wake_Up_TChalla",
+				"23_The_Battle_on_Great_Mound",
+				"24_Glory_to_Bast",
+				"25_The_Return_of_Mbaku",
+				"26_King_Slayer",
+				"27_A_New_Day",
+				"28_Spaceship_Bugatti"
+			]
+		}
+	}
+}
+$(document).ready(function(){
+	loadScore('bp');
+	$('.page').on('click touchstart', '.track',function(e){
+		e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+		var audioPlayer = $('#'+loaded+'-page').find('.score').find('.audio-player');
+		
+		var index = $(this).index('.track');
+		filmInfo[loaded].currentTrack= index;
+		console.log(index);
+		if($(this).hasClass('playing')){
+			audioPlayer.find('audio')[0].pause();
+			audioPlayer.find('audio')[0].currentTime = 0;
+			$(this).removeClass('playing');
+		}else{
+			stopAllMedia();
+			audioPlayer.find('.song-title').html(filmInfo[loaded].score.titles[index]);
+			audioPlayer.find('audio').find('source').attr('src','./media/toplay/'+loaded+'/score/'+filmInfo[loaded].score.files[index]+'.mp3');
+			audioPlayer.find('audio')[0].load();
+			audioPlayer.find('audio')[0].play();
+			//$('.play-btn').removeClass('playing');
+			$(this).addClass('playing');
+			
+		}
+	});
+	$('.play').on('click', function(){
+		var index = $(this).attr('data-id');
+		
+		// console.log(filmInfo[loaded].songs[index].file);
+		var audioPlayer = $('#'+loaded+'-page').find('.songs').find('.audio-player');
+		audioPlayer.find('.song-title').html(filmInfo[loaded].songs[index].title);
+		audioPlayer.find('.song-credit').html(filmInfo[loaded].songs[index].credits);
+		audioPlayer.find('source').attr('src',filmInfo[loaded].songs[index].file);
+		audioPlayer.find('audio')[0].load();
+		audioPlayer.find('audio')[0].play();
+	})
+	$('.play-all').on('click',function(){
+		$(this).parent().prev().find('.track').eq(0).trigger('click');
+	})
+	$('audio').contextmenu( function(e){
+		console.log('test')
+		e.preventDefault();
+		return false;
+	})
+	function stopAllMedia(){
+		$('.audio-player').each(function(){
+			$(this).find("audio")[0].pause();
+		});
+		if($('.playing').length != 0){
+			if( $('.playing').siblings('video').length > 0){
+				$('.playing').siblings('video')[0].pause();
+				$('.playing').siblings('video')[0].currentTime = 0;
+				$('.playing').siblings('video')[0].load();
+				$('.playing').siblings('img').fadeIn();
+				$('.playing').removeClass('playing').removeAttr('style');
+			}
+			if($('.playing').find('audio').length > 0){
+				$('.playing').find('audio')[0].pause();
+				$('.playing').find('audio')[0].currentTime = 0;
+				$('.playing').find('audio')[0].load();
+				$('.playing').removeClass('playing').removeAttr('style');
+			}
+		}
+		$('.playing').removeClass('playing');
+	}
+function loadScore(film){
+	console.log('loadScore',filmInfo[film])
+
+	if(!filmInfo[film].scoreLoaded) {
+		filmInfo[film].scoreLoaded = true;
+		var audioPlayer = $('#'+film+'-page').find('.score').find('.audio-player');
+		
+		audioPlayer.find('.song-title').html(filmInfo[film].score.titles[0])
+		audioPlayer.find('audio').find('source').attr('src','./media/toplay/'+film+'/score/'+filmInfo[film].score.files[0]+'.mp3');
+		audioPlayer.find('audio')[0].load();
+
+		for(var i = 0; i < filmInfo[film].score.titles.length; i ++){
+			$('#'+film+'-page').find('.score').find('.track-list').find('.col.'+((i < filmInfo[film].score.titles.length/2) ? 'left':'right')).append('<div class="track"><div class="switcher"><div class="number">'+(i+1)+'.</div><div data-song="'+filmInfo[film].score.titles[i]+'" class="play-btn"></div></div><div class="track-info"><div class="track-name">'+filmInfo[film].score.titles[i]+'</div></div></div>')
+		}
+		$('#'+film+'-page').find('.score').find('.track-list').find('.col.right').append('<div class="play-all"><img src="./img/ui/small-play-btn.png">Play All</div>');
+		$('#'+film+'-page').find('.score').find('.audio-player').find('audio')[0].addEventListener('ended', function(){
+			playNextSong();
+		})
+		
+			
+
+		
+	}
+}
+function playNextSong(){
+	console.log('song ended');
+	//console.log(filmInfo[film].score.titles.length)
+	if(filmInfo[loaded].currentTrack < filmInfo[loaded].score.titles.length-1){
+		filmInfo[loaded].currentTrack++;
+		var audioPlayer = $('#'+loaded+'-page').find('.score').find('.audio-player');
+		audioPlayer.find('.song-title').html(filmInfo[loaded].score.titles[filmInfo[loaded].currentTrack])
+		audioPlayer.find('audio').find('source').attr('src','./media/toplay/'+loaded+'/score/'+filmInfo[loaded].score.files[filmInfo[loaded].currentTrack]+'.mp3');
+		audioPlayer.find('audio')[0].load();
+		audioPlayer.find('audio')[0].play();
+		$('#'+loaded+'-page').find('.score').find('.track-list').find('.track').eq(filmInfo[loaded].currentTrack-1).removeClass('playing');
+		$('#'+loaded+'-page').find('.score').find('.track-list').find('.track').eq(filmInfo[loaded].currentTrack).addClass('playing');
+		//parent.removeClass('playing').siblings('.track').first().addClass('playing').find('audio')[0].play();
+	}
+		//parent.removeClass('playing').next('.track').addClass('playing').find('audio')[0].play();
+}
+})
+</script>
+</body>
+</html>
