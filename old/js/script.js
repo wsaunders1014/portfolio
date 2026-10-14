@@ -1,21 +1,11 @@
-var devPlanet,actorPlanet,writerPlanet,degrees,oldHash=location.hash;
-var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-var	h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+//Intentionally left unminified for your viewing pleasure.
+var w,h,devPlanet,actorPlanet,writerPlanet,oldHash=location.hash;
 var notHomepage = (location.hash.length>1) ? true:false;
 var moonPlayed = false, marchPlayed = false;
 var audioPlaying = false;
 var muted = false;
 var url = location.origin +location.pathname;
 var introOn = (!oldHash) ? true:false;
-var wrapperW =0;
-var wrapperH = 0;
-var deathArray = [];
-var sun = {};
-var deathStar = {};
-var degrees = 0;
-var toCorner = {};
-
-var mouseX,mouseY,anim,oldCoords,xDistance,yDistance,origAngle;
 $(document).ready(function(){
 	w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 	h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -24,14 +14,14 @@ $(document).ready(function(){
 	var intro = $('#intro');
 	$('body').fitText(1.5);
 	devPlanet = new Planet($('#dev'),1,1);
-	actorPlanet = new Planet($('#actor'),1,1);
+	// actorPlanet = new Planet($('#actor'),1,1);
 	writerPlanet = new Planet($('#writer'),1,1);
 	deathArray = [sun = new DeathObj($('#sun'),2,1,'Nice try, Icarus!'),deathStar = new DeathObj($('#death-star'),0,0,'Now you know the true power of the dark side.')];
 	console.log(deathArray);
 	//Initialization
 	$('#rocket').css({left:(wrapperW/2) -92.5,top:(wrapperH/2)-50});
 	Rocket.locate();
-
+	
 
 	//GALAXY MOVE
 	var hoverTimeout,hoverInterval;
@@ -44,7 +34,7 @@ $(document).ready(function(){
 	var leftBound = 0;
 	var rightBound = -(wrapperW-w);
 
-	// GLYPH ANIMATIONS
+	// GLYPH ANIMATIONS 
 	var topLeft =$('.top-left-corner');
 	var topRight = $('.top-right-corner');
 	var bottomLeft = $('.bottom-left-corner');
@@ -69,13 +59,13 @@ $(document).ready(function(){
 		toPane.staggerTo(bottomRight,0.5,{right:paneLeft-14,bottom:h-(paneTop+paneH)-15,scale:1},0.25,'start');
 
 
-
+	
 	if(introOn){
 		loadIntro();
 	}else {
 		intro.hide();
 	}
-
+	
 	$(window).resize(function(){
 		w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 		h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -93,15 +83,15 @@ $(document).ready(function(){
 	// 	left:introLeft-7
 	// });
 	// topRight.css({
-	// 	top:introTop-13,
+	// 	top:introTop-13, 
 	// 	right:introLeft-9
 	// });
 	// bottomLeft.css({
-	// 	bottom: h-(introTop+introH+9),
+	// 	bottom: h-(introTop+introH+9), 
 	// 	left:introLeft-11
 	// });
 	// bottomRight.css({
-	// 	bottom: h-(introTop+introH+9),
+	// 	bottom: h-(introTop+introH+9), 
 	// 	right:introLeft-10
 	// });
 	$('#pane').on('click touchstart', '.backToSpace',function(){
@@ -138,7 +128,7 @@ $(document).ready(function(){
 		}
 	});
 
-	//Planet Highlight Circles
+	//Planet Highlight Circles 
 	var swooshTo = false;
 	// var swoosh1 = TweenMax.to($('.glyph').eq(0),8,{rotation:360,repeat:-1,ease:'linear'});
 	// var swoosh2 = TweenMax.to($('.glyph').eq(1),8,{rotation:360,repeat:-1,ease:'linear'});
@@ -147,7 +137,7 @@ $(document).ready(function(){
 	$('.glyph').each(function(){
 		TweenMax.to($(this),8,{rotation:360,repeat:-1,ease:'linear'});
 	});
-
+	 
 	var slideOut;
 	$('.planet-holder').on('mouseover touchstart touchmove', function(e){
 		var tween = TweenMax.getTweensOf($(this).find('.glyph'));
@@ -180,17 +170,17 @@ $(document).ready(function(){
 		 	slideOut = false;
 		});
 	});
-
+	
 	//EVENT HANDLERS
 	wrapper.on('click', function(e){
-		console.log('test')
 		mouseX = e.pageX-wOffset.left;
 		mouseY= e.pageY-wOffset.top;
 		Rocket.target.left = mouseX;
 		Rocket.target.top = mouseY;
 		Rocket.isLanded = false;
 		if(introOn){
-			hideIntro();
+			toCorners.play();
+			introOn = false;
 		}
 
 		Rocket.currQuadX = Math.floor(mouseX/w);
@@ -226,16 +216,16 @@ $(document).ready(function(){
 	var isFlipping = false;
 	$('#pane').on('click touchstart', '.num', function(){
 		if(!$(this).hasClass('active')){
-
+			
 			if(!isFlipping){
 				isFlipping = true;
 				var index = $(this).index();
 				$('.active').removeClass('active');
 				$(this).addClass('active');
 				var newHtml = $('.slide').eq(index).html();
-				if(!flipped)
+				if(!flipped)	
 					$('#screen-back').html(newHtml);
-				else
+				else 
 					$('#screen-front').html(newHtml);
 
 				TweenMax.to($('#screen'),0.5, {rotationY:'+=180', onComplete:function(){
@@ -313,7 +303,7 @@ $(document).ready(function(){
 			$('#pane').addClass('front');
 			$('.content').fadeIn(1000);
 			$('#overlay').fadeIn(1000);
-
+			
 			$.get(collided+'.html', function(data){
 				$('#pane .content').html(data);
 				if(collided =='actor'){
@@ -355,7 +345,7 @@ $(document).ready(function(){
 						toPane.staggerTo(bottomRight,0.5,{right:paneLeft-14,bottom:h-(paneTop+paneH)-15,scale:1},0.25,'start');
 						toPane.play('start');
 					}});
-
+					
 				}
 			});
 		}
@@ -369,10 +359,10 @@ function checkCollision(x,y){
 		if(y>devPlanet.top && y < devPlanet.bottom){
 			collided='developer';
 		}
-	}else if(x>actorPlanet.left && x < actorPlanet.right){
-		if(y>actorPlanet.top && y <actorPlanet.bottom){
-			collided='actor';
-		}
+	// }else if(x>actorPlanet.left && x < actorPlanet.right){
+	// 	if(y>actorPlanet.top && y <actorPlanet.bottom){
+	// 		collided='actor';
+	// 	}		
 	}else if(x>writerPlanet.left && x < writerPlanet.right){
 		if(y>writerPlanet.top && y < writerPlanet.bottom){
 			collided='writer';
@@ -403,7 +393,7 @@ function deathCheck(x,y){
 					}
 	}
 	if(died) {
-
+		
 		$('#waypoint').remove();
 		if(died.name == 'death-star'){
 			if(!deathLaser){
@@ -457,7 +447,7 @@ function quadAction(quadX,quadY){
 	}else if(quadX === 1){
 		if(quadY === 0){
 			//Quad 2
-
+			
 
 			if(!warp.isAnimating){
 				warp.play(true);
@@ -465,7 +455,7 @@ function quadAction(quadX,quadY){
 		}else if(quadY === 1){
 
 		}else if(quadY === 2){
-
+			
 		}
 	}else if(quadX===2){
 		if(quadY === 0){
@@ -473,7 +463,7 @@ function quadAction(quadX,quadY){
 		}else if(quadY === 1){
 
 		}else if(quadY === 2){
-
+			
 		}
 	}
 }
@@ -498,7 +488,7 @@ function restart(){
 		Rocket.angle = -90;
 		Rocket.obj.children('#explosion').html('');
 	}});
-}
+}	
 //planet object
 function Planet(obj,quadX,quadY) {
 	this.top= (h*quadY)+obj.position().top;

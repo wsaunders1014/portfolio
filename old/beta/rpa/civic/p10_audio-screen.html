@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+	 <script src="//secure.api.viewer.zmags.com/widgets/iframe.js" type="text/javascript"></script> 
+	<script type="text/javascript">
+	var Iframe = com.zmags.api.widgets.Iframe;
+		Iframe.addEventListener(Iframe.IFRAME_WIDGET_ACTIVATE, function(event) {
+			$(document).ready(function(){
+					$('#intro img').eq(2).delay(200).animate({opacity:0},1700);
+					$('#intro img').eq(1).delay(2100).animate({opacity:0},1700);
+					$('#intro img').eq(0).delay(3800).animate({opacity:0},1700,function(){
+						$('#intro').hide();
+					});
+			});
+		});
+		Iframe.addEventListener(Iframe.IFRAME_WIDGET_DEACTIVATE, function(event) {
+	            //reset logic goes here
+			$('#intro').show();
+			$('#intro img').css('opacity',1);
+		});
+		document.ondragstart = function () { return false; };
+		function AttachEvent(element, type,handler) {
+			if(element.addEventListener){
+				element.addEventListener(type, handler, false);
+			} else if (document.attachEvent) {
+				element.attachEvent(type,handler)
+			}else {
+				element['on'+type] = handler;
+			}
+			
+		}
+		$(document).ready(function(){
+			var i = 0;
+
+			$('#slide-count ul li').on('click', function(){
+				var index = $(this).index();
+				
+				$('#slides').animate({left:-index*100+'%'},1000)
+				$('.on').removeClass('on');
+				$(this).children('img').last().addClass('on');
+				$('#header img').eq(index).addClass('on');
+				
+				$('#screen-copy img').eq(index).addClass('on');
+				i = index;
+				if(i == 0){
+					$('#left-arrow').addClass('off');
+					$('#right-arrow').removeClass('off');
+				}
+				else if (i == 3){
+					$('#right-arrow').addClass('off');
+					$('#left-arrow').removeClass('off');
+				}else {
+					$('#left-arrow').removeClass('off');
+					$('#right-arrow').removeClass('off');
+				}
+			});
+			
+			$('#left-arrow').click(function(){
+				$('#right-arrow').removeClass('off');
+				if (i == 1)
+					$('#left-arrow').addClass('off');
+				if(i >0) {
+					i--;
+					$('#slides').animate({left:-i*100+'%'},1000);
+					$('.on').removeClass('on');
+					$('#slide-count ul li').eq(i).children('img').last().addClass('on');
+					$('#header img').eq(i).addClass('on');				
+					$('#screen-copy img').eq(i).addClass('on');
+						
+				}
+
+			});
+			$('#right-arrow').click(function(){
+				$('#left-arrow').removeClass('off');
+				if (i == 2)
+					$('#right-arrow').addClass('off');
+				if(i < 3) {
+					i++;
+					$('#slides').animate({left:-i*100+'%'},1000);
+					$('.on').removeClass('on');
+					
+					$('#slide-count ul li').eq(i).children('img').last().addClass('on');
+					$('#header img').eq(i).addClass('on');
+					$('#screen-copy img').eq(i).addClass('on');				
+				}
+				
+			});
+			
+			$(window).load(function(){
+			
+				
+			});
+			
+			var touchStartX = 0;
+			var touchEndX = 0;
+			var dist=0;
+			
+			var slideLeft = $('#slider').width();
+			
+			AttachEvent(document.body,'touchmove', function(event) {
+				event.preventDefault();
+			}, false); 
+			
+			var ctrl = document.getElementById('slides');
+			AttachEvent(ctrl,'touchstart',function(event){
+				event.preventDefault();
+				var touchStart = event.changedTouches[0];
+				touchStartX = touchStart.pageX;
+				AttachEvent(ctrl,'touchend', function(event){
+					event.preventDefault();
+					var touchMove = event.changedTouches[0];
+					touchEndX = touchMove.pageX;
+					dist = touchEndX - touchStartX;
+					if (i == 2)
+						$('#right-arrow').addClass('off');
+					if (i == 1)
+						$('#left-arrow').addClass('off');
+					if (dist < 0 && i < 3) {
+						i++;
+						$('#left-arrow').removeClass('off');
+						$('#slides').css('left',-(i*slideLeft));
+						$('.on').removeClass('on');
+					$('#slide-count ul li').eq(i).children('img').last().addClass('on');
+					$('#header img').eq(i).addClass('on');
+					$('#ux-type img').eq(i).addClass('on');
+					$('#screen-copy img').eq(i).addClass('on');
+					}else if (dist > 0 && i > 0) {
+						i--;
+						$('#right-arrow').removeClass('off');
+						$('#slides').css('left',-(i*slideLeft));
+						$('.on').removeClass('on');
+					$('#slide-count ul li').eq(i).children('img').last().addClass('on');
+					$('#header img').eq(i).addClass('on');
+					$('#ux-type img').eq(i).addClass('on');
+					$('#screen-copy img').eq(i).addClass('on');
+					}
+					this.removeEventListener('touchend',arguments.callee,false);
+				},false);
+				
+			},false);
+		});
+		
+	</script>
+	<style type="text/css">
+		body {
+			margin:0px;
+			padding:0px;
+			background:#fff;
+			overflow: hidden;
+		}
+		img {
+			width:100%;
+		}
+		#container {
+			overflow:hidden;
+			height:100%;
+		}
+		#base {
+		height:100%;
+		width:100%;
+		}
+		#bg-image {
+			
+			pointer-events:none;
+		}
+		#intro {
+			z-index:11;
+			position: absolute;
+			height: 100%;
+			width: 100%;
+		}
+		#intro img {
+			position:absolute;
+			opacity:1.0;
+			index:12;
+		}
+		#header {
+			position: absolute;
+			top: 8.2%;
+			left: 6.6%;
+			width: 52.778%;
+		}
+		#header img{
+			position:absolute;
+		}
+		#slider {
+			position: absolute;
+			width: 46.8%;
+			height: 34.607407%;
+			overflow: hidden;
+			left: 30.2%;
+			top: 28.6%;
+		}
+		#slider img {
+			display:inline;
+			height:100%;
+			width:auto;
+			float: left;
+			
+		}
+		#nav-bar {
+			position: absolute;
+			width: 51%;
+			top: 74.75%;
+			height: 23%;
+			left: 26.1%;
+			padding-top: .5%;
+			z-index: 1;
+		}
+		#slide-count {
+			width: 20%;
+			height: 13%;
+			position: absolute;
+			top: 59%;
+			left: 26%;
+		}
+		
+		#slide-count ul {
+			list-style:none;
+			padding: 0;
+			margin: 0;
+			height:100%;
+		}
+		
+		#slide-count ul li {
+			width: 14.5%;
+			line-height:0px;
+			overflow:hidden;
+			float: left;
+			height:63%;
+			position: relative;
+			margin-right: 4%;
+			cursor: pointer;
+		}
+		#slide-count ul li img{
+			position:absolute;
+		}
+		.off {display:none;}
+		.on {
+			display:block;
+		}
+		
+		#instructions {
+			position: absolute;
+			top: 39%;
+			width: 54.8%;
+			height: 100%;
+			left: 42%;
+			
+		}
+		#ux-type {
+			position:absolute;
+			width: 11.36%;
+			height: 34%;
+			right: 5.3%;
+			top: 43.1%;
+		}
+		#screen-copy {
+			top: 12%;
+			position: absolute;
+			width:100%;
+		}
+		#slides{
+			position: relative;
+			width: 401%;
+			height:100%;
+			left: 0%;
+		}
+		#left-arrow {
+			position: absolute;
+			top: 46.5%;
+			left: 19%;
+			width: 2.95%;
+			cursor:pointer;
+		}
+		#right-arrow {
+			position: absolute;
+			top: 46.5%;
+			left: 77%;
+			width: 2.8%;
+			cursor:pointer;
+		}
+	</style>
+</head>
+<body id="audio-screen">
+	<div id="container">
+		<div id="intro">
+			<img src="img/audio-screen/intro-3.jpg" draggable="false"/>			
+			<img src="img/audio-screen/intro-2.jpg" draggable="false"/>
+			<img src="img/audio-screen/intro-1.jpg" draggable="false"/>
+		</div>
+		<div id="base">
+			<img src="img/audio-screen/base.jpg" draggable="false" id="bg-image"/>
+			<div id="header">
+				<img class="off on" src="img/audio-screen/main-copy-1.jpg" style="margin-top: .165%;"/>
+				<img class="off" src="img/audio-screen/main-copy-2.jpg" />
+				<img class="off" src="img/audio-screen/main-copy-3.jpg" />
+				<img class="off" src="img/audio-screen/main-copy-4.jpg" />
+			</div>
+			<div id="slider">
+				<div id="slides">
+					<img src="img/audio-screen/screen-1.jpg" style="left:0%;"/>
+					<img src="img/audio-screen/screen-2.jpg" style="left:100%;" />
+					<img src="img/audio-screen/screen-3.jpg" style="left:200%;" />
+					<img src="img/audio-screen/screen-4.jpg" style="left:300%;" />
+				</div>
+			</div>
+			<div id="left-arrow" class="off"><img src="img/audio-screen/left-arrow.png"/></div>
+			<div id="right-arrow"><img src="img/audio-screen/right-arrow.png"/></div>
+			<div id="nav-bar">
+				<div id="screen-copy">
+					<img class="off on" src="img/audio-screen/screen-copy-1.png"/>
+					<img class="off" src="img/audio-screen/screen-copy-2.png"/>
+					<img class="off" src="img/audio-screen/screen-copy-3.png"/>
+					<img class="off" src="img/audio-screen/screen-copy-4.png"/>
+				</div>
+				<div id="slide-count">
+					<ul>
+						<li><img src="img/audio-screen/dot-open.png"><img class="off on" src="img/audio-screen/dot-closed.png"></li>
+						<li><img src="img/audio-screen/dot-open.png"><img class="off" src="img/audio-screen/dot-closed.png"></li>
+						<li><img src="img/audio-screen/dot-open.png"><img class="off" src="img/audio-screen/dot-closed.png"></li>
+						<li><img src="img/audio-screen/dot-open.png"><img class="off" src="img/audio-screen/dot-closed.png"></li>
+						
+					</ul>
+				</div>
+				<div id="instructions">
+					<img src="img/audio-screen/instructions.png" />
+				</div>
+				<div style="clear:both;"></div>
+			</div>
+		
+		</div>
+		
+	</div>
+</body>
+</html>

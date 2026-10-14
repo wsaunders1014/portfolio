@@ -1,4 +1,4 @@
-const preload_pictures = function(picture_urls, callback) {
+var preload_pictures = function(picture_urls, callback) {
 	var loaded  = 0;
 	var errorCheck = 0;
 	var percent= 0;
@@ -11,9 +11,9 @@ const preload_pictures = function(picture_urls, callback) {
 	  	//console.log(percent);
 	  	if( percent < 10){
 	  		document.getElementById('percent').innerHTML = '0'+percent;
-	  	}
+	  	}    
 	  	else {
-	  		document.getElementById('percent').innerHTML = percent;
+	  		document.getElementById('percent').innerHTML = percent;  
 	  	}
 	    if(++loaded == picture_urls.length && callback) {
 	    	//console.log('all images loaded');
@@ -63,8 +63,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 function removeLoader(){
 	var el = document.getElementById('loader');
 	if(typeof(el) != 'undefined' && el !== null){
-		el.style.opacity = 0;
-		setTimeout(()=>{el.style.display='none'},500)
+		$('#loader').fadeOut(400);
 	}else {
 		window.setTimeout(function(){
 			removeLoader();

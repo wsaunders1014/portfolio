@@ -46,10 +46,17 @@ module.exports = {
     devServer:{
       host:'localhost',
       port:8080,
-      static: {
-        directory: path.resolve(__dirname, 'src'),
-        watch: true
-      },
+      static: [
+        {
+          directory: path.resolve(__dirname, 'src'),
+          watch: true
+        },
+        {
+          directory: path.resolve(__dirname, 'old'),
+          publicPath: '/old',
+          watch: true
+        }
+      ],
       watchFiles: ['src/**/*.html'],
       hot:true,
       liveReload:true
