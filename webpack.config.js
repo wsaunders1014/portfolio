@@ -33,6 +33,7 @@ module.exports = (_env, argv) => {
           {
             from: source,
             to: '.',
+            globOptions: { ignore: ['**/.DS_Store'] },
             transform: {
               transformer: (content, resourcePath) => {
                 if (!development || resourcePath !== path.join(source, 'index.html')) {
@@ -45,7 +46,7 @@ module.exports = (_env, argv) => {
               }
             }
           },
-          { from: publicFiles, to: '.' }
+          { from: publicFiles, to: '.', globOptions: { ignore: ['**/.DS_Store'] } }
         ]
       })
     ],
