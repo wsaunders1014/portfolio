@@ -7,14 +7,14 @@ module.exports = {
     entry: './src/js/main.js',
     output: {
         path: path.resolve( __dirname, './dist/' ),
-        filename: 'js/main.[chunkhash].js',
+        filename: 'js/main.[contenthash].js',
     },
     module: {
         rules: [
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: ['babel-loader','eslint-loader'],
+                use: ['babel-loader'],
             },
             {
               test: /\.html$/,
@@ -31,28 +31,26 @@ module.exports = {
               use: [MiniCssExtractPlugin.loader,"css-loader",'sass-loader' ]
             },
             {
-              test:/\.css/,
+              test:/\.css$/i,
               use:[MiniCssExtractPlugin.loader,'css-loader']
             },
             {
-              test: /\.(jpg|png|gif|svg|mp3|css)$/,
-              //include:path.join(__dirname,'/dist/img'),
-              use: {
-                loader: "file-loader",
-                options: {
-                  name: "img/[name].[contenthash].[ext]",
-                }
+              test: /\.(jpg|jpeg|png|gif|svg|webp|mp3)$/i,
+              type: 'asset/resource',
+              generator: {
+                filename: 'img/[name].[contenthash][ext]',
               }
             }
         ]
     },
     devServer:{
-      host:'0.0.0.0',
+      host:'localhost',
       port:8080,
-      inline:true,
-      useLocalIp:true,
-      contentBase:"./src",
-      watchContentBase:true,
+      static: {
+        directory: path.resolve(__dirname, 'src'),
+        watch: true
+      },
+      watchFiles: ['src/**/*.html'],
       hot:true,
       liveReload:true
     },
@@ -62,11 +60,11 @@ module.exports = {
         filename:"index.html"
       }),
       new MiniCssExtractPlugin({
-        filename: "css/[name].[chunkhash].css",
+        filename: "css/[name].[contenthash].css",
         chunkFilename: "css/[id].css"
       }),
-      new CopyPlugin([
+      new CopyPlugin({ patterns: [
         {from:'src/img', to:'img'},
-      ])
+      ] })
     ]
 };
