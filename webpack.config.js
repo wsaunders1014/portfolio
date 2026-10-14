@@ -1,77 +1,55 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const path = require( 'path' );
+const path = require('node:path');
 const CopyPlugin = require('copy-webpack-plugin');
-module.exports = {
-    context: __dirname,
-    entry: './src/js/main.js',
+
+module.exports = (_env, argv) => {
+  const development = argv.mode === 'development';
+  const source = path.resolve(__dirname, 'src');
+  const publicFiles = path.resolve(__dirname, 'public');
+
+  return {
+    // Portfolio scripts share browser globals and stay as ordinary scripts.
+    // Only the development server's live-reload client needs bundling.
+    entry: development ? { 'dev-server': './scripts/dev-client.js' } : {},
     output: {
-        path: path.resolve( __dirname, './dist/' ),
-        filename: 'js/main.[contenthash].js',
+      path: path.resolve(__dirname, 'dist'),
+      filename: '_dev/[name].js',
+      clean: true
     },
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: ['babel-loader'],
-            },
-            {
-              test: /\.html$/,
-              exclude: /nick/,
-              use: [
-                  {
-                    loader: "html-loader",
-                    options: { minimize: true }
-                  }
-              ]
-            },
-            {
-              test: /\.scss$/i,
-              use: [MiniCssExtractPlugin.loader,"css-loader",'sass-loader' ]
-            },
-            {
-              test:/\.css$/i,
-              use:[MiniCssExtractPlugin.loader,'css-loader']
-            },
-            {
-              test: /\.(jpg|jpeg|png|gif|svg|webp|mp3)$/i,
-              type: 'asset/resource',
-              generator: {
-                filename: 'img/[name].[contenthash][ext]',
+    optimization: { minimize: false },
+    devServer: {
+      host: 'localhost',
+      port: 8080,
+      static: [
+        { directory: source, watch: true },
+        { directory: publicFiles, watch: true }
+      ],
+      watchFiles: ['src/**/*', 'public/**/*'],
+      hot: false,
+      liveReload: true
+    },
+    plugins: [
+      new CopyPlugin({
+        patterns: [
+          {
+            from: source,
+            to: '.',
+            transform: {
+              transformer: (content, resourcePath) => {
+                if (!development || resourcePath !== path.join(source, 'index.html')) {
+                  return content;
+                }
+                return content.toString().replace(
+                  '</body>',
+                  '<script src="/_dev/dev-server.js"></script>\n</body>'
+                );
               }
             }
+          },
+          { from: publicFiles, to: '.' }
         ]
-    },
-    devServer:{
-      host:'localhost',
-      port:8080,
-      static: [
-        {
-          directory: path.resolve(__dirname, 'src'),
-          watch: true
-        },
-        {
-          directory: path.resolve(__dirname, 'old'),
-          publicPath: '/old',
-          watch: true
-        }
-      ],
-      watchFiles: ['src/**/*.html'],
-      hot:true,
-      liveReload:true
-    },
-    plugins:[
-      new HtmlWebpackPlugin({
-        template:"src/index.html",
-        filename:"index.html"
-      }),
-      new MiniCssExtractPlugin({
-        filename: "css/[name].[contenthash].css",
-        chunkFilename: "css/[id].css"
-      }),
-      new CopyPlugin({ patterns: [
-        {from:'src/img', to:'img'},
-      ] })
-    ]
+      })
+    ],
+    // Preserve archived demo assets without applying bundle-size budgets.
+    performance: false
+  };
 };

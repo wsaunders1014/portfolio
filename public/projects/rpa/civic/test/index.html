@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<head>
+<script src="../js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+				var screenH = window.innerHeight || document.documentElement.clientHeight
+|| document.body.clientHeight;;
+		var screenW = window.innerWidth || document.documentElement.clientWidth
+|| document.body.clientWidth;;
+		var iframeW = $("#iframe").width();
+		var iframeH = $("#iframe").height();
+
+		var adjustWidth = screenH / .75;
+		if(screenH > screenW){
+			$('#iframe').attr('width',screenW);
+			$('#iframe').attr('height',screenW*.75);
+		} else if(screenH < screenW){
+			$('#iframe').attr('width',screenH/.75);
+			$('#iframe').attr('height',screenH);
+		} else {
+			$('#iframe').attr('width',screenW);
+			$('#iframe').attr('height',screenW*.75);
+		}
+
+		$(window).resize(function(){
+					screenH = window.innerHeight || document.documentElement.clientHeight
+|| document.body.clientHeight;;
+		 screenW = window.innerWidth || document.documentElement.clientWidth
+|| document.body.clientWidth;;
+			var iframeW = $("#iframe").width();
+			var iframeH = $("#iframe").height();
+			//$('#iframe').attr('height',screenH);
+			var adjustWidth = screenH / .75;
+			if(screenH > screenW){
+				$('#iframe').attr('width',screenW);
+				$('#iframe').attr('height',screenW*.75);
+			} else if(screenH < screenW){
+				$('#iframe').attr('width',screenH/.75);
+				$('#iframe').attr('height',screenH);
+			} else {
+				$('#iframe').attr('width',screenW);
+				$('#iframe').attr('height',screenW*.75);
+			}
+
+		});
+		$('#switcher').hover(function(){
+			$('#menu').show();
+		},function(){
+			$('#menu').hide();
+		});
+		$('#switcher a').click(function(event){
+			event.preventDefault();
+			var link = $(this).attr('href');
+			$('#iframe').attr('src',link);
+		});
+	});
+</script>
+<style type="text/css">
+
+body {
+margin:0;
+padding:0;
+background:#666;
+}
+iframe {
+	overflow:hidden;
+	display:block;
+	margin:0 auto;
+	z-index:1;
+}
+.width100 {
+	width:100%;
+}
+.height100 {
+	height:100%;
+}
+#switcher {
+position: absolute;
+top: 0%;
+left: 0%;
+cursor: pointer;
+width: 11%;
+}
+#menu a {
+float: left;
+color: #000;
+clear: left;
+display: block;
+padding: 2%;
+width: 96%;
+}
+#menu {
+background: #fff;
+position: absolute;
+top: 100%;
+width: 100%;
+border-top: 1px solid;
+display:none;
+}
+</style>
+</head>
+<body>
+	
+	<iframe id="iframe" src="si-animation.html" allowtransparency="true" seamless frameborder="0" scrolling="no"></iframe>
+	<div id="switcher">
+	<div style="padding: 1%;width: 50%;background: #fff;opacity:.5;"><strong>Menu ></strong></div>
+	<div id="menu">
+			<a href="p1_cover.html">Cover</a>
+			<a href="p2_toc.html">2.TOC</a>
+			<a href="p3_civic-family.html">3.Civic Family</a>
+			<a href="p4_magnifier.html">4.Magnifier</a>
+			<a href="p5_si-exterior.html">5.Si Exterior</a>
+			<a href="p7_fun-to-drive.html">7.Fun To Drive</a>
+			<a href="p8_exterior-static.html">8.Exterior-Static</a>
+			<a href="p9_interior-static.html">9.Interior-Static</a>
+			<a href="p10_audio-screen.html">10.Audio Screen</a>
+			<a href="p11_hondalink.html">11.Hondalink</a>
+			<a href="p13_altfuels.html">13.Altfuels</a>
+			<a href="p14_lanewatch.html">14.Lanewatch</a>
+			<a href="p15_safety-static.html">8.Safety-Static</a>
+			<a href="p16_safety-numbers.html">16.Safety in Numbers</a>
+			<a href="p17_accessories.html">17.Accessories</a>
+			<a href="p18_specifications.html">18.Specifications</a>
+			<a href="si_parallax/index.htm">Si Parallax</a>
+			<a href="sedan_parallax/index.htm">Sedan Parallax</a>
+		</div>
+	</div>
+
+</body>
+</html>

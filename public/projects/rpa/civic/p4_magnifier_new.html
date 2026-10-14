@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+	 <script src="//secure.api.viewer.zmags.com/widgets/iframe.js" type="text/javascript"></script> 
+	<script type="text/javascript">	
+	var Iframe = com.zmags.api.widgets.Iframe;
+	Iframe.addEventListener(Iframe.IFRAME_WIDGET_ACTIVATE, function(event) {
+		$(document).ready(function(){
+			var imgWidth = $('#container').width();	
+			var handleWidth = $('.magnifier-overlay').width();
+			var paddingSide = imgWidth*0.0260416666666667;
+			var rightLimit = $('#container').width() - handleWidth - paddingSide;
+			$('.magnifier-overlay').delay(500).animate({right: 2.53428211716341+'%'},1500,function(){
+				$(this).delay(100).animate({opacity:0},400);//fadeOut(1000);
+				$('#explore-link').delay(100).fadeIn(1000);
+			});
+			$('.magnify').delay(500).animate({left:-rightLimit},1500);
+		});
+	});
+		Iframe.addEventListener(Iframe.IFRAME_WIDGET_DEACTIVATE, function(event) {
+	            //reset logic goes here
+				var imgWidth = $('#container').width();	
+				var paddingSide = imgWidth*0.0260416666666667;
+		$('.magnifier-overlay').show().css('right', 68.05+'%');
+		$('.magnify').css('left',-paddingSide);
+    });
+	document.ondragstart = function () { return false; };
+$(document).ready(function(){
+	
+$('img').each(function(index){
+	var src = $(this).attr('src');
+	var newSrc = $(this).attr({'src':src+'?'+new Date().getTime()});
+	this.draggable=false;
+});
+	
+		$('.close-arrow').on('mousedown',function(e){
+			$('.magnifier-overlay').css("opacity",0);
+			$('#explore').animate({left:'109%',opacity:0.9},1000).css('z-index','4');
+			$('#copy').css('z-index','4').animate({opacity:1.0},1000);
+		});
+		
+			
+		$('#container').css({width:$(window).innerWidth()+'px',height:$(window).innerHeight()+"px"});
+		var imgWidth = $('#container').width();				
+		//var paddingSide = imgWidth*0.0260416666666667;
+		//$('.magnify').css('left',-paddingSide);
+		var leftLimit = $('.mag-container').offset().left; //paddingSide;
+		
+		var handleWidth = $('.magnifier-overlay').width();
+		//$('.magnify').css('left',-paddingSide);
+		var rightLimit = $('.mag-container').width() + leftLimit-handleWidth;
+		console.log(leftLimit);
+		var oldSpot = 0;
+		var newSpot = 0;
+		$('.magnifier-overlay').on('mousedown',function(e){
+			e.preventDefault();		
+			var hWidth = $(this).outerWidth();
+			var hHeight = $(this).outerHeight();		
+			var hPos = $(this).offset().left + hWidth - e.pageX;
+			console.log(hPos);
+			$(this).addClass("dragging").css("z-index","2");
+
+			$('#container').on('mousemove', function(e){
+		
+			
+				var handlePosition = e.pageX + hPos - hWidth;
+			//	console.log(handlePosition);
+				if(handlePosition >rightLimit)
+					handlePosition =rightLimit;
+				else if(handlePosition < leftLimit)
+					handlePosition = leftLimit;
+					
+				$('.dragging').offset({
+					left: handlePosition
+				});
+				
+				$('.magnify').css("left",leftLimit-handlePosition);
+								
+				
+				if(handlePosition >= 0 && handlePosition < imgWidth * .15){
+					newSpot = 4;
+					if(newSpot != oldSpot){
+					$("#bottom-text").html("<img src='img/magnifier/horsepower-bottom.png' />");
+					$('#top-text').html("<img src='img/magnifier/horsepower-top.png' />");
+					}
+				}
+				else if(handlePosition > imgWidth * .15 && handlePosition <= imgWidth * .35) {
+				newSpot = 3;
+					if(newSpot != oldSpot){
+					$("#bottom-text").html("<img src='img/magnifier/wheels-bottom.png' />");
+					$('#top-text').html("<img src='img/magnifier/wheels-top.png' />");		
+					}
+				}
+				else if(handlePosition > imgWidth * .35 && handlePosition <= imgWidth * .50) {	
+					newSpot = 2;
+					if(newSpot != oldSpot){
+					$("#bottom-text").html("<img src='img/magnifier/taillights-bottom.png' />");
+					$('#top-text').html("&nbsp;");
+					}
+				}
+				else if(handlePosition > imgWidth * .50 && handlePosition <= imgWidth * .63) {
+					newSpot = 1;
+					if(newSpot != oldSpot){
+					$("#bottom-text").html("<img src='img/magnifier/spoiler-bottom.png' />");
+					$('#top-text').html("<img src='img/magnifier/spoiler-top.png' />");
+					}
+				}
+				else {
+					newSpot = 0;
+					if(newSpot != oldSpot){
+					$("#bottom-text").html("<img src='img/magnifier/exhaust-bottom.png' />");
+					$('#top-text').html("&nbsp;");
+					}
+				}
+				
+				oldSpot = newSpot;
+			}).on("mouseup", function(){
+				$('.magnifier-overlay').removeClass('dragging').css('z-index','4');
+				$('#container').off('mousemove');
+				
+		
+		});
+			
+		}).on("mouseup", function(){
+			$(this).removeClass('dragging');
+			
+			$(this).css("z-index","4");
+		
+		});
+		
+
+		$('#explore').on('click',function(e){
+			$('.magnifier-overlay').animate({opacity:1.0},1000);
+			$(this).animate({left:"155%",opacity:.3},1000);
+			$('#copy').animate({opacity:.5},900).css('z-index','1');
+			//$('.initial').removeClass('initial');
+		});
+		
+		$(window).load(function(){
+		//	$('.magnifier-overlay').delay(500).animate({right: 2.53428211716341+'%'},1500,function(){
+		//		$('.magnifier-overlay').delay(400).animate({opacity:0},400);//fadeOut(1000);
+		//		$('#explore-link').delay(100).fadeIn(1000);
+		//	});
+		//	$('.magnify').delay(500).animate({left:-rightLimit},1500); 
+		});
+		
+	//Mobile / Touch Enabled Code
+	function AttachEvent(element, type,handler) {
+		if(element.addEventListener){
+			element.addEventListener(type, handler, false);
+		} else if (document.attachEvent) {
+			element.attachEvent(type,handler)
+		}else {
+			element['on'+type] = handler;
+		}
+	}
+	AttachEvent(document.body,'touchmove', function(event) {
+				event.preventDefault();
+			 }, false); 
+	
+	var ctrl = document.getElementById('magnifier-ctrl');
+	AttachEvent(ctrl,'touchstart',function(event){
+		$('.magnifier-overlay').addClass("dragging");
+		
+		AttachEvent(ctrl,'touchmove', function(event){
+			var touch1 = event.targetTouches[0];
+			var imgWidth = $('#container').width();
+			var hWidth = $('#magnifier-ctrl').outerWidth();
+			var handlePosition = touch1.pageX - hWidth/2;
+			var paddingSide = imgWidth*0.0253428211716341;
+			var leftLimit = paddingSide;
+			
+			var rightLimit = imgWidth - hWidth - paddingSide;
+			if(handlePosition < leftLimit){
+				handlePosition = leftLimit;
+			}
+			if(handlePosition > rightLimit) {
+				handlePosition = rightLimit;
+			}
+				$('.dragging').offset({
+					left: handlePosition
+				});
+				$('.magnify').css("left",-handlePosition);
+				if(handlePosition >= 0 && handlePosition < imgWidth * .15){
+						$("#bottom-text").html("<img src='img/magnifier/horsepower-bottom.png' />");
+						$('#top-text').html("<img src='img/magnifier/horsepower-top.png' />");
+				}
+				else if(handlePosition > imgWidth * .15 && handlePosition <= imgWidth * .35) {
+					$("#bottom-text").html("<img src='img/magnifier/wheels-bottom.png' />");
+					$('#top-text').html("<img src='img/magnifier/wheels-top.png' />");
+				}
+				else if(handlePosition > imgWidth * .35 && handlePosition <= imgWidth * .55) {
+					$("#bottom-text").html("<img src='img/magnifier/taillights-bottom.png' />");
+					$('#top-text').html("&nbsp;");
+				}
+				else if(handlePosition > imgWidth * .50 && handlePosition <= imgWidth * .60) {
+					$("#bottom-text").html("<img src='img/magnifier/spoiler-bottom.png' />");
+					$('#top-text').html("<img src='img/magnifier/spoiler-top.png' />");
+				}
+				else {
+					$("#bottom-text").html("<img src='img/magnifier/exhaust-bottom.png' />");
+					$('#top-text').html("&nbsp;");
+				}
+		},false);
+		
+	},false);
+	AttachEvent(document.getElementById('close-arrow'),'touchstart', function(event){
+		$('.magnify-overlay').hide();
+		//alert('touchstart');
+	},false);
+
+	$(window).resize(function(){
+				$('#container').css({width:$(window).innerWidth()+'px',height:$(window).innerHeight()+"px"});
+				 imgWidth = $('#container').width();
+				
+				 paddingSide = imgWidth*0.0260416666666667;
+				
+				 leftLimit = paddingSide;
+				
+				 handleWidth = $('.magnifier-overlay').width();
+				 rightLimit = $(this).width() - handleWidth - paddingSide;
+	});
+	
+	});
+
+</script>
+	<style type="text/css">
+		body {
+			margin:0px;
+			padding:0px;
+			background:#fff;
+			overflow: hidden;
+		}
+		img {
+			border:0;
+		}
+		a {border:0;}
+		#container {
+			width:100%;
+			display:block;
+			
+		}
+		#container img {			
+			position:absolute;
+		}
+		#base {
+			width:100%;
+		}
+		.clr {
+			clear:both;
+		}
+		.magnifier-overlay {
+			overflow:hidden;
+			-moz-border-radius: 10px;
+			-webkit-border-radius: 10px;
+			border-radius:22px;
+			width:29.340278%;
+			height: 100%;
+			position: relative;
+			z-index: 4;
+			left:0%;
+			<!-- left:70.655%; -->
+			cursor: move;
+			opacity:0;
+			box-shadow: 0px 3px 27px;
+
+		}
+		
+		::i-block-chrome,.magnifier-overlay { top: 3.456481481481%;  }
+		.mag-container {
+			position: absolute;
+			height: 93.079296%;
+			width: 94.855%;
+			top: 3.4555555%;
+			left: 2.59%;
+		}
+		.magnify {
+			height:100%;						
+			width:340.75%;
+		}
+		.double-arrow{
+			z-index:10;
+			width: 14%;
+			margin: 0 43%;
+			bottom: 5%;
+			opacity: .6;
+		}
+		.close-arrow{
+			z-index:10;
+			width: 8%;
+			top: 2%;
+			right: 4%;
+			position:absolute;
+			height: 3.3%;
+		}
+		.close-arrow a {
+			display:block;
+			width: 100%;
+			height:100%;
+		}
+		#top-text {
+			position:absolute;
+			top:7%;
+			width:100%;
+			z-index:2;
+			height:23.5%;
+		}
+		#bottom-text {
+			position:absolute;
+			bottom: 13%;
+			width: 100%;
+			height: 11.2%;
+			z-index:2;
+		}
+		#bottom-text img {
+			width:100%;
+			
+		}
+		#top-text img {
+			width:100%;
+		}
+		#copy {
+			position: absolute;
+			bottom: 3%;
+			height: 32%;
+			width: 100%;
+		}
+		#description {
+			position: relative;
+			left: 7%;
+			width:40.45%;
+			height: 100%;
+		}
+		#copy img {
+			width:100%;
+		}
+		#smallprint {
+			position: absolute;
+			right: 4%;
+			width: 17.2%;
+			bottom: 22%;
+		}
+		#explore {
+			display: block;
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			z-index: 1;
+			left: 109%;
+			top: -35%;
+		}
+		#explore img {
+			width:40%;
+			opacity:0.9;
+		}
+		#explore-link {
+			position:absolute;
+			width: 22.8%;
+			height: 14%;
+			bottom: 34.1%;
+			left: 72.4%;
+			cursor:pointer;
+			z-index:1;
+			opacity:1;
+			/* display:none; */
+		}
+		#drag-screen {
+			position:absolute;
+			z-index:3;
+			top:0px;
+			right:0px;
+			width:100%;
+			height:100%;
+			display:none;
+		}
+		.close-arrow img {
+			width:100%;
+		}
+		.initial { display:block;}
+	</style>
+	<!--[if IE 7]>
+	<style>
+			.magnifier-overlay {
+				
+				margin-top:2.6%;
+			}
+	</style>
+	<![endif]-->
+</head>
+<body id="magnifier">
+	<div id="container">
+		<img src="img/magnifier/base.jpg" style="width:100%;"/>
+		
+		<div class="mag-container">
+			<div class="magnifier-overlay" id="magnifier-ctrl">
+				<img src="img/magnifier/base-magnified2.jpg" class="magnify"  draggable="false"/>
+				
+				<img src="img/magnifier/double-arrow.png" class="double-arrow initial"/>
+				<div id="bottom-text"><img class="visible initial" src='img/magnifier/exhaust-bottom.png' /></div>
+				<div id="top-text"></div>
+				<div class="close-arrow initial" id="close-arrow"><img src="img/magnifier/close-btn.png"/></div>
+			</div>
+		</div>
+		<div id="copy">
+			<div id="description">
+				<img src="img/magnifier/copy.png" />
+				<div id="explore-link">
+					<img id="explore-text" src="img/magnifier/explore-text.png"/>
+					<a id="explore" href='#'><img src="img/magnifier/link-arrow.png"/></a></div>
+			</div>
+			
+		</div>
+		
+		
+	</div>
+</body>
+</html>
