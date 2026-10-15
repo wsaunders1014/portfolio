@@ -7,6 +7,16 @@ let instance = 0;
 const freshFlight = () => import(`data:text/javascript,${encodeURIComponent(source + `\n// instance ${instance++}`)}`);
 const options = { force: true, waitForTurn: true };
 
+test('a nearby centering trip clears warp even when retargeted from a cruise', async () => {
+  const flight = await freshFlight();
+  flight.beginMenuFlight(5000, 1440, options);
+  flight.updateMenuFlightDeparture(false, 1500);
+  flight.beginMenuFlight(500, 1440, { waitForTurn: true });
+  assert.equal(flight.menuFlightActive, false);
+  assert.equal(flight.menuFlightCruising, false);
+  assert.equal(flight.menuFlightTrailStrength, 0);
+});
+
 test('extending a cruising journey keeps trails armed and restores their range', async () => {
   const flight = await freshFlight();
   flight.beginMenuFlight(5000, 1440, options);

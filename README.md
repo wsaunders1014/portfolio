@@ -98,12 +98,14 @@ no company APIs, authentication, experiment services, or external video hosts.
 Serenity is the default on desktop and mobile. The original Explorer artwork is preserved in `backup/ships/desktop-ship.svg`.
 Click or hold over content and background to fly, with links, buttons, forms, media
 controls and details summaries reserved for their usual interactions. Desktop menu
-and route-button trips use a 2,100 px/s cruise limit versus 675 px/s for manual
+and route-button trips over long distances use a 2,100 px/s cruise limit versus 675 px/s for manual
 flight, with acceleration and arrival braking. Desktop warp trails stay horizontal and begin only after the ship finishes its
 turn and moves toward the selected station.
 On desktop, text and gallery columns scroll independently while the browser
 viewport, navigation, ship and controls stay fixed. Left/right arrow keys activate
-the footer navigation. Mobile keeps native page scrolling, with flight arrows
+the footer navigation. Footer arrows visit the next center in their direction,
+including the current station if its center has not been reached. Short centering
+trips use normal flight without warp trails. Mobile keeps native page scrolling, with flight arrows
 for section trips and held cruising.
 
 ## Ship choices

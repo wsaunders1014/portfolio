@@ -36,6 +36,18 @@ updateControlInsets();
 let active = 0;
 let frame = 0;
 
+// Choose centers still ahead of the camera, rather than skipping a station
+// as soon as its label becomes active. Ignore tiny arrival/scroll rounding.
+function stationInDirection(direction) {
+  if (mobile.matches) {
+    const index = active + direction;
+    return index >= 0 && index < stations.length ? index : -1;
+  }
+  return direction > 0
+    ? stations.findIndex(station => station.offsetLeft > route.scrollLeft + 8)
+    : stations.findLastIndex(station => station.offsetLeft < route.scrollLeft - 8);
+}
+
 function update() {
   frame = 0;
   if (mobile.matches) {
@@ -53,8 +65,8 @@ function update() {
   document.documentElement.style.setProperty('--star-x', reducedMotion.matches ? '0px' : `${-progress * 180}px`);
   document.querySelector('#station-label').textContent = stations[active].querySelector('.eyebrow').textContent;
   links.forEach((link, index) => index === active ? link.setAttribute('aria-current', 'location') : link.removeAttribute('aria-current'));
-  previous.disabled = active === 0;
-  next.disabled = active === stations.length - 1;
+  previous.disabled = stationInDirection(-1) < 0;
+  next.disabled = stationInDirection(1) < 0;
 
 }
 
@@ -67,8 +79,14 @@ function visit(index) {
   if (!mobile.matches && !reducedMotion.matches) flyToStation(station);
   else location.hash = station.id;
 }
-previous.addEventListener('click', () => visit(active - 1));
-next.addEventListener('click', () => visit(active + 1));
+previous.addEventListener('click', () => {
+  const index = stationInDirection(-1);
+  if (index >= 0) visit(index);
+});
+next.addEventListener('click', () => {
+  const index = stationInDirection(1);
+  if (index >= 0) visit(index);
+});
 document.querySelector('.route-buttons').hidden = false;
 route.addEventListener('scroll', onScroll, { passive: true });
 window.addEventListener('scroll', onScroll, { passive: true });
@@ -389,7 +407,8 @@ function flyToStation(station) {
   releaseSteering();
   autopilot = true;
   coasting = false;
-  beginMenuFlight(x - position.x, route.clientWidth, { force: true, waitForTurn: true });
+  // Nearby centering trips use ordinary flight; reserve warp for long travel.
+  beginMenuFlight(x - position.x, route.clientWidth, { waitForTurn: true });
   // Aim the curved approach at the station center, so vertical drift settles
   // naturally during arrival rather than snapping after the flight ends.
   navigateToPoint(x, y);

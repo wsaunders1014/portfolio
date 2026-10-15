@@ -62,7 +62,9 @@ details p { margin: 14px 0 0; }
 .scroll-engines-on:not(.engines-on) .ship::after { opacity: calc(var(--scroll-thrust, 1) * .65); }
 @keyframes pixel-thrust { 0%, 100% { transform: translateY(-50%) scaleX(.8); } 50% { transform: translateY(-50%) scaleX(1.12); } }
 @media (min-width: 761px) {
-  .flight-ready .route { overflow-x: hidden; scroll-snap-type: none; scroll-behavior: auto; cursor: crosshair; }
+  /* Desktop flight owns drag gestures, including DevTools-emulated touch.
+     Otherwise the browser starts a native pan and cancels the held pointer. */
+  .flight-ready .route { overflow-x: hidden; scroll-snap-type: none; scroll-behavior: auto; cursor: crosshair; touch-action: none; }
   .station-card { cursor: crosshair; }
 }
 .flight-waypoint { position: fixed; width: 26px; height: 26px; border: 1px solid var(--accent); border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; z-index: 2; }
