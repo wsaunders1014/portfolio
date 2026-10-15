@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="144" viewBox="0 0 240 144">
+  <defs>
+    <linearGradient id="hull" x2="0" y2="1"><stop stop-color="#dce9e8"/><stop offset=".38" stop-color="#91aab4"/><stop offset=".62" stop-color="#435e70"/><stop offset="1" stop-color="#1a2c3e"/></linearGradient>
+    <linearGradient id="wing" x2=".3" y2="1"><stop stop-color="#9bb3bb"/><stop offset=".5" stop-color="#4c697c"/><stop offset="1" stop-color="#263b50"/></linearGradient>
+    <linearGradient id="spine" x2="0" y2="1"><stop stop-color="#edf4ee"/><stop offset=".48" stop-color="#b9cecf"/><stop offset="1" stop-color="#526d80"/></linearGradient>
+    <linearGradient id="glass" x2=".7" y2="1"><stop stop-color="#c0f4ef"/><stop offset=".4" stop-color="#51a9c4"/><stop offset="1" stop-color="#153d59"/></linearGradient>
+  </defs>
+  <!-- Swept wings and separate engine nacelles keep the mobile silhouette. -->
+  <g stroke="#142739" stroke-width="2" stroke-linejoin="round">
+    <path fill="url(#wing)" d="M52 63 64 18 90 8 107 50 151 61 152 83 107 94 90 136 64 126 52 81Z"/>
+    <path fill="#385568" d="m69 25 14-7 19 38-16 3Z M69 119l14 7 19-38-16-3Z"/>
+    <path fill="url(#hull)" d="M25 55 53 47 83 52 109 58 163 58 218 69 231 72 218 77 163 86 109 86 83 92 53 97 25 89Z"/>
+    <path fill="url(#spine)" d="M47 61 84 59 111 64 176 64 214 71 221 72 176 80 111 80 84 85 47 82Z"/>
+    <path fill="url(#hull)" d="M40 28 60 25 76 32 76 50 61 57 40 51Z M40 93 61 87 76 94 76 112 60 119 40 116Z"/>
+    <path fill="#142d43" d="M24 58h17v28H24z"/>
+    <path fill="#223e51" d="M39 32h9v17h-9z M39 96h9v17h-9z"/>
+  </g>
+  <g fill="none" stroke="#c3d6d5" stroke-width="1" opacity=".7">
+    <path d="m66 24 17-7 15 34 M66 120l17 7 15-34 M80 62v21 M103 65v14 M116 64v16 M145 64v16 M168 65v14"/>
+    <path d="m52 50 29 5 M52 94l29-5 M45 29l16-1 11 6 M45 115l16 1 11-6"/>
+  </g>
+  <path fill="url(#glass)" stroke="#203c51" stroke-width="2" d="m157 64 18 1 24 6-24 7-18 1Z"/>
+  <path fill="none" stroke="#b2e6e5" stroke-width="1" d="m170 65 3 12 M181 68l-2 8"/>
+  <g fill="#172f43"><path d="M121 68h16v7h-16z M84 65h12v12H84z"/><path d="m72 32 4 12-12-3-2-9Z M72 112l4-12-12 3-2 9Z"/></g>
+  <g fill="#aaf4dc"><path d="M25 62h4v20h-4z M40 34h4v13h-4z M40 98h4v13h-4z"/><circle cx="89" cy="25" r="2"/><circle cx="89" cy="119" r="2"/></g>
+  <g fill="#cbad7c"><path d="M57 64h4v15h-4z M65 64h2v15h-2z M105 68h3v8h-3z"/></g>
+  <g stroke="#0f2233" stroke-width="1"><path d="M49 36h9 M49 40h9 M49 44h9 M49 100h9 M49 104h9 M49 108h9"/></g>
+  <path fill="none" stroke="#f0f6ee" stroke-width="1.5" opacity=".8" d="m85 60 26 5 34-1 M177 64l29 6"/>
+</svg>

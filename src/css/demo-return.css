@@ -1,0 +1,13 @@
+/* Scoped navigation shared by the archived Disney demos. */
+a.portfolio-return {
+  position: fixed; inset: auto max(12px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) auto;
+  z-index: 100000; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 46px; max-width: calc(100vw - 24px); margin: 0; padding: 9px 14px;
+  color: #e9eef5; background: #101820f5; border: 1px solid #527284; border-radius: 999px;
+  box-shadow: 0 3px 16px #0003; font: 600 12px/1.4 system-ui, sans-serif;
+  text-decoration: none; text-transform: none; letter-spacing: normal; transform: none;
+}
+a.portfolio-return:hover { color: #aaf4dc; background: #172a36; }
+a.portfolio-return:focus-visible { outline: 3px solid #aaf4dc; outline-offset: 3px; }
+a.portfolio-return img { display: block; width: 40px; height: 24px; margin: 0; image-rendering: pixelated; }
+@media print { a.portfolio-return { display: none; } }

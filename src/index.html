@@ -7,8 +7,13 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2308111e'/%3E%3Cpath d='M6 16L25 8L20 25L15 19Z' fill='%23aaf4dc'/%3E%3C/svg%3E">
   <meta name="description" content="Front-end development for marketing, commerce and interactive experiences. A journey through Will Saunders’s work.">
   <link rel="stylesheet" href="css/flight.css">
+  <link rel="preload" as="image" href="img/dreamworks-bird-karma.jpg">
   <script type="module" src="js/flight.js"></script>
+  <script type="module" src="js/ship-picker.js"></script>
   <script type="module" src="js/case-studies.js"></script>
+  <script type="module" src="js/starfield.js"></script>
+<link rel="stylesheet" href="css/image-interaction.css">
+<script defer src="js/image-interaction.js"></script>
 </head>
 <body>
   <!-- Active portfolio source; legacy site and demos are preserved in backup/. -->
@@ -26,7 +31,7 @@
         <h1 id="arrival-title">Good work.<br>A little <em>space</em><br>to explore.</h1>
         <p class="lead">I’m Will Saunders. I build front-end experiences where marketing, technology, and imagination meet.</p>
         <a class="action" href="#bodi">Explore my work <span aria-hidden="true">→</span></a>
-        <p class="hint flight-instructions">Click open space to set a waypoint, or hold the mouse button to fly. Move the pointer to steer; release to coast.</p>
+        <p class="hint flight-instructions">Click to set a waypoint, or hold and move the pointer to fly. Links and controls remain interactive; release to coast.</p>
         <p class="hint mobile-instructions">Scroll to explore, or jump straight to a project.</p>
       </div>
       <div class="station-art" aria-hidden="true"><div class="orbit"></div><span>MISSION: MAKE IT MEMORABLE</span></div>
@@ -36,6 +41,7 @@
         <p class="eyebrow">02 / Commerce & marketing</p>
         <h2 id="bodi-title">Five years.<br>Three platforms.<br>One evolving experience.</h2>
         <p class="lead">Building BODi’s product and service landing pages as the tools behind them changed.</p>
+        <div class="project-links"><a class="action" href="lab/?demo=conditions&portfolio=standard">Try the content rules <span aria-hidden="true">↗</span></a><a class="action" href="lab/?demo=carousel&portfolio=standard">Explore carousel & video <span aria-hidden="true">↗</span></a></div>
         <dl class="case-facts">
           <div><dt>My role</dt><dd>Front-end development within Marketing</dd></div>
           <div><dt>Collaboration</dt><dd>Marketing & Engineering</dd></div>
@@ -44,10 +50,10 @@
         <h3>The context</h3>
         <p>Over five years at BODi, I built landing pages for products and services. The work spanned three platforms and two replatforms, connecting marketing experiences with the engineering behind them.</p>
         <h3>What I contributed</h3>
-        <p>I helped with both replatforms and built custom components with HTML, CSS, JavaScript, and Shopify Liquid. I also collaborated on React components in TypeScript alongside Engineering.</p>
+        <p>I helped with both replatforms and built custom components with HTML, CSS, JavaScript, and Shopify Liquid. I extended shared React and TypeScript components for conditional content and experimentation, and improved carousel and video behavior alongside Engineering.</p>
         <details class="case-detail"><summary>Follow the platform journey</summary>
           <ol class="platform-journey">
-            <li><h4>Cloudinary CMS</h4><p>The starting platform for my landing-page work.</p></li>
+            <li><h4>Contentful & Cloudinary</h4><p>CMS-driven React pages with Cloudinary media, including the Harmony application.</p></li>
             <li><h4>Builder.io</h4><p>I helped with the move to Builder.io and continued building marketing experiences.</p></li>
             <li><h4>Shopify</h4><p>I helped with the next replatform and built custom components using Shopify Liquid alongside HTML, CSS, and JavaScript.</p></li>
           </ol>
@@ -57,18 +63,11 @@
         <p>My contribution extended across the platform changes: building landing pages, implementing custom components, and collaborating between Marketing and Engineering.</p>
         <ul class="tags" aria-label="Technologies"><li>HTML / CSS / JavaScript</li><li>Shopify / Liquid</li><li>React / TypeScript</li><li>Optimizely / Amplitude</li><li>Google Tag Manager</li></ul>
       </article>
-      <div class="case-visuals" aria-label="BODi work image placeholders">
-        <figure class="case-image">
-          <div class="placeholder-label"><span>01 / Landing page</span><span>Image placeholder</span></div>
-          <img src="img/bodi-landing-placeholder.svg" alt="Illustrative landing-page wireframe; a BODi project screenshot will replace this placeholder." width="960" height="560" loading="lazy">
-          <figcaption>Product & service landing pages <span>Project screenshot to come.</span></figcaption>
-        </figure>
-        <figure class="case-image">
-          <div class="placeholder-label"><span>02 / Component detail</span><span>Image placeholder</span></div>
-          <img src="img/bodi-component-placeholder.svg" alt="Illustrative component wireframe; an example of Will’s BODi component work will replace this placeholder." width="960" height="400" loading="lazy">
-          <figcaption>Custom front-end components <span>Implementation detail to come.</span></figcaption>
-        </figure>
-        <p class="case-image-note">Illustrative layouts only. These are placeholders for original work, not BODi designs.</p>
+      <div class="case-visuals" aria-label="BODi technical demos and screenshot placeholder">
+        <figure class="case-image"><div class="placeholder-label"><span>01 / Conditional content</span><span>React · TypeScript</span></div><a href="lab/?demo=conditions&portfolio=standard" aria-label="Open the conditional-content playground"><img src="lab/media/conditions-preview.svg" alt="Preview of the editable rules panel and sample storefront offer." width="640" height="360" loading="lazy"></a><figcaption>Content that knows its audience.<span>Configure cart, campaign, and experiment rules. See the decision update live.</span><a class="action" href="lab/?demo=conditions&portfolio=standard">Open the playground ↗</a></figcaption></figure>
+        <figure class="case-image"><div class="placeholder-label"><span>02 / Carousel & video</span><span>React · Media state</span></div><a href="lab/?demo=carousel&portfolio=standard" aria-label="Open the carousel and video demo"><img src="lab/media/carousel-preview.svg" alt="Preview of a centered video card, neighboring clips, and synchronized backgrounds." width="640" height="360" loading="lazy"></a><figcaption>Selection. Motion. Playback.<span>Swipe between clips and explore how video and carousel state stay coordinated.</span><a class="action" href="lab/?demo=carousel&portfolio=standard">Explore the interaction ↗</a></figcaption></figure>
+        <p class="case-image-note">Standalone portfolio recreations with original-code excerpts, sample data, and new demo media.</p>
+        <figure class="case-image" style="margin-top:22px"><div class="placeholder-label"><span>03 / Landing-page work</span><span>Image placeholder</span></div><img src="img/bodi-landing-placeholder.svg" alt="Illustrative layout awaiting an original BODi landing-page screenshot." width="960" height="560" loading="lazy"><figcaption>Product & service landing pages<span>Original project screenshots to come.</span></figcaption></figure>
       </div>
     </section>
     <section id="disney" class="station case-study" aria-labelledby="disney-title">
@@ -76,6 +75,7 @@
         <p class="eyebrow">03 / Entertainment & awards</p>
         <h2 id="disney-title">A spotlight<br>on the stories.</h2>
         <p class="lead">Disney awards campaign websites that brought films, campaign materials, and media together in one experience.</p>
+        <div class="project-links"><a class="action" href="projects/disney/2018guild/?portfolio=standard" target="_blank" rel="noopener" aria-label="View Guild archived demo, opens in a new tab">Guild demo <span aria-hidden="true">↗</span></a><a class="action" href="projects/disney/2018ampas/?portfolio=standard" target="_blank" rel="noopener" aria-label="View AMPAS archived demo, opens in a new tab">AMPAS demo <span aria-hidden="true">↗</span></a></div>
         <dl class="case-facts">
           <div><dt>Project</dt><dd>2018 Guild & AMPAS campaign sites</dd></div>
           <div><dt>Focus</dt><dd>Film navigation, responsive layouts & media interfaces</dd></div>
@@ -93,16 +93,20 @@
         <ul class="tags" aria-label="Project features"><li>Responsive front end</li><li>Film navigation</li><li>Media interfaces</li><li>Awards campaigns</li></ul>
       </article>
       <div class="case-visuals" aria-label="Disney campaign artwork">
+        <a class="demo-artwork-link" href="projects/disney/2018guild/?portfolio=standard#/black-panther/consider" target="_blank" rel="noopener" aria-label="Explore Black Panther in the archived Disney demo, opens in a new tab">
         <figure class="case-image">
           <div class="placeholder-label"><span>Black Panther</span><span>Archived campaign artwork</span></div>
           <img class="campaign-square" src="img/disney-black-panther.jpg" alt="Black Panther title artwork recovered from the Disney Guild campaign site." width="660" height="660" loading="lazy">
           <figcaption>A shared site. A distinct film identity.<span>Original film-selection artwork from the campaign archive.</span></figcaption>
         </figure>
+        </a>
+        <a class="demo-artwork-link" href="projects/disney/2018guild/?portfolio=standard#/bao/consider" target="_blank" rel="noopener" aria-label="Explore Bao in the archived Disney demo, opens in a new tab">
         <figure class="case-image">
           <div class="placeholder-label"><span>Bao</span><span>Archived gallery image</span></div>
           <img src="img/disney-bao.jpg" alt="A woman and the little dumpling character at a kitchen table in Bao." width="1084" height="500" loading="lazy">
           <figcaption>Space for the smaller stories, too.<span>Original gallery image from the same multi-film campaign.</span></figcaption>
         </figure>
+        </a>
       </div>
     </section>
     <section id="dreamworks" class="station case-study" aria-labelledby="dreamworks-title">
@@ -110,6 +114,7 @@
         <p class="eyebrow">04 / Animation & interaction</p>
         <h2 id="dreamworks-title">Two shorts.<br>Two little worlds.</h2>
         <p class="lead">A playful awards campaign site for DreamWorks Animation’s <em>Bilby</em> and <em>Bird Karma</em>.</p>
+        <div class="project-links"><a class="action" href="https://iamwillsaunders.com/dwa/" target="_blank" rel="noopener" aria-label="View DreamWorks archived demo, opens in a new tab">View archived demo <span aria-hidden="true">↗</span></a></div>
         <dl class="case-facts">
           <div><dt>Project</dt><dd>DreamWorks Animation Shorts FYC 2018</dd></div>
           <div><dt>Focus</dt><dd>Film selection, transitions & exploration</dd></div>
@@ -123,7 +128,7 @@
         <details class="case-detail"><summary>Adapting the experience for mobile</summary><p>The original implementation changes how film subpages open on smaller screens, using separate content views for the selected section. The same films and materials remain the center of the experience.</p></details>
         <h3>Why it belongs here</h3>
         <p>It brings together the parts of front-end work I enjoy: character, motion, and small interactions that invite someone to keep exploring.</p>
-        <p class="hint">The film switcher here previews recovered artwork. The original site’s full interactions will be featured separately.</p>
+        <p class="hint">The film switcher here previews recovered artwork. Open the archived demo to explore the original site’s transitions, galleries, and filmmaker profiles.</p>
         <ul class="tags" aria-label="Technologies and features"><li>jQuery</li><li>CSS transitions</li><li>Photo galleries</li><li>Responsive layouts</li></ul>
       </article>
       <div class="case-visuals" aria-label="DreamWorks campaign artwork preview">
@@ -142,38 +147,99 @@
         </figure>
       </div>
     </section>
-    <section id="fox" class="station" aria-labelledby="fox-title">
+    <section id="fox" class="station case-study fox-case-study" aria-labelledby="fox-title">
       <article class="station-card">
         <p class="eyebrow">05 / Interactive campaign</p>
         <h2 id="fox-title">A countdown.<br>A code.<br>A reason to return.</h2>
-        <p class="lead">24: Live Another Day — a social campaign for FOX Home Entertainment, created through NWE.</p>
-        <p>For twenty-four days leading up to the DVD release, codes shared on social platforms unlocked exclusive content on the campaign site.</p>
-        <img class="project-image" src="img/24lad.jpg" alt="Archived 24: Live Another Day campaign website" loading="lazy" width="640" height="360">
-        <p class="hint">From the original portfolio archive. A fuller account of my role is next.</p>
+        <p class="lead"><em>24: Live Another Day</em> — a social-to-site campaign that turned a home-entertainment release into twenty-four days of discovery.</p>
+        <dl class="case-facts">
+          <div><dt>Client</dt><dd>FOX Home Entertainment</dd></div>
+          <div><dt>Agency</dt><dd>NWE</dd></div>
+          <div><dt>Format</dt><dd>24-day campaign leading up to the DVD release</dd></div>
+        </dl>
+        <h3>The mission</h3>
+        <p>Codes hidden in images on the <em>24</em> social channels brought fans back to the campaign site. Each code unlocked another moment, building toward an exclusive video when all twenty-four were collected.</p>
+        <ol class="campaign-loop" aria-label="Campaign interaction">
+          <li><span>01 / Discover</span>Find a code on social.</li>
+          <li><span>02 / Unlock</span>Reveal a moment on the site.</li>
+          <li><span>03 / Return</span>Share the reward. Find the next code.</li>
+        </ol>
+        <h3>The front-end experience</h3>
+        <p>A grid of twenty-four moments made the campaign’s progress visible. Locked tiles became revealed content, with a closer look at each reward and a way to share it. The final “Mission Accomplished” reveal gave the collection a clear destination.</p>
+        <details class="case-detail"><summary>Small states, bigger experience</summary><p>The archived front end distinguishes locked and unlocked days, animates reward tiles into place, opens sharing panels, and reveals the final video when all twenty-four days are unlocked. Those states connect the individual interactions into one ongoing mission.</p></details>
+        <details class="case-detail"><summary>Taking the mission onto mobile</summary><p>The preserved screenshots show both desktop and phone layouts: the same reward collection, content panels, and final video in a narrower format. Keeping that loop available on mobile mattered for a campaign whose clues began on social channels.</p></details>
+        <h3>Why it belongs here</h3>
+        <p>The campaign gave the interface a role in the story. Finding a clue, revealing a tile, and completing the collection made browsing feel like taking part in the world of <em>24</em>.</p>
+        <p><a class="text-link" href="projects/24/?portfolio=standard" target="_blank" rel="noopener">Explore the 24 Moments demo ↗</a></p>
+        <p class="hint">Original campaign screenshots from the portfolio archive. Open an image to explore its details.</p>
+        <ul class="tags" aria-label="Technologies and features"><li>JavaScript / jQuery</li><li>GSAP animation</li><li>Responsive layouts</li><li>Unlock states</li><li>Social sharing</li></ul>
       </article>
-      <div class="station-art" aria-hidden="true"><div class="beacon">24<span>05</span></div><span>INTERACTIVE STATION</span></div>
+      <div class="case-visuals" aria-label="24 Moments campaign screenshots">
+        <figure class="case-image">
+          <div class="placeholder-label"><span>01 / The mission board</span><span>Original campaign screenshot</span></div>
+          <a href="img/24lad.jpg" target="_blank" rel="noopener" aria-label="Open the 24 Moments campaign overview screenshot in a new tab"><img src="img/24lad.jpg" alt="24 Moments campaign overview with Jack Bauer artwork and a grid of daily rewards." loading="lazy" width="960" height="498"></a>
+          <figcaption>Twenty-four moments. One mission.<span>A collection of locked and revealed rewards gives the campaign its structure.</span></figcaption>
+        </figure>
+        <figure class="case-image">
+          <div class="placeholder-label"><span>02 / The reward</span><span>Desktop & mobile</span></div>
+          <a href="img/24lad-2.jpg" target="_blank" rel="noopener" aria-label="Open the desktop and mobile reward screenshot in a new tab"><img src="img/24lad-2.jpg" alt="Desktop and phone views of 24 Moments, showing an unlocked reward panel and sharing controls." loading="lazy" width="960" height="498"></a>
+          <figcaption>A reveal worth sharing.<span>Unlocked moments open into content panels, with sharing built into the reward.</span></figcaption>
+        </figure>
+        <figure class="case-image">
+          <div class="placeholder-label"><span>03 / Mission accomplished</span><span>The final reveal</span></div>
+          <a href="img/24lad-3.jpg" target="_blank" rel="noopener" aria-label="Open the final video reveal screenshot in a new tab"><img src="img/24lad-3.jpg" alt="Mission Accomplished video reveal in the 24 Moments desktop and phone layouts." loading="lazy" width="960" height="498"></a>
+          <figcaption>The collection pays off.<span>The completed mission reveals the exclusive video across desktop and mobile.</span></figcaption>
+        </figure>
+      </div>
     </section>
-    <section id="contact" class="station" aria-labelledby="contact-title">
+    <section id="contact" class="station contact-station" aria-labelledby="contact-title">
       <article class="station-card">
         <p class="eyebrow">06 / Open channel</p>
-        <h2 id="contact-title">Let’s build<br>something<br>worth exploring.</h2>
-        <p class="lead">Front-end development. Marketing experiences. Creative problems.</p>
+        <h2 id="contact-title">Let’s build something<br>worth exploring.</h2>
+        <p class="lead">I’m Will — a front-end developer with a soft spot for interactive experiences and a good story.</p>
+        <p>Have a project in mind? I’d love to hear about it, whether it’s a marketing site, a custom component, or an idea that needs a little figuring out.</p>
         <a class="action" href="mailto:willsaunders1014@gmail.com">Send a transmission <span aria-hidden="true">↗</span></a>
-        <div class="project-links"><a href="https://github.com/wsaunders1014">GitHub ↗</a><a href="https://www.linkedin.com/in/will-saunders">LinkedIn ↗</a></div>
-        <p>Off the clock, I’m a writer, actor, and someone who decided a portfolio needed a spaceship.</p>
+        <div class="project-links"><a href="https://github.com/wsaunders1014">GitHub ↗</a><a href="https://www.linkedin.com/in/will-saunders">LinkedIn ↗</a><a href="media/Will_Saunders_Resume_Updated.pdf" target="_blank" rel="noopener" aria-label="Resume PDF, opens in a new tab">Resume (PDF) ↗</a></div>
+        <div class="contact-bio">
+          <h3>Behind the keyboard</h3>
+          <p>I got my start making websites for friends’ bands. These days, I build experiences for the web — and still make room for the playful stuff. Hence the spaceship.</p>
+          <p>Away from the screen, I write, watch movies, and do improv. My golden retriever, Ser Davos, also gets a fair amount of my attention.</p>
+        </div>
         <a class="hint" href="https://iamwillsaunders.com/">Visit the original space portfolio ↗</a>
       </article>
-      <div class="station-art" aria-hidden="true"><div class="orbit"></div><span>YOU HAVE REACHED THE OUTPOST</span></div>
+      <aside class="contact-crew" aria-label="A little more about Will">
+        <div class="crew-photos">
+          <figure class="crew-photo">
+            <img src="media/will-saunders.JPEG" alt="Will Saunders smiling in a green shirt." width="2400" height="3000" loading="lazy">
+            <figcaption><strong>Will Saunders</strong><span>Developer. Writer. Ship enthusiast.</span></figcaption>
+          </figure>
+          <figure class="crew-photo">
+            <img src="img/davos.jpg" alt="Ser Davos, Will’s golden retriever, sitting by a sunny window." width="640" height="640" loading="lazy">
+            <figcaption><strong>Ser Davos</strong><span>The golden retriever in the crew.</span></figcaption>
+          </figure>
+        </div>
+      </aside>
     </section>
   </main>
   <div class="flight-waypoint" hidden aria-hidden="true"></div>
   <aside class="ship-companion" aria-label="Ship">
-    <button class="ship" type="button" aria-label="Receive a transmission from the ship" aria-expanded="false" aria-controls="transmission"><img src="img/pixel-ship.svg" alt="" width="40" height="24"></button>
+    <button class="ship" type="button" aria-label="Receive a transmission from the ship" aria-expanded="false" aria-controls="transmission"><picture><source media="(min-width: 761px)" srcset="img/desktop-ship.svg"><img src="img/enterprise-ship.svg" alt="" width="240" height="144" draggable="false"></picture></button>
     <p id="transmission" hidden>Captain’s log: still no evidence that a portfolio needs a spaceship. Continuing the mission anyway.</p>
   </aside>
+  <section id="ship-picker" class="ship-picker" role="dialog" aria-labelledby="ship-picker-title" hidden>
+    <div class="ship-picker-heading"><h2 id="ship-picker-title">Choose your ship</h2><button type="button" data-ship-close aria-label="Close ship chooser">×</button></div>
+    <div class="ship-options" role="group" aria-label="Ship designs">
+      <button type="button" data-ship="explorer" aria-pressed="false"><img src="img/desktop-ship.svg" alt="" width="240" height="144" draggable="false"><strong>Explorer</strong><span>The current fleet</span></button>
+      <button type="button" data-ship="serenity" aria-pressed="false"><img src="img/serenity.png" alt="" width="185" height="100" draggable="false"><strong>Serenity</strong><span>From the original portfolio</span></button>
+      <button type="button" data-ship="smuggler" aria-pressed="false"><img src="img/smuggler-ship.svg" alt="" width="240" height="144" draggable="false"><strong>Smuggler</strong><span>A Falcon-inspired freighter</span></button>
+      <button type="button" data-ship="enterprise" aria-pressed="false"><img src="img/enterprise-ship.svg" alt="" width="240" height="144" draggable="false"><strong>Enterprise</strong><span>To boldly go</span></button>
+    </div>
+    <div class="ship-picker-foot"><span>Your choice stays on this browser.</span><button type="button" data-ship-default>Use device default</button></div>
+  </section>
   <footer class="flight-controls">
     <div class="coordinates"><span id="station-label">01 / Departure</span><span class="desktop-hint">Hold on the background · move the pointer to steer</span></div>
     <div class="progress" aria-hidden="true"><span></span></div>
+    <button id="ship-picker-toggle" class="ship-picker-toggle" type="button" aria-controls="ship-picker" aria-expanded="false" title="Choose your ship">Ship</button>
     <div class="route-buttons" hidden><button id="previous" type="button" aria-label="Previous station">←</button><button id="next" type="button" aria-label="Next station">→</button></div>
   </footer>
 </body>

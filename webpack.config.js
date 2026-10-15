@@ -1,5 +1,6 @@
 const path = require('node:path');
 const CopyPlugin = require('copy-webpack-plugin');
+const { bundleLab } = require('./scripts/build-lab.cjs');
 
 module.exports = (_env, argv) => {
   const development = argv.mode === 'development';
@@ -26,6 +27,15 @@ module.exports = (_env, argv) => {
       liveReload: true
     },
     plugins: [
+      { apply(compiler) {
+        compiler.hooks.thisCompilation.tap('ComponentLab', compilation => {
+          compilation.hooks.processAssets.tap({ name: 'ComponentLab', stage: compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL }, () => {
+            const result = bundleLab(development);
+            compilation.emitAsset('lab/app.js', new compiler.webpack.sources.RawSource(Buffer.from(result.outputFiles[0].contents)));
+            for (const input of Object.keys(result.metafile.inputs)) compilation.fileDependencies.add(path.resolve(__dirname, input));
+          });
+        });
+      } },
       new CopyPlugin({
         patterns: [
           {

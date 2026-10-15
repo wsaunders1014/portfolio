@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=eE5evalxQk">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png?v=eE5evalxQk">
+<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png?v=eE5evalxQk">
+<link rel="manifest" href="./manifest.json?v=eE5evalxQk">
+<link rel="mask-icon" href="./safari-pinned-tab.svg?v=eE5evalxQk" color="#5bbad5">
+<link rel="shortcut icon" href="./favicon.ico?v=eE5evalxQk">
+<meta name="theme-color" content="#ffffff">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" property="og:description" content="Walt Disney Studios 2018 For Your Consideration"/>
+<meta property="og:image" content="./img/preview-image.jpg"/>
+<title>Disney Academy Awards 2018</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<style>
+#logo{
+	width: 300px;
+	margin:20px auto 0;
+}
+#page-holder{
+	padding-top: 2vw;
+}
+#page-holder,.page{
+	display: block;
+}
+.page .subpages .limiter > div{
+	display: block;
+}
+ .page .subpages .limiter .score .content .track-list .track .switcher{
+ 	
+}
+ .page .subpages .limiter .score .content .name{
+ 	margin-bottom: 10px;
+ }
+ .subline{
+ 	color: #c19941;
+ 	margin-top: 10px;
+ }
+.audio-player{
+	margin-bottom: 20px;
+}
+
+.col{
+	
+	display: inline-block;
+	vertical-align: top;
+	text-align: left;
+}
+.col.left{
+	margin-right: 6%;
+}
+</style>
+<style>.audio-player audio,.audio-player .play-btn,.audio-player .song-track{display:none!important}.audio-demo-note{display:block!important}</style>
+<link rel="stylesheet" href="../../../css/demo-return.css">
+<script type="module" src="../../../js/demo-return.js"></script>
+<link rel="stylesheet" href="../../../css/image-interaction.css">
+<script defer src="../../../js/image-interaction.js"></script>
+</head>
+<body>
+<div id="logo"><a href="index.html"><img src="./img/mp_tt.jpg"></a></div>
+<br/><br/>
+<div id="page-holder">
+	<div class="page" id="mp-page">
+		<div class="subpages">
+			<div class="limiter">
+				<div class="score">
+					<div class="content">
+					
+						<div class="category">BEST ORIGINAL SONG</div>
+						<div class="name">“THE PLACE WHERE LOST THINGS GO”</div>
+						
+						<div class="audio-player">
+<p class="audio-demo-note" style="font-size:14px;line-height:1.4;letter-spacing:normal;margin:12px 0;">Audio unavailable in this portfolio demo.</p>				
+							<audio controls controlsList="nodownload" autobuffer>
+								
+							</audio>
+
+						</div>
+						
+
+						<div class="subline">MUSIC BY</div>
+						<div class="name">Marc Shaiman</div>
+						<div class="subline">LYRICS BY</div>
+						<div class="name">Scott Wittman and Marc Shaiman</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+	loaded = 'bp';
+
+
+$(document).ready(function(){
+	
+	$('audio').contextmenu( function(e){
+		console.log('test')
+		e.preventDefault();
+		return false;
+	})
+	function stopAllMedia(){
+		$('.audio-player').each(function(){
+			$(this).find("audio")[0].pause();
+		});
+		if($('.playing').length != 0){
+			if( $('.playing').siblings('video').length > 0){
+				$('.playing').siblings('video')[0].pause();
+				$('.playing').siblings('video')[0].currentTime = 0;
+				$('.playing').siblings('video')[0].load();
+				$('.playing').siblings('img').fadeIn();
+				$('.playing').removeClass('playing').removeAttr('style');
+			}
+			if($('.playing').find('audio').length > 0){
+				$('.playing').find('audio')[0].pause();
+				$('.playing').find('audio')[0].currentTime = 0;
+				$('.playing').find('audio')[0].load();
+				$('.playing').removeClass('playing').removeAttr('style');
+			}
+		}
+		$('.playing').removeClass('playing');
+	}
+	$('audio')[0].addEventListener('play',function(){
+		$('audio')[1].pause();
+	})
+	$('audio')[1].addEventListener('play', function(){
+		$('audio')[0].pause();
+	})
+})
+</script>
+<a class="portfolio-return" href="../../../index.html#disney" aria-label="Back to portfolio, Disney section"><img src="../../../img/pixel-ship.svg" alt="" width="40" height="24"><span>Back to portfolio</span></a>
+</body>
+</html>

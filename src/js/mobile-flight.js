@@ -1,3 +1,4 @@
+import { beginMenuFlight, endMenuFlight, menuFlightActive, updateMenuFlightApproach } from './menu-flight.js';
 import { enableScrollEngines, updateMobileDrift, resetMobileDrift } from './mobile-scroll.js';
 // Isolated vertical-flight trial. The main portfolio keeps its existing controls.
 const mobile = matchMedia('(max-width: 760px)');
@@ -15,6 +16,7 @@ const clamp = (n, low, high) => Math.max(low, Math.min(high, n));
 const maximum = () => Math.max(0, document.documentElement.scrollHeight - innerHeight);
 const sectionY = section => clamp(section.getBoundingClientRect().top + scrollY - document.querySelector('.flight-header').getBoundingClientRect().height - 20, 0, maximum());
 function stop() {
+  endMenuFlight();
   resetMobileDrift();
   cancelAnimationFrame(frame);
   clearTimeout(holdTimer);
@@ -28,8 +30,14 @@ function animate(time) {
   const dt = last ? Math.min((time - last) / 1000, .05) : 0;
   last = time;
   const distance = target === null ? 0 : target - scrollY;
-  const desired = held ? held * 620 : target !== null ? Math.sign(distance) * Math.min(620, Math.sqrt(2 * 700 * Math.abs(distance))) : 0;
-  const acceleration = held || target !== null ? 900 : 360;
+  // Only these explicit flight controls move the page at the faster rates.
+  const topSpeed = menuFlightActive ? 2200 : 1200;
+  const braking = 3000;
+  if (target !== null) updateMenuFlightApproach(distance, Math.abs(velocity), braking, innerHeight);
+  const desired = held ? held * topSpeed : target !== null ? Math.sign(distance) * Math.min(topSpeed, Math.sqrt(2 * braking * Math.abs(distance))) : 0;
+  const acceleration = !held && target === null ? 720
+    : Math.abs(desired) < Math.abs(velocity) ? braking
+    : menuFlightActive ? 2800 : 1800;
   velocity += clamp(desired - velocity, -acceleration * dt, acceleration * dt);
   let y = clamp(scrollY + velocity * dt, 0, maximum());
   if (target !== null && (Math.abs(distance) < 2 || (target - y) * distance < 0)) {
@@ -45,10 +53,11 @@ function animate(time) {
   frame = requestAnimationFrame(animate);
 }
 function start() { if (!frame) { last = 0; frame = requestAnimationFrame(animate); } }
-function visit(section) {
+function visit(section, fromMenu = false) {
   stop();
   const y = sectionY(section);
   if (reduced.matches) { window.scrollTo({ top: y, behavior: 'instant' }); return; }
+  if (fromMenu) beginMenuFlight(y - scrollY, innerHeight);
   target = y;
   status.textContent = `Flying to ${section.querySelector('.eyebrow').textContent}`;
   start();
@@ -97,7 +106,7 @@ document.addEventListener('click', event => {
   if (!section) return;
   event.preventDefault();
   event.stopImmediatePropagation();
-  visit(section);
+  visit(section, true);
 }, true);
 window.addEventListener('touchstart', event => { if (!event.target.closest('.mobile-flight-dock')) stop(); }, { passive: true });
 window.addEventListener('wheel', stop, { passive: true });

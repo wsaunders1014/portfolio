@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "description": "Creating a new portfolio site to showcase my whole persona, not just as a developer but also as Comedian, Movie Lover, and Screenwriter.",
   "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "copy-webpack-plugin": "^14.0.0",
+    "esbuild": "^0.28.2",
+    "ffmpeg-static": "^5.3.0",
+    "typescript": "^7.0.2",
     "webpack": "^5.0.0",
     "webpack-cli": "^7.2.3",
     "webpack-dev-server": "^6.0.0"
@@ -14,7 +19,9 @@
     "build": "webpack --mode production",
     "build:staging": "node scripts/build-staging.cjs",
     "deploy:staging": "node scripts/deploy-staging.cjs",
-    "deploy:watch": "node scripts/deploy-staging.cjs --watch"
+    "deploy:watch": "node scripts/deploy-staging.cjs --watch",
+    "check:lab": "tsc --project tsconfig.lab.json",
+    "test:lab": "node --test tests/lab-rules.test.cjs"
   },
   "repository": {
     "type": "git",
@@ -29,5 +36,9 @@
   "homepage": "https://github.com/wsaunders1014/portfolio#readme",
   "engines": {
     "node": ">=22.15.0"
+  },
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   }
 }

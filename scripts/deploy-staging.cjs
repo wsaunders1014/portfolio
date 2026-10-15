@@ -59,7 +59,7 @@ function inventory(directory, prefix = '') {
   return result;
 }
 function transfer(commands) {
-  execFileSync('sftp', [...options, '-b', '-', host], { input: commands.join('\n') + '\n', stdio: ['pipe', 'inherit', 'inherit'], timeout: 120000 });
+  execFileSync('sftp', [...options, '-b', '-', host], { input: commands.join('\n') + '\n', stdio: ['pipe', 'inherit', 'inherit'], timeout: 600000 });
 }
 function deploy() {
   execFileSync(process.execPath, [path.join(__dirname, 'build-staging.cjs')], { stdio: 'inherit' });

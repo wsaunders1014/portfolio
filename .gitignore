@@ -4,6 +4,12 @@ dist/
 dist-new/
 .DS_Store
 
+# Local source references and original uploads; public copies live in src/.
+/reference/bodi-components/*.tsx
+/docs/bodi-component-review.md
+/Will_Saunders_Resume_Updated.pdf
+/will-saunders.JPEG
+
 # Keep these oversized demo videos locally, outside GitHub's file limit.
 /backup/public/projects/disney/2018guild/media/video/APlaceCalledSlaughterRace_1.mp4
 /backup/public/projects/disney/2018guild/media/video/Incredibles_2_FxSim_Reel.mp4

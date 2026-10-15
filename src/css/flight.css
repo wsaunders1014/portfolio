@@ -1,14 +1,19 @@
 :root { color-scheme: dark; --ink: #e9eef5; --muted: #9caec3; --accent: #aaf4dc; --progress: 0; --star-x: 0px; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; color: var(--ink); background: #08111e; font: 16px/1.65 system-ui, sans-serif; }
-body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: -1; background: radial-gradient(ellipse at 80% 30%, #173b483b, transparent 60%), radial-gradient(1px 1px at 15px 24px, #b4d0e4 85%, transparent) 0 0 / 137px 163px, radial-gradient(1px 1px at 32px 55px, #657b93 85%, transparent) 0 0 / 89px 101px; background-position-x: var(--star-x); }
+body { margin: 0; color: var(--ink); background: #08090b; font: 16px/1.65 system-ui, sans-serif; isolation: isolate; }
+.distant-starfield { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+.pixel-starfield { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+.starfield-preview-label { position: fixed; z-index: 7; right: 12px; bottom: 84px; max-width: calc(100vw - 24px); padding: 6px 10px; border: 1px solid #383b40; border-radius: 6px; background: #101114ed; color: var(--muted); font: 10px/1.5 ui-monospace, monospace; }
+
 a { color: inherit; text-underline-offset: .3em; }
 button { font: inherit; color: inherit; cursor: pointer; }
 a:focus-visible, button:focus-visible, summary:focus-visible, main:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; }
+/* Returning to a hash target can focus its scroll container in the browser. */
+.station:focus { outline: none; }
 .skip { position: fixed; top: -80px; left: 20px; z-index: 10; background: #132738; padding: 12px; }
 .skip:focus { top: 12px; }
-.flight-header { display: flex; justify-content: space-between; align-items: center; padding: 24px 4vw; gap: 20px; }
+.flight-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 4vw; gap: 20px; }
 .identity { font-weight: 750; text-decoration: none; letter-spacing: .08em; }
 .identity span { font-size: 11px; font-weight: 400; color: var(--muted); }
 nav { display: flex; flex-wrap: wrap; gap: 24px; font-size: 13px; }
@@ -44,7 +49,9 @@ details p { margin: 14px 0 0; }
 .orbit { border-radius: 25%; transform: rotate(30deg); width: min(20vw, 270px); }
 .ship-companion { position: fixed; top: var(--ship-y, 50%); left: var(--ship-x, 50%); transform: translate(-50%, -50%); z-index: 3; }
 .ship { position: relative; border: 0; padding: 0; background: transparent; transform: rotate(var(--ship-angle, 0rad)); }
-.ship img { width: 120px; height: auto; display: block; image-rendering: pixelated; }
+.ship, .ship * { -webkit-user-select: none; user-select: none; -webkit-user-drag: none; -webkit-touch-callout: none; }
+.ship picture { display: block; }
+.ship img { width: 144px; height: auto; display: block; image-rendering: auto; }
 /* Exhaust shares the sprite's 40 × 24 grid: nozzle at x=4, y=12. */
 .ship::before, .ship::after { content: ''; position: absolute; pointer-events: none; opacity: 0; transition: opacity .18s ease-out; }
 .ship::before { width: 42%; height: 25%; right: 90%; top: 50%; transform: translateY(-50%); transform-origin: right center; background: linear-gradient(90deg, #52a8e800, #59cfe4 48%, #aaf4dc 76%, #edfff2); clip-path: polygon(0 33%, 22% 33%, 22% 16%, 60% 16%, 60% 0, 100% 0, 100% 100%, 60% 100%, 60% 84%, 22% 84%, 22% 67%, 0 67%); }
@@ -56,14 +63,14 @@ details p { margin: 14px 0 0; }
 @keyframes pixel-thrust { 0%, 100% { transform: translateY(-50%) scaleX(.8); } 50% { transform: translateY(-50%) scaleX(1.12); } }
 @media (min-width: 761px) {
   .flight-ready .route { overflow-x: hidden; scroll-snap-type: none; scroll-behavior: auto; cursor: crosshair; }
-  .station-card { cursor: auto; }
+  .station-card { cursor: crosshair; }
 }
 .flight-waypoint { position: fixed; width: 26px; height: 26px; border: 1px solid var(--accent); border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; z-index: 2; }
 .flight-waypoint::before, .flight-waypoint::after { content: ''; position: absolute; background: var(--accent); }
 .flight-waypoint::before { width: 1px; height: 36px; top: -6px; left: 12px; }
 .flight-waypoint::after { width: 36px; height: 1px; top: 12px; left: -6px; }
 #transmission { position: absolute; bottom: 80px; left: -110px; width: 300px; padding: 18px; background: #132738; border: 1px solid #527284; border-radius: 8px; font-size: 13px; }
-.flight-controls { height: 78px; padding: 10px 4vw 16px; display: flex; align-items: center; gap: 28px; }
+.flight-controls { height: 60px; padding: 6px 4vw 8px; display: flex; align-items: center; gap: 28px; }
 .coordinates { font: 11px ui-monospace, monospace; min-width: 220px; }
 .coordinates span { display: block; }
 .desktop-hint { color: var(--muted); margin-top: 6px; }
@@ -74,7 +81,7 @@ details p { margin: 14px 0 0; }
 .route-buttons button { background: transparent; border: 1px solid #335165; border-radius: 50%; width: 40px; height: 40px; }
 button:disabled { opacity: .3; cursor: default; }
 @media (max-width: 760px) {
-  .flight-header { position: sticky; top: 0; z-index: 5; padding: 12px 20px; gap: 10px; align-items: flex-start; flex-direction: column; background: #08111ef5; border-bottom: 1px solid #294052; padding-top: max(12px, env(safe-area-inset-top)); }
+  .flight-header { position: sticky; top: 0; z-index: 5; padding: 8px 20px; gap: 8px; align-items: flex-start; flex-direction: column; background: transparent; border-bottom: 0; padding-top: max(8px, env(safe-area-inset-top)); }
   .station { scroll-margin-top: 110px; }
   nav { gap: 18px; font-size: 12px; }
   .route { display: block; height: auto; overflow: visible; }
@@ -83,13 +90,13 @@ button:disabled { opacity: .3; cursor: default; }
   h1 { font-size: clamp(46px, 12vw, 72px); }
   h2 { font-size: clamp(34px, 9vw, 52px); }
   .station-art { display: none; }
-  .flight-controls { position: sticky; bottom: 0; height: 66px; padding: 10px 20px; background: #08111ef5; gap: 14px; }
+  .flight-controls { position: sticky; bottom: 0; height: 58px; padding: 8px 20px; background: transparent; gap: 14px; }
   .coordinates { min-width: 125px; font-size: 10px; }
   .desktop-hint, .flight-instructions { display: none !important; }
   .mobile-instructions { display: block; }
   .ship-companion { top: auto; bottom: 82px; left: auto; right: 16px; transform: none; }
   .ship { transform: rotate(var(--mobile-heading, 1.5708rad)); transition: transform .3s ease; }
-  .ship img { width: 68px; }
+  .ship img { width: 68px; image-rendering: auto; }
   .ship-companion .ship { translate: var(--mobile-drift, 0px) 0; transition: transform .3s ease, translate .6s ease-in-out; }
   #transmission { left: auto; right: 0; bottom: 50px; width: min(280px, 85vw); }
 }
@@ -130,3 +137,170 @@ button:disabled { opacity: .3; cursor: default; }
 .film-picker button { padding: 10px 16px; min-height: 44px; border: 1px solid #345365; border-radius: 6px; background: #132738; font-size: 13px; }
 .film-picker button[aria-pressed="true"] { color: #08111e; background: var(--accent); border-color: var(--accent); }
 .case-image figcaption .film-caption { color: var(--ink); font-size: 13px; margin: 0; }
+.fox-case-study .campaign-loop { margin: 22px 0; padding: 0; list-style: none; border-left: 2px solid #e6bd63; }
+.campaign-loop li { padding: 9px 0 9px 16px; color: #d1dce5; font-size: 13px; }
+.campaign-loop li span { display: block; margin-bottom: 3px; color: #e6bd63; font: 10px/1.5 ui-monospace, monospace; letter-spacing: .1em; text-transform: uppercase; }
+.case-image > a { display: block; }
+
+/* Desktop columns scroll only when needed; the flight viewport stays fixed. */
+@media (min-width: 761px) {
+  html { height: 100%; overflow: hidden; }
+  body { height: 100svh; overflow: hidden; }
+  .flight-header { position: fixed; inset: 0 0 auto; z-index: 5; }
+  .route { position: fixed; inset: 0; z-index: 0; align-items: stretch; height: 100svh; min-height: 0; overflow-y: hidden; column-gap: 100vw; }
+  .station { height: 100%; min-height: 0; grid-template-rows: minmax(0, 1fr); align-items: safe center; padding-block: 0; overflow: hidden; scrollbar-color: #335165 transparent; }
+  .station.case-study { align-items: start; }
+  .station-card, .case-visuals, .contact-crew { min-width: 0; min-height: 0; max-height: 100%; padding-top: calc(var(--flight-header-height, 56px) + 24px); padding-bottom: calc(var(--flight-footer-height, 60px) + 24px); overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: thin; scrollbar-gutter: stable; scroll-padding-top: calc(var(--flight-header-height, 56px) + 24px); scroll-padding-bottom: calc(var(--flight-footer-height, 60px) + 24px); }
+  .case-study > .station-card, .case-study > .case-visuals, .contact-station > .station-card, .contact-station > .contact-crew { height: 100%; }
+  .flight-controls { position: fixed; inset: auto 0 0; z-index: 5; }
+}
+
+.demo-artwork-link { display: block; text-decoration: none; cursor: pointer; }
+.demo-artwork-link:hover .case-image { border-color: var(--accent); }
+
+/* A small hangar, independent of flight controls and the ship's transmission. */
+.ship-picker-toggle { flex-shrink: 0; min-height: 40px; padding: 6px 12px; border: 1px solid #335165; border-radius: 20px; background: transparent; font-size: 12px; }
+.ship-picker-toggle[aria-expanded="true"] { color: var(--accent); border-color: var(--accent); }
+.ship-picker { position: fixed; z-index: 10; right: 4vw; bottom: 90px; width: min(400px, calc(100vw - 32px)); max-height: calc(100svh - 120px); overflow-y: auto; padding: 20px; border: 1px solid #335165; border-radius: 14px; background: #0d1722f5; box-shadow: 0 16px 60px #0006; }
+.ship-picker[hidden] { display: none; }
+.ship-picker-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.ship-picker-heading h2 { margin: 0; font-size: 21px; line-height: 1.2; letter-spacing: -.02em; }
+.ship-picker-heading button { min-width: 36px; height: 36px; border: 0; background: transparent; font-size: 24px; }
+.ship-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.ship-options button { display: grid; justify-items: center; gap: 3px; padding: 14px 8px; border: 1px solid #294052; border-radius: 8px; background: #101e2a; text-align: center; }
+.ship-options button[aria-pressed="true"] { border-color: var(--accent); background: #172e35; }
+.ship-options button:hover { border-color: #6d9d9c; }
+.ship-options img { width: 112px; max-width: 100%; height: 70px; object-fit: contain; margin-bottom: 8px; }
+.ship-options strong { font-size: 13px; font-weight: 550; }
+.ship-options span { color: var(--muted); font-size: 10px; }
+.ship-picker-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-top: 16px; color: var(--muted); font-size: 10px; }
+.ship-picker-foot button { padding: 0; border: 0; background: transparent; color: var(--accent); font-size: 10px; text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 760px) {
+  .ship-picker { right: 16px; bottom: calc(80px + env(safe-area-inset-bottom)); }
+  .ship-picker-toggle { padding: 6px 10px; }
+}
+@media (max-width: 760px) {
+  .flight-controls { gap: 10px; }
+  .coordinates { min-width: 100px; }
+}
+
+/* The last station introduces the person behind the work. */
+.contact-bio { margin-top: 30px; padding-top: 22px; border-top: 1px solid #294052; }
+.contact-bio h3 { margin: 0 0 12px; font-size: 18px; font-weight: 550; }
+.contact-bio p { color: var(--muted); }
+.contact-crew { min-width: 0; width: 100%; max-width: 580px; }
+.crew-photos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 16px; }
+.crew-photo { margin: 0; min-width: 0; }
+.crew-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border: 1px solid #335165; border-radius: 12px; }
+.crew-photo figcaption { padding: 12px 2px 0; font-size: 12px; line-height: 1.5; }
+.crew-photo strong, .crew-photo span { display: block; }
+.crew-photo strong { color: var(--ink); font-weight: 550; }
+.crew-photo span { color: var(--muted); margin-top: 3px; }
+@media (min-width: 761px) {
+  .contact-station { align-items: start; }
+}
+@media (max-width: 760px) {
+  .contact-crew { margin-top: 36px; }
+  .crew-photos { gap: 14px; }
+}
+
+/* Holding over content steers without selecting text or invoking touch callouts. */
+html { -webkit-touch-callout: none; }
+body.steering .route { -webkit-user-select: none; user-select: none; }
+
+/* Floating glass controls let the space and passing content show through. */
+.flight-header, .flight-controls {
+  background: rgb(255 255 255 / 5%);
+  -webkit-backdrop-filter: blur(14px) saturate(110%);
+  backdrop-filter: blur(14px) saturate(110%);
+}
+.flight-header { border-bottom: 1px solid rgb(255 255 255 / 9%); }
+.flight-controls { border-top: 1px solid rgb(255 255 255 / 9%); }
+
+/* A denser desktop reading layout leaves more of each case study in view. */
+@media (min-width: 761px) {
+  .station-card { font-size: 15px; line-height: 1.55; }
+  .station-card > p { margin-bottom: 14px; }
+  .station-card .eyebrow { margin-bottom: 14px; }
+  .case-study h2, .contact-station h2 { font-size: clamp(30px, 3vw, 48px); margin-bottom: 18px; }
+  .station-card .lead { font-size: clamp(16px, 1.25vw, 18px); }
+  .case-study h3 { font-size: 16px; margin: 18px 0 8px; }
+  .case-facts { margin: 18px 0; padding: 12px 0; gap: 6px; }
+  .station-card .project-links { margin: 14px 0; gap: 18px; }
+  .station-card details { padding-block: 10px; }
+  .case-visuals { max-width: 540px; }
+  .case-image { margin-bottom: 14px; }
+  .placeholder-label { padding: 9px 12px; }
+  .case-image img { max-height: clamp(160px, 28svh, 300px); object-fit: contain; }
+  .case-image figcaption { padding: 10px 12px; line-height: 1.5; }
+  .case-image .action { padding-block: 7px; }
+  #bodi .case-image img { max-height: clamp(110px, 17svh, 170px); }
+}
+
+/* Each ship has its own engine signature. */
+.ship[data-design="explorer"]::before {
+  background: linear-gradient(90deg, #ed58bb00, #e86fcf 48%, #ffb1e8 76%, #fff0fa);
+}
+.ship[data-design="explorer"]::after { background: #f987d6; }
+.ship[data-design="smuggler"] { isolation: isolate; }
+.ship[data-design="smuggler"] picture { position: relative; z-index: 1; }
+.ship[data-design="smuggler"]::before {
+  right: 78%; top: 50%; width: 26%; height: 66%;
+  background: linear-gradient(90deg, #428bdd00, #479fee 28%, #91dcff 65%, #e7fcff);
+  clip-path: polygon(100% 0, 75% 22%, 62% 50%, 75% 78%, 100% 100%, 40% 90%, 8% 70%, 0 50%, 8% 30%, 40% 10%);
+  animation-timing-function: ease-in-out;
+}
+.ship[data-design="smuggler"]::after {
+  left: 13%; top: 50%; width: 24%; height: 58%;
+  background: #83d5ff; filter: blur(5px);
+}
+
+/* Serenity's aft engine and the two wing pods have their own exhaust ports. */
+.ship[data-design="serenity"] { isolation: isolate; }
+.ship[data-design="serenity"] picture { position: relative; z-index: 1; }
+.ship[data-design="serenity"]::before {
+  right: 80%; top: 50%; width: 40%; height: 22%;
+  background: linear-gradient(90deg, #ffb51b00, #f7b52b 35%, #ffe66f 70%, #fffbd8);
+  clip-path: polygon(0 50%, 22% 28%, 48% 16%, 78% 5%, 100% 12%, 100% 88%, 78% 95%, 48% 84%, 22% 72%);
+  animation-timing-function: ease-in-out;
+}
+.ship[data-design="serenity"]::after {
+  left: 20%; top: 50%; width: 17%; height: 24%;
+  background: #ffd65a; filter: blur(5px);
+}
+.serenity-wing-jet { display: none; pointer-events: none; }
+.ship[data-design="serenity"] .serenity-wing-jet {
+  display: block; position: absolute; right: 49%; width: 21%; height: 9%;
+  opacity: 0; transform: translateY(-50%); transform-origin: right center;
+  background: linear-gradient(90deg, #ffb51b00, #efb12e 35%, #ffe781 75%, #fffbd8);
+  clip-path: polygon(0 50%, 35% 16%, 100% 8%, 100% 92%, 35% 84%);
+  transition: opacity .18s ease-out;
+}
+.serenity-wing-jet-upper { top: 12%; }
+.serenity-wing-jet-lower { top: 88%; }
+.engines-on .ship .serenity-wing-jet, .scroll-engines-on .ship .serenity-wing-jet {
+  opacity: 1; animation: pixel-thrust .24s ease-in-out infinite;
+}
+.scroll-engines-on:not(.engines-on) .ship .serenity-wing-jet { opacity: var(--scroll-thrust, 1); transition-duration: .08s; }
+@media (prefers-reduced-motion: reduce) {
+  .engines-on .ship .serenity-wing-jet, .scroll-engines-on .ship .serenity-wing-jet { animation: none; }
+}
+
+/* Enterprise's violet exhaust leaves from the aft ends of its twin nacelles. */
+.enterprise-nacelle-jet { display: none; pointer-events: none; }
+.ship[data-design="enterprise"]::before, .ship[data-design="enterprise"]::after { display: none; }
+.ship[data-design="enterprise"] .enterprise-nacelle-jet {
+  display: block; position: absolute; right: 94%; width: 20%; height: 8%;
+  opacity: 0; transform: translateY(-50%); transform-origin: right center;
+  background: linear-gradient(90deg, #9275ed00, #ac8aff 40%, #dfcaff 75%, #faf0ff);
+  border-radius: 100% 15% 15% 100%; transition: opacity .18s ease-out;
+}
+.enterprise-nacelle-jet-upper { top: 14.6%; }
+.enterprise-nacelle-jet-lower { top: 85.4%; }
+.engines-on .ship .enterprise-nacelle-jet, .scroll-engines-on .ship .enterprise-nacelle-jet {
+  opacity: 1; animation: pixel-thrust .24s ease-in-out infinite;
+}
+.scroll-engines-on:not(.engines-on) .ship .enterprise-nacelle-jet { opacity: var(--scroll-thrust, 1); }
+@media (prefers-reduced-motion: reduce) {
+  .engines-on .ship .enterprise-nacelle-jet, .scroll-engines-on .ship .enterprise-nacelle-jet { animation: none; }
+}
