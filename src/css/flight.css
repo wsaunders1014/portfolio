@@ -82,6 +82,7 @@ details p { margin: 14px 0 0; }
 .route-buttons[hidden] { display: none; }
 .route-buttons button { background: transparent; border: 1px solid #335165; border-radius: 50%; width: 40px; height: 40px; }
 button:disabled { opacity: .3; cursor: default; }
+:is(.route-buttons, .mobile-flight-dock) button:disabled { color: #879099; border-color: #48515a; background: #18212a; opacity: .45; cursor: not-allowed; }
 @media (max-width: 760px) {
   .flight-header { position: sticky; top: 0; z-index: 5; padding: 8px 20px; gap: 8px; align-items: flex-start; flex-direction: column; background: transparent; border-bottom: 0; padding-top: max(8px, env(safe-area-inset-top)); }
   .station { scroll-margin-top: 110px; }
