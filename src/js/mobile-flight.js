@@ -1,6 +1,6 @@
 import { beginMenuFlight, endMenuFlight, menuFlightActive, updateMenuFlightApproach } from './menu-flight.js';
 import { enableScrollEngines, updateMobileDrift, resetMobileDrift } from './mobile-scroll.js';
-// Isolated vertical-flight trial. The main portfolio keeps its existing controls.
+// Vertical flight controls supplement native scrolling on small screens.
 const mobile = matchMedia('(max-width: 760px)');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 const sections = [...document.querySelectorAll('.station')];
@@ -33,7 +33,8 @@ function animate(time) {
   // Only these explicit flight controls move the page at the faster rates.
   const topSpeed = menuFlightActive ? 2200 : 1200;
   const braking = 3000;
-  if (target !== null) updateMenuFlightApproach(distance, Math.abs(velocity), braking, innerHeight);
+  // Keep mobile trails visible further into arrival, with a short coast left.
+  if (target !== null) updateMenuFlightApproach(distance, Math.abs(velocity), braking, innerHeight, .6);
   const desired = held ? held * topSpeed : target !== null ? Math.sign(distance) * Math.min(topSpeed, Math.sqrt(2 * braking * Math.abs(distance))) : 0;
   const acceleration = !held && target === null ? 720
     : Math.abs(desired) < Math.abs(velocity) ? braking
@@ -57,7 +58,9 @@ function visit(section, fromMenu = false) {
   stop();
   const y = sectionY(section);
   if (reduced.matches) { window.scrollTo({ top: y, behavior: 'instant' }); return; }
-  if (fromMenu) beginMenuFlight(y - scrollY, innerHeight);
+  // Arrow trips also engage warp, including adjacent sections closer than
+  // the distance threshold used by the top menu.
+  beginMenuFlight(y - scrollY, innerHeight, { force: !fromMenu });
   target = y;
   status.textContent = `Flying to ${section.querySelector('.eyebrow').textContent}`;
   start();
@@ -74,6 +77,7 @@ for (const button of document.querySelectorAll('[data-flight-direction]')) {
       if (!press) return;
       press.cruising = true;
       held = direction;
+      beginMenuFlight(direction > 0 ? maximum() - scrollY : -scrollY, innerHeight, { force: true });
       status.textContent = direction > 0 ? 'Cruising down · release to coast' : 'Cruising up · release to coast';
       start();
     }, 250);
@@ -83,7 +87,7 @@ for (const button of document.querySelectorAll('[data-flight-direction]')) {
     const { direction, cruising } = press;
     clearTimeout(holdTimer);
     press = null;
-    if (cruising) { held = 0; status.textContent = 'Coasting'; return; }
+    if (cruising) { held = 0; endMenuFlight(); status.textContent = 'Coasting'; return; }
     const candidates = sections.filter(section => direction * (sectionY(section) - scrollY) > 40);
     const section = direction > 0 ? candidates[0] : candidates.at(-1);
     if (section) visit(section); else stop();
@@ -112,7 +116,13 @@ window.addEventListener('touchstart', event => { if (!event.target.closest('.mob
 window.addEventListener('wheel', stop, { passive: true });
 window.addEventListener('keydown', event => { if (['Escape', 'PageDown', 'PageUp', 'ArrowDown', 'ArrowUp', 'Home', 'End', ' '].includes(event.key)) stop(); });
 window.addEventListener('blur', stop);
-window.addEventListener('resize', stop);
+let viewportWidth = innerWidth;
+window.addEventListener('resize', () => {
+  if (innerWidth !== viewportWidth) {
+    viewportWidth = innerWidth;
+    stop();
+  }
+});
 mobile.addEventListener('change', stop);
 document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); });
 

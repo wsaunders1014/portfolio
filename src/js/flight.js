@@ -185,6 +185,7 @@ function fly(time) {
   }
   const remaining = path.length - travelled;
   const acceleration = menuFlightActive ? 2400 : 750;
+  const braking = menuFlightActive ? 2400 : coastDeceleration;
   const cruiseSpeed = menuFlightActive ? 2100 : maximumSpeed;
   updateMenuFlightDeparture(travelled < path.arcLength, Math.cos(heading) * speed * menuFlightDirection);
   updateMenuFlightApproach(remaining, speed, acceleration, route.clientWidth);
@@ -192,10 +193,22 @@ function fly(time) {
   // turnaround speed limit on every frame.
   const turning = travelled < path.arcLength && path.sweep > .12;
   const turnSpeed = turning ? path.radius * (menuFlightActive ? 3.2 : 1.8) : cruiseSpeed;
-  const arrivalSpeed = menuFlightActive ? Math.sqrt(2 * acceleration * remaining) : cruiseSpeed;
+  // Leave enough distance to coast to every fixed waypoint. Held steering has
+  // a continuously moving target and must never enter this arrival slowdown.
+  const arrivalSpeed = steeringPointer !== null ? cruiseSpeed
+    : Math.max(0, Math.sqrt((braking * dt) ** 2 + 2 * braking * remaining) - braking * dt);
   const desiredSpeed = steeringPointer !== null || autopilot ? Math.min(cruiseSpeed, turnSpeed * 1.25, arrivalSpeed) : 0;
-  speed += Math.max(-acceleration * dt, Math.min(acceleration * dt, desiredSpeed - speed));
-  travelled = Math.min(path.length, travelled + speed * dt);
+  const previousSpeed = speed;
+  speed += Math.max(-braking * dt, Math.min(acceleration * dt, desiredSpeed - speed));
+  const accelerating = desiredSpeed > previousSpeed + 1;
+  const thrust = steeringPointer !== null || accelerating ? 1
+    : Math.max(0, Math.min(1, (arrivalSpeed / cruiseSpeed - .8) / .2));
+  document.documentElement.style.setProperty('--flight-thrust', thrust);
+  travelled = Math.min(path.length, travelled + (previousSpeed + speed) * .5 * dt);
+  if (steeringPointer === null && path.length - travelled < .5 && speed < 20) {
+    travelled = path.length;
+    speed = 0;
+  }
   const sample = sampleFlightPath(path, travelled);
   position.x = sample.x;
   position.y = sample.y;
@@ -223,6 +236,7 @@ function navigateToPoint(x, y) {
   travelled = 0;
   destination = target;
   waypoint.hidden = !autopilot;
+  document.documentElement.style.setProperty('--flight-thrust', 1);
   document.body.classList.add('engines-on');
   renderShip();
   if (!flightFrame) {
@@ -299,7 +313,6 @@ route.addEventListener('pointerdown', event => {
 window.addEventListener('pointermove', event => {
   const press = pendingControlPress;
   if (!press || press.pointerId !== event.pointerId) return;
-  if (!(event.buttons & 1)) { clearControlPress(); return; }
   if (Math.hypot(event.clientX - press.clientX, event.clientY - press.clientY) >= 8) beginSteering(press);
 }, true);
 route.addEventListener('dragstart', event => {
@@ -307,7 +320,6 @@ route.addEventListener('dragstart', event => {
 });
 window.addEventListener('pointermove', event => {
   if (event.pointerId !== steeringPointer) return;
-  if (!(event.buttons & 1)) { finishPress(event); return; }
   pointerX = event.clientX;
   pointerY = event.clientY;
 });
@@ -315,27 +327,32 @@ window.addEventListener('pointerup', event => {
   if (pendingControlPress?.pointerId === event.pointerId) clearControlPress();
   if (event.pointerId === steeringPointer) finishPress(event);
 });
+// Some browsers report an empty buttons mask during synthetic/retargeted move
+// events. Only release events end a hold; mouseup also covers lost capture.
+window.addEventListener('mouseup', event => {
+  if (event.button !== 0) return;
+  clearControlPress();
+  if (steeringPointer !== null) finishPress(event);
+});
 route.addEventListener('pointercancel', event => {
   clearControlPress();
   if (event.pointerId === steeringPointer) suppressClickUntil = performance.now() + 600;
   if (event.pointerId === steeringPointer) stopFlight();
 });
-route.addEventListener('lostpointercapture', event => {
-  if (event.pointerId !== steeringPointer) return;
-  if (event.buttons & 1) {
-    // Capture can be lost while crossing browser/native UI boundaries. A held
-    // button still means steer; window pointermove also keeps the target fresh.
-    try { route.setPointerCapture(event.pointerId); } catch { /* Window events remain available. */ }
-  } else finishPress(event);
-});
+// Losing capture is not a release. Window move/up listeners keep ownership of
+// the gesture even when the cursor crosses content or the fixed overlays.
 window.addEventListener('blur', stopFlight);
 document.addEventListener('visibilitychange', () => { if (document.hidden) stopFlight(); });
 document.querySelectorAll('a').forEach(link => link.addEventListener('click', stopFlight));
 window.addEventListener('hashchange', () => requestAnimationFrame(syncShipToCamera));
 window.addEventListener('resize', syncShipToCamera);
 mobile.addEventListener('change', syncShipToCamera);
-// Initial hash navigation can scroll after module initialization.
-window.addEventListener('load', syncShipToCamera);
+// Initial hash navigation can scroll after module initialization. Images can
+// finish much later, so this initial alignment must never cancel active input.
+window.addEventListener('load', () => {
+  if (flightFrame || steeringPointer !== null || pendingControlPress) return;
+  syncShipToCamera();
+});
 if (!mobile.matches) renderShip();
 
 const ship = document.querySelector('.ship');
@@ -345,6 +362,13 @@ ship.addEventListener('click', () => {
   ship.setAttribute('aria-expanded', String(!transmission.hidden));
 });
 document.addEventListener('keydown', event => {
+  const navigationButton = event.key === 'ArrowLeft' ? previous : event.key === 'ArrowRight' ? next : null;
+  if (navigationButton && !mobile.matches && !event.defaultPrevented && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey
+    && !event.target.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="slider"], [role="tablist"], [role="menu"], [role="dialog"]')
+    && !document.querySelector('[role="dialog"]:not([hidden]), dialog[open]')) {
+    event.preventDefault();
+    if (!event.repeat && !navigationButton.disabled) navigationButton.click();
+  }
   if (event.key === 'Escape') stopFlight();
   if (event.key === 'Escape' && !transmission.hidden) {
     transmission.hidden = true;
@@ -354,15 +378,17 @@ document.addEventListener('keydown', event => {
 });
 update();
 
-enableScrollEngines(() => !document.body.classList.contains('mobile-flight-experiment'));
+if (!document.body.classList.contains('mobile-flight-experiment')) enableScrollEngines(() => true);
 
 // Menu travel uses a faster cruise/acceleration while preserving curved turns.
 function flyToStation(station) {
   const x = station.offsetLeft + route.clientWidth / 2;
   const y = route.clientHeight / 2;
   if (Math.hypot(x - position.x, y - position.y) < 4) return;
-  stopFlight();
+  clearControlPress();
+  releaseSteering();
   autopilot = true;
+  coasting = false;
   beginMenuFlight(x - position.x, route.clientWidth, { force: true, waitForTurn: true });
   // Aim the curved approach at the station center, so vertical drift settles
   // naturally during arrival rather than snapping after the flight ends.

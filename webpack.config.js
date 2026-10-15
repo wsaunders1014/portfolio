@@ -1,4 +1,5 @@
 const path = require('node:path');
+const fs = require('node:fs');
 const CopyPlugin = require('copy-webpack-plugin');
 const { bundleLab } = require('./scripts/build-lab.cjs');
 
@@ -44,6 +45,9 @@ module.exports = (_env, argv) => {
             globOptions: { ignore: ['**/.DS_Store'] },
             transform: {
               transformer: (content, resourcePath) => {
+                if (!development && ['.htaccess', 'robots.txt'].some(name => resourcePath === path.join(source, name))) {
+                  return fs.readFileSync(path.join(__dirname, 'config/production', path.basename(resourcePath)));
+                }
                 if (!development || resourcePath !== path.join(source, 'index.html')) {
                   return content;
                 }

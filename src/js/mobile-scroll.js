@@ -20,11 +20,14 @@ export function enableScrollEngines(isAvailable) {
   let sampleTime = performance.now();
   let peakSpeed = 0;
   let burstUntil = 0;
+  let viewportWidth = window.innerWidth;
   const enabled = () => matchMedia('(max-width: 760px)').matches && isAvailable();
   const clear = () => {
     clearTimeout(timer);
     timer = 0;
     touchId = null;
+    peakSpeed = 0;
+    burstUntil = 0;
     if (active) {
       document.body.classList.remove('scroll-engines-on');
       resetMobileDrift();
@@ -88,8 +91,17 @@ export function enableScrollEngines(isAvailable) {
     const strength = touchId !== null ? 1 : Math.max(0, Math.min(1, (speed - cutoff) / (fullThrust - cutoff)));
     ignite(delta, strength);
   }, { passive: true });
-  window.addEventListener('touchcancel', clear, { passive: true });
+  // Native scrolling can cancel a touch stream. Keep the current burst and
+  // let subsequent scroll samples fade it, just as after a normal release.
+  window.addEventListener('touchcancel', () => { touchId = null; settle(); }, { passive: true });
   window.addEventListener('blur', clear);
-  window.addEventListener('resize', clear);
+  window.addEventListener('resize', () => {
+    // Phone browser chrome changes viewport height during a drag. It must
+    // not discard the finger we are still tracking.
+    if (window.innerWidth !== viewportWidth) {
+      viewportWidth = window.innerWidth;
+      clear();
+    }
+  });
   document.addEventListener('visibilitychange', () => { if (document.hidden) clear(); });
 }
