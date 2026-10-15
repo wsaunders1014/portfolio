@@ -44,8 +44,15 @@ Both contain only active source files; generated directories are ignored by Git.
 
 ## Incremental Lightsail deployment
 
-Staging lives at https://iamwillsaunders.com/new/ with `index.html` as its entry.
-The existing public site outside `/new` must remain untouched until launch.
+Push `dev` to deploy staging at https://iamwillsaunders.com/new/.
+Push `master` to deploy production at https://iamwillsaunders.com/.
+GitHub Actions runs checks first, then transfers only changed files and verifies
+the result. See [CI/CD setup and promotion](docs/ci-cd.md) for the branch workflow,
+credentials, server helper, and rollback behavior. Local commits alone do not deploy.
+
+The following direct-upload commands remain available as a manual fallback.
+Do not run the save watcher alongside CI: it could replace committed staging
+with uncommitted local changes.
 
 ```sh
 npm run deploy:staging
@@ -57,7 +64,7 @@ and renamed into place. A remote manifest tracks deployed files so removed activ
 files can be removed from staging without touching unrelated server files. A
 second deployment with no source changes sends no files.
 
-For automatic updates when source files are saved:
+For explicitly requested automatic updates when source files are saved:
 
 ```sh
 npm run deploy:watch

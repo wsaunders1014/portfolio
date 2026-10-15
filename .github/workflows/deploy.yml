@@ -1,0 +1,73 @@
+name: Portfolio checks and deployment
+
+on:
+  push:
+    branches: [dev, master]
+  pull_request:
+    branches: [dev, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Checks
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run check:lab
+      - run: node --test tests/*.test.cjs
+      - run: python3 -m unittest discover -s tests -p 'test_ci_deploy.py' -v
+      - run: npm run build
+      - name: Verify production build contents
+        run: node scripts/verify-build.cjs dist
+
+  deploy:
+    name: Deploy
+    needs: checks
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-24.04
+    environment:
+      name: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
+      url: ${{ github.ref == 'refs/heads/master' && 'https://iamwillsaunders.com/' || 'https://iamwillsaunders.com/new/' }}
+    concurrency:
+      group: portfolio-deploy-${{ github.ref_name }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Build and deploy the branch's environment
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          TARGET: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$DEPLOY_SSH_KEY" || { echo "Missing environment DEPLOY_SSH_KEY secret"; exit 1; }
+          export PORTFOLIO_SSH_KEY="$RUNNER_TEMP/portfolio-deploy-key"
+          trap 'rm -f "$PORTFOLIO_SSH_KEY"' EXIT
+          umask 077
+          printf '%s\n' "$DEPLOY_SSH_KEY" > "$PORTFOLIO_SSH_KEY"
+          unset DEPLOY_SSH_KEY
+          if [ "$TARGET" = production ]; then
+            npm run build
+            node scripts/verify-build.cjs dist
+          else
+            npm run build:staging
+            node scripts/verify-build.cjs dist-new
+          fi
+          python3 scripts/ci-deploy.py "$TARGET"
