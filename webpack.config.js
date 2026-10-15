@@ -29,6 +29,10 @@ module.exports = (_env, argv) => {
     },
     plugins: [
       { apply(compiler) {
+        if (!development) compiler.hooks.beforeRun.tap('CleanProductionOutput', () => {
+          // Remove stale hidden files left by previous versions of the site too.
+          fs.rmSync(path.resolve(__dirname, 'dist'), { recursive: true, force: true });
+        });
         compiler.hooks.thisCompilation.tap('ComponentLab', compilation => {
           compilation.hooks.processAssets.tap({ name: 'ComponentLab', stage: compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL }, () => {
             const result = bundleLab(development);
