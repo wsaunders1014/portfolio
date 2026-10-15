@@ -35,7 +35,9 @@ Recheck these facts at launch; no production file was changed during preparation
    the document root and verify their SHA-256 hashes before activation.
 4. Deploy the release to the production document root, preserving `/new/` and
    unrelated legacy paths. Reconcile existing Apache rules deliberately; do not
-   overwrite redirects or security rules blindly. The release sets `DirectoryIndex index.html`, which ensures an old `index.php` cannot take priority. Do not use the
+   overwrite redirects or security rules blindly. The release sets
+   `DirectoryIndex index.html index.php`: HTML takes priority at the root while
+   PHP-only legacy directories such as `/dwa/` keep their index fallback. Do not use the
    staging deploy command for production; it is intentionally fixed to `/new/`.
 5. Verify HTTPS at the root, CSS/JS/image responses and MIME types, desktop and
    mobile navigation, the lab, archived demos, resume, and return links. Check
