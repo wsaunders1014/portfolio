@@ -5,6 +5,7 @@ const mobile = matchMedia('(max-width: 760px)');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 const sections = [...document.querySelectorAll('.station')];
 const status = document.querySelector('#mobile-flight-status');
+const arrows = [...document.querySelectorAll('[data-flight-direction]')];
 let frame = 0;
 let last = 0;
 let velocity = 0;
@@ -15,6 +16,22 @@ let holdTimer = 0;
 const clamp = (n, low, high) => Math.max(low, Math.min(high, n));
 const maximum = () => Math.max(0, document.documentElement.scrollHeight - innerHeight);
 const sectionY = section => clamp(section.getBoundingClientRect().top + scrollY - document.querySelector('.flight-header').getBoundingClientRect().height - 20, 0, maximum());
+function sectionInDirection(direction) {
+  const candidates = sections.filter(section => direction * (sectionY(section) - scrollY) > 40);
+  return direction > 0 ? candidates[0] : candidates.at(-1);
+}
+let availabilityFrame = 0;
+function updateArrowAvailability() {
+  availabilityFrame = 0;
+  for (const button of arrows) {
+    button.disabled = mobile.matches && !sectionInDirection(Number(button.dataset.flightDirection));
+  }
+  // Reaching the final available section during a hold also ends cruising.
+  if (press && arrows.some(button => button.disabled && Number(button.dataset.flightDirection) === press.direction)) stop();
+}
+function scheduleArrowAvailability() {
+  if (!availabilityFrame) availabilityFrame = requestAnimationFrame(updateArrowAvailability);
+}
 function stop() {
   endMenuFlight();
   resetMobileDrift();
@@ -65,9 +82,9 @@ function visit(section, fromMenu = false) {
   status.textContent = `Flying to ${section.querySelector('.eyebrow').textContent}`;
   start();
 }
-for (const button of document.querySelectorAll('[data-flight-direction]')) {
+for (const button of arrows) {
   button.addEventListener('pointerdown', event => {
-    if (!mobile.matches || !event.isPrimary || event.button !== 0) return;
+    if (button.disabled || !mobile.matches || !event.isPrimary || event.button !== 0) return;
     event.preventDefault();
     stop();
     const direction = Number(button.dataset.flightDirection);
@@ -88,17 +105,15 @@ for (const button of document.querySelectorAll('[data-flight-direction]')) {
     clearTimeout(holdTimer);
     press = null;
     if (cruising) { held = 0; endMenuFlight(); status.textContent = 'Coasting'; return; }
-    const candidates = sections.filter(section => direction * (sectionY(section) - scrollY) > 40);
-    const section = direction > 0 ? candidates[0] : candidates.at(-1);
+    const section = sectionInDirection(direction);
     if (section) visit(section); else stop();
   });
   button.addEventListener('pointercancel', stop);
   button.addEventListener('lostpointercapture', () => { if (press) stop(); });
   button.addEventListener('click', event => {
-    if (event.detail !== 0 || !mobile.matches) return;
+    if (button.disabled || event.detail !== 0 || !mobile.matches) return;
     const direction = Number(button.dataset.flightDirection);
-    const candidates = sections.filter(section => direction * (sectionY(section) - scrollY) > 40);
-    const section = direction > 0 ? candidates[0] : candidates.at(-1);
+    const section = sectionInDirection(direction);
     if (section) visit(section);
   });
 }
@@ -124,6 +139,13 @@ window.addEventListener('resize', () => {
   }
 });
 mobile.addEventListener('change', stop);
+mobile.addEventListener('change', scheduleArrowAvailability);
+window.addEventListener('scroll', scheduleArrowAvailability, { passive: true });
+window.addEventListener('resize', scheduleArrowAvailability);
+window.addEventListener('load', scheduleArrowAvailability);
+const routeObserver = new ResizeObserver(scheduleArrowAvailability);
+routeObserver.observe(document.querySelector('.route'));
+updateArrowAvailability();
 document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); });
 
 enableScrollEngines(() => !frame);
