@@ -13,3 +13,5 @@ dist-new/
 # Keep these oversized demo videos locally, outside GitHub's file limit.
 /backup/public/projects/disney/2018guild/media/video/APlaceCalledSlaughterRace_1.mp4
 /backup/public/projects/disney/2018guild/media/video/Incredibles_2_FxSim_Reel.mp4
+__pycache__/
+*.py[cod]
