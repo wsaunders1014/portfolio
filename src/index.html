@@ -1,352 +1,180 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>I Am Will Saunders</title>
-	<meta name="description" content="The Personal Website of Will Saunders: Developer, Writer, Actor">
-    <meta name="keywords" content="Front End Developer, Screenwriter, Actor, Comedian">
-    <meta name="author" content="Will Saunders">
-    <meta property="og:image" content="http://iamwillsaunders.com/img/preview.jpg">
-	<link href="https://fonts.googleapis.com/css?family=Orbitron|Open+Sans" rel="stylesheet">
-	<style>
-		@-webkit-keyframes uil-ring-anim {
-		0% {
-		    -ms-transform: rotate(0deg);
-		    -moz-transform: rotate(0deg);
-		    -webkit-transform: rotate(0deg);
-		    -o-transform: rotate(0deg);
-		    transform: rotate(0deg);
-		}
-		100% {
-		    -ms-transform: rotate(360deg);
-		    -moz-transform: rotate(360deg);
-		    -webkit-transform: rotate(360deg);
-		    -o-transform: rotate(360deg);
-		    transform: rotate(360deg);
-		  }
-		}
-		@-webkit-keyframes uil-ring-anim {
-		  0% {
-		    -ms-transform: rotate(0deg);
-		    -moz-transform: rotate(0deg);
-		    -webkit-transform: rotate(0deg);
-		    -o-transform: rotate(0deg);
-		    transform: rotate(0deg);
-		  }
-		  100% {
-		    -ms-transform: rotate(360deg);
-		    -moz-transform: rotate(360deg);
-		    -webkit-transform: rotate(360deg);
-		    -o-transform: rotate(360deg);
-		    transform: rotate(360deg);
-		  }
-		}
-		@-moz-keyframes uil-ring-anim {
-		  0% {
-		    -ms-transform: rotate(0deg);
-		    -moz-transform: rotate(0deg);
-		    -webkit-transform: rotate(0deg);
-		    -o-transform: rotate(0deg);
-		    transform: rotate(0deg);
-		  }
-		  100% {
-		    -ms-transform: rotate(360deg);
-		    -moz-transform: rotate(360deg);
-		    -webkit-transform: rotate(360deg);
-		    -o-transform: rotate(360deg);
-		    transform: rotate(360deg);
-		  }
-		}
-		@-ms-keyframes uil-ring-anim {
-		  0% {
-		    -ms-transform: rotate(0deg);
-		    -moz-transform: rotate(0deg);
-		    -webkit-transform: rotate(0deg);
-		    -o-transform: rotate(0deg);
-		    transform: rotate(0deg);
-		  }
-		  100% {
-		    -ms-transform: rotate(360deg);
-		    -moz-transform: rotate(360deg);
-		    -webkit-transform: rotate(360deg);
-		    -o-transform: rotate(360deg);
-		    transform: rotate(360deg);
-		  }
-		}
-		@-moz-keyframes uil-ring-anim {
-		  0% {
-		    -ms-transform: rotate(0deg);
-		    -moz-transform: rotate(0deg);
-		    -webkit-transform: rotate(0deg);
-		    -o-transform: rotate(0deg);
-		    transform: rotate(0deg);
-		  }
-		  100% {
-		    -ms-transform: rotate(360deg);
-		    -moz-transform: rotate(360deg);
-		    -webkit-transform: rotate(360deg);
-		    -o-transform: rotate(360deg);
-		    transform: rotate(360deg);
-		  }
-		}
-		@-webkit-keyframes uil-ring-anim {
-		  0% {
-		    -ms-transform: rotate(0deg);
-		    -moz-transform: rotate(0deg);
-		    -webkit-transform: rotate(0deg);
-		    -o-transform: rotate(0deg);
-		    transform: rotate(0deg);
-		  }
-		  100% {
-		    -ms-transform: rotate(360deg);
-		    -moz-transform: rotate(360deg);
-		    -webkit-transform: rotate(360deg);
-		    -o-transform: rotate(360deg);
-		    transform: rotate(360deg);
-		  }
-		}
-		@-o-keyframes uil-ring-anim {
-		  0% {
-		    -ms-transform: rotate(0deg);
-		    -moz-transform: rotate(0deg);
-		    -webkit-transform: rotate(0deg);
-		    -o-transform: rotate(0deg);
-		    transform: rotate(0deg);
-		  }
-		  100% {
-		    -ms-transform: rotate(360deg);
-		    -moz-transform: rotate(360deg);
-		    -webkit-transform: rotate(360deg);
-		    -o-transform: rotate(360deg);
-		    transform: rotate(360deg);
-		  }
-		}
-		@keyframes uil-ring-anim {
-		  0% {
-		    -ms-transform: rotate(0deg);
-		    -moz-transform: rotate(0deg);
-		    -webkit-transform: rotate(0deg);
-		    -o-transform: rotate(0deg);
-		    transform: rotate(0deg);
-		  }
-		  100% {
-		    -ms-transform: rotate(360deg);
-		    -moz-transform: rotate(360deg);
-		    -webkit-transform: rotate(360deg);
-		    -o-transform: rotate(360deg);
-		    transform: rotate(360deg);
-		  }
-		}
-		.uil-ring-css {
-		  background: none;
-		  position: relative;
-		  width: 200px;
-		  height: 200px;
-		}
-		.uil-ring-css > div {
-		  position: absolute;
-		  display: block;
-		  width: 160px;
-		  height: 160px;
-		  top: 20px;
-		  left: 20px;
-		  border-radius: 80px;
-		  box-shadow: 0 6px 0 0 #59ebff;
-		  -ms-animation: uil-ring-anim 1s linear infinite;
-		  -moz-animation: uil-ring-anim 1s linear infinite;
-		  -webkit-animation: uil-ring-anim 1s linear infinite;
-		  -o-animation: uil-ring-anim 1s linear infinite;
-		  animation: uil-ring-anim 1s linear infinite;
-		}
- 	</style>
-
-	<link rel="stylesheet" href="css/reset.css"/>
-	<link rel="stylesheet" href="css/style.css"/>
-	<script src="js/preloader.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
-	<script src="js/fittext.js"></script>
-	
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Will Saunders — Flight Log</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2308111e'/%3E%3Cpath d='M6 16L25 8L20 25L15 19Z' fill='%23aaf4dc'/%3E%3C/svg%3E">
+  <meta name="description" content="Front-end development for marketing, commerce and interactive experiences. A journey through Will Saunders’s work.">
+  <link rel="stylesheet" href="css/flight.css">
+  <script type="module" src="js/flight.js"></script>
+  <script type="module" src="js/case-studies.js"></script>
 </head>
 <body>
-	<div id="wrapper" style="left:-100%;top:-100%;">
-		<div class="quadrant" id="quad1">
-			<!-- <div class="banner">Nothing out here.</div> -->
-			<div id="death-star">
-				<div class="hit-box"></div>
-				<div id="death-laser"></div>
-				<div class="laser"></div>
-			</div>
-		</div>
-		<div class="quadrant" id="quad2">
-			<div id="warp"></div>
-		</div>
-		<div class="quadrant" id="quad3">
-			<div id="lv246bg"></div>
-			<div id="lv246" class="planet-holder">
-				<div class="glyph c4"><img src="img/glyph.png" alt="glyph" draggable="false"></div>
-				<div class="slide-out">
-					<div class="info unselectable">
-						<p class="title">Planet LV-246</p>
-						<p class='details'>Warning: Local fauna extremely dangerous.</p>
-					</div>
-				</div>
-				<div class="planet"></div>
-			</div>
-		</div>
-		<div class="quadrant" id="quad4">
-			<div class="banner">Are you lost?</div>
-		</div>
-		<div class="quadrant" id="main">
-			<div id="dev" class="planet-holder">
-				<div class="glyph c1"><img src="img/glyph.png" alt="glyph" draggable="false"></div>
-				<div class="slide-out">
-					<div class="info unselectable">
-						<p class="title">Planet Developia</p>
-						<p class='details'>Legends say the best web developer in the quadrant lives here...</p>
-						<a href="developer" class="waypoint-btn"></a>
-					</div>
-				</div>
-				<div class="planet"></div>
-			</div>
-			<div id="writer" class="planet-holder">
-				<div class="glyph c2"><img src="img/glyph.png" alt="glyph" draggable="false"></div>
-				<div class="slide-out">
-					<div class="info unselectable">			
-						<p class="title">Planet Writerious</p>
-						<p class='details'>This planet is known for its stories. Don't worry, we'll translate it into English for you.</p>
-						<a href="writer" class="waypoint-btn"></a>
-					</div>
-				</div>
-				<div class="planet"></div>
-			</div>
-			<!-- <div id="actor" class="planet-holder">
-				<div class="glyph c3"><img src="img/glyph.png" alt="glyph" draggable="false"></div>
-				<div class="slide-out">
-					<div class="info unselectable">
-						<p class="title">Planet Actorix</p>
-						<p class='details'>If you're looking for an actor, try this planet.</p>
-						<a href="actor" class="waypoint-btn"></a>
-					</div>
-				</div>
-				<div class="planet"></div>
-			</div> -->
-			<div id="intro" class="bg">
-				<h1>I Am Will Saunders. And this is my website. </h1>
-				<div id="intro-text">
-					<div id="explore-btn"></div>
-				</div>
-			</div>
-		</div>
-		<div class="quadrant" id="quad6">
-			<!-- <div class="banner">Coming soon</div> -->
-			<div id="sun"><div class="hit-box"></div></div>
-		</div>
-		<div class="quadrant" id="quad7">
-			<!-- <div class="banner">Under construction.</div> -->
-			<div id="star-destroyer"><img src="img/laser.gif" alt="Destroyer Laser"></div>
-			<div id="leia-ship"></div>
-		</div>
-		<div class="quadrant" id="quad8">
-			<div class="banner">To be continued.</div>
-		</div>
-		<div class="quadrant" id="quad9">
-			<div class="banner">Where am I?</div>
-		</div>
-		<div id="rocket">
-			<div id="rocket-img">
-				<div id="glow"></div>
-				<div id="left-engine"></div>
-				<div id="right-engine"></div>
-			</div>
-			<div id="explosion"><!-- <img src='img/explosion.gif' alt="boom"/> --></div>
-		</div>
-		<div id='waypoints'></div>
-	</div>
-	<!-- END WRAPPER -->
-	
-
-
-	<div id="death-modal">
-		<h3 id="message">You Died.</h3>
-		<div id='restart'></div>
-	</div>
-	<div id="overlay"></div>
-	<div id="pane">	
-		<div class="content">
-		</div>
-	</div>
-	
-	
-	<div id="top-bar">
-		<div id="nav">
-			<div id="nav-btn">
-			</div>
-			<div id="menu">
-				<div class="menu-btn" id="dev-btn">
-					<a href="developer"></a>
-				</div>
-				<div class="menu-btn" id="writer-btn">
-					<a href="writer"></a>
-				</div>
-				<!-- <div class="menu-btn" id="actor-btn">
-					<a href="actor"></a>
-				</div> -->
-			</div>
-		</div>
-		<div id="social">
-			<div class="social-btn" id="twitter"><a target="_blank" href="https://twitter.com/BillWaunders"></a></div>
-			<div class="social-btn" id="instagram"><a target="_blank" href="https://www.instagram.com/billwaunders/"></a></div>
-			<div class="social-btn" id="tumblr"><a target="_blank" href="http://thewriterwill.tumblr.com/"></a></div>
-		</div>
-		<div id="audio-ctrl"></div>
-	</div>
-
-	<div class="top-left-corner glyph-1 shift"></div>
-	<div class="top-left-corner glyph-4 shift"></div>
-	<div class="top-left-corner glyph-2 shift"></div>
-	<div class="top-left-corner glyph-3 shift"></div>
-	<div class="top-left-corner glyph-5 shift"></div>
-
-	<div class="top-right-corner glyph-1 shift"></div>
-	<div class="top-right-corner glyph-2 shift"></div>
-	<div class="top-right-corner glyph-3 shift"></div>
-	<div class="top-right-corner glyph-4 shift"></div>
-
-	<div class="bottom-left-corner glyph-1 shift"></div>
-	<div class="bottom-left-corner glyph-2 shift"></div>
-
-	<div class="bottom-right-corner glyph-3 shift"></div>
-	<div class="bottom-right-corner glyph-1 shift"></div>
-	<div class="bottom-right-corner glyph-2 shift"></div>
-	<div class="bottom-right-corner glyph-4 shift"></div>
-<div id="loader">
-	<div id="gif">
-		<div class='uil-ring-css'>
-			<div></div>
-		</div>
-		<div class="loading-text"><span id="percent">00</span>% LOADED</div>
-	</div>
-</div>
-<!-- <div id="debug">
-	<div class="mouse"></div>
-	<div class="angle"></div>
-</div> -->
-<audio id='moon' preload='auto'>
-	<source src="audio/thats-no-moon.mp3" type="audio/mpeg">
-</audio>
-<audio id='cantdo' preload='auto'>
-	<source src="audio/cantdo.mp3" type="audio/mpeg">
-</audio>
-<audio id='march' preload='auto'>
-	<source src="audio/imperial-march.mp3" loop type="audio/mpeg">
-</audio>
-	<script type="text/javascript">alert("Hello! Just a heads up that this site hasn't been updated since 2014 and even then wasn't finished, so I apologize for the bugs! Please reach out or check my github for links to recent work!"); </script>
-	<script src="js/script.js"></script>
-	<script src="js/form.js"></script>
-	<script src="js/bezier-shard.js"></script>
-	<script src="js/rocket.js"></script>
+  <!-- Active portfolio source; legacy site and demos are preserved in backup/. -->
+  <a class="skip" href="#route">Skip to work</a>
+  <header class="flight-header">
+    <a class="identity" href="#arrival">WS<span> / FLIGHT LOG</span></a>
+    <nav aria-label="Portfolio sections">
+      <a href="#arrival">Start</a><a href="#bodi">BODi</a><a href="#disney">Disney</a><a href="#dreamworks">DreamWorks</a><a href="#fox">FOX / 24</a><a href="#contact">Contact</a>
+    </nav>
+  </header>
+  <main id="route" class="route" tabindex="-1" aria-label="Journey through selected work">
+    <section id="arrival" class="station" aria-labelledby="arrival-title">
+      <div class="station-card arrival">
+        <p class="eyebrow">01 / Departure</p>
+        <h1 id="arrival-title">Good work.<br>A little <em>space</em><br>to explore.</h1>
+        <p class="lead">I’m Will Saunders. I build front-end experiences where marketing, technology, and imagination meet.</p>
+        <a class="action" href="#bodi">Explore my work <span aria-hidden="true">→</span></a>
+        <p class="hint flight-instructions">Click open space to set a waypoint, or hold the mouse button to fly. Move the pointer to steer; release to coast.</p>
+        <p class="hint mobile-instructions">Scroll to explore, or jump straight to a project.</p>
+      </div>
+      <div class="station-art" aria-hidden="true"><div class="orbit"></div><span>MISSION: MAKE IT MEMORABLE</span></div>
+    </section>
+    <section id="bodi" class="station case-study" aria-labelledby="bodi-title">
+      <article class="station-card">
+        <p class="eyebrow">02 / Commerce & marketing</p>
+        <h2 id="bodi-title">Five years.<br>Three platforms.<br>One evolving experience.</h2>
+        <p class="lead">Building BODi’s product and service landing pages as the tools behind them changed.</p>
+        <dl class="case-facts">
+          <div><dt>My role</dt><dd>Front-end development within Marketing</dd></div>
+          <div><dt>Collaboration</dt><dd>Marketing & Engineering</dd></div>
+          <div><dt>Focus</dt><dd>Landing pages, custom components & experimentation</dd></div>
+        </dl>
+        <h3>The context</h3>
+        <p>Over five years at BODi, I built landing pages for products and services. The work spanned three platforms and two replatforms, connecting marketing experiences with the engineering behind them.</p>
+        <h3>What I contributed</h3>
+        <p>I helped with both replatforms and built custom components with HTML, CSS, JavaScript, and Shopify Liquid. I also collaborated on React components in TypeScript alongside Engineering.</p>
+        <details class="case-detail"><summary>Follow the platform journey</summary>
+          <ol class="platform-journey">
+            <li><h4>Cloudinary CMS</h4><p>The starting platform for my landing-page work.</p></li>
+            <li><h4>Builder.io</h4><p>I helped with the move to Builder.io and continued building marketing experiences.</p></li>
+            <li><h4>Shopify</h4><p>I helped with the next replatform and built custom components using Shopify Liquid alongside HTML, CSS, and JavaScript.</p></li>
+          </ol>
+        </details>
+        <details class="case-detail"><summary>Experimentation & measurement</summary><p>I worked on A/B experimentation in Optimizely and later Amplitude, and helped manage tags in Google Tag Manager. Experimentation and measurement were part of the implementation work alongside page and component development.</p></details>
+        <h3>The through line</h3>
+        <p>My contribution extended across the platform changes: building landing pages, implementing custom components, and collaborating between Marketing and Engineering.</p>
+        <ul class="tags" aria-label="Technologies"><li>HTML / CSS / JavaScript</li><li>Shopify / Liquid</li><li>React / TypeScript</li><li>Optimizely / Amplitude</li><li>Google Tag Manager</li></ul>
+      </article>
+      <div class="case-visuals" aria-label="BODi work image placeholders">
+        <figure class="case-image">
+          <div class="placeholder-label"><span>01 / Landing page</span><span>Image placeholder</span></div>
+          <img src="img/bodi-landing-placeholder.svg" alt="Illustrative landing-page wireframe; a BODi project screenshot will replace this placeholder." width="960" height="560" loading="lazy">
+          <figcaption>Product & service landing pages <span>Project screenshot to come.</span></figcaption>
+        </figure>
+        <figure class="case-image">
+          <div class="placeholder-label"><span>02 / Component detail</span><span>Image placeholder</span></div>
+          <img src="img/bodi-component-placeholder.svg" alt="Illustrative component wireframe; an example of Will’s BODi component work will replace this placeholder." width="960" height="400" loading="lazy">
+          <figcaption>Custom front-end components <span>Implementation detail to come.</span></figcaption>
+        </figure>
+        <p class="case-image-note">Illustrative layouts only. These are placeholders for original work, not BODi designs.</p>
+      </div>
+    </section>
+    <section id="disney" class="station case-study" aria-labelledby="disney-title">
+      <article class="station-card">
+        <p class="eyebrow">03 / Entertainment & awards</p>
+        <h2 id="disney-title">A spotlight<br>on the stories.</h2>
+        <p class="lead">Disney awards campaign websites that brought films, campaign materials, and media together in one experience.</p>
+        <dl class="case-facts">
+          <div><dt>Project</dt><dd>2018 Guild & AMPAS campaign sites</dd></div>
+          <div><dt>Focus</dt><dd>Film navigation, responsive layouts & media interfaces</dd></div>
+          <div><dt>Format</dt><dd>Multi-film awards campaigns</dd></div>
+        </dl>
+        <h3>The context</h3>
+        <p>Awards campaigns have more to share than a trailer. Each film needs a home for its story, consideration materials, press, and media, within a site that lets visitors move between titles.</p>
+        <h3>The front-end experience</h3>
+        <p>The archived sites bring together a shared film menu and title-specific pages. Films including <em>Black Panther</em>, <em>Incredibles 2</em>, and <em>Bao</em> sit within a common navigation structure while keeping their own artwork and campaign content.</p>
+        <details class="case-detail"><summary>Navigation & responsive behavior</summary><p>The Guild implementation tracks the selected film and page in the URL, allowing direct links into individual sections. Its layouts adapt between mobile and desktop, with film content and navigation arranged for the available space.</p></details>
+        <details class="case-detail"><summary>Media & campaign content</summary><p>The archive includes film galleries, video interfaces, and score and song sections, alongside press and consideration materials. The available sections vary by title rather than forcing every film into an identical set of pages.</p></details>
+        <h3>What makes it interesting</h3>
+        <p>A shared front-end structure supports very different films. The interaction connects them; the imagery gives each title its own identity.</p>
+        <p class="hint">Selected work from the archive. The images shown are original campaign assets; full interface captures will follow.</p>
+        <ul class="tags" aria-label="Project features"><li>Responsive front end</li><li>Film navigation</li><li>Media interfaces</li><li>Awards campaigns</li></ul>
+      </article>
+      <div class="case-visuals" aria-label="Disney campaign artwork">
+        <figure class="case-image">
+          <div class="placeholder-label"><span>Black Panther</span><span>Archived campaign artwork</span></div>
+          <img class="campaign-square" src="img/disney-black-panther.jpg" alt="Black Panther title artwork recovered from the Disney Guild campaign site." width="660" height="660" loading="lazy">
+          <figcaption>A shared site. A distinct film identity.<span>Original film-selection artwork from the campaign archive.</span></figcaption>
+        </figure>
+        <figure class="case-image">
+          <div class="placeholder-label"><span>Bao</span><span>Archived gallery image</span></div>
+          <img src="img/disney-bao.jpg" alt="A woman and the little dumpling character at a kitchen table in Bao." width="1084" height="500" loading="lazy">
+          <figcaption>Space for the smaller stories, too.<span>Original gallery image from the same multi-film campaign.</span></figcaption>
+        </figure>
+      </div>
+    </section>
+    <section id="dreamworks" class="station case-study" aria-labelledby="dreamworks-title">
+      <article class="station-card">
+        <p class="eyebrow">04 / Animation & interaction</p>
+        <h2 id="dreamworks-title">Two shorts.<br>Two little worlds.</h2>
+        <p class="lead">A playful awards campaign site for DreamWorks Animation’s <em>Bilby</em> and <em>Bird Karma</em>.</p>
+        <dl class="case-facts">
+          <div><dt>Project</dt><dd>DreamWorks Animation Shorts FYC 2018</dd></div>
+          <div><dt>Focus</dt><dd>Film selection, transitions & exploration</dd></div>
+          <div><dt>Content</dt><dd>Clips, photos & filmmaker profiles</dd></div>
+        </dl>
+        <h3>The experience</h3>
+        <p>The site starts with a choice: two film posters, each opening its own world. Selecting a short transforms the header into a film menu and reveals that film’s artwork and content.</p>
+        <h3>The interaction details</h3>
+        <p>The preserved front end uses a flipping header, film-to-film transitions, and photo selection to make browsing feel playful. Inside each film, visitors can explore clips, stills, and the people behind the story.</p>
+        <details class="case-detail"><summary>Keeping each film’s state in order</summary><p>Switching films resets the selected subpage and gallery state. Photo thumbnails update the main image, filmmaker navigation switches profiles, and closing a media panel pauses and resets its videos.</p></details>
+        <details class="case-detail"><summary>Adapting the experience for mobile</summary><p>The original implementation changes how film subpages open on smaller screens, using separate content views for the selected section. The same films and materials remain the center of the experience.</p></details>
+        <h3>Why it belongs here</h3>
+        <p>It brings together the parts of front-end work I enjoy: character, motion, and small interactions that invite someone to keep exploring.</p>
+        <p class="hint">The film switcher here previews recovered artwork. The original site’s full interactions will be featured separately.</p>
+        <ul class="tags" aria-label="Technologies and features"><li>jQuery</li><li>CSS transitions</li><li>Photo galleries</li><li>Responsive layouts</li></ul>
+      </article>
+      <div class="case-visuals" aria-label="DreamWorks campaign artwork preview">
+        <figure class="case-image dreamworks-preview">
+          <div class="placeholder-label"><span>Choose a little world</span><span>Archived campaign artwork</span></div>
+          <div class="film-picker" role="group" aria-label="Preview DreamWorks film artwork" hidden>
+            <button type="button" data-film="bilby" aria-pressed="true">Bilby</button>
+            <button type="button" data-film="bird-karma" aria-pressed="false">Bird Karma</button>
+          </div>
+          <img id="dreamworks-artwork" src="img/dreamworks-bilby.jpg" alt="Bilby and a fluffy baby bird on a rock against a blue sky; original campaign artwork." width="1940" height="1280" loading="lazy">
+          <figcaption><span id="dreamworks-caption" class="film-caption" aria-live="polite">Bilby — a little courage, a little company.</span><span>Original landing-page artwork. This preview is not a capture of the full interface.</span></figcaption>
+        </figure>
+        <figure class="case-image dreamworks-fallback">
+          <img src="img/dreamworks-bird-karma.jpg" alt="Bird Karma’s long-beaked bird watching a leaping orange fish; original campaign artwork." width="1940" height="1280" loading="lazy">
+          <figcaption>Bird Karma<span>Original landing-page artwork from the campaign archive.</span></figcaption>
+        </figure>
+      </div>
+    </section>
+    <section id="fox" class="station" aria-labelledby="fox-title">
+      <article class="station-card">
+        <p class="eyebrow">05 / Interactive campaign</p>
+        <h2 id="fox-title">A countdown.<br>A code.<br>A reason to return.</h2>
+        <p class="lead">24: Live Another Day — a social campaign for FOX Home Entertainment, created through NWE.</p>
+        <p>For twenty-four days leading up to the DVD release, codes shared on social platforms unlocked exclusive content on the campaign site.</p>
+        <img class="project-image" src="img/24lad.jpg" alt="Archived 24: Live Another Day campaign website" loading="lazy" width="640" height="360">
+        <p class="hint">From the original portfolio archive. A fuller account of my role is next.</p>
+      </article>
+      <div class="station-art" aria-hidden="true"><div class="beacon">24<span>05</span></div><span>INTERACTIVE STATION</span></div>
+    </section>
+    <section id="contact" class="station" aria-labelledby="contact-title">
+      <article class="station-card">
+        <p class="eyebrow">06 / Open channel</p>
+        <h2 id="contact-title">Let’s build<br>something<br>worth exploring.</h2>
+        <p class="lead">Front-end development. Marketing experiences. Creative problems.</p>
+        <a class="action" href="mailto:willsaunders1014@gmail.com">Send a transmission <span aria-hidden="true">↗</span></a>
+        <div class="project-links"><a href="https://github.com/wsaunders1014">GitHub ↗</a><a href="https://www.linkedin.com/in/will-saunders">LinkedIn ↗</a></div>
+        <p>Off the clock, I’m a writer, actor, and someone who decided a portfolio needed a spaceship.</p>
+        <a class="hint" href="https://iamwillsaunders.com/">Visit the original space portfolio ↗</a>
+      </article>
+      <div class="station-art" aria-hidden="true"><div class="orbit"></div><span>YOU HAVE REACHED THE OUTPOST</span></div>
+    </section>
+  </main>
+  <div class="flight-waypoint" hidden aria-hidden="true"></div>
+  <aside class="ship-companion" aria-label="Ship">
+    <button class="ship" type="button" aria-label="Receive a transmission from the ship" aria-expanded="false" aria-controls="transmission"><img src="img/pixel-ship.svg" alt="" width="40" height="24"></button>
+    <p id="transmission" hidden>Captain’s log: still no evidence that a portfolio needs a spaceship. Continuing the mission anyway.</p>
+  </aside>
+  <footer class="flight-controls">
+    <div class="coordinates"><span id="station-label">01 / Departure</span><span class="desktop-hint">Hold on the background · move the pointer to steer</span></div>
+    <div class="progress" aria-hidden="true"><span></span></div>
+    <div class="route-buttons" hidden><button id="previous" type="button" aria-label="Previous station">←</button><button id="next" type="button" aria-label="Next station">→</button></div>
+  </footer>
 </body>
-
 </html>

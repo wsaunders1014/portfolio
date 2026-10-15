@@ -1,0 +1,17 @@
+.mobile-flight-dock { display: none; }
+@media (max-width: 760px) {
+  html:has(.mobile-flight-experiment) { scroll-behavior: auto; }
+  .mobile-flight-experiment { padding-bottom: 100px; }
+  .mobile-flight-experiment .station { padding-right: 68px; min-height: 90svh; }
+  .mobile-flight-experiment .ship-companion { left: auto; right: 3px; bottom: auto; top: 45%; transition: top .35s ease; }
+  .mobile-flight-experiment .ship { transform: rotate(var(--mobile-heading, 1.5708rad)); transition: transform .3s ease, translate .6s ease-in-out; }
+  .mobile-flight-experiment .ship img { width: 54px; }
+  .mobile-flight-experiment .flight-controls { position: static; }
+  .mobile-flight-experiment .route-buttons { display: none; }
+  .mobile-flight-dock { position: fixed; z-index: 6; bottom: 0; left: 0; right: 0; display: flex; align-items: center; gap: 8px; padding: 12px 14px calc(12px + env(safe-area-inset-bottom)); background: #0c1c2bf5; border-top: 1px solid #335165; }
+  .mobile-flight-dock span { flex: 1; font: 11px/1.5 ui-monospace, monospace; color: var(--accent); }
+  .mobile-flight-dock button { min-width: 46px; min-height: 46px; border: 1px solid #527284; border-radius: 12px; background: #173044; touch-action: none; user-select: none; -webkit-user-select: none; }
+  .mobile-flight-dock button:active { background: #335165; }
+}
+
+@media (prefers-reduced-motion: reduce) { .mobile-flight-experiment .ship { transition: none; translate: none; } }

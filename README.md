@@ -1,69 +1,73 @@
 # Will Saunders portfolio
 
-The creative space portfolio is the active site. It uses plain HTML, CSS and
-JavaScript. Webpack serves it locally and copies it into a deployable static
-site; it does not bundle or rewrite the shared browser scripts.
+The new spaceship portfolio lives in `src/`. It is a static HTML/CSS/JavaScript
+site. Webpack serves it locally and copies active source files for production.
 
-## Run locally
+## Local development
 
-Use Node.js 22.15 or newer. With nvm:
-
-```sh
-nvm use
-npm install
-npm start
-```
-
-Open http://localhost:8080/. `npm start` opens the browser; `npm run dev` starts
-the same server without opening it. Changes to source files reload the page.
-Stop the server with Ctrl+C. Restart it after changing the Webpack configuration.
-The creative site now lives at `/`, replacing the earlier `/old/` preview route.
-
-## Where to edit
-
-- `src/index.html`: space scene, navigation and initial page markup.
-- `src/developer.html`, `src/writer.html`, `src/actor.html`: content panels loaded by the navigation scripts.
-- `src/css/style.css`: the live site's authoritative stylesheet.
-- `src/css/reset.css`: the original CSS reset.
-- `src/js/script.js`: navigation, scene interactions and panel behavior.
-- `src/js/rocket.js`: ship movement and flight paths.
-- `src/js/preloader.js`: image loading and the loading screen.
-- `src/js/form.js`, `src/js/fittext.js`, `src/js/bezier-shard.js`: supporting scripts.
-- `src/img/`, `src/audio/`, `src/media/`: portfolio assets and resumes.
-- `public/projects/`: preserved client demos, served at `/projects/`.
-
-Keep the browser scripts in their existing order in `index.html`; they share
-globals. The LESS source and unused experimental scripts are archived. Edit the
-CSS directly until that older LESS source has been reconciled with the live CSS.
-
-## Production build
+Use Node.js 22.15 or newer (`nvm use`), install dependencies with `npm install`,
+then run `npm start` or `npm run dev`. Open http://localhost:8080/.
+For testing on another device on your Wi-Fi, run:
 
 ```sh
-npm run build
+npm run dev -- --host 0.0.0.0
 ```
 
-The build recreates `dist/` from `src/` and `public/`. Deploy the contents of
-`dist/`. Source files and project demos are preserved without minification or
-transformation. The live-reload script is added only during development.
+Hold the mouse button on open space to fly continuously. Moving the pointer
+steers the ship; releasing cuts thrust and coasts. Mobile uses vertical reading.
 
-`dist/` is generated and ignored by Git. Make changes in `src/` or `public/`;
-changes made directly in `dist/` will be replaced on the next build.
+## Active files
 
-The portfolio's old contact form and some archived demos rely on PHP or external
-services. A static server does not execute PHP; those features need separate
-backend work. The original contact-form backend is preserved in the archive.
+- `src/index.html`: page, navigation and case-study content.
+- `src/css/flight.css`: active layout and ship visuals.
+- `src/js/flight.js`: input, ship/camera movement and navigation.
+- `src/js/flight-path.js`: turning geometry and tangent orientation.
+- `src/img/serenity.png`, `src/img/24lad.jpg`: currently used artwork.
+- `src/.htaccess`, `src/robots.txt`: staging caching and indexing settings.
 
-## Recovery archive
+The project map and redevelopment plan are in `docs/portfolio-redevelopment.md`.
 
-Reference copies are preserved outside this checkout at:
+## Backups
 
-`../portfolio-archive-2026-10-13/`
+`backup/legacy-site/` contains the previous portfolio source, content panels,
+styles, scripts, resumes and assets. `backup/public/` contains the archived
+client demos. Backups are not served locally or copied into builds. Copy selected
+files into `src/` when they become part of the new site. The old unused large
+videos remain local and ignored by Git.
 
-That archive contains the live download (`current/`), the former simpler site
-(`src/`), the recovered creative site (`old/`), both previous build folders,
-and the old build configuration. `archive-manifest.json` records file hashes.
-The recovery checkpoint is Git commit `68580a14`.
+The earlier recovery snapshots remain in `../portfolio-archive-2026-10-13/`.
 
-The client demos were merged into `public/projects/` using this precedence,
-from lowest to highest: `dist-bkup`, `dist`, `old`, then the live download
-`current`. Original conflicting versions remain in the archive.
+## Builds
+
+`npm run build` writes `dist/`. `npm run build:staging` writes `dist-new/`.
+Both contain only active source files; generated directories are ignored by Git.
+
+## Incremental Lightsail deployment
+
+Staging lives at https://iamwillsaunders.com/new/ with `index.html` as its entry.
+The existing public site outside `/new` must remain untouched until launch.
+
+```sh
+npm run deploy:staging
+```
+
+This builds the active site, compares SHA-256 hashes with files on the server,
+and uploads only changed files by SFTP. Files are uploaded under temporary names
+and renamed into place. A remote manifest tracks deployed files so removed active
+files can be removed from staging without touching unrelated server files. A
+second deployment with no source changes sends no files.
+
+For automatic updates when source files are saved:
+
+```sh
+npm run deploy:watch
+```
+
+The watcher deploys after a 1.5-second debounce. Keep that terminal, your Mac and
+its internet connection running; Ctrl+C stops watching. Run the local development
+server separately. Source file changes are what trigger updates, not backup edits.
+
+Deployment uses `23.21.42.189:22`, user `bitnami`, and the existing key at
+`~/Downloads/LightsailDefaultKey-us-east-1.pem`. No private key is copied into the
+site or repository. The deployment target is fixed to
+`/opt/bitnami/apache2/htdocs/new`; symlinks escaping that target are rejected.

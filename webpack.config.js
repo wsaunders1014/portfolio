@@ -4,10 +4,9 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = (_env, argv) => {
   const development = argv.mode === 'development';
   const source = path.resolve(__dirname, 'src');
-  const publicFiles = path.resolve(__dirname, 'public');
 
   return {
-    // Portfolio scripts share browser globals and stay as ordinary scripts.
+    // Serve browser modules directly; only the development client is bundled.
     // Only the development server's live-reload client needs bundling.
     entry: development ? { 'dev-server': './scripts/dev-client.js' } : {},
     output: {
@@ -20,10 +19,9 @@ module.exports = (_env, argv) => {
       host: 'localhost',
       port: 8080,
       static: [
-        { directory: source, watch: true },
-        { directory: publicFiles, watch: true }
+        { directory: source, watch: true }
       ],
-      watchFiles: ['src/**/*', 'public/**/*'],
+      watchFiles: ['src/**/*'],
       hot: false,
       liveReload: true
     },
@@ -45,12 +43,11 @@ module.exports = (_env, argv) => {
                 );
               }
             }
-          },
-          { from: publicFiles, to: '.', globOptions: { ignore: ['**/.DS_Store'] } }
+          }
         ]
       })
     ],
-    // Preserve archived demo assets without applying bundle-size budgets.
+    // Static files are copied without bundle-size budgets.
     performance: false
   };
 };

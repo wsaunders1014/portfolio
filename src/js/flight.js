@@ -1,0 +1,266 @@
+import { enableScrollEngines } from './mobile-scroll.js';
+import { createFlightPath, sampleFlightPath } from './flight-path.js';
+
+const route = document.querySelector('.route');
+const stations = [...route.querySelectorAll('.station')];
+const links = [...document.querySelectorAll('nav a')];
+const previous = document.querySelector('#previous');
+const next = document.querySelector('#next');
+const mobile = matchMedia('(max-width: 760px)');
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+let active = 0;
+let frame = 0;
+
+function update() {
+  frame = 0;
+  if (mobile.matches) {
+    const target = innerHeight * .35;
+    active = stations.reduce((best, station, index) =>
+      Math.abs(station.getBoundingClientRect().top - target) < Math.abs(stations[best].getBoundingClientRect().top - target) ? index : best, 0);
+  } else {
+    active = Math.max(0, Math.min(stations.length - 1, Math.round(route.scrollLeft / route.clientWidth)));
+  }
+  const progress = mobile.matches
+    ? scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight)
+    : route.scrollLeft / Math.max(1, route.scrollWidth - route.clientWidth);
+  document.documentElement.style.setProperty('--progress', Math.max(0, Math.min(1, progress)));
+  document.documentElement.style.setProperty('--star-x', reducedMotion.matches ? '0px' : `${-progress * 180}px`);
+  document.querySelector('#station-label').textContent = stations[active].querySelector('.eyebrow').textContent;
+  links.forEach((link, index) => index === active ? link.setAttribute('aria-current', 'location') : link.removeAttribute('aria-current'));
+  previous.disabled = active === 0;
+  next.disabled = active === stations.length - 1;
+}
+
+function onScroll() {
+  if (!frame) frame = requestAnimationFrame(update);
+}
+
+function visit(index) {
+  const station = stations[Math.max(0, Math.min(stations.length - 1, index))];
+  location.hash = station.id;
+}
+previous.addEventListener('click', () => visit(active - 1));
+next.addEventListener('click', () => visit(active + 1));
+document.querySelector('.route-buttons').hidden = false;
+route.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('resize', () => {
+  update();
+});
+mobile.addEventListener('change', update);
+reducedMotion.addEventListener('change', update);
+
+// Ship coordinates live in the horizontal world; the camera tracks its x.
+// Clicking the background chooses a world point, not a viewport-relative target.
+let flightFrame = 0;
+let lastTime = 0;
+let speed = 0;
+let path = null;
+let travelled = 0;
+let destination = null;
+let steeringPointer = null;
+let autopilot = false;
+let coasting = false;
+let pressTime = 0;
+let pressX = 0;
+let pressY = 0;
+let pressTarget = null;
+const maximumSpeed = 450;
+const coastDeceleration = maximumSpeed / 1.72;
+let pointerX = 0;
+let pointerY = 0;
+const position = { x: route.scrollLeft + innerWidth / 2, y: route.clientHeight / 2 };
+let heading = 0;
+const waypoint = document.querySelector('.flight-waypoint');
+document.body.classList.add('flight-ready');
+
+function bounds() {
+  const height = route.clientHeight;
+  const inset = Math.min(80, height / 4);
+  return { top: inset, bottom: height - inset };
+}
+
+function renderShip() {
+  if (mobile.matches) return;
+  const rect = route.getBoundingClientRect();
+  document.documentElement.style.setProperty('--ship-x', `${position.x - route.scrollLeft}px`);
+  document.documentElement.style.setProperty('--ship-y', `${rect.top + position.y}px`);
+  document.documentElement.style.setProperty('--ship-angle', `${heading}rad`);
+  if (destination) {
+    waypoint.style.left = `${destination.x - route.scrollLeft}px`;
+    waypoint.style.top = `${rect.top + destination.y}px`;
+  }
+}
+
+function stopFlight() {
+  releaseSteering();
+  cancelAnimationFrame(flightFrame);
+  flightFrame = 0;
+  lastTime = 0;
+  speed = 0;
+  autopilot = false;
+  coasting = false;
+  path = null;
+  destination = null;
+  waypoint.hidden = true;
+  document.body.classList.remove('engines-on');
+}
+
+function syncShipToCamera() {
+  stopFlight();
+  if (mobile.matches) return;
+  position.x = route.scrollLeft + innerWidth / 2;
+  const limit = bounds();
+  position.y = Math.max(limit.top, Math.min(limit.bottom, position.y));
+  renderShip();
+}
+
+function fly(time) {
+  const dt = lastTime ? Math.min((time - lastTime) / 1000, .05) : 0;
+  lastTime = time;
+  if (coasting) {
+    const distance = Math.max(0, speed * dt - .5 * coastDeceleration * dt * dt);
+    speed = Math.max(0, speed - coastDeceleration * dt);
+    const limit = bounds();
+    position.x = Math.max(70, Math.min(route.scrollWidth - 70, position.x + Math.cos(heading) * distance));
+    position.y = Math.max(limit.top, Math.min(limit.bottom, position.y + Math.sin(heading) * distance));
+    route.scrollLeft = Math.max(0, Math.min(route.scrollWidth - route.clientWidth, position.x - innerWidth / 2));
+    renderShip();
+    if (speed > 1) flightFrame = requestAnimationFrame(fly);
+    else stopFlight();
+    return;
+  }
+  if (steeringPointer !== null) {
+    // Recompute the world target as the camera moves, even with a stationary
+    // pointer. Holding to the right/left keeps flying through the world.
+    const rect = route.getBoundingClientRect();
+    let x = route.scrollLeft + Math.max(70, Math.min(innerWidth - 70, pointerX));
+    let y = pointerY - rect.top;
+    if (Math.hypot(x - position.x, y - position.y) < 32) {
+      x = position.x + 160 * Math.cos(heading);
+      y = position.y + 160 * Math.sin(heading);
+    }
+    navigateToPoint(x, y);
+  }
+  const remaining = path.length - travelled;
+  const turnSpeed = travelled < path.arcLength ? path.radius * 1.8 : maximumSpeed;
+  const desiredSpeed = steeringPointer !== null || autopilot ? Math.min(maximumSpeed, turnSpeed * 1.25) : 0;
+  speed += Math.max(-500 * dt, Math.min(500 * dt, desiredSpeed - speed));
+  travelled = Math.min(path.length, travelled + speed * dt);
+  const sample = sampleFlightPath(path, travelled);
+  position.x = sample.x;
+  position.y = sample.y;
+  // Keep the angle continuous across +/- pi; never mirror the sprite.
+  heading += Math.atan2(Math.sin(sample.heading - heading), Math.cos(sample.heading - heading));
+  const maximum = route.scrollWidth - route.clientWidth;
+  route.scrollLeft = Math.max(0, Math.min(maximum, position.x - innerWidth / 2));
+  renderShip();
+  if ((steeringPointer !== null || autopilot || speed > 1) && travelled < path.length) flightFrame = requestAnimationFrame(fly);
+  else stopFlight();
+}
+
+function navigateToPoint(x, y) {
+  const limit = bounds();
+  const target = {
+    x: Math.max(70, Math.min(route.scrollWidth - 70, x)),
+    y: Math.max(limit.top, Math.min(limit.bottom, y))
+  };
+  if (Math.hypot(target.x - position.x, target.y - position.y) < 4) return;
+  // Replace the course without restarting the animation or dropping momentum.
+  // The next frame starts on this curve with the existing speed and heading.
+  path = createFlightPath(position, target, heading, { top: 40, bottom: route.clientHeight - 40 });
+  travelled = 0;
+  destination = target;
+  waypoint.hidden = !autopilot;
+  document.body.classList.add('engines-on');
+  renderShip();
+  if (!flightFrame) {
+    lastTime = 0;
+    flightFrame = requestAnimationFrame(fly);
+  }
+}
+
+function finishPress(event) {
+  const click = performance.now() - pressTime < 250 && Math.hypot(event.clientX - pressX, event.clientY - pressY) < 8;
+  releaseSteering();
+  if (click) {
+    autopilot = true;
+    coasting = false;
+    navigateToPoint(pressTarget.x, pressTarget.y);
+  } else {
+    autopilot = false;
+    coasting = true;
+  }
+}
+
+function releaseSteering() {
+  const pointer = steeringPointer;
+  steeringPointer = null;
+  document.body.classList.remove('engines-on');
+  waypoint.hidden = true;
+  if (pointer !== null && route.hasPointerCapture(pointer)) route.releasePointerCapture(pointer);
+}
+route.addEventListener('pointerdown', event => {
+  if (mobile.matches || event.button !== 0 || !event.isPrimary || steeringPointer !== null) return;
+  // Begin steering only on space; text and controls keep their usual behavior.
+  if (event.target.closest('.station-card, a, button, summary, input, textarea, select, [contenteditable]')) return;
+  event.preventDefault();
+  autopilot = false;
+  coasting = false;
+  pressTime = performance.now();
+  pressX = event.clientX;
+  pressY = event.clientY;
+  pressTarget = { x: route.scrollLeft + event.clientX, y: event.clientY - route.getBoundingClientRect().top };
+  steeringPointer = event.pointerId;
+  pointerX = event.clientX;
+  pointerY = event.clientY;
+  route.setPointerCapture(event.pointerId);
+  const rect = route.getBoundingClientRect();
+  navigateToPoint(route.scrollLeft + pointerX, pointerY - rect.top);
+  // A press directly over the current position still starts the steering loop.
+  if (!flightFrame) {
+    navigateToPoint(position.x + 160 * Math.cos(heading), position.y + 160 * Math.sin(heading));
+  }
+});
+route.addEventListener('pointermove', event => {
+  if (event.pointerId !== steeringPointer) return;
+  if (!(event.buttons & 1)) { finishPress(event); return; }
+  pointerX = event.clientX;
+  pointerY = event.clientY;
+});
+window.addEventListener('pointerup', event => {
+  if (event.pointerId === steeringPointer) finishPress(event);
+});
+route.addEventListener('pointercancel', event => {
+  if (event.pointerId === steeringPointer) stopFlight();
+});
+route.addEventListener('lostpointercapture', event => {
+  if (event.pointerId === steeringPointer) { releaseSteering(); coasting = true; }
+});
+window.addEventListener('blur', stopFlight);
+document.addEventListener('visibilitychange', () => { if (document.hidden) stopFlight(); });
+document.querySelectorAll('a, .route-buttons button').forEach(link => link.addEventListener('click', stopFlight));
+window.addEventListener('hashchange', () => requestAnimationFrame(syncShipToCamera));
+window.addEventListener('resize', syncShipToCamera);
+mobile.addEventListener('change', syncShipToCamera);
+// Initial hash navigation can scroll after module initialization.
+window.addEventListener('load', syncShipToCamera);
+if (!mobile.matches) renderShip();
+
+const ship = document.querySelector('.ship');
+const transmission = document.querySelector('#transmission');
+ship.addEventListener('click', () => {
+  transmission.hidden = !transmission.hidden;
+  ship.setAttribute('aria-expanded', String(!transmission.hidden));
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') stopFlight();
+  if (event.key === 'Escape' && !transmission.hidden) {
+    transmission.hidden = true;
+    ship.setAttribute('aria-expanded', 'false');
+    ship.focus();
+  }
+});
+update();
+
+enableScrollEngines(() => !document.body.classList.contains('mobile-flight-experiment'));
