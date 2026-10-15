@@ -56,8 +56,8 @@ details p { margin: 14px 0 0; }
 .ship::before, .ship::after { content: ''; position: absolute; pointer-events: none; opacity: 0; transition: opacity .18s ease-out; }
 .ship::before { width: 42%; height: 25%; right: 90%; top: 50%; transform: translateY(-50%); transform-origin: right center; background: linear-gradient(90deg, #52a8e800, #59cfe4 48%, #aaf4dc 76%, #edfff2); clip-path: polygon(0 33%, 22% 33%, 22% 16%, 60% 16%, 60% 0, 100% 0, 100% 100%, 60% 100%, 60% 84%, 22% 84%, 22% 67%, 0 67%); }
 .ship::after { left: 3%; top: 50%; width: 18%; height: 34%; transform: translate(-50%, -50%); background: #79ece6; border-radius: 50%; filter: blur(7px); }
-.engines-on .ship::before, .scroll-engines-on .ship::before { opacity: 1; animation: pixel-thrust .24s steps(2, end) infinite; }
-.engines-on .ship::after, .scroll-engines-on .ship::after { opacity: .65; }
+.engines-on .ship::before, .scroll-engines-on .ship::before { opacity: var(--flight-thrust, 1); animation: pixel-thrust .24s steps(2, end) infinite; }
+.engines-on .ship::after, .scroll-engines-on .ship::after { opacity: calc(var(--flight-thrust, 1) * .65); }
 .scroll-engines-on:not(.engines-on) .ship::before { opacity: var(--scroll-thrust, 1); transition-duration: .08s; }
 .scroll-engines-on:not(.engines-on) .ship::after { opacity: calc(var(--scroll-thrust, 1) * .65); }
 @keyframes pixel-thrust { 0%, 100% { transform: translateY(-50%) scaleX(.8); } 50% { transform: translateY(-50%) scaleX(1.12); } }
@@ -150,9 +150,21 @@ button:disabled { opacity: .3; cursor: default; }
   .route { position: fixed; inset: 0; z-index: 0; align-items: stretch; height: 100svh; min-height: 0; overflow-y: hidden; column-gap: 100vw; }
   .station { height: 100%; min-height: 0; grid-template-rows: minmax(0, 1fr); align-items: safe center; padding-block: 0; overflow: hidden; scrollbar-color: #335165 transparent; }
   .station.case-study { align-items: start; }
-  .station-card, .case-visuals, .contact-crew { min-width: 0; min-height: 0; max-height: 100%; padding-top: calc(var(--flight-header-height, 56px) + 24px); padding-bottom: calc(var(--flight-footer-height, 60px) + 24px); overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: thin; scrollbar-gutter: stable; scroll-padding-top: calc(var(--flight-header-height, 56px) + 24px); scroll-padding-bottom: calc(var(--flight-footer-height, 60px) + 24px); }
+  .station-card, .case-visuals, .contact-crew { min-width: 0; min-height: 0; max-height: 100%; padding-top: calc(var(--flight-header-height, 56px) + 40px); padding-bottom: calc(var(--flight-footer-height, 60px) + 24px); overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: thin; scrollbar-gutter: stable; scroll-padding-top: calc(var(--flight-header-height, 56px) + 40px); scroll-padding-bottom: calc(var(--flight-footer-height, 60px) + 24px); }
   .case-study > .station-card, .case-study > .case-visuals, .contact-station > .station-card, .contact-station > .contact-crew { height: 100%; }
   .flight-controls { position: fixed; inset: auto 0 0; z-index: 5; }
+  @supports selector(::-webkit-scrollbar) {
+    .station-card, .case-visuals, .contact-crew { scrollbar-width: auto; scrollbar-color: auto; }
+    .station-card::-webkit-scrollbar, .case-visuals::-webkit-scrollbar, .contact-crew::-webkit-scrollbar { width: 8px; }
+    .station-card::-webkit-scrollbar-track, .case-visuals::-webkit-scrollbar-track, .contact-crew::-webkit-scrollbar-track {
+      margin-top: calc(var(--flight-header-height, 56px) + 16px);
+      margin-bottom: calc(var(--flight-footer-height, 60px) + 16px);
+    }
+    .station-card::-webkit-scrollbar-thumb, .case-visuals::-webkit-scrollbar-thumb, .contact-crew::-webkit-scrollbar-thumb {
+      background: #335165; border: 1px solid transparent; background-clip: padding-box; border-radius: 8px;
+    }
+    .station-card::-webkit-scrollbar-thumb:hover, .case-visuals::-webkit-scrollbar-thumb:hover, .contact-crew::-webkit-scrollbar-thumb:hover { background-color: #527b90; }
+  }
 }
 
 .demo-artwork-link { display: block; text-decoration: none; cursor: pointer; }
@@ -245,13 +257,13 @@ body.steering .route { -webkit-user-select: none; user-select: none; }
 .ship[data-design="smuggler"] { isolation: isolate; }
 .ship[data-design="smuggler"] picture { position: relative; z-index: 1; }
 .ship[data-design="smuggler"]::before {
-  right: 78%; top: 50%; width: 26%; height: 66%;
+  right: 80%; top: 50%; width: 30%; height: 66%;
   background: linear-gradient(90deg, #428bdd00, #479fee 28%, #91dcff 65%, #e7fcff);
   clip-path: polygon(100% 0, 75% 22%, 62% 50%, 75% 78%, 100% 100%, 40% 90%, 8% 70%, 0 50%, 8% 30%, 40% 10%);
   animation-timing-function: ease-in-out;
 }
 .ship[data-design="smuggler"]::after {
-  left: 13%; top: 50%; width: 24%; height: 58%;
+  left: 6%; top: 50%; width: 18%; height: 58%;
   background: #83d5ff; filter: blur(5px);
 }
 
@@ -270,16 +282,18 @@ body.steering .route { -webkit-user-select: none; user-select: none; }
 }
 .serenity-wing-jet { display: none; pointer-events: none; }
 .ship[data-design="serenity"] .serenity-wing-jet {
-  display: block; position: absolute; right: 49%; width: 21%; height: 9%;
+  display: block; position: absolute; right: 50%; width: 21%; height: 9%;
   opacity: 0; transform: translateY(-50%); transform-origin: right center;
   background: linear-gradient(90deg, #ffb51b00, #efb12e 35%, #ffe781 75%, #fffbd8);
   clip-path: polygon(0 50%, 35% 16%, 100% 8%, 100% 92%, 35% 84%);
   transition: opacity .18s ease-out;
 }
-.serenity-wing-jet-upper { top: 12%; }
-.serenity-wing-jet-lower { top: 88%; }
+/* Match the individual nozzle centers in the 185 × 100 image, including
+   their slight asymmetry when the ship rotates for vertical mobile flight. */
+.serenity-wing-jet-upper { top: 11%; }
+.serenity-wing-jet-lower { top: 91%; }
 .engines-on .ship .serenity-wing-jet, .scroll-engines-on .ship .serenity-wing-jet {
-  opacity: 1; animation: pixel-thrust .24s ease-in-out infinite;
+  opacity: var(--flight-thrust, 1); animation: pixel-thrust .24s ease-in-out infinite;
 }
 .scroll-engines-on:not(.engines-on) .ship .serenity-wing-jet { opacity: var(--scroll-thrust, 1); transition-duration: .08s; }
 @media (prefers-reduced-motion: reduce) {
@@ -290,17 +304,38 @@ body.steering .route { -webkit-user-select: none; user-select: none; }
 .enterprise-nacelle-jet { display: none; pointer-events: none; }
 .ship[data-design="enterprise"]::before, .ship[data-design="enterprise"]::after { display: none; }
 .ship[data-design="enterprise"] .enterprise-nacelle-jet {
-  display: block; position: absolute; right: 94%; width: 20%; height: 8%;
+  display: block; position: absolute; right: 98.7%; width: 14%; height: 5%;
   opacity: 0; transform: translateY(-50%); transform-origin: right center;
   background: linear-gradient(90deg, #9275ed00, #ac8aff 40%, #dfcaff 75%, #faf0ff);
   border-radius: 100% 15% 15% 100%; transition: opacity .18s ease-out;
 }
-.enterprise-nacelle-jet-upper { top: 14.6%; }
-.enterprise-nacelle-jet-lower { top: 85.4%; }
+.enterprise-nacelle-jet-upper { top: 17.6%; }
+.enterprise-nacelle-jet-lower { top: 82.4%; }
 .engines-on .ship .enterprise-nacelle-jet, .scroll-engines-on .ship .enterprise-nacelle-jet {
-  opacity: 1; animation: pixel-thrust .24s ease-in-out infinite;
+  opacity: var(--flight-thrust, 1); animation: pixel-thrust .24s ease-in-out infinite;
 }
 .scroll-engines-on:not(.engines-on) .ship .enterprise-nacelle-jet { opacity: var(--scroll-thrust, 1); }
 @media (prefers-reduced-motion: reduce) {
   .engines-on .ship .enterprise-nacelle-jet, .scroll-engines-on .ship .enterprise-nacelle-jet { animation: none; }
+}
+
+/* Eagle 5 keeps Explorer's pink signature, emitted from its two wing pods. */
+.winnebago-wing-jet { display: none; pointer-events: none; }
+.ship[data-design="winnebago"] { isolation: isolate; }
+.ship[data-design="winnebago"] picture { position: relative; z-index: 1; }
+.ship[data-design="winnebago"]::before, .ship[data-design="winnebago"]::after { display: none; }
+.ship[data-design="winnebago"] .winnebago-wing-jet {
+  display: block; position: absolute; right: 69.8%; width: 20%; height: 6%;
+  opacity: 0; transform: translateY(-50%); transform-origin: right center;
+  background: linear-gradient(90deg, #ed58bb00, #e86fcf 40%, #ffb1e8 76%, #fff0fa);
+  border-radius: 100% 12% 12% 100%; transition: opacity .18s ease-out;
+}
+.winnebago-wing-jet-upper { top: 27.5%; }
+.winnebago-wing-jet-lower { top: 72%; }
+.engines-on .ship .winnebago-wing-jet, .scroll-engines-on .ship .winnebago-wing-jet {
+  opacity: var(--flight-thrust, 1); animation: pixel-thrust .24s ease-in-out infinite;
+}
+.scroll-engines-on:not(.engines-on) .ship .winnebago-wing-jet { opacity: var(--scroll-thrust, 1); }
+@media (prefers-reduced-motion: reduce) {
+  .engines-on .ship .winnebago-wing-jet, .scroll-engines-on .ship .winnebago-wing-jet { animation: none; }
 }

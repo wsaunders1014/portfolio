@@ -95,21 +95,28 @@ no company APIs, authentication, experiment services, or external video hosts.
 
 ## Desktop flight and reading
 
-Desktop uses the detailed `desktop-ship.svg`; mobile uses `enterprise-ship.svg`.
+Serenity is the default on desktop and mobile. The original Explorer artwork is preserved in `backup/ships/desktop-ship.svg`.
 Click or hold over content and background to fly, with links, buttons, forms, media
 controls and details summaries reserved for their usual interactions. Desktop menu
-and route-button trips use a 2,100 px/s cruise limit versus 450 px/s for manual
+and route-button trips use a 2,100 px/s cruise limit versus 675 px/s for manual
 flight, with acceleration and arrival braking. Desktop warp trails stay horizontal and begin only after the ship finishes its
 turn and moves toward the selected station.
-On desktop, each station scrolls its full content vertically as one area, while
-the browser viewport, navigation, ship and controls stay fixed. Text and image
-columns do not have separate scroll panels. Mobile keeps normal page scrolling.
+On desktop, text and gallery columns scroll independently while the browser
+viewport, navigation, ship and controls stay fixed. Left/right arrow keys activate
+the footer navigation. Mobile keeps native page scrolling, with flight arrows
+for section trips and held cruising.
 
 ## Ship choices
 
-The Ship button in the footer opens a chooser: Explorer (the detailed default),
-Serenity (the original Firefly artwork), Smuggler (an original Falcon-inspired
-freighter SVG), and Enterprise. `src/js/ship-picker.js` manages the selection and saves
-it in localStorage on this browser. Use device default restores Explorer on desktop
-and Enterprise on mobile. Previous Pixel selections migrate to Enterprise. Every design uses the same flight controls and existing ship
-transmission interaction. Ship assets are under `src/img/`.
+The Ship button in the footer opens a chooser: Eagle 5 (the space Winnebago),
+Serenity (the default), Millennium Falcon, and Enterprise. `src/js/ship-picker.js`
+saves explicit choices in localStorage. Reset to Serenity clears that preference.
+Saved Explorer selections now choose Eagle 5; old Pixel selections choose Enterprise.
+Every design shares the flight controls and ship transmission. Ship assets are under `src/img/`.
+
+## Production release
+
+See [the launch checklist](docs/production-launch.md) before replacing the live site.
+`npm run build` prepares `dist/` with production settings from `config/production/`.
+Production permits indexing; `/new/` remains excluded. Development and staging
+keep the noindex headers and robots rules in `src/`. Building never uploads files.
