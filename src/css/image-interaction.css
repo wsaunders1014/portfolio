@@ -1,0 +1,7 @@
+/* Artwork remains clickable, without native image selection or dragging. */
+img, picture, svg {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}

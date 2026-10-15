@@ -1,0 +1,3 @@
+<FilesMatch "\.(ts|tsx)$">
+  ForceType text/plain
+</FilesMatch>

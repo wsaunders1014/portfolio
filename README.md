@@ -71,3 +71,45 @@ Deployment uses `23.21.42.189:22`, user `bitnami`, and the existing key at
 `~/Downloads/LightsailDefaultKey-us-east-1.pem`. No private key is copied into the
 site or repository. The deployment target is fixed to
 `/opt/bitnami/apache2/htdocs/new`; symlinks escaping that target are rejected.
+
+## React / TypeScript component lab
+
+`src/lab/` contains two standalone portfolio recreations: conditional content and
+coordinated carousel/video. Links from the BODi section open the appropriate demo.
+The original sibling repositories are never modified by the demo builds.
+
+- React/TypeScript implementation: `src/lab/source/`.
+- Preserved original excerpts: `src/lab/source/original-snippets.ts`.
+- Complete local reference snapshots and integrity manifest:
+  `reference/bodi-components/` (outside src, excluded from builds and deployment).
+- Original procedural media: `src/lab/media/`. Regenerate the small silent clips
+  with `node scripts/generate-lab-media.cjs` if needed.
+- `npm run check:lab` checks strict TypeScript.
+- `npm run test:lab` checks rule edge cases and original-code preservation.
+
+Both webpack and `build:staging` compile the lab with esbuild. Its React bundle
+is generated into the build output, rather than committing a generated app.js.
+Only the selected, labeled source excerpts are public; the full reference
+snapshots are not part of the served site. The examples use fictional data and
+no company APIs, authentication, experiment services, or external video hosts.
+
+## Desktop flight and reading
+
+Desktop uses the detailed `desktop-ship.svg`; mobile uses `enterprise-ship.svg`.
+Click or hold over content and background to fly, with links, buttons, forms, media
+controls and details summaries reserved for their usual interactions. Desktop menu
+and route-button trips use a 2,100 px/s cruise limit versus 450 px/s for manual
+flight, with acceleration and arrival braking. Desktop warp trails stay horizontal and begin only after the ship finishes its
+turn and moves toward the selected station.
+On desktop, each station scrolls its full content vertically as one area, while
+the browser viewport, navigation, ship and controls stay fixed. Text and image
+columns do not have separate scroll panels. Mobile keeps normal page scrolling.
+
+## Ship choices
+
+The Ship button in the footer opens a chooser: Explorer (the detailed default),
+Serenity (the original Firefly artwork), Smuggler (an original Falcon-inspired
+freighter SVG), and Enterprise. `src/js/ship-picker.js` manages the selection and saves
+it in localStorage on this browser. Use device default restores Explorer on desktop
+and Enterprise on mobile. Previous Pixel selections migrate to Enterprise. Every design uses the same flight controls and existing ship
+transmission interaction. Ship assets are under `src/img/`.

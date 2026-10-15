@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="144" viewBox="0 0 240 144">
+  <defs>
+    <radialGradient id="saucer" cx="62%" cy="40%"><stop stop-color="#edf0e7"/><stop offset=".72" stop-color="#bfc8c7"/><stop offset="1" stop-color="#758991"/></radialGradient>
+    <linearGradient id="hull" x2="0" y2="1"><stop stop-color="#dce2db"/><stop offset=".48" stop-color="#a9b8bb"/><stop offset="1" stop-color="#637d8a"/></linearGradient>
+    <linearGradient id="collector"><stop stop-color="#9d3c36"/><stop offset=".6" stop-color="#f88d60"/><stop offset="1" stop-color="#ffcf8a"/></linearGradient>
+  </defs>
+  <!-- Constitution-class silhouette: forward saucer, secondary hull, paired aft nacelles. -->
+  <g stroke="#3b5363" stroke-width="1.6" stroke-linejoin="round">
+    <path fill="#7e969e" d="m111 62-39-36-13-1 24 40Z M111 82l-39 36-13 1 24-40Z"/>
+    <path fill="#b9c6c5" d="m113 64-35-34h-9l23 34Z M113 80l-35 34h-9L92 80Z"/>
+    <path fill="url(#hull)" d="M48 58h79l28 8v12l-28 8H48L30 78V66Z"/>
+    <path fill="#d4ded9" d="m75 62 77 4v12l-77 4 12-10Z"/>
+    <path fill="#566e7c" d="M34 66h27v12H34Z"/>
+    <path fill="#b5c2c0" d="M119 60h50v24h-50l14-12Z"/>
+    <rect x="12" y="12" width="119" height="18" rx="8" fill="url(#hull)"/>
+    <rect x="12" y="114" width="119" height="18" rx="8" fill="url(#hull)"/>
+    <path fill="url(#collector)" d="M119 12h5a9 9 0 0 1 0 18h-5Z M119 114h5a9 9 0 0 1 0 18h-5Z"/>
+    <ellipse cx="175" cy="72" rx="54" ry="57" fill="url(#saucer)"/>
+  </g>
+  <g fill="none" stroke="#80969d" stroke-width=".8">
+    <ellipse cx="175" cy="72" rx="49" ry="52"/><ellipse cx="175" cy="72" rx="39" ry="42"/>
+    <ellipse cx="175" cy="72" rx="24" ry="26"/>
+    <path d="M175 16v30 M175 98v30 M122 72h29 M199 72h29 M138 32l21 22 M138 112l21-22 M211 32l-20 22 M211 112l-20-22 M126 50l27 12 M126 94l27-12 M222 50l-26 12 M222 94l-26-12"/>
+    <path d="M28 17h82 M28 25h82 M28 119h82 M28 127h82 M43 14v14 M94 14v14 M43 116v14 M94 116v14"/>
+  </g>
+  <g fill="#a5d9ed"><path d="M29 18h77v3H29Z M29 123h77v3H29Z"/></g>
+  <g fill="#56477f"><path d="M11 16h5v10h-5Z M11 118h5v10h-5Z"/></g>
+  <g stroke="#667e88" stroke-width="1.3"><ellipse cx="175" cy="72" rx="15" ry="17" fill="#c8d6d3"/><ellipse cx="177" cy="72" rx="9" ry="10" fill="#e8eee3"/><ellipse cx="179" cy="72" rx="4" ry="5" fill="#91b8c2"/></g>
+  <g fill="#3e5967"><path d="M151 29h5v3h-5Z M151 112h5v3h-5Z M212 58h5v3h-5Z M212 83h5v3h-5Z M132 65h3v14h-3Z"/></g>
+  <g fill="#344b5d" font-family="Arial,sans-serif" text-anchor="middle" letter-spacing="1">
+    <text x="175" y="42" font-size="5.5" transform="rotate(90 175 42)">NCC-1701</text>
+    <text x="175" y="107" font-size="4" transform="rotate(90 175 107)">USS ENTERPRISE</text>
+  </g>
+  <path d="M162 23h9 M162 121h9" stroke="#a96860" stroke-width="2"/>
+  <circle cx="176" cy="17" r="1.7" fill="#ef9b8f"/><circle cx="176" cy="127" r="1.7" fill="#a9e6c2"/>
+</svg>

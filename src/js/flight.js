@@ -1,5 +1,19 @@
+import { beginMenuFlight, endMenuFlight, menuFlightActive, menuFlightDirection, updateMenuFlightDeparture, updateMenuFlightApproach } from './menu-flight.js';
 import { enableScrollEngines } from './mobile-scroll.js';
 import { createFlightPath, sampleFlightPath } from './flight-path.js';
+
+// Consume the release-click from a flight gesture before any content/menu handler.
+let suppressClickUntil = 0;
+document.addEventListener('click', event => {
+  if (event.detail !== 0 && performance.now() < suppressClickUntil) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+}, true);
+document.addEventListener('pointerdown', event => {
+  if (event.button === 0) suppressClickUntil = 0;
+}, true);
+document.addEventListener('contextmenu', event => event.preventDefault());
 
 const route = document.querySelector('.route');
 const stations = [...route.querySelectorAll('.station')];
@@ -8,6 +22,17 @@ const previous = document.querySelector('#previous');
 const next = document.querySelector('#next');
 const mobile = matchMedia('(max-width: 760px)');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+// Scrollport padding follows the overlaid controls, including a wrapped nav.
+const header = document.querySelector('.flight-header');
+const footer = document.querySelector('.flight-controls');
+function updateControlInsets() {
+  document.documentElement.style.setProperty('--flight-header-height', `${header.getBoundingClientRect().height}px`);
+  document.documentElement.style.setProperty('--flight-footer-height', `${footer.getBoundingClientRect().height}px`);
+}
+const controlObserver = new ResizeObserver(updateControlInsets);
+controlObserver.observe(header);
+controlObserver.observe(footer);
+updateControlInsets();
 let active = 0;
 let frame = 0;
 
@@ -18,7 +43,8 @@ function update() {
     active = stations.reduce((best, station, index) =>
       Math.abs(station.getBoundingClientRect().top - target) < Math.abs(stations[best].getBoundingClientRect().top - target) ? index : best, 0);
   } else {
-    active = Math.max(0, Math.min(stations.length - 1, Math.round(route.scrollLeft / route.clientWidth)));
+    active = stations.reduce((best, station, index) =>
+      Math.abs(station.offsetLeft - route.scrollLeft) < Math.abs(stations[best].offsetLeft - route.scrollLeft) ? index : best, 0);
   }
   const progress = mobile.matches
     ? scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight)
@@ -29,6 +55,7 @@ function update() {
   links.forEach((link, index) => index === active ? link.setAttribute('aria-current', 'location') : link.removeAttribute('aria-current'));
   previous.disabled = active === 0;
   next.disabled = active === stations.length - 1;
+
 }
 
 function onScroll() {
@@ -37,7 +64,8 @@ function onScroll() {
 
 function visit(index) {
   const station = stations[Math.max(0, Math.min(stations.length - 1, index))];
-  location.hash = station.id;
+  if (!mobile.matches && !reducedMotion.matches) flyToStation(station);
+  else location.hash = station.id;
 }
 previous.addEventListener('click', () => visit(active - 1));
 next.addEventListener('click', () => visit(active + 1));
@@ -65,7 +93,13 @@ let pressTime = 0;
 let pressX = 0;
 let pressY = 0;
 let pressTarget = null;
-const maximumSpeed = 450;
+let pendingControlPress = null;
+let controlHoldTimer = 0;
+function clearControlPress() {
+  clearTimeout(controlHoldTimer);
+  pendingControlPress = null;
+}
+const maximumSpeed = 675;
 const coastDeceleration = maximumSpeed / 1.72;
 let pointerX = 0;
 let pointerY = 0;
@@ -93,6 +127,8 @@ function renderShip() {
 }
 
 function stopFlight() {
+  clearControlPress();
+  endMenuFlight();
   releaseSteering();
   cancelAnimationFrame(flightFrame);
   flightFrame = 0;
@@ -134,18 +170,31 @@ function fly(time) {
     // Recompute the world target as the camera moves, even with a stationary
     // pointer. Holding to the right/left keeps flying through the world.
     const rect = route.getBoundingClientRect();
+    const limit = bounds();
     let x = route.scrollLeft + Math.max(70, Math.min(innerWidth - 70, pointerX));
-    let y = pointerY - rect.top;
+    let y = Math.max(limit.top, Math.min(limit.bottom, pointerY - rect.top));
     if (Math.hypot(x - position.x, y - position.y) < 32) {
       x = position.x + 160 * Math.cos(heading);
-      y = position.y + 160 * Math.sin(heading);
+      y = Math.max(limit.top, Math.min(limit.bottom, position.y + 160 * Math.sin(heading)));
+      // At a vertical edge, curve along it instead of aiming outside the world.
+      if (Math.hypot(x - position.x, y - position.y) < 32) {
+        x = position.x + 160 * (Math.cos(heading) < 0 ? -1 : 1);
+      }
     }
     navigateToPoint(x, y);
   }
   const remaining = path.length - travelled;
-  const turnSpeed = travelled < path.arcLength ? path.radius * 1.8 : maximumSpeed;
-  const desiredSpeed = steeringPointer !== null || autopilot ? Math.min(maximumSpeed, turnSpeed * 1.25) : 0;
-  speed += Math.max(-500 * dt, Math.min(500 * dt, desiredSpeed - speed));
+  const acceleration = menuFlightActive ? 2400 : 750;
+  const cruiseSpeed = menuFlightActive ? 2100 : maximumSpeed;
+  updateMenuFlightDeparture(travelled < path.arcLength, Math.cos(heading) * speed * menuFlightDirection);
+  updateMenuFlightApproach(remaining, speed, acceleration, route.clientWidth);
+  // Tiny course corrections during held steering should not reapply the
+  // turnaround speed limit on every frame.
+  const turning = travelled < path.arcLength && path.sweep > .12;
+  const turnSpeed = turning ? path.radius * (menuFlightActive ? 3.2 : 1.8) : cruiseSpeed;
+  const arrivalSpeed = menuFlightActive ? Math.sqrt(2 * acceleration * remaining) : cruiseSpeed;
+  const desiredSpeed = steeringPointer !== null || autopilot ? Math.min(cruiseSpeed, turnSpeed * 1.25, arrivalSpeed) : 0;
+  speed += Math.max(-acceleration * dt, Math.min(acceleration * dt, desiredSpeed - speed));
   travelled = Math.min(path.length, travelled + speed * dt);
   const sample = sampleFlightPath(path, travelled);
   position.x = sample.x;
@@ -155,7 +204,9 @@ function fly(time) {
   const maximum = route.scrollWidth - route.clientWidth;
   route.scrollLeft = Math.max(0, Math.min(maximum, position.x - innerWidth / 2));
   renderShip();
-  if ((steeringPointer !== null || autopilot || speed > 1) && travelled < path.length) flightFrame = requestAnimationFrame(fly);
+  // A held press owns the animation loop, even when this frame reaches its
+  // temporary waypoint. The next frame replans using the moving camera.
+  if (steeringPointer !== null || ((autopilot || speed > 1) && travelled < path.length)) flightFrame = requestAnimationFrame(fly);
   else stopFlight();
 }
 
@@ -181,6 +232,7 @@ function navigateToPoint(x, y) {
 }
 
 function finishPress(event) {
+  suppressClickUntil = performance.now() + 600;
   const click = performance.now() - pressTime < 250 && Math.hypot(event.clientX - pressX, event.clientY - pressY) < 8;
   releaseSteering();
   if (click) {
@@ -196,18 +248,17 @@ function finishPress(event) {
 function releaseSteering() {
   const pointer = steeringPointer;
   steeringPointer = null;
-  document.body.classList.remove('engines-on');
+  document.body.classList.remove('engines-on', 'steering');
   waypoint.hidden = true;
   if (pointer !== null && route.hasPointerCapture(pointer)) route.releasePointerCapture(pointer);
 }
-route.addEventListener('pointerdown', event => {
-  if (mobile.matches || event.button !== 0 || !event.isPrimary || steeringPointer !== null) return;
-  // Begin steering only on space; text and controls keep their usual behavior.
-  if (event.target.closest('.station-card, a, button, summary, input, textarea, select, [contenteditable]')) return;
-  event.preventDefault();
+function beginSteering(event) {
+  clearControlPress();
+  document.body.classList.add('steering');
+  endMenuFlight();
   autopilot = false;
   coasting = false;
-  pressTime = performance.now();
+  pressTime = event.timeStamp;
   pressX = event.clientX;
   pressY = event.clientY;
   pressTarget = { x: route.scrollLeft + event.clientX, y: event.clientY - route.getBoundingClientRect().top };
@@ -221,25 +272,65 @@ route.addEventListener('pointerdown', event => {
   if (!flightFrame) {
     navigateToPoint(position.x + 160 * Math.cos(heading), position.y + 160 * Math.sin(heading));
   }
+}
+route.addEventListener('pointerdown', event => {
+  if (mobile.matches || event.button !== 0 || !event.isPrimary || steeringPointer !== null) return;
+  // Native scrollbar presses belong to the scrollport, never the ship.
+  const scrollport = event.target.closest('.station-card, .case-visuals, .contact-crew');
+  if (scrollport) {
+    const rect = scrollport.getBoundingClientRect();
+    const left = rect.left + scrollport.clientLeft;
+    const top = rect.top + scrollport.clientTop;
+    if (event.clientX < left || event.clientX >= left + scrollport.clientWidth ||
+        event.clientY < top || event.clientY >= top + scrollport.clientHeight) return;
+  }
+  // Editing and native media controls never become flight gestures.
+  if (event.target.closest('input, textarea, select, video, audio, iframe, [contenteditable]')) return;
+  if (event.target.closest('a, button, summary, [role=button], [role=link]')) {
+    pendingControlPress = event;
+    controlHoldTimer = setTimeout(() => {
+      if (pendingControlPress) beginSteering(pendingControlPress);
+    }, 250);
+    return;
+  }
+  event.preventDefault();
+  beginSteering(event);
 });
-route.addEventListener('pointermove', event => {
+window.addEventListener('pointermove', event => {
+  const press = pendingControlPress;
+  if (!press || press.pointerId !== event.pointerId) return;
+  if (!(event.buttons & 1)) { clearControlPress(); return; }
+  if (Math.hypot(event.clientX - press.clientX, event.clientY - press.clientY) >= 8) beginSteering(press);
+}, true);
+route.addEventListener('dragstart', event => {
+  if (pendingControlPress || steeringPointer !== null) event.preventDefault();
+});
+window.addEventListener('pointermove', event => {
   if (event.pointerId !== steeringPointer) return;
   if (!(event.buttons & 1)) { finishPress(event); return; }
   pointerX = event.clientX;
   pointerY = event.clientY;
 });
 window.addEventListener('pointerup', event => {
+  if (pendingControlPress?.pointerId === event.pointerId) clearControlPress();
   if (event.pointerId === steeringPointer) finishPress(event);
 });
 route.addEventListener('pointercancel', event => {
+  clearControlPress();
+  if (event.pointerId === steeringPointer) suppressClickUntil = performance.now() + 600;
   if (event.pointerId === steeringPointer) stopFlight();
 });
 route.addEventListener('lostpointercapture', event => {
-  if (event.pointerId === steeringPointer) { releaseSteering(); coasting = true; }
+  if (event.pointerId !== steeringPointer) return;
+  if (event.buttons & 1) {
+    // Capture can be lost while crossing browser/native UI boundaries. A held
+    // button still means steer; window pointermove also keeps the target fresh.
+    try { route.setPointerCapture(event.pointerId); } catch { /* Window events remain available. */ }
+  } else finishPress(event);
 });
 window.addEventListener('blur', stopFlight);
 document.addEventListener('visibilitychange', () => { if (document.hidden) stopFlight(); });
-document.querySelectorAll('a, .route-buttons button').forEach(link => link.addEventListener('click', stopFlight));
+document.querySelectorAll('a').forEach(link => link.addEventListener('click', stopFlight));
 window.addEventListener('hashchange', () => requestAnimationFrame(syncShipToCamera));
 window.addEventListener('resize', syncShipToCamera);
 mobile.addEventListener('change', syncShipToCamera);
@@ -264,3 +355,25 @@ document.addEventListener('keydown', event => {
 update();
 
 enableScrollEngines(() => !document.body.classList.contains('mobile-flight-experiment'));
+
+// Menu travel uses a faster cruise/acceleration while preserving curved turns.
+function flyToStation(station) {
+  const x = station.offsetLeft + route.clientWidth / 2;
+  const y = route.clientHeight / 2;
+  if (Math.hypot(x - position.x, y - position.y) < 4) return;
+  stopFlight();
+  autopilot = true;
+  beginMenuFlight(x - position.x, route.clientWidth, { force: true, waitForTurn: true });
+  // Aim the curved approach at the station center, so vertical drift settles
+  // naturally during arrival rather than snapping after the flight ends.
+  navigateToPoint(x, y);
+}
+document.addEventListener('click', event => {
+  if (mobile.matches || reducedMotion.matches) return;
+  const link = event.target.closest('a[href^="#"]');
+  const station = link && stations.find(station => `#${station.id}` === link.getAttribute('href'));
+  if (!station) return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  flyToStation(station);
+}, true);

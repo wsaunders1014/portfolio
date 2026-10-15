@@ -1,0 +1,20 @@
+[
+  {
+    "repository_file": "/Users/willsaunders/webdev/commerce-web/src/components/ConditionalBox/SKUinCartConditionalContent.tsx",
+    "snapshot": "SKUinCartConditionalContent.tsx",
+    "sha256": "60651c0d6360881cf7cc762244a649afbb2964d3f15c12607c48e690ed2d1ec6",
+    "public_excerpt_lines": [
+      45,
+      74
+    ]
+  },
+  {
+    "repository_file": "/Users/willsaunders/webdev/harmony/src/field/carousel/component/carousel-basic-slider.tsx",
+    "snapshot": "carousel-basic-slider.tsx",
+    "sha256": "b82d305511b60a14e70f6d49b9e7ea5e8ea29eb29d90a206fcec4fbc66bc1d51",
+    "public_excerpt_lines": [
+      64,
+      84
+    ]
+  }
+]
