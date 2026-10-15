@@ -16,6 +16,7 @@ const mobile = matchMedia('(max-width: 760px)');
 const hyperspeed = new URLSearchParams(location.search).get('hyperspeed') !== '0';
 const route = document.querySelector('.route');
 const palette = ['#f4f3e9', '#fff7dc', '#e2e5e8', '#fff0bc'];
+const warpWhite = [235, 248, 255];
 const glowCache = new Map();
 function starGlow(star) {
   const key = `${star.color}:${star.size}`;
@@ -81,12 +82,14 @@ function resize() {
     // stars are rare here; pixel size does not represent a physical star radius.
     const blue = index % 47 === 13;
     const red = !blue && index % 13 === 5;
+    const color = blue ? '#b9d5ff' : red ? '#edb09b' : palette[index % palette.length];
     return {
       x: Math.random() * width,
       y: Math.random() * height,
       depth: [0, .035, .09, .19][index % 4],
       size: blue ? (index % 2 ? 5 : 4) : index % 19 === 0 ? 3 : index % 5 === 0 ? 2 : 1,
-      color: blue ? '#b9d5ff' : red ? '#edb09b' : palette[index % palette.length],
+      color,
+      channels: color.match(/[a-f\d]{2}/gi).map(channel => parseInt(channel, 16)),
       opacity: blue ? .8 : .25 + Math.random() * .6
     };
   });
@@ -118,6 +121,9 @@ function paint(dt) {
   const warpResponse = desiredWarp > warp ? 1.8 : 8;
   warp = moving ? warp + (desiredWarp - warp) * (1 - Math.exp(-dt * warpResponse)) : 0;
   const stretch = warp < .003 ? 0 : warp;
+  // Ease each trail from its star's original hue to blue-white and back with
+  // the existing warp envelope, preserving color continuity when retargeted.
+  const blueShift = stretch * stretch * (3 - 2 * stretch);
   const diagonal = Math.hypot(width, height);
   // Extra travel during warp lets each star approach, pass, and recede.
   passage.x += velocity.x * stretch * dt;
@@ -145,16 +151,21 @@ function paint(dt) {
     if (length > 1 && speed > 0) {
       const dx = direction.x * length;
       const dy = direction.y * length;
-      context.strokeStyle = '#f5f8ff';
+      context.strokeStyle = `rgb(${star.channels.map((channel, index) =>
+        Math.round(channel + (warpWhite[index] - channel) * blueShift)).join(', ')})`;
       context.lineCap = mobile.matches ? 'butt' : 'round';
       context.beginPath();
       context.moveTo(x - dx, y - dy);
       context.lineTo(x + dx, y + dy);
-      // A wide faint halo and bright pixel-width core make a continuous tunnel.
-      context.globalAlpha = star.opacity * stretch * .16 * visibility;
+      // Layer a broad soft bloom and a tighter halo beneath the bright core.
+      // Nested strokes avoid an expensive blur filter on every moving trail.
+      context.globalAlpha = star.opacity * stretch * .07 * visibility;
+      context.lineWidth = star.size + 14 * stretch;
+      context.stroke();
+      context.globalAlpha = star.opacity * stretch * .22 * visibility;
       context.lineWidth = star.size + 6 * stretch;
       context.stroke();
-      context.globalAlpha = (star.opacity + (1 - star.opacity) * stretch * .8) * visibility;
+      context.globalAlpha = (star.opacity + (1 - star.opacity) * stretch * .95) * visibility;
       context.lineWidth = star.size;
       context.stroke();
     } else if (mobile.matches) {
