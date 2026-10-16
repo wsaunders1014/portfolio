@@ -375,11 +375,30 @@ if (!mobile.matches) renderShip();
 
 const ship = document.querySelector('.ship');
 const transmission = document.querySelector('#transmission');
+ship.addEventListener('pointerdown', () => { ship.dataset.pointerFocus = ''; });
+let transmissionTimer = 0;
+function closeTransmission() {
+  clearTimeout(transmissionTimer);
+  transmissionTimer = 0;
+  transmission.hidden = true;
+  ship.setAttribute('aria-expanded', 'false');
+}
 ship.addEventListener('click', () => {
-  transmission.hidden = !transmission.hidden;
-  ship.setAttribute('aria-expanded', String(!transmission.hidden));
+  const opening = transmission.hidden;
+  closeTransmission();
+  if (opening) {
+    transmission.hidden = false;
+    ship.setAttribute('aria-expanded', 'true');
+    transmissionTimer = setTimeout(closeTransmission, 2000);
+  }
 });
+function dismissTransmissionOutsideShip(event) {
+  if (!ship.contains(event.target)) closeTransmission();
+}
+document.addEventListener('pointerdown', dismissTransmissionOutsideShip, true);
+document.addEventListener('click', dismissTransmissionOutsideShip, true);
 document.addEventListener('keydown', event => {
+  delete ship.dataset.pointerFocus;
   const navigationButton = event.key === 'ArrowLeft' ? previous : event.key === 'ArrowRight' ? next : null;
   if (navigationButton && !mobile.matches && !event.defaultPrevented && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey
     && !event.target.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="slider"], [role="tablist"], [role="menu"], [role="dialog"]')
@@ -389,8 +408,7 @@ document.addEventListener('keydown', event => {
   }
   if (event.key === 'Escape') stopFlight();
   if (event.key === 'Escape' && !transmission.hidden) {
-    transmission.hidden = true;
-    ship.setAttribute('aria-expanded', 'false');
+    closeTransmission();
     ship.focus();
   }
 });
