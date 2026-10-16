@@ -51,7 +51,7 @@ def main():
     def smoke():
         checks = {'': 'index.html', 'css/flight.css': 'css/flight.css', 'js/flight.js': 'js/flight.js',
                   'js/starfield.js': 'js/starfield.js', 'lab/': 'lab/index.html', 'lab/app.js': 'lab/app.js',
-                  'robots.txt': 'robots.txt', 'media/Will_Saunders_Resume_Updated.pdf': 'media/Will_Saunders_Resume_Updated.pdf'}
+                  'robots.txt': 'robots.txt', 'media/William_Saunders_General_Resume.pdf': 'media/William_Saunders_General_Resume.pdf'}
         for url, name in checks.items():
             with urllib.request.urlopen(base + url, timeout=25) as response:
                 assert response.status == 200

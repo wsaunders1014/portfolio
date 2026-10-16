@@ -49,7 +49,11 @@ details p { margin: 14px 0 0; }
 .orbit { border-radius: 25%; transform: rotate(30deg); width: min(20vw, 270px); }
 .ship-companion { position: fixed; top: var(--ship-y, 50%); left: var(--ship-x, 50%); transform: translate(-50%, -50%); z-index: 3; }
 .ship { position: relative; border: 0; padding: 0; background: transparent; transform: rotate(var(--ship-angle, 0rad)); }
+.ship:focus { outline: none; }
+.ship:focus-visible:not([data-pointer-focus]) img { filter: drop-shadow(0 0 4px var(--accent)) drop-shadow(0 0 8px #aaf4dc66); }
 .ship, .ship * { -webkit-user-select: none; user-select: none; -webkit-user-drag: none; -webkit-touch-callout: none; }
+.ship-lasers { position: fixed; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; }
+.ship-laser { position: absolute; left: -14px; top: -2px; width: 28px; height: 4px; border-radius: 2px; background: #ffb3a8; box-shadow: 0 0 3px 1px #ff3028, 0 0 8px #ff1717; will-change: transform; }
 .ship picture { display: block; }
 .ship img { width: 144px; height: auto; display: block; image-rendering: auto; }
 /* Exhaust shares the sprite's 40 × 24 grid: nozzle at x=4, y=12. */
@@ -155,6 +159,7 @@ button:disabled { opacity: .3; cursor: default; }
   .station.case-study { align-items: start; }
   .station-card, .case-visuals, .contact-crew { min-width: 0; min-height: 0; max-height: 100%; padding-top: calc(var(--flight-header-height, 56px) + 40px); padding-bottom: calc(var(--flight-footer-height, 60px) + 24px); overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: thin; scrollbar-gutter: stable; scroll-padding-top: calc(var(--flight-header-height, 56px) + 40px); scroll-padding-bottom: calc(var(--flight-footer-height, 60px) + 24px); }
   .case-study > .station-card, .case-study > .case-visuals, .contact-station > .station-card, .contact-station > .contact-crew { height: 100%; }
+  .case-visuals { padding-right: 10px; }
   .flight-controls { position: fixed; inset: auto 0 0; z-index: 5; }
   @supports selector(::-webkit-scrollbar) {
     .station-card, .case-visuals, .contact-crew { scrollbar-width: auto; scrollbar-color: auto; }
