@@ -2,6 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
+const { minifyAsset } = require('./minify-assets.cjs');
 const name = process.argv[2];
 assert.ok(['dist', 'dist-new'].includes(name));
 function inventory(directory, prefix = '') {
@@ -13,6 +14,11 @@ function inventory(directory, prefix = '') {
   });
 }
 assert.deepEqual(inventory(path.join(root, name)).sort(), [...inventory(path.join(root, 'src')), 'lab/app.js'].sort());
+for (const relative of inventory(path.join(root, 'src')).filter(file => /\.(js|css)$/i.test(file))) {
+  const source = fs.readFileSync(path.join(root, 'src', relative));
+  const built = fs.readFileSync(path.join(root, name, relative));
+  assert.deepEqual(built, minifyAsset(source, relative), `Asset was not minified: ${relative}`);
+}
 const htaccess = fs.readFileSync(path.join(root, name, '.htaccess'), 'utf8');
 const robots = fs.readFileSync(path.join(root, name, 'robots.txt'), 'utf8');
 if (name === 'dist') {
@@ -23,4 +29,4 @@ if (name === 'dist') {
   assert.ok(htaccess.includes('noindex'));
   assert.ok(robots.includes('Disallow: /\n'));
 }
-console.log(`${name}: exact source inventory plus compiled lab; indexing settings verified.`);
+console.log(`${name}: exact source inventory, minified JS/CSS, compiled lab, and indexing settings verified.`);

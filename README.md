@@ -22,7 +22,7 @@ steers the ship; releasing cuts thrust and coasts. Mobile uses vertical reading.
 - `src/css/flight.css`: active layout and ship visuals.
 - `src/js/flight.js`: input, ship/camera movement and navigation.
 - `src/js/flight-path.js`: turning geometry and tangent orientation.
-- `src/img/serenity.png`, `src/img/24lad.jpg`: currently used artwork.
+- `src/img/serenity.webp`, `src/img/24lad.jpg`: currently used artwork.
 - `src/.htaccess`, `src/robots.txt`: staging caching and indexing settings.
 
 The project map and redevelopment plan are in `docs/portfolio-redevelopment.md`.
@@ -41,6 +41,14 @@ The earlier recovery snapshots remain in `../portfolio-archive-2026-10-13/`.
 
 `npm run build` writes `dist/`. `npm run build:staging` writes `dist-new/`.
 Both contain only active source files; generated directories are ignored by Git.
+Both release builds minify every JavaScript and CSS file with esbuild, including
+the archived demos, while retaining license comments, classic-script globals,
+and module paths. Development source stays readable. `verify-build.cjs` checks
+that every copied JS/CSS asset matches the shared minifier's output.
+
+Ship sprites use transparent WebP, with the larger ships capped at 432 pixels
+wide for their 144-pixel desktop display size. Original PNG masters and conversion
+settings are preserved in `reference/ship-assets/`, outside the served build.
 
 ## Incremental Lightsail deployment
 

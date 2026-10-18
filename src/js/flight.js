@@ -38,14 +38,23 @@ let frame = 0;
 
 // Choose centers still ahead of the camera, rather than skipping a station
 // as soon as its label becomes active. Ignore tiny arrival/scroll rounding.
+function desktopStops() {
+  return stations.flatMap(station => {
+    const panels = [...station.querySelectorAll('.case-panel')];
+    return [{ station, x: station.offsetLeft }, ...panels.slice(1).map(panel => ({
+      station, x: route.scrollLeft + panel.getBoundingClientRect().left - route.getBoundingClientRect().left - innerWidth * .09
+    }))];
+  });
+}
 function stationInDirection(direction) {
   if (mobile.matches) {
     const index = active + direction;
     return index >= 0 && index < stations.length ? index : -1;
   }
+  const stops = desktopStops();
   return direction > 0
-    ? stations.findIndex(station => station.offsetLeft > route.scrollLeft + 8)
-    : stations.findLastIndex(station => station.offsetLeft < route.scrollLeft - 8);
+    ? stops.findIndex(stop => stop.x > route.scrollLeft + 8)
+    : stops.findLastIndex(stop => stop.x < route.scrollLeft - 8);
 }
 
 function update() {
@@ -55,7 +64,9 @@ function update() {
     active = stations.reduce((best, station, index) =>
       Math.abs(station.getBoundingClientRect().top - target) < Math.abs(stations[best].getBoundingClientRect().top - target) ? index : best, 0);
   } else {
-    active = stations.reduce((best, station, index) =>
+    const reading = stations.findIndex(station => station.classList.contains('horizontal-case-study') &&
+      route.scrollLeft >= station.offsetLeft - 8 && route.scrollLeft < station.offsetLeft + station.offsetWidth);
+    active = reading >= 0 ? reading : stations.reduce((best, station, index) =>
       Math.abs(station.offsetLeft - route.scrollLeft) < Math.abs(stations[best].offsetLeft - route.scrollLeft) ? index : best, 0);
   }
   const progress = mobile.matches
@@ -75,6 +86,13 @@ function onScroll() {
 }
 
 function visit(index) {
+  if (!mobile.matches) {
+    const stop = desktopStops()[index];
+    if (!stop) return;
+    if (reducedMotion.matches) route.scrollTo({ left: stop.x, behavior: 'instant' });
+    else flyToStation(stop.station, stop.x);
+    return;
+  }
   const station = stations[Math.max(0, Math.min(stations.length - 1, index))];
   if (!mobile.matches && !reducedMotion.matches) flyToStation(station);
   else location.hash = station.id;
@@ -417,8 +435,8 @@ update();
 if (!document.body.classList.contains('mobile-flight-experiment')) enableScrollEngines(() => true);
 
 // Menu travel uses a faster cruise/acceleration while preserving curved turns.
-function flyToStation(station) {
-  const x = station.offsetLeft + route.clientWidth / 2;
+function flyToStation(station, scrollTarget = station.offsetLeft) {
+  const x = scrollTarget + route.clientWidth / 2;
   const y = route.clientHeight / 2;
   if (Math.hypot(x - position.x, y - position.y) < 4) return;
   clearControlPress();

@@ -15,5 +15,7 @@ for (const name of ['index.html', 'mobile-flight.html']) {
   fs.writeFileSync(file, html);
 }
 const { bundleLab } = require('./build-lab.cjs');
+const { minifyDirectory } = require('./minify-assets.cjs');
+minifyDirectory(output);
 fs.writeFileSync(path.join(output, 'lab/app.js'), bundleLab().outputFiles[0].contents);
 console.log('Active staging site and React component lab built in dist-new/');

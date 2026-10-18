@@ -257,6 +257,19 @@ body.steering .route { -webkit-user-select: none; user-select: none; }
   #bodi .case-image img { max-height: clamp(110px, 17svh, 170px); }
 }
 
+/* BODi desktop reading trial: one continuous flight through six columns. */
+.panel-step, .horizontal-reading-hint { display: none; }
+@media (min-width: 761px) {
+  .station.horizontal-case-study { display: flex; flex: 0 0 auto; width: max-content; gap: 7vw; padding-inline: 9vw; align-items: stretch; }
+  .horizontal-case-study > .station-card, .horizontal-case-study > .case-visuals { display: contents; }
+  .horizontal-case-study .case-panel { flex: 0 0 clamp(340px, 40vw, 560px); width: clamp(340px, 40vw, 560px); height: 100%; padding-block: calc(var(--flight-header-height, 56px) + 40px) calc(var(--flight-footer-height, 60px) + 24px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: #335165 transparent; font-size: 15px; line-height: 1.55; }
+  .horizontal-case-study .case-panel > p:not(.lead) { color: var(--muted); }
+  .horizontal-case-study .panel-step, .horizontal-case-study .horizontal-reading-hint { display: block; color: var(--accent); font: 11px/1.6 ui-monospace, monospace; margin: 0 0 24px; }
+  .horizontal-case-study .horizontal-reading-hint { margin-top: 28px; }
+  .horizontal-case-study .case-image { margin: 0 0 18px !important; }
+  #bodi.horizontal-case-study .case-image img { max-height: min(38svh, 340px); }
+}
+
 /* Each ship has its own engine signature. */
 .ship[data-design="explorer"]::before {
   background: linear-gradient(90deg, #ed58bb00, #e86fcf 48%, #ffb1e8 76%, #fff0fa);

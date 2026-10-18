@@ -12,10 +12,10 @@ for (const family of ['serenity-wing-jet', 'enterprise-nacelle-jet', 'winnebago-
   }
 }
 const designs = {
-  winnebago: { src: 'img/eagle-5.png', width: 1536, height: 1024 },
-  serenity: { src: 'img/serenity.png', width: 185, height: 100 },
-  smuggler: { src: 'img/millennium-falcon.png', width: 1536, height: 1024 },
-  enterprise: { src: 'img/enterprise-photo.png', width: 1280, height: 609 }
+  winnebago: { src: 'img/eagle-5.webp', width: 432, height: 288 },
+  serenity: { src: 'img/serenity.webp', width: 185, height: 100 },
+  smuggler: { src: 'img/millennium-falcon.webp', width: 432, height: 288 },
+  enterprise: { src: 'img/enterprise-photo.webp', width: 432, height: 206 }
 };
 let preference = null;
 try {

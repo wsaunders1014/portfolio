@@ -2,6 +2,7 @@ const path = require('node:path');
 const fs = require('node:fs');
 const CopyPlugin = require('copy-webpack-plugin');
 const { bundleLab } = require('./scripts/build-lab.cjs');
+const { minifyAsset } = require('./scripts/minify-assets.cjs');
 
 module.exports = (_env, argv) => {
   const development = argv.mode === 'development';
@@ -53,7 +54,7 @@ module.exports = (_env, argv) => {
                   return fs.readFileSync(path.join(__dirname, 'config/production', path.basename(resourcePath)));
                 }
                 if (!development || resourcePath !== path.join(source, 'index.html')) {
-                  return content;
+                  return development ? content : minifyAsset(content, resourcePath);
                 }
                 return content.toString().replace(
                   '</body>',
