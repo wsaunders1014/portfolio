@@ -23,7 +23,10 @@ try {
   const saved = stored === 'pixel' ? 'enterprise' : stored === 'explorer' ? 'winnebago' : stored;
   if (Object.hasOwn(designs, saved)) preference = saved;
 } catch { /* Ship selection still works when browser storage is unavailable. */ }
-function apply() {
+let imageRevision = 0;
+async function apply() {
+  const revision = ++imageRevision;
+  delete ship.dataset.ready;
   const selected = preference || 'serenity';
   const design = designs[selected];
   ship.querySelector('source').srcset = design.src;
@@ -35,6 +38,18 @@ function apply() {
   panel.querySelectorAll('[data-ship]').forEach(button => {
     button.setAttribute('aria-pressed', String(button.dataset.ship === selected));
   });
+  try {
+    await image.decode();
+  } catch {
+    if (revision !== imageRevision) return;
+    // A missing saved asset should fall back to the default, rather than
+    // revealing a broken image or leaving the ship permanently invisible.
+    if (selected !== 'serenity') { preference = null; apply(); return; }
+  }
+  // A previous decode must never reveal a newer, still-loading selection.
+  if (revision === imageRevision && image.complete && image.naturalWidth > 0) {
+    ship.dataset.ready = 'true';
+  }
 }
 function close(restoreFocus = false) {
   panel.hidden = true;
