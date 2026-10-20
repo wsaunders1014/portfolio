@@ -7,6 +7,37 @@ let instance = 0;
 const freshFlight = () => import(`data:text/javascript,${encodeURIComponent(source + `\n// instance ${instance++}`)}`);
 const options = { force: true, waitForTurn: true };
 
+test('trip speed scales proportionally with distance in either direction, with a safe cap', async () => {
+  const flight = await freshFlight();
+  for (const viewport of [844, 1440]) {
+    for (const direction of [-1, 1]) {
+      for (const [screens, scale] of [[1, 1], [2, 1], [4, 2], [10, 5], [30, 6]]) {
+        flight.beginMenuFlight(direction * viewport * screens, viewport, { force: true });
+        assert.equal(flight.menuFlightSpeedScale, scale);
+      }
+    }
+  }
+});
+
+test('arrival keeps the departure scale; nearby retargets and stopping reset it', async () => {
+  const flight = await freshFlight();
+  flight.beginMenuFlight(14400, 1440, options);
+  flight.updateMenuFlightApproach(1000, 4000, 12000, 1440);
+  assert.equal(flight.menuFlightSpeedScale, 5);
+  flight.beginMenuFlight(500, 1440);
+  assert.equal(flight.menuFlightSpeedScale, 1);
+  flight.beginMenuFlight(14400, 1440, options);
+  flight.endMenuFlight();
+  assert.equal(flight.menuFlightSpeedScale, 1);
+});
+
+test('held mobile cruising can enable trails without distance-based speed', async () => {
+  const flight = await freshFlight();
+  flight.beginMenuFlight(30000, 844, { force: true, scaleWithDistance: false });
+  assert.equal(flight.menuFlightActive, true);
+  assert.equal(flight.menuFlightSpeedScale, 1);
+});
+
 test('a nearby centering trip clears warp even when retargeted from a cruise', async () => {
   const flight = await freshFlight();
   flight.beginMenuFlight(5000, 1440, options);

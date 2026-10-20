@@ -1,4 +1,4 @@
-import { beginMenuFlight, endMenuFlight, menuFlightActive, updateMenuFlightApproach } from './menu-flight.js';
+import { beginMenuFlight, endMenuFlight, menuFlightActive, menuFlightSpeedScale, updateMenuFlightApproach } from './menu-flight.js';
 import { enableScrollEngines, updateMobileDrift, resetMobileDrift } from './mobile-scroll.js';
 // Vertical flight controls supplement native scrolling on small screens.
 const mobile = matchMedia('(max-width: 760px)');
@@ -48,14 +48,14 @@ function animate(time) {
   last = time;
   const distance = target === null ? 0 : target - scrollY;
   // Only these explicit flight controls move the page at the faster rates.
-  const topSpeed = menuFlightActive ? 2200 : 1200;
-  const braking = 3000;
+  const topSpeed = menuFlightActive ? 2200 * menuFlightSpeedScale : 1200;
+  const braking = 3000 * menuFlightSpeedScale;
   // Keep mobile trails visible further into arrival, with a short coast left.
   if (target !== null) updateMenuFlightApproach(distance, Math.abs(velocity), braking, innerHeight, .6);
   const desired = held ? held * topSpeed : target !== null ? Math.sign(distance) * Math.min(topSpeed, Math.sqrt(2 * braking * Math.abs(distance))) : 0;
   const acceleration = !held && target === null ? 720
     : Math.abs(desired) < Math.abs(velocity) ? braking
-    : menuFlightActive ? 2800 : 1800;
+    : menuFlightActive ? 2800 * menuFlightSpeedScale : 1800;
   velocity += clamp(desired - velocity, -acceleration * dt, acceleration * dt);
   let y = clamp(scrollY + velocity * dt, 0, maximum());
   if (target !== null && (Math.abs(distance) < 2 || (target - y) * distance < 0)) {
@@ -94,7 +94,7 @@ for (const button of arrows) {
       if (!press) return;
       press.cruising = true;
       held = direction;
-      beginMenuFlight(direction > 0 ? maximum() - scrollY : -scrollY, innerHeight, { force: true });
+      beginMenuFlight(direction > 0 ? maximum() - scrollY : -scrollY, innerHeight, { force: true, scaleWithDistance: false });
       status.textContent = direction > 0 ? 'Cruising down · release to coast' : 'Cruising up · release to coast';
       start();
     }, 250);

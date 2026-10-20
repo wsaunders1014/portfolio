@@ -1,4 +1,4 @@
-import { beginMenuFlight, endMenuFlight, menuFlightActive, menuFlightDirection, updateMenuFlightDeparture, updateMenuFlightApproach } from './menu-flight.js';
+import { beginMenuFlight, endMenuFlight, menuFlightActive, menuFlightDirection, menuFlightSpeedScale, updateMenuFlightDeparture, updateMenuFlightApproach } from './menu-flight.js';
 import { enableScrollEngines } from './mobile-scroll.js';
 import { createFlightPath, sampleFlightPath } from './flight-path.js';
 
@@ -202,9 +202,9 @@ function fly(time) {
     navigateToPoint(x, y);
   }
   const remaining = path.length - travelled;
-  const acceleration = menuFlightActive ? 2400 : 750;
-  const braking = menuFlightActive ? 2400 : coastDeceleration;
-  const cruiseSpeed = menuFlightActive ? 2100 : maximumSpeed;
+  const acceleration = menuFlightActive ? 2400 * menuFlightSpeedScale : 750;
+  const braking = menuFlightActive ? 2400 * menuFlightSpeedScale : coastDeceleration;
+  const cruiseSpeed = menuFlightActive ? 2100 * menuFlightSpeedScale : maximumSpeed;
   updateMenuFlightDeparture(travelled < path.arcLength, Math.cos(heading) * speed * menuFlightDirection);
   updateMenuFlightApproach(remaining, speed, acceleration, route.clientWidth);
   // Tiny course corrections during held steering should not reapply the
