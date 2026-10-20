@@ -23,10 +23,14 @@
   <meta name="twitter:image:alt" content="Will Saunders - Front End Creator, with a spaceship flying through the portfolio's starfield.">
   <link rel="canonical" href="https://iamwillsaunders.com/">
   <link rel="stylesheet" href="css/flight.css">
+  <link rel="preload" as="image" href="media/will-saunders.JPEG">
+  <link rel="preload" as="image" href="img/davos.jpg">
+  <link rel="preload" as="image" href="img/dreamworks-bird-karma-640.webp" imagesrcset="img/dreamworks-bird-karma-320.webp 320w, img/dreamworks-bird-karma-640.webp 640w, img/dreamworks-bird-karma-1080.webp 1080w" imagesizes="(max-width: 760px) calc(100vw - 90px), min(35vw, 540px)">
   <script type="module" src="js/flight.js"></script>
   <script type="module" src="js/ship-picker.js"></script>
   <script type="module" src="js/ship-lasers.js"></script>
   <script type="module" src="js/case-studies.js"></script>
+  <script type="module" src="js/preload-images.js"></script>
   <script type="module" src="js/starfield.js"></script>
   <link rel="stylesheet" href="css/mobile-flight.css">
   <script type="module" src="js/mobile-flight.js"></script>
@@ -82,10 +86,10 @@
         <ul class="tags" aria-label="Technologies"><li>HTML / CSS / JavaScript</li><li>Shopify / Liquid</li><li>React / TypeScript</li><li>Optimizely / Amplitude</li><li>Google Tag Manager</li></ul>
       </article>
       <div class="case-visuals" aria-label="BODi technical demos and product-page screenshot">
-        <figure class="case-image"><div class="placeholder-label"><span>01 / Conditional content</span><span>React · TypeScript</span></div><a href="lab/?demo=conditions&portfolio=mobile" aria-label="Open the conditional-content playground"><img src="lab/media/conditions-preview.svg" alt="Preview of the editable rules panel and sample storefront offer." width="640" height="360" loading="lazy"></a><figcaption>Content that knows its audience.<span>Configure cart, campaign, and experiment rules. See the decision update live.</span><a class="action" href="lab/?demo=conditions&portfolio=mobile">Open the playground ↗</a></figcaption></figure>
-        <figure class="case-image"><div class="placeholder-label"><span>02 / Carousel & video</span><span>React · Media state</span></div><a href="lab/?demo=carousel&portfolio=mobile" aria-label="Open the carousel and video demo"><img src="lab/media/carousel-preview.svg" alt="Preview of a centered video card, neighboring clips, and synchronized backgrounds." width="640" height="360" loading="lazy"></a><figcaption>Selection. Motion. Playback.<span>Swipe between clips and explore how video and carousel state stay coordinated.</span><a class="action" href="lab/?demo=carousel&portfolio=mobile">Explore the interaction ↗</a></figcaption></figure>
+        <figure class="case-image"><div class="placeholder-label"><span>01 / Conditional content</span><span>React · TypeScript</span></div><a href="lab/?demo=conditions&portfolio=mobile" aria-label="Open the conditional-content playground"><img src="lab/media/conditions-preview.svg" alt="Preview of the editable rules panel and sample storefront offer." width="640" height="360" loading="eager"></a><figcaption>Content that knows its audience.<span>Configure cart, campaign, and experiment rules. See the decision update live.</span><a class="action" href="lab/?demo=conditions&portfolio=mobile">Open the playground ↗</a></figcaption></figure>
+        <figure class="case-image"><div class="placeholder-label"><span>02 / Carousel & video</span><span>React · Media state</span></div><a href="lab/?demo=carousel&portfolio=mobile" aria-label="Open the carousel and video demo"><img src="lab/media/carousel-preview.svg" alt="Preview of a centered video card, neighboring clips, and synchronized backgrounds." width="640" height="360" loading="eager"></a><figcaption>Selection. Motion. Playback.<span>Swipe between clips and explore how video and carousel state stay coordinated.</span><a class="action" href="lab/?demo=carousel&portfolio=mobile">Explore the interaction ↗</a></figcaption></figure>
         <p class="case-image-note">Standalone portfolio recreations with original-code excerpts, sample data, and new demo media.</p>
-        <figure class="case-image" style="margin-top:22px"><div class="placeholder-label"><span>03 / Product-page experience</span><span>BODi storefront</span></div><a href="img/bodi-energize-product-page-full.webp" target="_blank" rel="noopener" aria-label="Open the BODi Energize product-page screenshot at full size in a new tab"><img src="img/bodi-energize-product-page-640.webp" srcset="img/bodi-energize-product-page-320.webp 320w, img/bodi-energize-product-page-640.webp 640w, img/bodi-energize-product-page-1080.webp 1080w" sizes="(max-width: 760px) calc(100vw - 90px), min(35vw, 540px)" decoding="async" alt="BODi Energize product page with product imagery, serving-size and flavor selectors, and subscription or one-time purchase options." width="1922" height="935" loading="lazy"></a><figcaption>Energize product page<span>Product details, variant selection, and purchase options. Open the image for a closer look.</span></figcaption></figure>
+        <figure class="case-image" style="margin-top:22px"><div class="placeholder-label"><span>03 / Product-page experience</span><span>BODi storefront</span></div><a href="img/bodi-energize-product-page-full.webp" target="_blank" rel="noopener" aria-label="Open the BODi Energize product-page screenshot at full size in a new tab"><img src="img/bodi-energize-product-page-640.webp" srcset="img/bodi-energize-product-page-320.webp 320w, img/bodi-energize-product-page-640.webp 640w, img/bodi-energize-product-page-1080.webp 1080w" sizes="(max-width: 760px) calc(100vw - 90px), min(35vw, 540px)" decoding="async" alt="BODi Energize product page with product imagery, serving-size and flavor selectors, and subscription or one-time purchase options." width="1922" height="935" loading="eager"></a><figcaption>Energize product page<span>Product details, variant selection, and purchase options. Open the image for a closer look.</span></figcaption></figure>
       </div>
     </section>
     <section id="disney" class="station case-study" aria-labelledby="disney-title">
@@ -114,14 +118,14 @@
         <a class="demo-artwork-link" href="projects/disney/2018guild/?portfolio=mobile#/black-panther/consider" target="_blank" rel="noopener" aria-label="Explore Black Panther in the archived Disney demo, opens in a new tab">
         <figure class="case-image">
           <div class="placeholder-label"><span>Black Panther</span><span>Archived campaign artwork</span></div>
-          <img class="campaign-square" src="img/disney-black-panther.jpg" alt="Black Panther title artwork recovered from the Disney Guild campaign site." width="660" height="660" loading="lazy">
+          <img class="campaign-square" src="img/disney-black-panther.jpg" alt="Black Panther title artwork recovered from the Disney Guild campaign site." width="660" height="660" loading="eager">
           <figcaption>A shared site. A distinct film identity.<span>Original film-selection artwork from the campaign archive.</span></figcaption>
         </figure>
         </a>
         <a class="demo-artwork-link" href="projects/disney/2018guild/?portfolio=mobile#/bao/consider" target="_blank" rel="noopener" aria-label="Explore Bao in the archived Disney demo, opens in a new tab">
         <figure class="case-image">
           <div class="placeholder-label"><span>Bao</span><span>Archived gallery image</span></div>
-          <img src="img/disney-bao.jpg" alt="A woman and the little dumpling character at a kitchen table in Bao." width="1084" height="500" loading="lazy">
+          <img src="img/disney-bao.jpg" alt="A woman and the little dumpling character at a kitchen table in Bao." width="1084" height="500" loading="eager">
           <figcaption>Space for the smaller stories, too.<span>Original gallery image from the same multi-film campaign.</span></figcaption>
         </figure>
         </a>
@@ -156,11 +160,11 @@
             <button type="button" data-film="bilby" aria-pressed="true">Bilby</button>
             <button type="button" data-film="bird-karma" aria-pressed="false">Bird Karma</button>
           </div>
-          <img id="dreamworks-artwork" src="img/dreamworks-bilby-640.webp" srcset="img/dreamworks-bilby-320.webp 320w, img/dreamworks-bilby-640.webp 640w, img/dreamworks-bilby-1080.webp 1080w" sizes="(max-width: 760px) calc(100vw - 90px), min(35vw, 540px)" decoding="async" alt="Bilby and a fluffy baby bird on a rock against a blue sky; original campaign artwork." width="2234" height="1474" loading="lazy">
+          <img id="dreamworks-artwork" src="img/dreamworks-bilby-640.webp" srcset="img/dreamworks-bilby-320.webp 320w, img/dreamworks-bilby-640.webp 640w, img/dreamworks-bilby-1080.webp 1080w" sizes="(max-width: 760px) calc(100vw - 90px), min(35vw, 540px)" decoding="async" alt="Bilby and a fluffy baby bird on a rock against a blue sky; original campaign artwork." width="2234" height="1474" loading="eager">
           <figcaption><span id="dreamworks-caption" class="film-caption" aria-live="polite">Bilby — a little courage, a little company.</span><span>Original landing-page artwork. This preview is not a capture of the full interface.</span></figcaption>
         </figure>
         <figure class="case-image dreamworks-fallback">
-          <img src="img/dreamworks-bird-karma-640.webp" srcset="img/dreamworks-bird-karma-320.webp 320w, img/dreamworks-bird-karma-640.webp 640w, img/dreamworks-bird-karma-1080.webp 1080w" sizes="(max-width: 760px) calc(100vw - 90px), min(35vw, 540px)" decoding="async" alt="Bird Karma’s long-beaked bird watching a leaping orange fish; original campaign artwork." width="2234" height="1474" loading="lazy">
+          <img src="img/dreamworks-bird-karma-640.webp" srcset="img/dreamworks-bird-karma-320.webp 320w, img/dreamworks-bird-karma-640.webp 640w, img/dreamworks-bird-karma-1080.webp 1080w" sizes="(max-width: 760px) calc(100vw - 90px), min(35vw, 540px)" decoding="async" alt="Bird Karma’s long-beaked bird watching a leaping orange fish; original campaign artwork." width="2234" height="1474" loading="eager">
           <figcaption>Bird Karma<span>Original landing-page artwork from the campaign archive.</span></figcaption>
         </figure>
       </div>
@@ -195,17 +199,17 @@
       <div class="case-visuals" aria-label="24 Moments campaign screenshots">
         <figure class="case-image">
           <div class="placeholder-label"><span>01 / The mission board</span><span>Original campaign screenshot</span></div>
-          <a href="img/24lad.jpg" target="_blank" rel="noopener" aria-label="Open the 24 Moments campaign overview screenshot in a new tab"><img src="img/24lad.jpg" alt="24 Moments campaign overview with Jack Bauer artwork and a grid of daily rewards." loading="lazy" width="960" height="498"></a>
+          <a href="img/24lad.jpg" target="_blank" rel="noopener" aria-label="Open the 24 Moments campaign overview screenshot in a new tab"><img src="img/24lad.jpg" alt="24 Moments campaign overview with Jack Bauer artwork and a grid of daily rewards." loading="eager" width="960" height="498"></a>
           <figcaption>Twenty-four moments. One mission.<span>A collection of locked and revealed rewards gives the campaign its structure.</span></figcaption>
         </figure>
         <figure class="case-image">
           <div class="placeholder-label"><span>02 / The reward</span><span>Desktop & mobile</span></div>
-          <a href="img/24lad-2.jpg" target="_blank" rel="noopener" aria-label="Open the desktop and mobile reward screenshot in a new tab"><img src="img/24lad-2.jpg" alt="Desktop and phone views of 24 Moments, showing an unlocked reward panel and sharing controls." loading="lazy" width="960" height="498"></a>
+          <a href="img/24lad-2.jpg" target="_blank" rel="noopener" aria-label="Open the desktop and mobile reward screenshot in a new tab"><img src="img/24lad-2.jpg" alt="Desktop and phone views of 24 Moments, showing an unlocked reward panel and sharing controls." loading="eager" width="960" height="498"></a>
           <figcaption>A reveal worth sharing.<span>Unlocked moments open into content panels, with sharing built into the reward.</span></figcaption>
         </figure>
         <figure class="case-image">
           <div class="placeholder-label"><span>03 / Mission accomplished</span><span>The final reveal</span></div>
-          <a href="img/24lad-3.jpg" target="_blank" rel="noopener" aria-label="Open the final video reveal screenshot in a new tab"><img src="img/24lad-3.jpg" alt="Mission Accomplished video reveal in the 24 Moments desktop and phone layouts." loading="lazy" width="960" height="498"></a>
+          <a href="img/24lad-3.jpg" target="_blank" rel="noopener" aria-label="Open the final video reveal screenshot in a new tab"><img src="img/24lad-3.jpg" alt="Mission Accomplished video reveal in the 24 Moments desktop and phone layouts." loading="eager" width="960" height="498"></a>
           <figcaption>The collection pays off.<span>The completed mission reveals the exclusive video across desktop and mobile.</span></figcaption>
         </figure>
       </div>
@@ -227,11 +231,11 @@
       <aside class="contact-crew" aria-label="A little more about Will">
         <div class="crew-photos">
           <figure class="crew-photo">
-            <img src="media/will-saunders.JPEG" alt="Will Saunders smiling in a green shirt." width="2400" height="3000" loading="lazy">
+            <img src="media/will-saunders.JPEG" alt="Will Saunders smiling in a green shirt." width="2400" height="3000" loading="eager">
             <figcaption><strong>Will Saunders</strong><span>Developer. Writer. Space Cadet.</span></figcaption>
           </figure>
           <figure class="crew-photo">
-            <img src="img/davos.jpg" alt="Ser Davos, Will’s golden retriever, sitting by a sunny window." width="640" height="640" loading="lazy">
+            <img src="img/davos.jpg" alt="Ser Davos, Will’s golden retriever, sitting by a sunny window." width="640" height="640" loading="eager">
             <figcaption><strong>Ser Davos</strong><span>The golden retriever in the crew.</span></figcaption>
           </figure>
         </div>
