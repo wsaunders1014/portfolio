@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Some dev servers serve this directory without redirecting to its trailing slash. -->
+  <script>
+    if (!location.pathname.endsWith('/') && !/\.html?$/.test(location.pathname)) {
+      const archiveBase = document.createElement('base');
+      archiveBase.href = `${location.pathname}/`;
+      document.head.append(archiveBase);
+    }
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Honda / RPA — Will Saunders</title>
+  <link rel="stylesheet" href="../../css/archive-project.css?v=2">
+  <script type="module" src="../../js/archive-project.js?v=2"></script>
+</head>
+<body>
+  <header class="archive-header">
+    <span>WS / PROJECT ARCHIVE</span>
+    <a data-portfolio-return href="../../index.html#more-projects">← Back to Portfolio</a>
+  </header>
+
+  <main>
+    <h1>Features you can explore.</h1>
+    <p>Honda / RPA · Interactive brochures</p>
+    <p class="archive-note">
+      Browse the original Civic, Civic Natural Gas, and Odyssey brochure interactions in one gallery.
+      Scroll or drag inside the Civic demo to explore the interior.
+      Original layouts and styling, scaled to fit your screen.
+    </p>
+
+    <!-- Demo paths are relative to this page. Keep related views grouped by model. -->
+    <div class="archive-tabs">
+      <label for="archive-demo">Choose an interaction</label>
+      <select id="archive-demo">
+        <optgroup label="Civic">
+          <option data-page="civic-si-interior" value="civic/si_parallax/index.htm" data-frame-width="982" data-frame-height="732" selected>Civic Si / Parallax interior</option>
+          <option data-page="civic-sedan-interior" value="civic/sedan_parallax/index.htm" data-frame-width="982" data-frame-height="732">Civic sedan / Parallax interior</option>
+         
+          <!-- <option value="civic/p2_toc.html" data-frame-width="982" data-frame-height="732">Contents</option> -->
+          <option data-page="civic-family" value="civic/p3_civic-family.html" data-frame-width="982" data-frame-height="732">Civic family</option>
+          <option data-page="civic-exterior" value="civic/p4_magnifier.html" data-frame-width="982" data-frame-height="732">Exterior magnifier</option>
+          
+          <option data-page="civic-driving-experience" value="civic/p7_fun-to-drive.html" data-frame-width="982" data-frame-height="732">Driving experience</option>
+          
+          
+          <option data-page="civic-audio" value="civic/p10_audio-screen.html" data-frame-width="982" data-frame-height="732">Audio display</option>
+          
+          <option data-page="civic-alternative-fuels" value="civic/p13_altfuels.html" data-frame-width="982" data-frame-height="732">Alternative fuels</option>
+          <option data-page="civic-lanewatch" value="civic/p14_lanewatch.html" data-frame-width="982" data-frame-height="732">LaneWatch</option>
+          
+          <option data-page="civic-safety" value="civic/p16_safety-numbers.html" data-frame-width="982" data-frame-height="732">Safety in numbers</option>
+          <option data-page="civic-accessories" value="civic/p17_accessories.html" data-frame-width="982" data-frame-height="732">Accessories</option>
+          <option data-page="civic-specifications" value="civic/p18_specifications.html" data-frame-width="982" data-frame-height="732">Specifications</option>
+          
+        </optgroup>
+
+        <optgroup label="Civic Natural Gas">
+         
+       
+          <option data-page="natural-gas-colors" value="ng/p4_spin.html" data-frame-width="982" data-frame-height="732">360° spin &amp; colors</option>
+        
+        </optgroup>
+
+        <optgroup label="Odyssey">
+          <option data-page="odyssey-day-and-night" value="odyssey/am-pm.html" data-frame-width="1224" data-frame-height="792">Day and night</option>
+          <option data-page="odyssey-audio" value="odyssey/audio-console.html" data-frame-width="1224" data-frame-height="792">Audio Console</option>
+          <option data-page="odyssey-safety" value="odyssey/safety-1.html" data-frame-width="1224" data-frame-height="792">Safety</option>
+          <option data-page="odyssey-seating" value="odyssey/seating-config.html" data-frame-width="1224" data-frame-height="792">Seating configurations</option>
+          <option data-page="odyssey-storage" value="odyssey/space.html" data-frame-width="1224" data-frame-height="792">Storage</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <!-- Preserve the original 982 × 732 layout; archive-project.js scales the frame. -->
+    <div class="archive-stage" data-fixed-width="982" data-fixed-height="732">
+      <iframe
+        src="civic/si_parallax/index.htm"
+        title="Civic Si parallax interior"
+      ></iframe>
+    </div>
+  </main>
+</body>
+</html>

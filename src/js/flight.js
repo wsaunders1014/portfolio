@@ -1,6 +1,16 @@
 import { beginMenuFlight, endMenuFlight, menuFlightActive, menuFlightDirection, menuFlightSpeedScale, updateMenuFlightDeparture, updateMenuFlightApproach } from './menu-flight.js';
 import { enableScrollEngines } from './mobile-scroll.js';
 import { createFlightPath, sampleFlightPath } from './flight-path.js';
+import { enableDesktopWheel } from './desktop-wheel.js';
+import { chaseWheelTarget, followCenteredShip } from './wheel-chase.js';
+import { updateSectionHash, restoreSectionFromHash } from './section-navigation.js';
+import { heldRestPoint } from './held-flight.js';
+
+const initialSectionHash = location.hash;
+let interactedSinceLoad = false;
+for (const type of ['pointerdown', 'wheel', 'keydown']) {
+  window.addEventListener(type, () => { interactedSinceLoad = true; }, { once: true, passive: true });
+}
 
 // Consume the release-click from a flight gesture before any content/menu handler.
 let suppressClickUntil = 0;
@@ -67,6 +77,7 @@ function update() {
   links.forEach((link, index) => index === active ? link.setAttribute('aria-current', 'location') : link.removeAttribute('aria-current'));
   previous.disabled = stationInDirection(-1) < 0;
   next.disabled = stationInDirection(1) < 0;
+  updateSectionHash(stations[active].id);
 
 }
 
@@ -105,8 +116,11 @@ let path = null;
 let travelled = 0;
 let destination = null;
 let steeringPointer = null;
+let heldRest = null;
 let autopilot = false;
 let coasting = false;
+let wheelCatchup = false;
+const wheelVelocity = { x: 0, y: 0 };
 let pressTime = 0;
 let pressX = 0;
 let pressY = 0;
@@ -117,7 +131,7 @@ function clearControlPress() {
   clearTimeout(controlHoldTimer);
   pendingControlPress = null;
 }
-const maximumSpeed = 675;
+const maximumSpeed = 742.5;
 const coastDeceleration = maximumSpeed / 1.72;
 let pointerX = 0;
 let pointerY = 0;
@@ -145,6 +159,8 @@ function renderShip() {
 }
 
 function stopFlight() {
+  wheelCatchup = false;
+  wheelVelocity.x = wheelVelocity.y = 0;
   clearControlPress();
   endMenuFlight();
   releaseSteering();
@@ -160,8 +176,7 @@ function stopFlight() {
   document.body.classList.remove('engines-on');
 }
 
-function syncShipToCamera() {
-  stopFlight();
+function alignShipToCamera() {
   if (mobile.matches) return;
   position.x = route.scrollLeft + innerWidth / 2;
   const limit = bounds();
@@ -169,16 +184,70 @@ function syncShipToCamera() {
   renderShip();
 }
 
+function syncShipToCamera() {
+  stopFlight();
+  alignShipToCamera();
+}
+
+function followShip(previousX) {
+  route.scrollLeft = followCenteredShip(route.scrollLeft, position.x, previousX,
+    innerWidth, route.scrollWidth - route.clientWidth);
+}
+
+function leaveWheelCatchup() {
+  if (!wheelCatchup) return;
+  wheelCatchup = false;
+  cancelAnimationFrame(flightFrame);
+  flightFrame = 0;
+  lastTime = 0;
+}
+
+function beginWheelCatchup() {
+  if (reducedMotion.matches) { alignShipToCamera(); return; }
+  wheelCatchup = true;
+  // Keep the ship visible even if a single wheel event jumps a whole screen.
+  position.x = Math.max(route.scrollLeft + 60, Math.min(route.scrollLeft + innerWidth - 60, position.x));
+  renderShip();
+  if (!flightFrame) flightFrame = requestAnimationFrame(fly);
+}
+
 function fly(time) {
   const dt = lastTime ? Math.min((time - lastTime) / 1000, .05) : 0;
   lastTime = time;
+  if (wheelCatchup) {
+    const target = { x: route.scrollLeft + innerWidth / 2, y: route.clientHeight / 2 };
+    const before = Math.hypot(wheelVelocity.x, wheelVelocity.y);
+    for (const axis of ['x', 'y']) {
+      const next = chaseWheelTarget(position[axis], wheelVelocity[axis], target[axis], dt);
+      position[axis] = next.position;
+      wheelVelocity[axis] = next.velocity;
+    }
+    speed = Math.hypot(wheelVelocity.x, wheelVelocity.y);
+    if (speed > 2) {
+      const angle = Math.atan2(wheelVelocity.y, wheelVelocity.x);
+      const turn = Math.atan2(Math.sin(angle - heading), Math.cos(angle - heading));
+      heading += Math.max(-4 * dt, Math.min(4 * dt, turn));
+    }
+    const gap = Math.hypot(target.x - position.x, target.y - position.y);
+    document.documentElement.style.setProperty('--flight-thrust', Math.min(1, gap / 80) * (speed >= before ? 1 : .35));
+    document.body.classList.toggle('engines-on', gap > 1);
+    renderShip();
+    if (gap < .5 && speed < 2) {
+      position.x = target.x;
+      position.y = target.y;
+      stopFlight();
+      renderShip();
+    } else flightFrame = requestAnimationFrame(fly);
+    return;
+  }
+  const previousX = position.x;
   if (coasting) {
     const distance = Math.max(0, speed * dt - .5 * coastDeceleration * dt * dt);
     speed = Math.max(0, speed - coastDeceleration * dt);
     const limit = bounds();
     position.x = Math.max(70, Math.min(route.scrollWidth - 70, position.x + Math.cos(heading) * distance));
     position.y = Math.max(limit.top, Math.min(limit.bottom, position.y + Math.sin(heading) * distance));
-    route.scrollLeft = Math.max(0, Math.min(route.scrollWidth - route.clientWidth, position.x - innerWidth / 2));
+    followShip(previousX);
     renderShip();
     if (speed > 1) flightFrame = requestAnimationFrame(fly);
     else stopFlight();
@@ -189,15 +258,18 @@ function fly(time) {
     // pointer. Holding to the right/left keeps flying through the world.
     const rect = route.getBoundingClientRect();
     const limit = bounds();
-    let x = route.scrollLeft + Math.max(70, Math.min(innerWidth - 70, pointerX));
-    let y = Math.max(limit.top, Math.min(limit.bottom, pointerY - rect.top));
-    if (Math.hypot(x - position.x, y - position.y) < 32) {
-      x = position.x + 160 * Math.cos(heading);
-      y = Math.max(limit.top, Math.min(limit.bottom, position.y + 160 * Math.sin(heading)));
-      // At a vertical edge, curve along it instead of aiming outside the world.
-      if (Math.hypot(x - position.x, y - position.y) < 32) {
-        x = position.x + 160 * (Math.cos(heading) < 0 ? -1 : 1);
-      }
+    const x = Math.max(70, Math.min(route.scrollWidth - 70, route.scrollLeft + Math.max(70, Math.min(innerWidth - 70, pointerX))));
+    const y = Math.max(limit.top, Math.min(limit.bottom, pointerY - rect.top));
+    heldRest = heldRestPoint(position, { x, y }, { x: pointerX, y: pointerY }, heldRest);
+    if (heldRest) {
+      speed = 0;
+      path = destination = null;
+      waypoint.hidden = true;
+      document.documentElement.style.setProperty('--flight-thrust', 0);
+      document.body.classList.remove('engines-on');
+      renderShip();
+      flightFrame = requestAnimationFrame(fly);
+      return;
     }
     navigateToPoint(x, y);
   }
@@ -211,10 +283,11 @@ function fly(time) {
   // turnaround speed limit on every frame.
   const turning = travelled < path.arcLength && path.sweep > .12;
   const turnSpeed = turning ? path.radius * (menuFlightActive ? 3.2 : 1.8) : cruiseSpeed;
-  // Leave enough distance to coast to every fixed waypoint. Held steering has
-  // a continuously moving target and must never enter this arrival slowdown.
-  const arrivalSpeed = steeringPointer !== null ? cruiseSpeed
-    : Math.max(0, Math.sqrt((braking * dt) ** 2 + 2 * braking * remaining) - braking * dt);
+  // Held targets also brake on approach. Use direct distance to avoid a tiny
+  // turning arc keeping the ship at full speed beside the pointer.
+  const arrivalDistance = steeringPointer !== null
+    ? Math.min(remaining, Math.hypot(destination.x - position.x, destination.y - position.y)) : remaining;
+  const arrivalSpeed = Math.max(0, Math.sqrt((braking * dt) ** 2 + 2 * braking * arrivalDistance) - braking * dt);
   const desiredSpeed = steeringPointer !== null || autopilot ? Math.min(cruiseSpeed, turnSpeed * 1.25, arrivalSpeed) : 0;
   const previousSpeed = speed;
   speed += Math.max(-braking * dt, Math.min(acceleration * dt, desiredSpeed - speed));
@@ -232,8 +305,7 @@ function fly(time) {
   position.y = sample.y;
   // Keep the angle continuous across +/- pi; never mirror the sprite.
   heading += Math.atan2(Math.sin(sample.heading - heading), Math.cos(sample.heading - heading));
-  const maximum = route.scrollWidth - route.clientWidth;
-  route.scrollLeft = Math.max(0, Math.min(maximum, position.x - innerWidth / 2));
+  followShip(previousX);
   renderShip();
   // A held press owns the animation loop, even when this frame reaches its
   // temporary waypoint. The next frame replans using the moving camera.
@@ -266,7 +338,9 @@ function navigateToPoint(x, y) {
 function finishPress(event) {
   suppressClickUntil = performance.now() + 600;
   const click = performance.now() - pressTime < 250 && Math.hypot(event.clientX - pressX, event.clientY - pressY) < 8;
+  const rested = heldRest !== null;
   releaseSteering();
+  if (rested) { stopFlight(); return; }
   if (click) {
     autopilot = true;
     coasting = false;
@@ -278,6 +352,7 @@ function finishPress(event) {
 }
 
 function releaseSteering() {
+  heldRest = null;
   const pointer = steeringPointer;
   steeringPointer = null;
   document.body.classList.remove('engines-on', 'steering');
@@ -285,6 +360,7 @@ function releaseSteering() {
   if (pointer !== null && route.hasPointerCapture(pointer)) route.releasePointerCapture(pointer);
 }
 function beginSteering(event) {
+  leaveWheelCatchup();
   clearControlPress();
   document.body.classList.add('steering');
   endMenuFlight();
@@ -300,9 +376,10 @@ function beginSteering(event) {
   route.setPointerCapture(event.pointerId);
   const rect = route.getBoundingClientRect();
   navigateToPoint(route.scrollLeft + pointerX, pointerY - rect.top);
-  // A press directly over the current position still starts the steering loop.
+  // A press over the ship starts the hold loop without inventing a waypoint.
   if (!flightFrame) {
-    navigateToPoint(position.x + 160 * Math.cos(heading), position.y + 160 * Math.sin(heading));
+    lastTime = 0;
+    flightFrame = requestAnimationFrame(fly);
   }
 }
 route.addEventListener('pointerdown', event => {
@@ -362,16 +439,33 @@ route.addEventListener('pointercancel', event => {
 window.addEventListener('blur', stopFlight);
 document.addEventListener('visibilitychange', () => { if (document.hidden) stopFlight(); });
 document.querySelectorAll('a').forEach(link => link.addEventListener('click', stopFlight));
-window.addEventListener('hashchange', () => requestAnimationFrame(syncShipToCamera));
+function restoreLinkedSection(hash) {
+  if (!restoreSectionFromHash(hash, stations, { route, mobile: mobile.matches, header })) return;
+  syncShipToCamera();
+  update();
+}
+window.addEventListener('hashchange', () => {
+  if (stations.some(station => `#${station.id}` === location.hash)) restoreLinkedSection(location.hash);
+  else requestAnimationFrame(syncShipToCamera);
+});
 window.addEventListener('resize', syncShipToCamera);
 mobile.addEventListener('change', syncShipToCamera);
 // Initial hash navigation can scroll after module initialization. Images can
 // finish much later, so this initial alignment must never cancel active input.
 window.addEventListener('load', () => {
-  if (flightFrame || steeringPointer !== null || pendingControlPress) return;
+  if (interactedSinceLoad || flightFrame || steeringPointer !== null || pendingControlPress) return;
+  if (initialSectionHash) {
+    restoreLinkedSection(initialSectionHash);
+    return;
+  }
   syncShipToCamera();
 });
 if (!mobile.matches) renderShip();
+enableDesktopWheel(route, {
+  isDesktop: () => !mobile.matches,
+  onInterrupt: () => { if (!wheelCatchup) stopFlight(); },
+  onNavigate: beginWheelCatchup
+});
 
 const ship = document.querySelector('.ship');
 const transmission = document.querySelector('#transmission');
@@ -412,6 +506,7 @@ document.addEventListener('keydown', event => {
     ship.focus();
   }
 });
+restoreLinkedSection(initialSectionHash);
 update();
 
 if (!document.body.classList.contains('mobile-flight-experiment')) enableScrollEngines(() => true);
@@ -421,6 +516,7 @@ function flyToStation(station) {
   const x = station.offsetLeft + route.clientWidth / 2;
   const y = route.clientHeight / 2;
   if (Math.hypot(x - position.x, y - position.y) < 4) return;
+  leaveWheelCatchup();
   clearControlPress();
   releaseSteering();
   autopilot = true;

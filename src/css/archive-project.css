@@ -1,0 +1,17 @@
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #08090b; color: #e9eef5; font: 15px/1.6 system-ui, sans-serif; }
+.archive-header, main { max-width: 1280px; margin: auto; padding: 20px; }
+.archive-header { display: flex; justify-content: space-between; gap: 20px; align-items: center; }
+a { color: #aaf4dc; text-underline-offset: .25em; }
+h1 { font-size: clamp(30px, 5vw, 52px); line-height: 1.1; margin: 14px 0; }
+.archive-note { color: #9caec3; max-width: 760px; }
+.archive-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
+.archive-tabs label { align-self: center; }
+.archive-tabs select { max-width: 100%; padding: 10px 12px; border: 1px solid #527284; border-radius: 6px; background: #132738; color: #e9eef5; font: inherit; }
+.archive-tabs button { padding: 10px 16px; border: 1px solid #335165; border-radius: 6px; background: #132738; color: #e9eef5; cursor: pointer; font: inherit; }
+.archive-tabs button[aria-pressed="true"] { border-color: #aaf4dc; color: #aaf4dc; }
+.archive-stage { overflow: hidden; position: relative; background: #101820; border: 1px solid #335165; border-radius: 8px; }
+.archive-stage iframe { display: block; border: 0; width: 100%; height: 80svh; min-height: 540px; background: white; transform-origin: top left; }
+.archive-stage[data-fixed-width] iframe { min-height: 0; }
+a:focus-visible, button:focus-visible { outline: 2px solid #aaf4dc; outline-offset: 4px; }

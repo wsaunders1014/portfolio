@@ -123,6 +123,19 @@ including the current station if its center has not been reached. Short centerin
 trips use normal flight without warp trails. Mobile keeps native page scrolling, with flight arrows
 for section trips and held cruising.
 
+## Additional project archives
+
+The More projects station links to `projects/nick/` and `projects/rpa/`.
+Nick preserves the Push Play game finder/gallery with desktop and mobile entry
+points. Its analytics integration is replaced with local no-op compatibility
+functions. Honda brings together the Civic, Civic Natural Gas, and Odyssey brochure pages
+in one iframe gallery, using local dependencies and a publishing-viewer adapter.
+Duplicate drafts and one incomplete specifications draft are excluded; the
+complete specifications page remains available.
+The archive wrappers scale the original layouts and return to `#more-projects`.
+Only selected archive files are copied into `src/projects`; the originals under
+`backup/public/projects/` remain unchanged. Card previews use responsive WebP.
+
 ## Ship choices
 
 The Ship button in the footer opens a chooser: Eagle 5 (the space Winnebago),
