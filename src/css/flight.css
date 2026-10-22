@@ -66,7 +66,7 @@ details p { margin: 14px 0 0; }
 .scroll-engines-on:not(.engines-on) .ship::before { opacity: var(--scroll-thrust, 1); transition-duration: .08s; }
 .scroll-engines-on:not(.engines-on) .ship::after { opacity: calc(var(--scroll-thrust, 1) * .65); }
 @keyframes pixel-thrust { 0%, 100% { transform: translateY(-50%) scaleX(.8); } 50% { transform: translateY(-50%) scaleX(1.12); } }
-@media (min-width: 761px) {
+@media (min-width: 801px) {
   /* Desktop flight owns drag gestures, including DevTools-emulated touch.
      Otherwise the browser starts a native pan and cancels the held pointer. */
   .flight-ready .route { overflow-x: hidden; scroll-snap-type: none; scroll-behavior: auto; cursor: crosshair; touch-action: none; }
@@ -88,7 +88,7 @@ details p { margin: 14px 0 0; }
 .route-buttons button { background: transparent; border: 1px solid #335165; border-radius: 50%; width: 40px; height: 40px; }
 button:disabled { opacity: .3; cursor: default; }
 :is(.route-buttons, .mobile-flight-dock) button:disabled { color: #879099; border-color: #48515a; background: #18212a; opacity: .45; cursor: not-allowed; }
-@media (max-width: 760px) {
+@media (max-width: 800px) {
   .flight-header { position: sticky; top: 0; z-index: 5; padding: 8px 20px; gap: 8px; align-items: flex-start; flex-direction: column; background: transparent; border-bottom: 0; padding-top: max(8px, env(safe-area-inset-top)); }
   .station { scroll-margin-top: 110px; }
   nav { gap: 18px; font-size: 12px; }
@@ -142,7 +142,7 @@ button:disabled { opacity: .3; cursor: default; }
 .more-project-card p { margin: 0 0 12px; color: var(--muted); font-size: 13px; }
 .more-project-card .more-project-tech { color: var(--accent); font: 11px/1.6 ui-monospace, monospace; }
 .more-project-card .action { font-size: 13px; }
-@media (max-width: 760px) {
+@media (max-width: 800px) {
   .case-visuals { margin-top: 32px; max-height: none; overflow: visible; }
   .case-facts div { grid-template-columns: 1fr; gap: 2px; }
   .case-image { margin-bottom: 18px; }
@@ -159,7 +159,7 @@ button:disabled { opacity: .3; cursor: default; }
 .case-image > a { display: block; }
 
 /* Desktop columns scroll only when needed; the flight viewport stays fixed. */
-@media (min-width: 761px) {
+@media (min-width: 801px) {
   html { height: 100%; overflow: hidden; }
   body { height: 100svh; overflow: hidden; }
   .flight-header { position: fixed; inset: 0 0 auto; z-index: 5; }
@@ -204,11 +204,11 @@ button:disabled { opacity: .3; cursor: default; }
 .ship-options span { color: var(--muted); font-size: 10px; }
 .ship-picker-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-top: 16px; color: var(--muted); font-size: 10px; }
 .ship-picker-foot button { padding: 0; border: 0; background: transparent; color: var(--accent); font-size: 10px; text-decoration: underline; text-underline-offset: 3px; }
-@media (max-width: 760px) {
+@media (max-width: 800px) {
   .ship-picker { right: 16px; bottom: calc(80px + env(safe-area-inset-bottom)); }
   .ship-picker-toggle { padding: 6px 10px; }
 }
-@media (max-width: 760px) {
+@media (max-width: 800px) {
   .flight-controls { gap: 10px; }
   .coordinates { min-width: 100px; }
 }
@@ -225,10 +225,10 @@ button:disabled { opacity: .3; cursor: default; }
 .crew-photo strong, .crew-photo span { display: block; }
 .crew-photo strong { color: var(--ink); font-weight: 550; }
 .crew-photo span { color: var(--muted); margin-top: 3px; }
-@media (min-width: 761px) {
+@media (min-width: 801px) {
   .contact-station { align-items: start; }
 }
-@media (max-width: 760px) {
+@media (max-width: 800px) {
   .contact-crew { margin-top: 36px; }
   .crew-photos { gap: 14px; }
 }
@@ -247,7 +247,7 @@ body.steering .route { -webkit-user-select: none; user-select: none; }
 .flight-controls { border-top: 1px solid rgb(255 255 255 / 9%); }
 
 /* A denser desktop reading layout leaves more of each case study in view. */
-@media (min-width: 761px) {
+@media (min-width: 801px) {
   .station-card { font-size: 15px; line-height: 1.55; }
   .station-card > p { margin-bottom: 14px; }
   .station-card .eyebrow { margin-bottom: 14px; }

@@ -3,12 +3,13 @@ import { enableScrollEngines } from './mobile-scroll.js';
 import { createFlightPath, sampleFlightPath } from './flight-path.js';
 import { enableDesktopWheel } from './desktop-wheel.js';
 import { chaseWheelTarget, followCenteredShip } from './wheel-chase.js';
-import { updateSectionHash, restoreSectionFromHash } from './section-navigation.js';
+import { updateSectionHash, restoreSectionFromHash, selectSectionDestination, cancelSectionNavigation } from './section-navigation.js';
 import { heldRestPoint } from './held-flight.js';
 
 const initialSectionHash = location.hash;
 let interactedSinceLoad = false;
 for (const type of ['pointerdown', 'wheel', 'keydown']) {
+  window.addEventListener(type, cancelSectionNavigation, { passive: true });
   window.addEventListener(type, () => { interactedSinceLoad = true; }, { once: true, passive: true });
 }
 
@@ -30,7 +31,7 @@ const stations = [...route.querySelectorAll('.station')];
 const links = [...document.querySelectorAll('nav a')];
 const previous = document.querySelector('#previous');
 const next = document.querySelector('#next');
-const mobile = matchMedia('(max-width: 760px)');
+const mobile = matchMedia('(max-width: 800px)');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 // Scrollport padding follows the overlaid controls, including a wrapped nav.
 const header = document.querySelector('.flight-header');
@@ -513,6 +514,7 @@ if (!document.body.classList.contains('mobile-flight-experiment')) enableScrollE
 
 // Menu travel uses a faster cruise/acceleration while preserving curved turns.
 function flyToStation(station) {
+  selectSectionDestination(station.id);
   const x = station.offsetLeft + route.clientWidth / 2;
   const y = route.clientHeight / 2;
   if (Math.hypot(x - position.x, y - position.y) < 4) return;

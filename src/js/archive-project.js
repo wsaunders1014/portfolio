@@ -3,7 +3,7 @@ const mobilePortfolio = new URLSearchParams(location.search).get('portfolio') ==
 back.href = `../../${mobilePortfolio ? 'mobile-flight.html' : 'index.html'}#more-projects`;
 const stage = document.querySelector('.archive-stage');
 const iframe = stage.querySelector('iframe');
-const narrow = matchMedia('(max-width: 760px)');
+const narrow = matchMedia('(max-width: 800px)');
 if (iframe.dataset.mobileSrc) {
   const chooseLayout = () => { iframe.src = narrow.matches ? iframe.dataset.mobileSrc : iframe.dataset.desktopSrc; };
   chooseLayout();

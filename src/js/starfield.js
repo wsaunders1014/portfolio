@@ -12,7 +12,7 @@ canvas.setAttribute('aria-hidden', 'true');
 document.body.prepend(canvas);
 const context = canvas.getContext('2d');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-const mobile = matchMedia('(max-width: 760px)');
+const mobile = matchMedia('(max-width: 800px)');
 const hyperspeed = new URLSearchParams(location.search).get('hyperspeed') !== '0';
 const route = document.querySelector('.route');
 const palette = ['#f4f3e9', '#fff7dc', '#e2e5e8', '#fff0bc'];

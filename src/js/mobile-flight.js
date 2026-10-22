@@ -1,7 +1,8 @@
+import { selectSectionDestination, cancelSectionNavigation } from './section-navigation.js';
 import { beginMenuFlight, endMenuFlight, menuFlightActive, menuFlightSpeedScale, updateMenuFlightApproach } from './menu-flight.js';
 import { enableScrollEngines, updateMobileDrift, resetMobileDrift } from './mobile-scroll.js';
 // Vertical flight controls supplement native scrolling on small screens.
-const mobile = matchMedia('(max-width: 760px)');
+const mobile = matchMedia('(max-width: 800px)');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 const sections = [...document.querySelectorAll('.station')];
 const status = document.querySelector('#mobile-flight-status');
@@ -33,6 +34,7 @@ function scheduleArrowAvailability() {
   if (!availabilityFrame) availabilityFrame = requestAnimationFrame(updateArrowAvailability);
 }
 function stop() {
+  cancelSectionNavigation();
   endMenuFlight();
   resetMobileDrift();
   cancelAnimationFrame(frame);
@@ -73,6 +75,7 @@ function animate(time) {
 function start() { if (!frame) { last = 0; frame = requestAnimationFrame(animate); } }
 function visit(section, fromMenu = false) {
   stop();
+  selectSectionDestination(section.id);
   const y = sectionY(section);
   if (reduced.matches) { window.scrollTo({ top: y, behavior: 'instant' }); return; }
   // Arrow trips also engage warp, including adjacent sections closer than

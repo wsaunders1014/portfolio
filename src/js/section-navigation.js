@@ -1,4 +1,18 @@
+let selectedDestination = null;
+
+export function cancelSectionNavigation() {
+  selectedDestination = null;
+}
+
+export function selectSectionDestination(id, options) {
+  selectedDestination = null;
+  updateSectionHash(id, options);
+  selectedDestination = id;
+}
+
 export function updateSectionHash(id, { location = window.location, history = window.history } = {}) {
+  if (selectedDestination && selectedDestination !== id) return;
+  selectedDestination = null;
   const url = new URL(location.href);
   if (url.hash === `#${id}`) return;
   url.hash = id;

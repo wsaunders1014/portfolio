@@ -21,7 +21,7 @@ export function enableScrollEngines(isAvailable) {
   let peakSpeed = 0;
   let burstUntil = 0;
   let viewportWidth = window.innerWidth;
-  const enabled = () => matchMedia('(max-width: 760px)').matches && isAvailable();
+  const enabled = () => matchMedia('(max-width: 800px)').matches && isAvailable();
   const clear = () => {
     clearTimeout(timer);
     timer = 0;
