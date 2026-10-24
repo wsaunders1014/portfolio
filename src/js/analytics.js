@@ -76,13 +76,7 @@ export function startAnalytics(id) {
   window.addEventListener('pagehide', () => { flush(); paused = true; engaged = false; });
   window.addEventListener('pageshow', () => { paused = false; visibility(); });
 
-  // Bubble after the site's flight gesture suppression; never record a
-  // suppressed release-click as an intentional content interaction.
-  document.addEventListener('click', event => {
-    // Menu links prevent the native anchor jump while still being real clicks.
-    // Flight gesture suppression uses stopImmediatePropagation, so those clicks
-    // never reach this listener.
-    const element = event.target.closest('a, button, summary');
+  function trackClick(element) {
     if (!element || element.disabled) return;
     const href = element.getAttribute('href');
     let destination;
@@ -102,7 +96,11 @@ export function startAnalytics(id) {
       destination,
       ship_design: element.dataset.ship || undefined
     });
-  });
+  }
+  // Suppressed flight release-clicks never reach this bubble listener.
+  document.addEventListener('click', event => trackClick(event.target.closest('a, button, summary')));
+  // Flight menus deliberately stop click propagation in the capture phase.
+  document.addEventListener('portfolio:navigate', event => trackClick(event.detail.link));
 }
 
 startAnalytics(measurementId);

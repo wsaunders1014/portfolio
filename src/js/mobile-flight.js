@@ -128,6 +128,7 @@ document.addEventListener('click', event => {
   if (!section) return;
   event.preventDefault();
   event.stopImmediatePropagation();
+  document.dispatchEvent(new CustomEvent('portfolio:navigate', { detail: { link } }));
   visit(section, true);
 }, true);
 window.addEventListener('touchstart', event => { if (!event.target.closest('.mobile-flight-dock')) stop(); }, { passive: true });

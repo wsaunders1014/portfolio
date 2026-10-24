@@ -58,7 +58,7 @@ test('custom navigation clicks are counted and destinations remove email address
     getAttribute: name => name === 'href' ? 'https://example.com/demo?private=value' : null,
     closest: () => ({id:'disney'})};
   const target = {closest: () => element};
-  s.listeners.click({target, defaultPrevented: true});
+  s.listeners['portfolio:navigate']({detail: {link: element}});
   assert.equal(s.events('portfolio_click').length, 1);
   assert.equal(s.events('portfolio_click')[0][2].destination, 'https://example.com/demo');
   element.getAttribute = name => name === 'href' ? 'mailto:private@example.com' : null;

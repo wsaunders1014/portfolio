@@ -536,5 +536,6 @@ document.addEventListener('click', event => {
   if (!station) return;
   event.preventDefault();
   event.stopImmediatePropagation();
+  document.dispatchEvent(new CustomEvent('portfolio:navigate', { detail: { link } }));
   flyToStation(station);
 }, true);
