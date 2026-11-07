@@ -1,0 +1,30 @@
+version: 2
+updates:
+  # npm build tooling. All updates for a week arrive as one grouped PR into dev,
+  # so the staging deploy tests them before they reach master.
+  - package-ecosystem: npm
+    directory: /
+    target-branch: dev
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: America/Los_Angeles
+    open-pull-requests-limit: 3
+    groups:
+      npm-updates:
+        applies-to: version-updates
+        patterns: ["*"]
+      npm-security:
+        applies-to: security-updates
+        patterns: ["*"]
+
+  # The pinned action commits in .github/workflows/*.yml
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: dev
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
