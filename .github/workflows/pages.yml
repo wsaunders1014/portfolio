@@ -72,6 +72,9 @@ jobs:
           mkdir -p site/new
           cp -a prod/dist/. site/
           cp -a staging/dist-new/. site/new/
+          # Pages only uses the root 404.html (for every missing URL, /new/ too).
+          # Until master has one, use dev's so legacy redirects still work.
+          [ -f site/404.html ] || cp site/new/404.html site/404.html
           # Apache-only files; GitHub Pages ignores them.
           find site -name .htaccess -delete
           # Pages cannot send the X-Robots-Tag header that kept staging out of
