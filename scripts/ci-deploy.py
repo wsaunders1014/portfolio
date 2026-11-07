@@ -51,7 +51,8 @@ def main():
     def smoke():
         checks = {'': 'index.html', 'css/flight.css': 'css/flight.css', 'js/flight.js': 'js/flight.js',
                   'js/starfield.js': 'js/starfield.js', 'lab/': 'lab/index.html', 'lab/app.js': 'lab/app.js',
-                  'robots.txt': 'robots.txt', 'media/Will%20Saunders%20Front%20End%20Engineer%20Resume.pdf': 'media/Will Saunders Front End Engineer Resume.pdf'}
+                  'robots.txt': 'robots.txt', 'projects/dwa/': 'projects/dwa/index.html',
+                  'media/Will-Saunders-FrontEnd-Engineer-Resume.pdf': 'media/Will-Saunders-FrontEnd-Engineer-Resume.pdf'}
         for url, name in checks.items():
             with urllib.request.urlopen(base + url, timeout=25) as response:
                 assert response.status == 200
@@ -61,9 +62,10 @@ def main():
         for url in ['projects/disney/2018guild/', 'projects/disney/2018ampas/', 'projects/24/']:
             with urllib.request.urlopen(base + url, timeout=25) as response:
                 assert response.status == 200 and b'<title>Index of' not in response.read()
-        if environment == 'production':
-            with urllib.request.urlopen(base + 'dwa/', timeout=25) as response:
-                assert response.status == 200 and b'<title>Index of' not in response.read(), 'Legacy PHP entry failed'
+        for legacy in ['dwa/', 'dwa/index.php', 'projects/dwa/index.php']:
+            with urllib.request.urlopen(base + legacy, timeout=25) as response:
+                assert response.geturl() in [base + 'projects/dwa/', base + 'projects/dwa/index.html'], 'Legacy DreamWorks URL did not redirect'
+                assert hashlib.sha256(response.read()).hexdigest() == files['projects/dwa/index.html'], 'Static DreamWorks redirect mismatch'
 
     try:
         for attempt in range(3):

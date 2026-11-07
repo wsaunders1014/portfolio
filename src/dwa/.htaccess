@@ -1,0 +1,7 @@
+DirectoryIndex index.html
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Keep production and /new/ staging redirects in their own environment.
+  RewriteCond %{REQUEST_URI} ^(.*)/dwa/(index[.](html|php))?$
+  RewriteRule ^(index[.](html|php))?$ %1/projects/dwa/ [R=301,L]
+</IfModule>

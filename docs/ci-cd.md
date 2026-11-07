@@ -40,7 +40,7 @@ The homepage is replaced after its supporting assets. Files are replaced
 atomically, but the whole site is not switched as a single transaction. Each
 environment queues deployment jobs; a server lock also prevents overlapping
 filesystem changes. HTTP checks verify deployed content, indexing headers,
-the lab, resume, archived demos, and production's legacy DreamWorks entry.
+the lab, resume, archived demos, and the static DreamWorks entry and legacy URL redirect.
 Failures restore the previous changed files unless a newer release is active.
 
 Staging remains noindex. Production keeps HTML-first/PHP-fallback entry handling

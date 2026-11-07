@@ -28,7 +28,7 @@ function htmlFiles(dir) {
 }
 
 test('selected archive entry points have local image, style, and script dependencies', () => {
-  for (const root of ['src/projects/nick', 'src/projects/rpa']) {
+  for (const root of ['src/projects/nick', 'src/projects/rpa', 'src/projects/dwa']) {
     for (const file of htmlFiles(root)) {
       const html = fs.readFileSync(file, 'utf8');
       for (const match of html.matchAll(/<(img|script|link)\b[^>]*>/gi)) {

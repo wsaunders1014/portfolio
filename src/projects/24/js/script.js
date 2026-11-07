@@ -249,29 +249,3 @@ function shareFn(day){
 	twtURL = eval("'https://twitter.com/share?url=http://bit.ly/24LADMoments&text='+shareTitle+'&hashtags=jackisback,24Moments,LAD,Day'+day");
 	tmbURL = eval("'https://www.tumblr.com/share/photo?source='+encodeURIComponent(tmblrImg)+'&caption='+encodeURIComponent(shareTitle)+'&clickthru='+encodeURIComponent('http://bit.ly/24LADMoments')");
 }
-// Cleans up code after it has been entered
-function tryCode(dayContents){
-	var code = dayContents.find('input').val();
-	var day = dayContents.parents('.col').prop('id');
-
-	if(code ==""){
-		dayContents.find('input').attr('placeholder','no code entered').parent('.form-group').addClass('has-error');
-	}else {
-		code = code.toLowerCase();
-		enterCode(code,day);
-	}
-}
-
-// Checks code with the database
-function enterCode(code,day){
-	$.post('php/code.php', {code:code, day:day}).done(function(data){
-		var data = JSON.parse(data);
-
-		if(data.test =="failed"){
-			$('.col#'+day).children('.day-contents').children('.day-internal').children('.form-group').addClass('has-error').children('input').val("").attr("placeholder",data.message);
-		}else {
-			accessingSuccess(data);
-			dayIs = data.day;
-		}
-	});
-}

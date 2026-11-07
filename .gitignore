@@ -2,6 +2,8 @@
 node_modules/
 dist/
 dist-new/
+# Local archive only; active demo assets belong in src/.
+/backup/
 .DS_Store
 
 # Local source references and original uploads; public copies live in src/.
@@ -15,3 +17,4 @@ dist-new/
 /backup/public/projects/disney/2018guild/media/video/Incredibles_2_FxSim_Reel.mp4
 __pycache__/
 *.py[cod]
+docs/php-cleanup.md

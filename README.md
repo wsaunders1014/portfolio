@@ -31,9 +31,10 @@ The project map and redevelopment plan are in `docs/portfolio-redevelopment.md`.
 
 `backup/legacy-site/` contains the previous portfolio source, content panels,
 styles, scripts, resumes and assets. `backup/public/` contains the archived
-client demos. Backups are not served locally or copied into builds. Copy selected
-files into `src/` when they become part of the new site. The old unused large
-videos remain local and ignored by Git.
+client demos. The entire `backup/` directory is local-only and ignored by Git;
+it is not served locally, copied into builds, or uploaded by deployments. Copy
+selected files into `src/` when they become part of the new site. Keep an
+independent copy of this archive: a fresh Git clone will not include it.
 
 The earlier recovery snapshots remain in `../portfolio-archive-2026-10-13/`.
 

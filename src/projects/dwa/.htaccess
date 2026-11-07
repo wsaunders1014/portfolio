@@ -1,0 +1,5 @@
+DirectoryIndex index.html
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^index[.]php$ index.html [R=301,L]
+</IfModule>
