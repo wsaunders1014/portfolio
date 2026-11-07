@@ -1,5 +1,8 @@
 DirectoryIndex index.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteRule ^index[.]php$ index.html [R=301,L]
+  # Use the full request path so the redirect stays correct under / and /new/.
+  # A relative target here makes Apache build the URL from the disk path (404).
+  RewriteCond %{REQUEST_URI} ^(.*/projects/dwa/)index[.]php$
+  RewriteRule ^index[.]php$ %1 [R=301,L]
 </IfModule>
