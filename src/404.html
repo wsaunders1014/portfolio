@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Page not found | Will Saunders</title>
+  <script>
+    // GitHub Pages serves this page for every missing URL. Old PHP-era links are
+    // sent to their static replacements; this replaces the Apache .htaccess
+    // redirects and works under /, /new/ and the /portfolio/ preview address.
+    (function () {
+      var path = location.pathname;
+      var target = path.replace(/\/index\.php$/i, '/');
+      if (!/\/projects\/dwa\/$/i.test(target)) {
+        target = target.replace(/\/dwa\/(index\.html)?$/i, '/projects/dwa/');
+      }
+      if (target !== path) location.replace(target + location.search + location.hash);
+    })();
+  </script>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0; min-height: 100vh; display: grid; place-items: center;
+      background: #05060d; color: #e8ebf5; text-align: center; padding: 0 16px;
+      font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    h1 { font-size: clamp(2rem, 6vw, 3.5rem); margin: 0 0 .25em; letter-spacing: -.02em; }
+    p { margin: 0 0 1.5em; color: #9aa3bd; }
+    a { color: #e8ebf5; border: 1px solid #39405a; border-radius: 999px; padding: .6em 1.4em; text-decoration: none; }
+    a:hover, a:focus-visible { border-color: #e8ebf5; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Lost in space.</h1>
+    <p>That page drifted out of range.</p>
+    <a id="home" href="/">Back to the portfolio</a>
+  </main>
+  <script>
+    // Point "home" at the right root for /new/ and the /portfolio/ preview.
+    var match = location.pathname.match(/^\/(portfolio\/)?(new\/)?/);
+    document.getElementById('home').href = match[0];
+  </script>
+</body>
+</html>

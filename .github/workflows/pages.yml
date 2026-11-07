@@ -1,10 +1,13 @@
-name: GitHub Pages test deploy
+name: GitHub Pages deploy
 
-# Runs alongside deploy.yml (Lightsail). This only publishes a copy of the
-# production build to GitHub Pages so it can be tested before any DNS change.
+# Publishes one GitHub Pages site built from both branches:
+#   master -> /      (production)
+#   dev    -> /new/  (staging, marked noindex)
+# A Pages deploy replaces the whole site, so every run rebuilds both branches.
+# Pushes to dev need dev allowed in Settings -> Environments -> github-pages.
 on:
   push:
-    branches: [master]
+    branches: [master, dev]
   workflow_dispatch:
 
 permissions:
@@ -17,34 +20,77 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-      - run: npm ci
-      - run: npm run build
-      - run: node scripts/verify-build.cjs dist
-      # .htaccess files are Apache-only; GitHub Pages ignores them.
-      - run: find dist -name .htaccess -delete
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
   deploy:
-    name: Deploy to GitHub Pages
-    needs: build
+    name: Build and deploy
     runs-on: ubuntu-24.04
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Check out master (production)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: master
+          path: prod
+          persist-credentials: false
+      - name: Check out dev (staging)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: dev
+          path: staging
+          persist-credentials: false
+      - name: Check out this run's scripts
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: self
+          sparse-checkout: scripts
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: prod/.nvmrc
+          cache: npm
+          cache-dependency-path: |
+            prod/package-lock.json
+            staging/package-lock.json
+
+      - name: Build production
+        working-directory: prod
+        run: |
+          npm ci
+          npm run build
+          node scripts/verify-build.cjs dist
+      - name: Build staging
+        working-directory: staging
+        run: |
+          npm ci
+          npm run build:staging
+          node scripts/verify-build.cjs dist-new
+
+      - name: Assemble site
+        run: |
+          set -euo pipefail
+          mkdir -p site/new
+          cp -a prod/dist/. site/
+          cp -a staging/dist-new/. site/new/
+          # Apache-only files; GitHub Pages ignores them.
+          find site -name .htaccess -delete
+          # Pages cannot send the X-Robots-Tag header that kept staging out of
+          # search results, so add a noindex tag to every staging page instead.
+          python3 - <<'EOF'
+          import pathlib, re
+          tag = b'<meta name="robots" content="noindex, nofollow">'
+          for page in pathlib.Path('site/new').rglob('*.html'):
+              html = page.read_bytes()
+              if b'name="robots"' not in html:
+                  page.write_bytes(re.sub(rb'(<head\b[^>]*>)', rb'\1' + tag, html, count=1, flags=re.I))
+          EOF
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
       - id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Live checks
+        run: python3 self/scripts/pages-smoke.py "${{ steps.deployment.outputs.page_url }}" site

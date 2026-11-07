@@ -46,6 +46,19 @@ Failures restore the previous changed files unless a newer release is active.
 Staging remains noindex. Production keeps HTML-first/PHP-fallback entry handling
 and permits indexing while excluding `/new/` in robots.txt.
 
+## GitHub Pages
+
+`.github/workflows/pages.yml` publishes the same two environments to GitHub
+Pages: `master` at the site root and `dev` at `/new/`. A Pages deploy replaces
+the whole site, so every push to either branch rebuilds both branches. Staging
+pages get a `<meta name="robots" content="noindex, nofollow">` tag because Pages
+cannot send the `X-Robots-Tag` header, and `.htaccess` files are dropped.
+`src/404.html` redirects the old `index.php` and `dwa/` URLs in place of the
+Apache rules. After deploying, `scripts/pages-smoke.py` checks the live site
+(content hashes, archived demos, legacy redirects, staging noindex), retrying
+while the CDN updates. Pages has no automatic rollback: fix or revert and push.
+The `github-pages` environment must allow both `master` and `dev`.
+
 ## Deployment credentials and server state
 
 GitHub environments `staging` and `production` each have a separate
